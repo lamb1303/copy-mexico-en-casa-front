@@ -1,9 +1,10 @@
 import * as actionTypes from './actionTypes';
 
 
-export const registrarNuevoCliente = () => {
+export const registrarNuevoCliente = (name) => {
     return {
-        type: actionTypes.REGISTRAR_NUEVO_CLIENTE
+        type: actionTypes.REGISTRAR_NUEVO_CLIENTE,
+        name: name
     }
 };
 
