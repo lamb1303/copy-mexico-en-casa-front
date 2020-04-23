@@ -1,7 +1,22 @@
 import React from 'react';
 import './App.css';
+import * as actions from './store/actions';
+import { connect } from 'react-redux'
 
-function App() {
+const App = (props) => {
+
+
+
+  let label = "";
+  if (props.cliente) {
+    label = "CLIENTE"
+  }
+
+  if (props.negocio) {
+    label = "NEGOCIO"
+  }
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,9 +32,29 @@ function App() {
         >
           Learn React
         </a>
+        <div>
+          <button onClick={() => props.onClienteSelected()} >REGISTRAR CLIENTE</button>
+          <button onClick={() => props.onNegocioSelected()}  >REGISTRAR NEGOCIO</button>
+        </div>
+        <label>SE REGISTRO UN {label}</label>
       </header>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    cliente: state.registro.cliente,
+    negocio: state.registro.negocio,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onClienteSelected: () => dispatch(actions.registrarNuevoCliente()),
+    onNegocioSelected: () => dispatch(actions.registrarNuevoNegocio())
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
