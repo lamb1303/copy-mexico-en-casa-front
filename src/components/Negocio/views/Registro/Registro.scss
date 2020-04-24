@@ -2,7 +2,9 @@
     display: flex;
     flex-direction: column;
 }
-
+section{
+    padding-top: 10vh;
+}
 .datosPersonales{
   
 
@@ -24,11 +26,25 @@
         @include flexColumn()
         
     }
-    div:last-child{
+    >div:last-child{
         display: flex;
         justify-content: space-evenly;
+        >div{
+            display: flex;
+            align-items: center;
+            >input{
+                display: none;
+            }
+            span{
+                margin-left: 2vh;
+            }
+        }
     }
     
+    img{
+        width: 10vh;
+        margin-left: 3vh;
+    }
 }
 .MuiTextField-root{
     width: 50vh;
@@ -37,9 +53,23 @@
 
 .datosNegocio2{
     margin: 2vh 0;
-    div{
+    >div{
         align-items: center;
-        
+        margin-bottom: 2vh;
+        >div{
+            display: flex;
+            align-items: center;
+            >input{
+                display: none;
+            }
+            span{
+                margin-left: 2vh;
+                max-width: 30vh;
+            }
+            img{
+                width: 10vh;
+            }
+        }
         @include flexColumn()
 
     }

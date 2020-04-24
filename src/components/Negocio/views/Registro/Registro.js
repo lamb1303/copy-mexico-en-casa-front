@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import './Registro.scss'
+import image from '../../../../assets/default_Image.png'
 class Registro extends Component {
 
     render() {
@@ -37,6 +38,7 @@ class Registro extends Component {
                             required
                             id="outlined-required"
                             label="Contraseña"
+                            type="password"
                             defaultValue=""
                             variant="outlined"
                         />
@@ -48,7 +50,7 @@ class Registro extends Component {
                             variant="outlined"
                         />
                     </div>
-                    <hr style={{ width: '99vw' }} />
+                    <hr style={{ width: '55vh' }} />
                 </div>
                 <div>
                     <div className='datosNegocio'>
@@ -56,7 +58,7 @@ class Registro extends Component {
                             <TextField
                                 required
                                 id="outlined-required"
-                                label="Nombre"
+                                label="Nombre del negocio"
                                 defaultValue=""
                                 variant="outlined"
                             />
@@ -76,29 +78,36 @@ class Registro extends Component {
                             />
                         </div>
                         <div>
-                            <button>
-                                <image src=''></image>
+                            <div>
+                                <input type="file"></input>
+                                <img src={image} />
                                 <span>foto del negocio</span>
-                            </button>
-                            <button>
-                                <image src=''></image>
+
+                            </div>
+                            <div>
+                                <input type="file"></input>
+                                <img src={image} />
                                 <span>foto del menu</span>
-                            </button>
+
+                            </div>
+
                         </div>
                     </div>
                     <div className='datosNegocio2'>
                         <div>
                             <image src=''></image>
-                            <button>
+                            <div>
+                                <input type="file"></input>
+                                <img src={image} />
                                 <span>Fotod de tu INE de lado donde se ve la persona</span>
-                            </button>
+                            </div>
                         </div>
                         <div>
                             <span>Horario del trabajo</span>
                             <span> multiselect de los dias</span>
                         </div>
                     </div>
-                    <span>----------------</span>
+                    <hr style={{ width: '55vh' }} />
                 </div>
                 <div className='metodos'>
                     <div>
