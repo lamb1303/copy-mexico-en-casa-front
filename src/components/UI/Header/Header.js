@@ -8,11 +8,11 @@ const Header = props => {
 
     return (
         <Fragment>
-            <header className={classes.header}>
+            <div className={classes.header}>
                 <Burguer className={classes.header_burguer} onClick={() => props.onClickBurguer()} />
                 <div className={classes.header_title}>MÉXICO EN CASA</div>
                 <img className={classes.header_logo} alt='Mexico En Casa Logo' src='../logo.png' />
-            </header>
+            </div>
         </Fragment>
     )
 }

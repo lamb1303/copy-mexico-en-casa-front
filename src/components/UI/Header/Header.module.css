@@ -1,10 +1,11 @@
 .header{
     background-color: #F6A030;
-    position: absolute;
     height: 55px;
     width: 100vw;
     display: flex;
     justify-content: space-between;
+    position: fixed;
+    z-index: 20;
 }
 
 .header_logo{
