@@ -89,6 +89,18 @@ section{
 
 }
 
+.MuiTableContainer-root{
+    width: 50vh !important;
+}
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #F5A303 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.MuiFormControlLabel-root{
+    margin-left: 2vh !important;
+}
+
 .crearCuenta{
     display: flex;
     justify-content: center;

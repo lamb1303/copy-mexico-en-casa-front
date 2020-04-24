@@ -1,8 +1,18 @@
 import React from 'react';
 import { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import './Registro.scss'
 import image from '../../../../assets/default_Image.png'
+import Button from '../../../UI/Button/Button'
 class Registro extends Component {
 
     render() {
@@ -104,7 +114,36 @@ class Registro extends Component {
                         </div>
                         <div>
                             <span>Horario del trabajo</span>
-                            <span> multiselect de los dias</span>
+                            <TableContainer component={Paper}>
+                                <Table aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell></TableCell>
+                                            <TableCell align="right">Dia</TableCell>
+                                            <TableCell align="right">Abierto</TableCell>
+                                            <TableCell align="right"> - </TableCell>
+                                            <TableCell align="right">Cerrado</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+
+                                        <TableRow>
+                                            <TableCell>
+                                                <Checkbox
+                                                    checked={true}
+                                                //onChange={handleChange}
+
+                                                />
+                                            </TableCell>
+                                            <TableCell align="right">Lunes</TableCell>
+                                            <TableCell align="right">8:30</TableCell>
+                                            <TableCell align="right"> - </TableCell>
+                                            <TableCell align="right">16:00</TableCell>
+                                        </TableRow>
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </div>
                     </div>
                     <hr style={{ width: '55vh' }} />
@@ -113,22 +152,68 @@ class Registro extends Component {
                     <div>
                         <span>Metodo de pago</span>
                         <div>
-                            <span>Efectivo</span>
-                            <span>Tarjeta</span>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={true}
+                                        //onChange={handleChange}
+                                        name="Efectivo"
+                                    />
+                                }
+                                label="Efectivo"
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={true}
+                                        //onChange={handleChange}
+                                        name="Tarjeta"
+                                    />
+                                }
+                                label="Tarjeta"
+                            />
                         </div>
                     </div>
                     <div>
                         <span>Metodo de entrega</span>
                         <div>
-                            <span>Entrega a domicilio</span>
-                            <span>Entrega en el local</span>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={true}
+                                        //onChange={handleChange}
+                                        name="Entrega"
+                                    />
+                                }
+                                label="Entrega a domicilio"
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={true}
+                                        //onChange={handleChange}
+                                        name="EntregaLocal"
+                                    />
+                                }
+                                label="Entrega en el local "
+                            />
                         </div>
                     </div>
 
                 </div>
-                <span>Aviso de privacidad</span>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={true}
+                            //onChange={handleChange}
+                            name="privacidad"
+                        />
+                    }
+                    label="Aviso de privacidad"
+                />
+
                 <div className='crearCuenta'>
-                    <button>Crear Cuenta</button>
+                <Button btnType='Success' >Registrar</Button>
                 </div>
 
             </section>
