@@ -4,7 +4,7 @@ import { updateObject } from '../utility';
 const initialState = {
     error: false,
     loading: false,
-    cliente: null
+    cliente: true
 }
 
 const crearCuenta = (state, action) => {
@@ -35,4 +35,6 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.CLIENTE_INICIAR_CREACION: return iniciarCreacion(state, action);
         default: return state;
     }
-}
+};
+
+export default reducer;

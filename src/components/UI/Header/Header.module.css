@@ -1,0 +1,22 @@
+.header{
+    background-color: #F6A030;
+    height: 55px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    z-index: 20;
+}
+
+.header_logo{
+    width: 55px;
+    margin: auto 10px;
+}
+
+.header_title{
+    margin: auto 0;
+}
+
+.header_burguer{
+    margin: auto 12px;
+}

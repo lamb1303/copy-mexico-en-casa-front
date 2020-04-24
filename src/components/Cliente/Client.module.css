@@ -1,0 +1,9 @@
+.client{
+    background: #FFFFFF;
+    width: 100vw;
+    height: calc(100vh - 55px);
+    position: relative;
+    top: 55px;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,26 @@
+.Search_section svg{
+    width: 30px;
+    height: 34px;
+    min-width: 30px;
+    background-color: #eaeaea80;
+    position: relative;
+    right: -5px;
+}
+
+.Search_section {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    margin: 10% auto;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+}
+
+.Search_section input{
+    border: none;
+}
+
+
+.Search_section input:focus {
+    outline: none;
+}

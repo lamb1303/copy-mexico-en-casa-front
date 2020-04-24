@@ -1,0 +1,4 @@
+.PlaceCards {
+    display: flex;
+    flex-direction: column;
+}
