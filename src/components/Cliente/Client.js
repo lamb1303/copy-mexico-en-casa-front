@@ -7,7 +7,6 @@ const Client = () => {
     return (
         <div className={classes.client} >
             <Search />
-            <hr style={{ width: '99vw' }} />
             <PlaceCards />
         </div>
     )

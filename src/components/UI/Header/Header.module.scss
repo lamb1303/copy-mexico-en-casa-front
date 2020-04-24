@@ -1,5 +1,7 @@
+@import '../../../styles/Colors.scss';
+
 .header{
-    background-color: #F6A030;
+    background-color: $secundary-color;
     height: 55px;
     width: 100vw;
     display: flex;

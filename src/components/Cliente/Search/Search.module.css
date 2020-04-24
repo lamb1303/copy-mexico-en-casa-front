@@ -4,7 +4,6 @@
     min-width: 30px;
     background-color: #eaeaea80;
     position: relative;
-    right: -5px;
 }
 
 .Search_section {
@@ -14,10 +13,13 @@
     margin: 10% auto;
     border: 1px solid #000000;
     box-sizing: border-box;
+    position: relative;
 }
 
 .Search_section input{
     border: none;
+    width: 100%;
+    font-size: 1rem;
 }
 
 
