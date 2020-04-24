@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import './App.css';
 import * as actions from './store/actions';
 import { connect } from 'react-redux'
+import Registro from './components/Negocio/views/Registro/Registro';
 
 const App = (props) => {
 
@@ -18,25 +19,7 @@ const App = (props) => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src='./logo.png' className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <div>
-          <button onClick={() => props.onClienteSelected('Bladimir')} >REGISTRAR CLIENTE</button>
-          <button onClick={() => props.onNegocioSelected()}  >REGISTRAR NEGOCIO</button>
-        </div>
-        <label>SE REGISTRO UN {label} y se llama {props.name} </label>
-      </header>
+      <Registro/>
     </div>
   );
 }

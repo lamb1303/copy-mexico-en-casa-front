@@ -1,0 +1,65 @@
+@mixin flexColumn() {
+    display: flex;
+    flex-direction: column;
+}
+
+.datosPersonales{
+  
+
+    h2{
+        text-align: center;
+    }
+
+    > div{
+        margin: 0 0 0 2vh;
+        @include flexColumn()
+    }
+    @include flexColumn()
+}
+
+.datosNegocio{
+    > div:first-child{
+        align-items: flex-end;
+        margin: 0 2vh 0 0;
+        @include flexColumn()
+        
+    }
+    div:last-child{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    
+}
+.MuiTextField-root{
+    width: 50vh;
+    margin: 0 0 2vh 0 !important;
+}
+
+.datosNegocio2{
+    margin: 2vh 0;
+    div{
+        align-items: center;
+        
+        @include flexColumn()
+
+    }
+    @include flexColumn()
+
+}
+
+.metodos{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 2vh 0;
+    div{
+        align-items: initial;
+        @include flexColumn()
+
+    }
+
+}
+
+.crearCuenta{
+    display: flex;
+    justify-content: center;
+}
