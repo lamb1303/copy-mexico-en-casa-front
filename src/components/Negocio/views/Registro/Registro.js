@@ -48,7 +48,7 @@ class Registro extends Component {
                             variant="outlined"
                         />
                     </div>
-                    <span>----------------</span>
+                    <hr style={{ width: '99vw' }} />
                 </div>
                 <div>
                     <div className='datosNegocio'>

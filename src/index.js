@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Home from './components/Home/Home';
 import * as serviceWorker from './serviceWorker';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import registroReducer from './store/reducers/registro';
@@ -16,7 +15,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   registro: registroReducer,
-  cliente: clienteReducer
+  cliente: clienteReducer,
+  header: headerReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(
@@ -26,7 +26,7 @@ const store = createStore(rootReducer, composeEnhancers(
 const app = (
   <Provider store={store}>
     <BrowserRouter>
-        <Home />
+      <App />
     </BrowserRouter>
   </Provider>
 )
