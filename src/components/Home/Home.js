@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
 import Button from '../UI/Button/Button';
+import Backdrop from '../UI/Backdrop/Backdrop';
 import TextField from '@material-ui/core/TextField';
+import AlertComponent from '../UI/Alert/Alert';
+
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions';
+import * as actions from '../../store/actions/';
 
 import './Home.scss';
 
@@ -15,8 +18,9 @@ const Home = props => {
     let credentials = null;
 
     const onLogin = () => {
-
-        if (username !== "" && password !== "") {
+        console.log("ñsdkfñlsdkflñds");
+        if (username && password) {
+            console.log("entro");
             credentials = {
                 username: username,
                 password: password
@@ -32,6 +36,7 @@ const Home = props => {
 
     return (
         <div className='home'>
+            <Backdrop show= {props.join} clicked={ () => { props.joinToUsClosed() }}/>
             <div className='home-container'>
                 <div className='home-container__logo'>
                     <img src="./logo.png" alt="logo mexico en casa" />
@@ -54,11 +59,12 @@ const Home = props => {
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                     />
-                    <Button btnType='Success' onClick={() => onLogin()}>Entrar</Button>
-                    <Button btnType='Danger' >Unirme</Button>
+
+                    <Button btnType='Success' clicked={() => onLogin()}>Entrar</Button>
+                    <Button btnType='Danger' clicked={() => props.joinToUs()}>Unirme</Button>
                 </div>
                 <div>
-
+            
                 </div>
             </div>
 
@@ -68,16 +74,19 @@ const Home = props => {
 
 const mapStateToProps = state => {
     return {
-        token: 
+        token: state.home.token,
+        join: state.home.join
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: (credentials) => dispatch(actions.login(credentials))
+        login: (credentials) => dispatch(actions.login(credentials)),
+        joinToUs: () => dispatch(actions.joinToUs()),
+        joinToUsClosed: () => dispatch(actions.joinToUsClosed()),
     }
 }
 
 
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

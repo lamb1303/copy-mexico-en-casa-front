@@ -10,7 +10,8 @@ export {
 
 export {
     login,
-    joinToUs
+    joinToUs,
+    joinToUsClosed
 } from './home'
 
 export {
