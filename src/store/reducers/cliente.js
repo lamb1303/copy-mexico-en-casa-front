@@ -60,7 +60,7 @@ const addOneToSelectedProduct = (state, action) => {
         //     count: product.count + 1
         // };
 
-        const newP = updateObject(product, {
+        const newProduct = updateObject(product, {
             count: product.count + 1
         })
 
