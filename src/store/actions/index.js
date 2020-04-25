@@ -7,6 +7,12 @@ export {
     burguerHandler
 } from './header'
 
+
+export {
+    login,
+    joinToUs
+} from './home'
+
 export {
     OpenSelectedProduct,
     CloseSelectedProduct,

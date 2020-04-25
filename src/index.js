@@ -9,6 +9,7 @@ import clienteReducer from './store/reducers/cliente';
 import headerReducer from './store/reducers/header';
 import productsReducer from './store/reducers/products';
 import negocioReducer from './store/reducers/negocio';
+import homeReducer from './store/reducers/'
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   registro: registroReducer,
   cliente: clienteReducer,
   header: headerReducer,
+  home: homeReducer
   products: productsReducer,
   negocio: negocioReducer
 });
