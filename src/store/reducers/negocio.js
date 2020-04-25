@@ -2,7 +2,11 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-    editMode: true
+    editMode: true,
+    selectedNegocio: {
+        name: 'El nombre',
+        desc: 'Esta es la tienda de la señora tencha! donde vera las mejores tortas jaja'
+    }
 }
 
 const openEditNegocio = (state, action) => {

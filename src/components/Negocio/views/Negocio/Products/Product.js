@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react'
 import classes from './Product.module.scss';
+import { ReactComponent as Edit } from '../../../assets/edit.svg';
+import { connect } from 'react-redux';
 
 const Product = props => {
     return (
@@ -14,11 +16,18 @@ const Product = props => {
                             ${props.price}
                         </div>
                     </div>
+                    {props.editMode && <Edit className={classes.editIcon} />}
                 </div>
             </div>
         </Fragment>
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        editMode: state.negocio.editMode,
+    }
+}
 
-export default Product;
+
+export default connect(mapStateToProps)(Product);

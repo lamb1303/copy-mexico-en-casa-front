@@ -4,8 +4,13 @@
     display: flex;
     flex-direction: column;
     top: 55px;
-    height: calc(100vh - 55px);
+    height: calc(100vh - 120px);
     position: relative;
+    overflow-y: scroll;
+}
+
+.editSize{
+    height: calc(100vh - 200px);
 }
 
 .header{
@@ -20,22 +25,36 @@
     margin: 0;
 }
 
+.header textarea{
+    resize: none;
+    width: 60%;
+}
+
 
 .fotoNegocio{
     max-width: 100px;
+    max-height: 80px;
     border-radius: 150px;
     border: 1px solid $primary-color;
     margin-right: 3%;
+}
+
+.camera{
+    max-width: 60px;
+    max-height: 50px;
 }
 
 .blur{
     filter: blur(4px);
 }
 
-.camera svg{
-    position: absolute;
-    max-width: 50px;
-    max-height: 100px;
-    left: 40px;
-    border-radius: 150px;
+.save{
+    position: fixed;
+    width: 100vw;
+    bottom: -10px;
+    left: 24vw;
+}
+
+.save button {
+    width: 50%;
 }

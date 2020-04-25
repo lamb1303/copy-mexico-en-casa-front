@@ -1,11 +1,6 @@
 import React from 'react';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
-//posible severity values: 
-//error
-//warning
-//info
-//success
 
 //posible title values: 
 //Error
