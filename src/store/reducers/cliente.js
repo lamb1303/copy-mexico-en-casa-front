@@ -55,10 +55,14 @@ const addOneToSelectedProduct = (state, action) => {
         let copy = state.productCount.filter(x => x.name !== action.product);
 
         //add 1 to the selected product
-        const newProduct = {
-            ...product,
+        // const newProduct = {
+        //     ...product,
+        //     count: product.count + 1
+        // };
+
+        const newP = updateObject(product, {
             count: product.count + 1
-        };
+        })
 
         //add into the items the product + 1
         copy.push(newProduct)
@@ -77,7 +81,7 @@ const addOneToSelectedProduct = (state, action) => {
         const newPrice = state.orderPrice + action.price
         return updateObject(state, {
             productCount: [...state.productCount, newProduct],
-            orderPrice: newPrice
+            orderPrice: newPrice,
         })
     }
 }
