@@ -1,0 +1,8 @@
+.products{
+    display: flex;
+    flex-direction: column;
+}
+
+.products hr{
+    width: 99vw;
+}

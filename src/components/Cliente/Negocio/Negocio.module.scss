@@ -1,0 +1,33 @@
+@import '../../../styles/Colors.scss';
+
+.negocio{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 55px;
+    height: calc(100vh - 127px);
+    // overflow: scroll;
+}
+
+.negocio_imagen{
+    width: 100%;
+    max-height: 164px;
+}
+
+.amount {
+    color: $pink-color;
+    margin: 3% auto;
+    font-size: 2rem;
+}
+
+.negocio hr {
+    width: 99vw;
+}
+
+.negocio button {
+    margin: auto;
+    position: fixed;
+    bottom: 16px;
+    box-sizing: border-box;
+    margin-left: 10%;
+}

@@ -1,0 +1,41 @@
+@import '../../../../styles/Colors.scss';
+
+.negocio{
+    display: flex;
+    flex-direction: column;
+    top: 55px;
+    height: calc(100vh - 55px);
+    position: relative;
+}
+
+.header{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 7% 3%;
+}
+
+.header p{
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0;
+}
+
+
+.fotoNegocio{
+    max-width: 100px;
+    border-radius: 150px;
+    border: 1px solid $primary-color;
+    margin-right: 3%;
+}
+
+.blur{
+    filter: blur(4px);
+}
+
+.camera svg{
+    position: absolute;
+    max-width: 50px;
+    max-height: 100px;
+    left: 40px;
+    border-radius: 150px;
+}

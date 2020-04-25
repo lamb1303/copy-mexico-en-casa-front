@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import classes from './Header.module.css';
+import classes from './Header.module.scss';
 import { ReactComponent as Burguer } from './burguer.svg';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
