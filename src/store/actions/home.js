@@ -10,11 +10,11 @@ export const initializeRequest = () => {
 export const login = (credentials) =>{
     return dispatch => {
 
-        // dispatch(initializeRequest());
+        //dispatch(initializeRequest());
         // axios.post('/laurl/api/login', credentials)
         //     .then(response => {
         //         if (response.data.status === 201) {
-        //             dispatch(logging(response.data.token));
+                     dispatch(logging("145755SDFSD"));
         //         } else {
                     
         //         }
@@ -33,5 +33,11 @@ export const logging = (token) => {
 export const joinToUs = () => {
     return {
         type: actionTypes.HOME_JOIN_TO_US
+    }
+}
+
+export const joinToUsClosed = () => {
+    return {
+        type: actionTypes.HOME_JOIN_TO_US_CLOSED
     }
 }

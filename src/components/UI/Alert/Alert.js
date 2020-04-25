@@ -1,6 +1,5 @@
 import React from 'react';
-import Alert from '@material-ui/core/Alert';
-import AlertTitle from '@material-ui/core/AlertTitle';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 //posible severity values: 
 //error
@@ -14,12 +13,12 @@ import AlertTitle from '@material-ui/core/AlertTitle';
 //Info
 //Success
 
-const Alert = props => {
+const AlertComponent = props => {
 
     return <Alert severity={props.title.toLowerCase()}>
         <AlertTitle>{props.title}</AlertTitle>
-        {props.message}
+        {props.children}
     </Alert>
 }
 
-export default Alert;
+export default AlertComponent;

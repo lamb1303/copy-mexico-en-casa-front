@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import './App.css';
 // import * as actions from './store/actions';
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import Registro from './components/Negocio/views/Registro/Registro';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './components/UI/Header/Header';
@@ -13,26 +13,42 @@ import Negocio from './components/Negocio/views/Negocio/Negocio';
 
 const App = (props) => {
 
-  const route = (
-    <Switch >
-      <Route path='/Client' component={Client} />
-      <Route path='/Registro' component={Registro} />
-      <Route path='/Home' component={Home} />
-      <Route path='/clientNegocio' component={ClientNegocio} />
-      <Route path='/Negocio' component={Negocio} />
-      <Redirect to='/' />
+
+  let route = (
+    <Switch>
+      <Route path='/' component={Home} />
     </Switch>
   )
 
+  if (props.token) {
+
+    route = (
+      <Fragment>
+        <Sidebar />
+        <Header />
+        <Switch >
+          <Route path='/Client' component={Client} />
+          <Route path='/Registro' component={Registro} />
+          <Route path='/clientNegocio' component={ClientNegocio} />
+          <Route path='/Negocio' component={Negocio} />
+          <Redirect to='/' />
+        </Switch>
+      </Fragment>
+    )
+  }
+
   return (
     <Fragment>
-      <Sidebar />
-      <Header />
       {route}
     </Fragment>
   );
 }
 
+const mapStateToProps = state => {
+  return {
+    token: state.home.token !== null
+  }
+}
 
 
-export default App;
+export default connect(mapStateToProps)(App);
