@@ -8,7 +8,8 @@ import Header from './components/UI/Header/Header';
 import Sidebar from './components/UI/Sidebar/Sidebar';
 import Client from './components/Cliente/Client';
 import Home from './components/Home/Home';
-import Negocio from './components/Cliente/Negocio/Negocio';
+import ClientNegocio from './components/Cliente/Negocio/Negocio';
+import Negocio from './components/Negocio/views/Negocio/Negocio';
 
 const App = (props) => {
 
@@ -17,6 +18,7 @@ const App = (props) => {
       <Route path='/Client' component={Client} />
       <Route path='/Registro' component={Registro} />
       <Route path='/Home' component={Home} />
+      <Route path='/clientNegocio' component={ClientNegocio} />
       <Route path='/Negocio' component={Negocio} />
       <Redirect to='/' />
     </Switch>

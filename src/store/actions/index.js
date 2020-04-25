@@ -18,6 +18,7 @@ export {
     getProducts,
 } from './products'
 
-// export {
-
-// } from './car';
+export {
+    openEditNegocio,
+    closeEditNegocio
+} from './negocio'

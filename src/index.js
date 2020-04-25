@@ -8,6 +8,7 @@ import registroReducer from './store/reducers/registro';
 import clienteReducer from './store/reducers/cliente';
 import headerReducer from './store/reducers/header';
 import productsReducer from './store/reducers/products';
+import negocioReducer from './store/reducers/negocio';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   registro: registroReducer,
   cliente: clienteReducer,
   header: headerReducer,
-  products: productsReducer
+  products: productsReducer,
+  negocio: negocioReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(

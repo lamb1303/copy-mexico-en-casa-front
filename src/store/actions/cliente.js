@@ -47,16 +47,18 @@ export const CloseSelectedProduct = () => {
     }
 }
 
-export const AddOneToSelectedProduct = (product) => {
+export const AddOneToSelectedProduct = (product, price) => {
     return {
         type: actionTypes.ADD_ONE_TO_SELECTED_PRODUCT,
-        product: product
+        product: product,
+        price: price
     }
 }
 
-export const DelOneToSelectedProduct = (product) => {
+export const DelOneToSelectedProduct = (product, price) => {
     return {
         type: actionTypes.DEL_ONE_TO_SELECTED_PRODUCT,
-        product: product
+        product: product,
+        price: price
     }
 }

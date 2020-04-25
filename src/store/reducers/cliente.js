@@ -7,7 +7,8 @@ const initialState = {
     cliente: true,
     openProduct: false,
     selectedProduct: '',
-    productCount: []
+    productCount: [],
+    orderPrice: 0
 }
 
 const crearCuenta = (state, action) => {
@@ -63,16 +64,20 @@ const addOneToSelectedProduct = (state, action) => {
         copy.push(newProduct)
 
         //update the state
+        const newPrice = state.orderPrice + action.price
         return updateObject(state, {
-            productCount: copy
+            productCount: copy,
+            orderPrice: newPrice
         })
     } else {
         const newProduct = {
             name: action.product,
             count: 1
         }
+        const newPrice = state.orderPrice + action.price
         return updateObject(state, {
-            productCount: [...state.productCount, newProduct]
+            productCount: [...state.productCount, newProduct],
+            orderPrice: newPrice
         })
     }
 }
@@ -96,8 +101,10 @@ const delOneToSelectedProduct = (state, action) => {
         copy.push(newProduct)
 
         //update the state
+        const newPrice = state.orderPrice - action.price;
         return updateObject(state, {
-            productCount: copy
+            productCount: copy,
+            orderPrice: newPrice
         })
     }
 }

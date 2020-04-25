@@ -31,7 +31,12 @@ const Product = props => {
             <div className={classes.product} >
                 <div className={[classes.showedOptions, classes[showed_Prod]].join(' ')} >
                     <img className={classes.product_image} src={props.img} alt={`imagen de ${props.name}`} />
-                    <div className={classes.product_desc} > {props.desc} </div>
+                    <div className={classes.product_desc} >
+                        {props.desc}
+                        <div>
+                            ${props.price}
+                        </div>
+                    </div>
                     <img
                         className={classes.product_addToCar}
                         src={addToCar}
@@ -39,7 +44,7 @@ const Product = props => {
                         onClick={() => handleOptions()}
                     />
                 </div>
-                <Hidden selected={props.selected} name={props.name} count={props.count} />
+                <Hidden selected={props.selected} name={props.name} count={props.count} price={props.price} />
             </div>
         </Fragment>
     )

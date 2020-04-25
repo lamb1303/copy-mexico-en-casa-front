@@ -29,6 +29,7 @@ const Products = props => {
                         desc={prod.description}
                         selected={selected}
                         count={count}
+                        price={prod.price}
                     />
                 })}
         </div>
