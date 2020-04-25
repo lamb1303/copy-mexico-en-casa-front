@@ -34,3 +34,29 @@ export const crearCuentaCliente = (datos) => {
             })
     }
 }
+
+export const OpenSelectedProduct = (product) => {
+    return {
+        type: actionTypes.OPEN_ADD_DEL_OPTIONS,
+        product: product
+    }
+}
+export const CloseSelectedProduct = () => {
+    return {
+        type: actionTypes.CLOSE_ADD_DEL_OPTIONS,
+    }
+}
+
+export const AddOneToSelectedProduct = (product) => {
+    return {
+        type: actionTypes.ADD_ONE_TO_SELECTED_PRODUCT,
+        product: product
+    }
+}
+
+export const DelOneToSelectedProduct = (product) => {
+    return {
+        type: actionTypes.DEL_ONE_TO_SELECTED_PRODUCT,
+        product: product
+    }
+}

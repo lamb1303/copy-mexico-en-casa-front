@@ -1,5 +1,7 @@
 import React from 'react';
 import classes from './Negocio.module.scss';
+import Button from '../../UI/Button/Button';
+import Products from './Products/Products';
 
 const Negocio = () => {
 
@@ -9,8 +11,8 @@ const Negocio = () => {
         <div className={classes.negocio} >
             <img className={classes.negocio_imagen} src={imageUrl} alt='Foto del negocio' />
             <div className={classes.amount} >$0.0</div>
-            <div>Lista de productos</div>
-            <div>Botton ver pedido</div>
+            <Products />
+            <Button btnType='Success' >Ver pedido</Button>
         </div>
     )
 }

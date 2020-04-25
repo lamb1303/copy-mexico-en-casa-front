@@ -1,0 +1,43 @@
+@import '../../../../../styles/Colors.scss';
+
+.product {
+    display: flex;
+    padding: 5px;
+}
+
+.slide {
+    transform: translateX(0);
+}
+
+.slide_out {
+    transform: translateX(-170px);
+}
+
+.product_image {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 150px;
+    border: 2px solid $primary-color;
+    padding: 5px;
+}
+
+.product_desc{
+    min-width: 50vw;
+    margin: auto;
+    max-height: 41px;
+    padding-left: 3%;
+}
+
+.showedOptions{
+    display: flex;
+    justify-content: flex-start;
+    width: 100vw;
+    transition: transform 400ms ease-in-out;
+    height: 100%;
+}
+
+.product_addToCar {
+    max-width: 38px;
+    max-height: 41px;
+    margin: auto 0;
+}
