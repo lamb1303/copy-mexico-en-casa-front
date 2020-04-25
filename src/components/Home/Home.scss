@@ -1,7 +1,15 @@
+@import '../../styles/Colors.scss';
+
+.MuiFormControl-marginNormal{
+    background-color: white !important;
+    border-radius: 8px 8px 0px 0px !important;
+    
+}
+
 .home {
     height: 100vh;
     width: 100%;
-    background-color: orange;
+    background-color: $primary-color;
 
     &-container {
         width: 100%;
@@ -23,11 +31,18 @@
         }
 
         &__login {
-            & form {
-                & input {
-                    border: 3px solid black;
-                    border-radius: 5px;
-                }
+            padding-top: 1rem;
+            text-align: center;
+
+            & h3{
+                color: $contrast-color;
+            }
+
+            & Button {
+                margin: 5px 0px;
+                width: 70%;
+                border: 1px solid $contrast-color;
+                font-weight: bold;
             }
         }
     }

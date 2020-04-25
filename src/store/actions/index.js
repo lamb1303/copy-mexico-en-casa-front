@@ -6,3 +6,9 @@ export {
 export {
     burguerHandler
 } from './header'
+
+
+export {
+    login,
+    joinToUs
+} from './home'
