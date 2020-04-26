@@ -1,6 +1,9 @@
-import React from 'react';
-import { Component } from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
+import './Registro.scss'
+import Button from '../../../UI/Button/Button'
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,218 +11,575 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import './Registro.scss'
-import image from '../../../../assets/default_Image.png'
-import Button from '../../../UI/Button/Button'
-class Registro extends Component {
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import * as actions from '../../../../store/actions'
+import { connect } from 'react-redux'
+import ImageUpload from '../../../UI/ImageUpload/ImageUpload';
+const Registro = (props) => {
+    const [name, setName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [number, setNumber] = useState("")
+    const [nNegocio, setNombreNegocio] = useState("")
+    const [dNegocio, setDNegocio] = useState("")
+    const [descNegocio, setDescNegocio] = useState("")
+    const [lunes, setLunes] = useState(false)
+    const [martes, setMartes] = useState(false)
+    const [miercoles, setMiercoles] = useState(false)
+    const [jueves, setJueves] = useState(false)
+    const [viernes, setViernes] = useState(false)
+    const [sabado, setSabado] = useState(false)
+    const [domingo, setDomingo] = useState(false)
+    const [openL, setOpenL] = useState("00:00")
+    const [openMar, setOpenMar] = useState("00:00")
+    const [openMie, setOpenMier] = useState("00:00")
+    const [openJ, setOpenJ] = useState("00:00")
+    const [openV, setOpenV] = useState("00:00")
+    const [openS, setOpenS] = useState("00:00")
+    const [openD, setOpenD] = useState("00:00")
+    const [closeL, setCloseL] = useState("00:00")
+    const [closeMar, setCloseMar] = useState("00:00")
+    const [closeMie, setCloseMier] = useState("00:00")
+    const [closeJ, setCloseJ] = useState("00:00")
+    const [closeV, setCloseV] = useState("00:00")
+    const [closeS, setCloseS] = useState("00:00")
+    const [closeD, setCloseD] = useState("00:00")
+    const [efectivo, setEfectivo] = useState(false)
+    const [tarjeta, setTarjeta] = useState(false)
+    const [domicilio, setDomicilio] = useState(false)
+    const [local, setLocal] = useState(false)
+    const [aviso, setAviso] = useState(false)
+    const [fotoNegocio, setFotoNegocio] = useState(null)
+    const [fotoMenu, setFotoMenu] = useState(null)
+    const [fotoIne, setFotoIne] = useState(null)
 
-    render() {
-        return (
-            <section>
-                <div className='datosPersonales'>
-                    <h2>
-                        Texto de bienvenida
+
+    const send = () => {
+
+        if (name !== "" && lastName !== "" && email !== "" && password !== null && number !== "" && nNegocio !== "" && 
+        descNegocio !== "" && dNegocio !== "" && fotoIne !== null && fotoNegocio !== null && fotoMenu !== null ) {
+            const ob = {
+                name: name,
+                lastName: lastName,
+                email: email,
+                password: password,
+                number: number,
+                negocio: {
+                    nombreNegocio: nNegocio,
+                    direccionNegocio: dNegocio,
+                    descripcionNegocio: descNegocio,
+                    fotoNegocio: fotoNegocio,
+                    fotoMenu: fotoMenu,
+                    fotoIne: fotoIne,
+                    horario: [
+                        {
+                            lunes: lunes,
+                            horaAbierto: openL,
+                            horaCerrado: closeL
+                        },
+                        {
+                            martes: martes,
+                            horaAbierto: openMar,
+                            horaCerrado: closeMar
+                        },
+                        {
+                            miercoles: miercoles,
+                            horaAbierto: openMie,
+                            horaCerrado: closeMie
+                        },
+                        {
+                            jueves: jueves,
+                            horaAbierto: openJ,
+                            horaCerrado: closeJ
+                        },
+                        {
+                            viernes: viernes,
+                            horaAbierto: openV,
+                            horaCerrado: closeL
+                        },
+                        {
+                            sabado: sabado,
+                            horaAbierto: openS,
+                            horaCerrado: closeS
+                        },
+                        {
+                            domingo: domingo,
+                            horaAbierto: openD,
+                            horaCerrado: closeD
+                        },
+                    ]
+                }
+            }
+            props.nuevoNegocio(ob)
+        }
+
+    }
+
+    const onSubirImagen = (id, pickedFile, fileIsValid) => {
+        if (fileIsValid) {
+            switch (id) {
+                case 'fotoNegocio':
+                    setFotoNegocio(pickedFile)
+                    break;
+                case 'fotoMenu':
+                    setFotoMenu(pickedFile)
+                    break;
+                case 'fotoIne':
+                    setFotoIne(pickedFile)
+                    break;
+                default:
+                    break;
+            }
+            console.log(pickedFile)
+        }
+    }
+
+    const options = () => {
+        var arr = [], i, j;
+        for (i = 0; i < 24; i++) {
+            for (j = 0; j < 2; j++) {
+                let hour = (i <= 9 ? "0" + i : i) + ":" + (j === 0 ? "00" : 30 * j);
+                arr.push(<option value={hour}>{hour}</option>)
+            }
+        }
+        return arr
+    }
+
+    return (
+        <section>
+            <div className='datosPersonales'>
+                <h2>
+                    Texto de bienvenida
                     </h2>
+                <div className='informacionPersonal'>
+                    <TextField
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                        required
+
+                        label="Nombre"
+                        defaultValue=""
+                        variant="outlined"
+                    />
+                    <TextField
+                        value={lastName}
+                        onChange={(event) => setLastName(event.target.value)}
+                        required
+                        label="Apellidos"
+                        defaultValue=""
+                        variant="outlined"
+                    />
+                    <TextField
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        required
+                        label="Email"
+                        defaultValue=""
+                        variant="outlined"
+                    />
+                    <TextField
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required
+                        label="Contraseña"
+                        type="password"
+                        defaultValue=""
+                        variant="outlined"
+                    />
+                    <TextField
+                        value={number}
+                        onChange={(event) => setNumber(event.target.value)}
+                        required
+                        label="Telefono"
+                        defaultValue=""
+                        variant="outlined"
+                    />
+                </div>
+
+                
+            </div>
+            <hr style={{ width: 'auto' }} />
+            <div>
+                <div className='datosNegocio'>
                     <div>
                         <TextField
+                            value={nNegocio}
+                            onChange={(event) => setNombreNegocio(event.target.value)}
                             required
-                            id="outlined-required"
-                            label="Nombre"
+                            label="Nombre del negocio"
                             defaultValue=""
                             variant="outlined"
                         />
                         <TextField
+                            value={dNegocio}
+                            onChange={(event) => setDNegocio(event.target.value)}
                             required
-                            id="outlined-required"
-                            label="Apellidos"
+                            label="Direccion del negocio"
                             defaultValue=""
                             variant="outlined"
                         />
                         <TextField
+                            value={descNegocio}
+                            onChange={(event) => setDescNegocio(event.target.value)}
                             required
-                            id="outlined-required"
-                            label="Email"
-                            defaultValue=""
-                            variant="outlined"
-                        />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Contraseña"
-                            type="password"
-                            defaultValue=""
-                            variant="outlined"
-                        />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Telefono"
+                            label="Descipcion del negocio"
                             defaultValue=""
                             variant="outlined"
                         />
                     </div>
-                    <hr style={{ width: '55vh' }} />
+                    <div>
+                        <ImageUpload
+                            id='fotoNegocio'
+                            onInput={(pickedFile, fileIsValid) => onSubirImagen('fotoNegocio', pickedFile, fileIsValid)}
+                            errorText='Please provide an image'
+                            text='foto del negocio'
+                        />
+                        <ImageUpload
+                            id='fotoMenu'
+                            onInput={(pickedFile, fileIsValid) => onSubirImagen('fotoMenu', pickedFile, fileIsValid)}
+                            errorText='Please provide an image'
+                            text='foto del menu'
+                        />
+                    </div>
+                </div>
+                <div className='datosNegocio2'>
+                    <div>
+                        <ImageUpload
+                            id='fotoIne'
+                            onInput={(pickedFile, fileIsValid) => onSubirImagen('fotoIne', pickedFile, fileIsValid)}
+                            errorText='Please provide an image'
+                            text='Foto parte delantera de tu INE'
+                        />
+                    </div>
+                    <div>
+                        <span>Horario del trabajo</span>
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell></TableCell>
+                                        <TableCell align="right">Dia</TableCell>
+                                        <TableCell align="right">Abierto</TableCell>
+                                        <TableCell align="right"> - </TableCell>
+                                        <TableCell align="right">Cerrado</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            <Checkbox
+                                                checked={lunes}
+                                                name='lunes'
+                                                onChange={(event) => setLunes(event.target.checked)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="right">Lunes</TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={openL}
+                                                    onChange={(event) => setOpenL(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right"> - </TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={closeL}
+                                                    onChange={(event) => setCloseL(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                            <Checkbox
+                                                checked={martes}
+                                                name='martes'
+                                                onChange={(event) => setMartes(event.target.checked)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="right">Martes</TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={openMar}
+                                                    onChange={(event) => setOpenMar(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right"> - </TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={closeMar}
+                                                    onChange={(event) => setCloseMar(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                    </TableRow><TableRow>
+                                        <TableCell>
+                                            <Checkbox
+                                                checked={miercoles}
+                                                name='miercoles'
+                                                onChange={(event) => setMiercoles(event.target.checked)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="right">Miercoles</TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={openMie}
+                                                    onChange={(event) => setOpenMier(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right"> - </TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={closeMie}
+                                                    onChange={(event) => setCloseMier(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                    </TableRow><TableRow>
+                                        <TableCell>
+                                            <Checkbox
+                                                checked={jueves}
+                                                name='jueves'
+                                                onChange={(event) => setJueves(event.target.checked)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="right">Jueves</TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={openJ}
+                                                    onChange={(event) => setOpenJ(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right"> - </TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={closeJ}
+                                                    onChange={(event) => setCloseJ(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                    </TableRow><TableRow>
+                                        <TableCell>
+                                            <Checkbox
+                                                checked={viernes}
+                                                name='viernes'
+                                                onChange={(event) => setViernes(event.target.checked)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="right">Viernes</TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={openV}
+                                                    onChange={(event) => setOpenV(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right"> - </TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={closeV}
+                                                    onChange={(event) => setCloseV(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                    </TableRow><TableRow>
+                                        <TableCell>
+                                            <Checkbox
+                                                checked={sabado}
+                                                name='sabado'
+                                                onChange={(event) => setSabado(event.target.checked)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="right">Sabado</TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={openS}
+                                                    onChange={(event) => setOpenS(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right"> - </TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={closeS}
+                                                    onChange={(event) => setCloseS(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                            <Checkbox
+                                                checked={domingo}
+                                                name='domingo'
+                                                onChange={(event) => setDomingo(event.target.checked)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="right">Domingo</TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={openD}
+                                                    onChange={(event) => setOpenD(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                        <TableCell align="right"> - </TableCell>
+                                        <TableCell align="right">
+                                            <FormControl>
+                                                <NativeSelect
+                                                    id="demo-customized-select-native"
+                                                    value={closeD}
+                                                    onChange={(event) => setCloseD(event.target.value)}
+                                                >
+                                                    {options()}
+                                                </NativeSelect>
+                                            </FormControl>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+                </div>
+                <hr style={{ width: 'auto' }} />
+            </div>
+            <div className='metodos'>
+                <div>
+                    <span>Metodo de pago</span>
+                    <div>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={efectivo}
+                                    onChange={(event) => setEfectivo(event.target.checked)}
+                                    name="Efectivo"
+                                />
+                            }
+                            label="Efectivo"
+                        /><FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={tarjeta}
+                                    onChange={(event) => setTarjeta(event.target.checked)}
+                                    name="Tarjeta"
+                                />
+                            }
+                            label="Tarjeta"
+                        />
+
+                    </div>
                 </div>
                 <div>
-                    <div className='datosNegocio'>
-                        <div>
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Nombre del negocio"
-                                defaultValue=""
-                                variant="outlined"
-                            />
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Direccion del negocio"
-                                defaultValue=""
-                                variant="outlined"
-                            />
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Descipcion del negocio"
-                                defaultValue=""
-                                variant="outlined"
-                            />
-                        </div>
-                        <div>
-                            <div>
-                                <input type="file"></input>
-                                <img src={image} />
-                                <span>foto del negocio</span>
-
-                            </div>
-                            <div>
-                                <input type="file"></input>
-                                <img src={image} />
-                                <span>foto del menu</span>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div className='datosNegocio2'>
-                        <div>
-                            <image src=''></image>
-                            <div>
-                                <input type="file"></input>
-                                <img src={image} />
-                                <span>Fotod de tu INE de lado donde se ve la persona</span>
-                            </div>
-                        </div>
-                        <div>
-                            <span>Horario del trabajo</span>
-                            <TableContainer component={Paper}>
-                                <Table aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell></TableCell>
-                                            <TableCell align="right">Dia</TableCell>
-                                            <TableCell align="right">Abierto</TableCell>
-                                            <TableCell align="right"> - </TableCell>
-                                            <TableCell align="right">Cerrado</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-
-                                        <TableRow>
-                                            <TableCell>
-                                                <Checkbox
-                                                    checked={true}
-                                                //onChange={handleChange}
-
-                                                />
-                                            </TableCell>
-                                            <TableCell align="right">Lunes</TableCell>
-                                            <TableCell align="right">8:30</TableCell>
-                                            <TableCell align="right"> - </TableCell>
-                                            <TableCell align="right">16:00</TableCell>
-                                        </TableRow>
-
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </div>
-                    </div>
-                    <hr style={{ width: '55vh' }} />
-                </div>
-                <div className='metodos'>
+                    <span>Metodo de entrega</span>
                     <div>
-                        <span>Metodo de pago</span>
-                        <div>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={true}
-                                        //onChange={handleChange}
-                                        name="Efectivo"
-                                    />
-                                }
-                                label="Efectivo"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={true}
-                                        //onChange={handleChange}
-                                        name="Tarjeta"
-                                    />
-                                }
-                                label="Tarjeta"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <span>Metodo de entrega</span>
-                        <div>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={true}
-                                        //onChange={handleChange}
-                                        name="Entrega"
-                                    />
-                                }
-                                label="Entrega a domicilio"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={true}
-                                        //onChange={handleChange}
-                                        name="EntregaLocal"
-                                    />
-                                }
-                                label="Entrega en el local "
-                            />
-                        </div>
-                    </div>
-
-                </div>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={true}
-                            //onChange={handleChange}
-                            name="privacidad"
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={domicilio}
+                                    onChange={(event) => setDomicilio(event.target.checked)}
+                                    name="Entrega"
+                                />
+                            }
+                            label="Entrega a domicilio"
                         />
-                    }
-                    label="Aviso de privacidad"
-                />
-
-                <div className='crearCuenta'>
-                <Button btnType='Success' >Registrar</Button>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={local}
+                                    onChange={(event) => setLocal(event.target.checked)}
+                                    name="EntregaLocal"
+                                />
+                            }
+                            label="Entrega en el local"
+                        />
+                    </div>
                 </div>
 
-            </section>
+            </div>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={aviso}
+                        onChange={(event) => setAviso(event.target.checked)}
+                        name="privacidad"
+                    />
+                }
+                label="Aviso de privacidad"
+            />
 
-        );
+            <div className='crearCuenta'>
+                <Button onClick={() => send()} btnType='Success' >Registrar</Button>
+            </div>
+
+        </section>
+
+    );
+}
+const mapDispatchtoProps = dispatch => {
+
+    return {
+        nuevoNegocio: (ob) => dispatch(actions.registroNuevoNegocio(ob))
     }
+
 }
 
-export default Registro;
+export default connect(null, mapDispatchtoProps)(Registro);

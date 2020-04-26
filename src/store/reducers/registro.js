@@ -7,7 +7,8 @@ const initialState = {
     negocio: false,
     name: '',
     otraCosa: false,
-    loading: false
+    loading: false,
+    registroNegocio: null
 }
 
 
@@ -24,7 +25,7 @@ const nuevoNegocio = (state, action) => {
     return updateObject(state, {
         cliente: false,
         negocio: true,
-        name: ''
+        registroNegocio: action.negocio
     })
 }
 
