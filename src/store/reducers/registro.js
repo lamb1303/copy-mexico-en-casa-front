@@ -7,7 +7,8 @@ const initialState = {
     negocio: false,
     name: '',
     otraCosa: false,
-    loading: false
+    loading: false,
+    id: null
 }
 
 
@@ -15,7 +16,8 @@ const nuevoCliente = (state, action) => {
     return updateObject(state, {
         cliente: true,
         negocio: false,
-        name: action.name
+        id: action.id,
+        loading: false
     })
 }
 
@@ -28,6 +30,18 @@ const nuevoNegocio = (state, action) => {
     })
 }
 
+const iniciarRegistro = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+const registerFailed = (state, action) => {
+    return updateObject(state, {
+        loading: false
+    })
+}
+
 
 
 const reducer = (state = initialState, action) => {
@@ -35,6 +49,8 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.REGISTRAR_NUEVO_CLIENTE: return nuevoCliente(state, action);
         case actionTypes.REGISTRAR_NUEVO_NEGOCIO: return nuevoNegocio(state, action);
+        case actionTypes.INICIAR_REGISTRO: return iniciarRegistro(state, action);
+        case actionTypes.REGISTRO_FAIL: return registerFailed(state, action);
         default: return state
     }
 };
