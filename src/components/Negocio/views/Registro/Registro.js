@@ -58,59 +58,68 @@ const Registro = (props) => {
 
     const send = () => {
 
-        if (name !== "" && lastName !== "" && email !== "" && password !== null && number !== "" && nNegocio !== "" && 
-        descNegocio !== "" && dNegocio !== "" && fotoIne !== null && fotoNegocio !== null && fotoMenu !== null ) {
+        if (name !== "" && lastName !== "" && email !== "" && password !== null && number !== "" && nNegocio !== "" &&
+            descNegocio !== "" && dNegocio !== "" && fotoIne !== null && fotoNegocio !== null) {
             const ob = {
-                name: name,
-                lastName: lastName,
+                nameResponsable: name,
+                apellidos: lastName,
                 email: email,
                 password: password,
-                number: number,
-                negocio: {
-                    nombreNegocio: nNegocio,
-                    direccionNegocio: dNegocio,
-                    descripcionNegocio: descNegocio,
-                    fotoNegocio: fotoNegocio,
-                    fotoMenu: fotoMenu,
-                    fotoIne: fotoIne,
-                    horario: [
-                        {
-                            lunes: lunes,
-                            horaAbierto: openL,
-                            horaCerrado: closeL
-                        },
-                        {
-                            martes: martes,
-                            horaAbierto: openMar,
-                            horaCerrado: closeMar
-                        },
-                        {
-                            miercoles: miercoles,
-                            horaAbierto: openMie,
-                            horaCerrado: closeMie
-                        },
-                        {
-                            jueves: jueves,
-                            horaAbierto: openJ,
-                            horaCerrado: closeJ
-                        },
-                        {
-                            viernes: viernes,
-                            horaAbierto: openV,
-                            horaCerrado: closeL
-                        },
-                        {
-                            sabado: sabado,
-                            horaAbierto: openS,
-                            horaCerrado: closeS
-                        },
-                        {
-                            domingo: domingo,
-                            horaAbierto: openD,
-                            horaCerrado: closeD
-                        },
-                    ]
-                }
+                telefono: number,
+                name: nNegocio,
+                direccion: dNegocio,
+                desc: descNegocio,
+                img: fotoNegocio,
+                fotoMenu: fotoMenu,
+                fotoId: fotoIne,
+                horario: [
+                    {
+                        lunes: lunes,
+                        from: openL,
+                        to: closeL
+                    },
+                    {
+                        martes: martes,
+                        from: openMar,
+                        to: closeMar
+                    },
+                    {
+                        miercoles: miercoles,
+                        from: openMie,
+                        to: closeMie
+                    },
+                    {
+                        jueves: jueves,
+                        from: openJ,
+                        to: closeJ
+                    },
+                    {
+                        viernes: viernes,
+                        from: openV,
+                        to: closeL
+                    },
+                    {
+                        sabado: sabado,
+                        from: openS,
+                        to: closeS
+                    },
+                    {
+                        domingo: domingo,
+                        from: openD,
+                        to: closeD
+                    },
+                ],
+                metodoPago: {
+                    efectivo: efectivo,
+                    tarjeta: tarjeta
+                },
+                metodoEnvio:{
+                    domicilio: domicilio,
+                    local: local
+                },
+                calificacion: 0,
+                verificado: false,
+
             }
             props.nuevoNegocio(ob)
         }
@@ -133,6 +142,7 @@ const Registro = (props) => {
                     break;
             }
             console.log(pickedFile)
+            
         }
     }
 
@@ -198,7 +208,7 @@ const Registro = (props) => {
                     />
                 </div>
 
-                
+
             </div>
             <hr style={{ width: 'auto' }} />
             <div>
