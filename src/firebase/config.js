@@ -16,5 +16,6 @@ console.log(process.env.REACT_APP_FB_API_KEY);
 app.initializeApp(firebaseConfig);
 const storage = app.storage(); //.ref().child(path).put(img)
 const firestore = app.firestore(); //.collection()
+// const auth = app.auth(); //.createUsr
 
 export default { storage, firestore };

@@ -5,7 +5,7 @@ import { updateObject } from '../utility';
 const initialState = {
     loading: false,
     error: false,
-    token: null,
+    token: "null",
     usarname: "",
     join: false
 

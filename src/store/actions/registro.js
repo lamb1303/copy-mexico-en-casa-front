@@ -24,7 +24,7 @@ export const registrarNuevoCliente = (image) => {
         console.log('iniciando...')
         let uploadTask;
         try {
-            uploadTask = firebase.storage.ref().child(`clients/${id}/${image.name}`).put(image);
+            uploadTask = firebase.storage.ref().child(`clients/test3@test.com/${image.name}`).put(image);
             uploadTask.on('state_changed', () => {
 
             }, err => {
@@ -39,7 +39,7 @@ export const registrarNuevoCliente = (image) => {
                             id: id,
                             name: 'Pancho',
                             apellidos: 'Gonzalez Salgado',
-                            email: 'test@test.com',
+                            email: 'test3@test.com',
                             password: 'laPassword',
                             telefono: 8442736598,
                             direccion: 'calle valencia #345 col. Zaragoza',
@@ -51,20 +51,29 @@ export const registrarNuevoCliente = (image) => {
                                     console.log("Usuario creado")
                                     dispatch(nuevoCliente(id))
                                 } else {
-                                    console.log('fallo crear el user')
-                                    dispatch(registerFailed());
+                                    firebase.storage.ref().child(`clients/test3@test.com/${image.name}`).delete()
+                                        .then(() => console.log('imagen borrada'))
+                                        .catch(err => console.log(err));
+                                    dispatch(registerFailed())
+
                                 }
-                            }).catch(_ => dispatch(registerFailed()))
+                            }).catch(err => {
+                                firebase.storage.ref().child(`clients/test3@test.com/${image.name}`).delete()
+                                    .then(() => console.log('imagen borrada'))
+                                    .catch(err => console.log(err))
+                                dispatch(registerFailed())
+                            })
                     })
             });
         } catch (error) {
-            console.log(`falla al subir la img`)
+            console.log(`algo salio mal`)
             console.log(error)
             dispatch(registerFailed());
             return;
         }
     }
 };
+
 
 export const nuevoCliente = (id) => {
     return {

@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 
 const Products = props => {
 
-
-
     return (
         <div className={classes.products} >
             {props.products && props.products.
