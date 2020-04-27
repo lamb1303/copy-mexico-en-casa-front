@@ -34,3 +34,8 @@ export {
     openEditProduct,
     closeEditProduct
 } from './negocio'
+
+export {
+    clickOnBusiness,
+    clickOnCustomer,
+} from './selectionModal'

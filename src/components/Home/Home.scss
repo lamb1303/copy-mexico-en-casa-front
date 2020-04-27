@@ -1,49 +1,83 @@
-@import '../../styles/Colors.scss';
+@import "../../styles/Colors.scss";
 
-.MuiFormControl-marginNormal{
+.MuiFormControl-marginNormal {
     background-color: white !important;
     border-radius: 8px 8px 0px 0px !important;
-    
+    width: 70% !important;
 }
 
 .home {
-    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    background-color: $primary-color;
+    height: 100vh;
+    overflow: scroll;
+    background-color: $contrast-color;
 
     &-container {
-        width: 100%;
-        padding-top: 3rem;
+        width: 60vw;
+        height: 36rem;
+        max-width: 80vh;
+        overflow: visible;
+        border-radius: 5em;
+        border: solid $primary-color;
+        background: $primary-color;
 
         &__logo {
-            position: relative;
-            height: 15rem;
+            margin-top: 2em;
+            height: 10em;
             width: 100%;
+            text-align: center;
             overflow: hidden;
 
             & img {
-                position: absolute;
                 height: 100%;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
             }
         }
 
         &__login {
-            padding-top: 1rem;
+            margin-top: 1em;
+            align-items: center;
             text-align: center;
 
-            & h3{
+            > div {
+                max-height: 80vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            & h3 {
                 color: $contrast-color;
             }
 
             & Button {
                 margin: 5px 0px;
                 width: 70%;
-                border: 1px solid $contrast-color;
+                border: 1px solid $contrast-color !important;
                 font-weight: bold;
             }
         }
     }
 }
+
+@media only screen and (max-width: 866px) {
+    .home {
+        background: $primary-color;
+        &-container {
+            width: 100vw;
+            border-radius: 0;
+            border: 0;
+        }
+    }
+}
+
+@media only screen and (min-width: 867px) and (max-width: 1024px) {
+    .home {
+        &-container {
+            width: 50vw;
+        }
+    }
+}
+
