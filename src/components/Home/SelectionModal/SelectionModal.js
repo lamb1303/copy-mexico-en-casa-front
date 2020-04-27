@@ -8,7 +8,6 @@ import Button from '../../UI/Button/Button';
 import './SelectionModal.scss';
 
 const SelectionModal = props => {
-    console.log(props.show);
     return (
         props.show ? 
             <div className='modal-container'>
@@ -28,12 +27,11 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        clickOnBusiness: () => dispatch(actions.clickOnBusiness()),
-        clickOnCustomer: () => dispatch(actions.clickOnCustomer())
+const mapDispatchToProps = {
 
-    }
+    clickOnBusiness: actions.clickOnBusiness,
+    clickOnCustomer: actions.clickOnCustomer
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectionModal);

@@ -13,16 +13,16 @@ import './Home.scss';
 
 
 const Home = props => {
-    const [email, setemail] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [emailRequired, setemailRequired] = useState("");
+    const [emailRequired, setEmailRequired] = useState("");
     const [passwordRequired, setPasswordRequired] = useState("");
 
     let credentials = null;
 
     const onLogin = () => {
         if (email && password) {
-            setemailRequired("");
+            setEmailRequired("");
             setPasswordRequired("");
             if (email.includes("@")) {
                 credentials = {
@@ -31,10 +31,10 @@ const Home = props => {
                 }
                 props.login(credentials);
             } else {
-                setemailRequired("Formato de correo incorrecto");
+                setEmailRequired("Formato de correo incorrecto");
             }
         } else {
-            setemailRequired(email === "" ? "El correo es requerido" : "");
+            setEmailRequired(email === "" ? "El correo es requerido" : "");
             setPasswordRequired(password === "" ? "La contraseña es requerida" : "");
 
         }
@@ -62,7 +62,10 @@ const Home = props => {
                             type="email"
                             variant="filled"
                             value={email}
-                            onChange={(event) => setemail(event.target.value)}
+                            onChange={(event) => {
+                                setEmailRequired(event.target.value ? "" : emailRequired);
+                                setEmail(event.target.value);
+                            }}
                             helperText={emailRequired ? emailRequired : ""}
 
                         />
@@ -74,7 +77,10 @@ const Home = props => {
                             variant="filled"
                             type="password"
                             value={password}
-                            onChange={(event) => setPassword(event.target.value)}
+                            onChange={(event) => {
+                                setPasswordRequired(event.target.value ? "" : passwordRequired);
+                                setPassword(event.target.value)
+                            }}
                             helperText={passwordRequired ? passwordRequired : ""}
                         />
                     </div>
@@ -95,12 +101,10 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        login: (credentials) => dispatch(actions.login(credentials)),
-        joinToUs: () => dispatch(actions.joinToUs()),
-        joinToUsClosed: () => dispatch(actions.joinToUsClosed()),
-    }
+const mapDispatchToProps = {
+    login: actions.login,
+    joinToUs: actions.joinToUs,
+    joinToUsClosed: actions.joinToUsClosed,
 }
 
 
