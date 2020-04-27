@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import './Registro.scss'
-import Button from '../../../UI/Button/Button'
+import Button from '../../UI/Button/Button'
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Table from '@material-ui/core/Table';
@@ -13,9 +13,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
-import * as actions from '../../../../store/actions'
+import * as actions from '../../../store/actions'
 import { connect } from 'react-redux'
-import ImageUpload from '../../../UI/ImageUpload/ImageUpload';
+import { withRouter } from 'react-router-dom'
+import ImageUpload from '../../UI/ImageUpload/ImageUpload';
+
+
 const Registro = (props) => {
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -113,7 +116,7 @@ const Registro = (props) => {
                     efectivo: efectivo,
                     tarjeta: tarjeta
                 },
-                metodoEnvio:{
+                metodoEnvio: {
                     domicilio: domicilio,
                     local: local
                 },
@@ -122,6 +125,7 @@ const Registro = (props) => {
 
             }
             props.nuevoNegocio(ob)
+            this.history.push('/RegisroClientes')
         }
 
     }
@@ -142,7 +146,7 @@ const Registro = (props) => {
                     break;
             }
             console.log(pickedFile)
-            
+
         }
     }
 
@@ -584,12 +588,8 @@ const Registro = (props) => {
 
     );
 }
-const mapDispatchtoProps = dispatch => {
-
-    return {
-        nuevoNegocio: (ob) => dispatch(actions.registroNuevoNegocio(ob))
-    }
-
+const mapDispatchtoProps = {
+    nuevoNegocio: actions.registroNuevoNegocio
 }
 
-export default connect(null, mapDispatchtoProps)(Registro);
+export default withRouter(connect(null, mapDispatchtoProps)(Registro));
