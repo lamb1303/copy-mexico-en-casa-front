@@ -57,7 +57,7 @@ const Registro = (props) => {
     const [fotoNegocio, setFotoNegocio] = useState(null)
     const [fotoMenu, setFotoMenu] = useState(null)
     const [fotoIne, setFotoIne] = useState(null)
-
+    
 
     const send = () => {
 
@@ -169,31 +169,37 @@ const Registro = (props) => {
                     </h2>
                 <div className='informacionPersonal'>
                     <TextField
+                        error = { name ? false : true}
                         value={name}
                         onChange={(event) => setName(event.target.value)}
                         required
-
+                        helperText ={name ? "" : "Campo requeridos"}
                         label="Nombre"
                         defaultValue=""
                         variant="outlined"
                     />
                     <TextField
+                        error = { lastName ? false : true}
                         value={lastName}
                         onChange={(event) => setLastName(event.target.value)}
                         required
                         label="Apellidos"
                         defaultValue=""
                         variant="outlined"
+                        helperText ={lastName ? "" : "Campo requeridos"}
                     />
                     <TextField
+                    error = {email ? false : true}
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                         required
                         label="Email"
                         defaultValue=""
                         variant="outlined"
+                        helperText ={email ? "" : "Campo requeridos"}
                     />
                     <TextField
+                    error = { password ? false : true}
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         required
@@ -201,14 +207,17 @@ const Registro = (props) => {
                         type="password"
                         defaultValue=""
                         variant="outlined"
+                        helperText ={password ? "" : "Campo requeridos"}
                     />
                     <TextField
+                    error = {number ? false : true}
                         value={number}
                         onChange={(event) => setNumber(event.target.value)}
                         required
                         label="Telefono"
                         defaultValue=""
                         variant="outlined"
+                        helperText ={number ? "" : "Campo requeridos"}
                     />
                 </div>
 
@@ -219,28 +228,34 @@ const Registro = (props) => {
                 <div className='datosNegocio'>
                     <div>
                         <TextField
+                        error = {nNegocio ? false : true}
                             value={nNegocio}
                             onChange={(event) => setNombreNegocio(event.target.value)}
                             required
                             label="Nombre del negocio"
                             defaultValue=""
                             variant="outlined"
+                            helperText ={nNegocio ? "" : "Campo requeridos"}
                         />
                         <TextField
+                        error = {dNegocio ? false : true}
                             value={dNegocio}
                             onChange={(event) => setDNegocio(event.target.value)}
                             required
                             label="Direccion del negocio"
                             defaultValue=""
                             variant="outlined"
+                            helperText ={dNegocio ? "" : "Campo requeridos"}
                         />
                         <TextField
+                        error = {descNegocio ? false : true}
                             value={descNegocio}
                             onChange={(event) => setDescNegocio(event.target.value)}
                             required
                             label="Descipcion del negocio"
                             defaultValue=""
                             variant="outlined"
+                            helperText ={descNegocio ? "" : "Campo requeridos"}
                         />
                     </div>
                     <div>
