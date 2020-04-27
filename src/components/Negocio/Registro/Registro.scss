@@ -1,0 +1,105 @@
+@mixin flexColumn() {
+    display: flex;
+    flex-direction: column;
+}
+section{
+    padding-top: 10vh;
+}
+.datosPersonales{
+  
+
+    h2{
+        text-align: center;
+    }
+    @include flexColumn()
+}
+.informacionPersonal {
+    margin: 0 0 0 2vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.datosNegocio{
+    > div:first-child{
+        align-items: flex-end;
+        margin: 0 2vh 0 0;
+        @include flexColumn()
+        
+    }
+    >div:last-child{
+        display: flex;
+        justify-content: space-evenly;
+        
+    }
+    
+    img{
+        width: 10vh;
+       
+    }
+}
+.MuiTextField-root{
+    
+    max-width: 35vh;
+    margin: 0 0 2vh 0 !important;
+}
+
+.datosNegocio2{
+    margin: 2vh 0;
+    >div{
+        align-items: center;
+        margin-bottom: 2vh;
+        .imageButton{
+            max-width: 35vh ;
+        }
+        @include flexColumn()
+
+    }
+    @include flexColumn()
+
+}
+
+.metodos{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 2vh 0;
+    div{
+        align-items: initial;
+        @include flexColumn()
+
+    }
+
+}
+
+.MuiTableContainer-root{
+    width: 95% !important;
+}
+
+.MuiFormControlLabel-root{
+    margin: 2vh 0 0 2vh !important;
+}
+
+.MuiNativeSelect-select.MuiNativeSelect-select{
+    width: 7vh !important; 
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #F5A303 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.MuiButtonBase-root{
+    padding: 0 !important;
+}
+.crearCuenta{
+    display: flex;
+    justify-content: center;
+}
+
+.Header_header__3k3sP{
+    justify-content: space-around !important;
+}
+
+.Header_header_burguer__3DIck{
+    display: none;
+}

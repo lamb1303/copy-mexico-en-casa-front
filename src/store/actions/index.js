@@ -1,6 +1,6 @@
 export {
     registrarNuevoCliente,
-    registrarNuevoNegocio
+    registroNuevoNegocio
 } from './registro'
 
 export {

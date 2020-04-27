@@ -1,0 +1,17 @@
+.imageButton{
+    display: flex;
+    align-items: center;
+    background-color: #F5A303;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+    max-width: 26vh;
+
+    >img{
+        width: 10vh;
+        margin: 2vh;
+    }
+}
+
+input[type='file']{
+    display: none;
+}
