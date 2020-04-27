@@ -16,10 +16,16 @@ const Product = props => {
         props.openEditProduct(prodToEdit);
     }
 
+    const handleShowProduct = () => {
+        if (!props.editMode) {
+            editProduct();
+        }
+    }
+
     return (
         <Fragment>
             <hr />
-            <div className={classes.product} >
+            <div className={classes.product} onClick={() => handleShowProduct()}>
                 <div className={classes.showedOptions} >
                     <img className={classes.product_image} src={props.img} alt={`imagen de ${props.name}`} />
                     <div className={classes.product_desc} >

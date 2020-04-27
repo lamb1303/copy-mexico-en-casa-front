@@ -1,9 +1,12 @@
+@import '../../../../../styles/Colors.scss';
+
 .modal{
     display: flex;
     flex-direction: column;
     background-color: #fff;
     width: 70vw;
     height: 60vh;
+    min-height: 432px;
     position: fixed;
     z-index: 120;
     top: 10vh;
@@ -11,15 +14,19 @@
     border-radius: 20px;
 }
 
+.scroll{
+    overflow-y: scroll;
+}
+
 .header{
     display: flex;
     flex-direction: column;
-    height: 35%;
+    height: 40%;
     border-bottom: 1px solid #ccc;
     padding-bottom: 5%;
 }
 
-.header span{
+.prodName{
     margin: auto;
     font-size: 1.5rem;
 }
@@ -60,4 +67,54 @@
         width: 40vw;
         height: 6vh;
     }
+}
+
+
+////// EDITION SECTION STYLE ///////
+.editTitle{
+    width: 70%;
+    margin: 10px auto;
+    text-align: center;
+    font-size: 1.2rem;
+    border-radius: 5px;
+}
+
+.imgProd button {
+    margin: 0;
+    padding: 0;
+    width: 27vw;
+    font-size: 0.7rem;
+}
+
+.body textarea{
+    max-width: 50%;
+    width: 50%;
+    height: 80%;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+    resize: none;
+    border-radius: 5px;
+}
+
+.changePrice{
+    display: flex;
+    width: 30%;
+    justify-content: center;
+    align-items: center;
+}
+
+.changePrice span{
+    color: $contrast-color;
+}
+
+
+.changePrice input{
+    width: 100%;
+    height: 20%;
+    max-height: 20%;
+    font-size: 1.5rem;
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
 }
