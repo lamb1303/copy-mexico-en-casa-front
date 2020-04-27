@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './ImageUpload.css';
-import Button from '../Button/Button';
 
 const ImageUpload = props => {
     const filePickerRef = useRef();
     const [file, setFile] = useState();
-    const [previewUrl, setPreviewUrl] = useState(props.img);
+    const [previewUrl, setPreviewUrl] = useState();
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
@@ -51,11 +50,11 @@ const ImageUpload = props => {
                 onChange={pickedHandler}
             />
             <div className={`image-upload ${props.center && "center"}`} >
-                <div className={`image-upload__preview ${props.from}`} >
+                <div className="image-upload__preview" >
                     {previewUrl && <img src={previewUrl} alt="Preview" />}
                     {!previewUrl && <p>Please pick an image</p>}
                 </div>
-                <Button btnType={props.btnType} clicked={pickImageHandler}>{props.message}</Button>
+                <button onClick={pickImageHandler}>PICK IMAGE</button>
             </div>
             {!isValid && <p>{props.errorText}</p>}
         </div>

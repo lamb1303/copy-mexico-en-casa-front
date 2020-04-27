@@ -27,5 +27,10 @@ export {
 
 export {
     openEditNegocio,
-    closeEditNegocio
+    closeEditNegocio,
+    changeEditMode,
+    saveChanges,
+    closeEditMode,
+    openEditProduct,
+    closeEditProduct
 } from './negocio'
