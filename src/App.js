@@ -14,17 +14,13 @@ import Negocio from './components/Negocio/views/Negocio/Negocio';
 
 const App = (props) => {
 
-  const route = (
+  let route = (
     <Switch >
       <Route path='/Client' component={Client} />
       <Route path='/Registro' component={Registro} />
       <Route path='/RegistroCliente' component={RegistroCliente} />
       <Route path='/Home' component={Home} />
-
-  let route = (
-    <Switch>
-      <Route path='/' exact component={Home} />
-      <Redirect to='/' />
+      <Redirect to='/Home' />
     </Switch>
   )
 
