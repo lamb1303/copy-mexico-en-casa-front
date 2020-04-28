@@ -28,13 +28,12 @@ const App = (props) => {
 
     route = (
       <Fragment>
-        <Sidebar />
-        <Header />
         <Switch >
           <Route path='/Client' component={Client} />
           <Route path='/Registro' component={Registro} />
           <Route path='/clientNegocio' component={ClientNegocio} />
           <Route path='/Negocio' component={Negocio} />
+          <Route path='/RegistroCliente' component={RegistroCliente} />
           <Redirect to='/' />
         </Switch>
       </Fragment>
@@ -43,6 +42,11 @@ const App = (props) => {
 
   return (
     <Fragment>
+      {props.token && (<>
+        <Sidebar />
+        <Header />
+      </>
+      )}
       {route}
     </Fragment>
   );

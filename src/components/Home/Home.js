@@ -41,13 +41,6 @@ const Home = props => {
 
     }
 
-    const validate = (pickedFile, fileIsValid) => {
-        if (fileIsValid) {
-            props.nuevoClient(pickedFile);
-        }
-    }
-
-
 
     return (
         <div className='home'>
