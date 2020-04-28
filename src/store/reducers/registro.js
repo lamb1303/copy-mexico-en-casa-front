@@ -7,7 +7,7 @@ const initialState = {
     negocio: false,
     name: '',
     otraCosa: false,
-    id: null
+    id: null,
     registroNegocio: null
 }
 
