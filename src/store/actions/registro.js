@@ -42,7 +42,7 @@ const deleteFoto = (from, id, image) => {
         .catch(err => console.log(err))
 }
 
-export const registrarNuevoCliente = (image) => {
+export const registrarNuevoCliente = (image, cliente) => {
     return dispatch => {
 
         dispatch(initRegister());
