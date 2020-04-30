@@ -29,7 +29,7 @@ const RegistroCliente = (props) => {
     const send = () => {
         verificaciones()
         console.log('si llegue')
-        if (name !== "" && lastName !== "" && email !== "" && password !== null && number !== ""  &&
+        if (name !== "" && lastName !== "" && email !== "" && password !== "" && number !== ""  &&
             setFotoIne !== null) {
             const ob = {
                 apellidos: lastName,

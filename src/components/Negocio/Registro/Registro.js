@@ -75,7 +75,7 @@ const Registro = (props) => {
         verificaciones()
 
         console.log('si llegue')
-        if (name !== "" && lastName !== "" && email !== "" && password !== null && number !== "" && nNegocio !== "" &&
+        if (name !== "" && lastName !== "" && email !== "" && password !== "" && number !== "" && nNegocio !== "" &&
             descNegocio !== "" && dNegocio !== "" && setFotoIne !== null && fotoNegocio !== null) {
             const ob = {
                 nameResponsable: name,
