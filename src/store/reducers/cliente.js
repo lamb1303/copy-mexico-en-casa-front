@@ -4,7 +4,7 @@ import { updateObject } from '../utility';
 const initialState = {
     error: false,
     loading: false,
-    cliente: true,
+    cliente: false,
     openProduct: false,
     selectedProduct: '',
     productCount: [],

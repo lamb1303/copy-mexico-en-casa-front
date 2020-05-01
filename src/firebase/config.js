@@ -11,7 +11,6 @@ const firebaseConfig = {
     messagingSenderId: "164769606702",
     appId: "1:164769606702:web:b04b38b3df19e0bb6783bf"
 };
-console.log(process.env.REACT_APP_FB_API_KEY);
 
 app.initializeApp(firebaseConfig);
 const storage = app.storage(); //.ref().child(path).put(img)

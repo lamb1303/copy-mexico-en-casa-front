@@ -43,3 +43,39 @@ export const closeEditProduct = () => {
         type: actionTypes.CLOSE_EDIT_PRODUCT
     }
 }
+
+export const ordersButtonSelected = () => {
+    return {
+        type: actionTypes.ORDERS_BUTTON_SELECTED
+    }
+}
+
+export const prepareButtonSelected = () => {
+    return {
+        type: actionTypes.PREPARE_BUTTON_SELECTED
+    }
+}
+
+export const readyButtonSelected = () => {
+    return {
+        type: actionTypes.READY_BUTTON_SELECTED
+    }
+}
+
+export const checkReceivedOrder = (checked, prodId, clientId) => {
+    return {
+        type: actionTypes.CHECKED_RECEIVED_ORDER,
+        checked: checked,
+        prodId: prodId,
+        clientId: clientId
+    }
+}
+
+export const checkPreparingOrder = (checked, prodId, clientId) => {
+    return {
+        type: actionTypes.CHECKED_PREPARING_ORDER,
+        checked: checked,
+        prodId: prodId,
+        clientId: clientId
+    }
+}

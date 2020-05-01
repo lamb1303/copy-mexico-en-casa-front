@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import classes from './Header.module.scss';
 import { ReactComponent as Burguer } from './burguer.svg';
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ const Header = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onClickBurguer: () => dispatch(actions.burguerHandler())
+        onClickBurguer: () => dispatch(actions.burguerHandler()),
     }
 }
 

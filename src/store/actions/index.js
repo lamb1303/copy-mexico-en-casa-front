@@ -32,7 +32,12 @@ export {
     saveChanges,
     closeEditMode,
     openEditProduct,
-    closeEditProduct
+    closeEditProduct,
+    readyButtonSelected,
+    ordersButtonSelected,
+    prepareButtonSelected,
+    checkPreparingOrder,
+    checkReceivedOrder
 } from './negocio'
 
 export {

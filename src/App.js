@@ -11,6 +11,7 @@ import Home from './components/Home/Home';
 import RegistroCliente from './components/Cliente/RegistroCliente/RegistroCliente'
 import ClientNegocio from './components/Cliente/Negocio/Negocio';
 import Negocio from './components/Negocio/views/Negocio/Negocio';
+import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 
 const App = (props) => {
 
@@ -34,6 +35,7 @@ const App = (props) => {
           <Route path='/clientNegocio' component={ClientNegocio} />
           <Route path='/Negocio' component={Negocio} />
           <Route path='/RegistroCliente' component={RegistroCliente} />
+          <Route path='/Pedidos' component={Pedidos} />
           <Redirect to='/' />
         </Switch>
       </Fragment>
