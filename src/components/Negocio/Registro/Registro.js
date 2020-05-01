@@ -208,7 +208,7 @@ const Registro = (props) => {
         for (i = 0; i < 24; i++) {
             for (j = 0; j < 2; j++) {
                 let hour = (i <= 9 ? "0" + i : i) + ":" + (j === 0 ? "00" : 30 * j);
-                arr.push(<option value={hour}>{hour}</option>)
+                arr.push(<option key={Math.random() * (10 - 1) + 2} value={hour}>{hour}</option>)
             }
         }
         return arr

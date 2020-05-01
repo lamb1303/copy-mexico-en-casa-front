@@ -30,7 +30,9 @@ const initialState = {
                     amount: 4
                 }
             },
-            checked: false
+            checked: false,
+            telefono: 894548548,
+            ubicacion: ""
         },
         cl2: {
             name: "Miguel",

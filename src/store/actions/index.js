@@ -18,7 +18,8 @@ export {
     OpenSelectedProduct,
     CloseSelectedProduct,
     AddOneToSelectedProduct,
-    DelOneToSelectedProduct
+    DelOneToSelectedProduct,
+    checkout
 } from './cliente'
 
 export {

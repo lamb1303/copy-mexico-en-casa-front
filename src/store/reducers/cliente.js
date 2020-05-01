@@ -8,7 +8,9 @@ const initialState = {
     openProduct: false,
     selectedProduct: '',
     productCount: [],
-    orderPrice: 0
+    orderPrice: 0,
+    checkoutInit: false,
+    checkoutError: null
 }
 
 const crearCuenta = (state, action) => {
@@ -113,6 +115,25 @@ const delOneToSelectedProduct = (state, action) => {
     }
 }
 
+export const checkoutInit = (state, action) => {
+    return updateObject(state, {
+        checkoutInit: true
+    })
+}
+
+export const checkoutComplete = (state, action) => {
+    return updateObject(state, {
+        checkoutInit: false
+    })
+}
+
+export const checkoutFail = (state, action) => {
+    return updateObject(state, {
+        checkoutInit: false,
+        checkoutError: action.error
+    })
+}
+
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.CLIENTE_CREAR_CUENTA: return crearCuenta(state, action);
@@ -122,6 +143,9 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.CLOSE_ADD_DEL_OPTIONS: return closeSelectedProduct(state, action);
         case actionTypes.ADD_ONE_TO_SELECTED_PRODUCT: return addOneToSelectedProduct(state, action);
         case actionTypes.DEL_ONE_TO_SELECTED_PRODUCT: return delOneToSelectedProduct(state, action);
+        case actionTypes.CHECKOUT_INIT: return checkoutInit(state, action);
+        case actionTypes.CHECKOUT_COMPLETE: return checkoutComplete(state, action);
+        case actionTypes.CHECKOUT_FAIL: return checkoutFail(state, action);
         default: return state;
     }
 };

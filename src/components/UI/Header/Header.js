@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
+import { useLocation } from 'react-router-dom';
 import classes from './Header.module.scss';
 import { ReactComponent as Burguer } from './burguer.svg';
 import { connect } from 'react-redux';
@@ -6,10 +7,12 @@ import * as actions from '../../../store/actions';
 
 const Header = props => {
 
-    let displayB = false
+    const location = useLocation();
+
+    let displayB = true
     let space = ""
-    if (window.location.pathname === 'Registro' || window.location.pathname === 'Registro' ) {
-        displayB = true
+    if (location.pathname === '/registro') {
+        displayB = false
         space = " space"
     }
 
