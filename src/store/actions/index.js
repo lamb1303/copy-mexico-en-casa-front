@@ -35,7 +35,9 @@ export {
     closeEditProduct,
     readyButtonSelected,
     ordersButtonSelected,
-    prepareButtonSelected
+    prepareButtonSelected,
+    checkPreparingOrder,
+    checkReceivedOrder
 } from './negocio'
 
 export {

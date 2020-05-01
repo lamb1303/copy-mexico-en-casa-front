@@ -7,11 +7,12 @@ const ListaPedidos = props => {
 
     let pedidos = (
         <Fragment>
-            {props.receivedOrders.map(ped => {
+            {Object.keys(props.receivedOrders).map(clientId => {
                 return <Pedido
-                    key={ped.mail}
-                    clientName={ped.clientName}
-                    orders={ped.products}
+                    key={clientId}
+                    clientId={clientId}
+                    clientName={props.receivedOrders[clientId].name}
+                    orderList={props.receivedOrders[clientId].products}
                 />
             })}
         </Fragment>
@@ -20,11 +21,12 @@ const ListaPedidos = props => {
     if (props.preparing) {
         pedidos = (
             <Fragment>
-                {props.prepareOrders.map(ped => {
+                {Object.keys(props.prepareOrders).map(clientId => {
                     return <Pedido
-                        key={ped.mail}
-                        clientName={ped.clientName}
-                        orders={ped.products}
+                        key={clientId}
+                        clientId={clientId}
+                        clientName={props.prepareOrders[clientId].name}
+                        orderList={props.prepareOrders[clientId].products}
                     />
                 })}
             </Fragment>
@@ -34,17 +36,17 @@ const ListaPedidos = props => {
     if (props.ready) {
         pedidos = (
             <Fragment>
-                {props.readyOrders.map(ped => {
+                {Object.keys(props.readyOrders).map(clientId => {
                     return <Pedido
-                        key={ped.mail}
-                        clientName={ped.clientName}
-                        orders={ped.products}
+                        key={clientId}
+                        clientId={clientId}
+                        clientName={props.readyOrders[clientId].name}
+                        orderList={props.readyOrders[clientId].products}
                     />
                 })}
             </Fragment>
         )
     }
-
 
     return (
         <div className={classes.listaPedidos} >
