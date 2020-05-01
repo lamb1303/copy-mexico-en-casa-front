@@ -13,6 +13,7 @@ const ListaPedidos = props => {
                     clientId={clientId}
                     clientName={props.receivedOrders[clientId].name}
                     orderList={props.receivedOrders[clientId].products}
+                    check={props.receivedOrders[clientId].checked}
                 />
             })}
         </Fragment>
@@ -27,6 +28,7 @@ const ListaPedidos = props => {
                         clientId={clientId}
                         clientName={props.prepareOrders[clientId].name}
                         orderList={props.prepareOrders[clientId].products}
+                        check={props.prepareOrders[clientId].checked}
                     />
                 })}
             </Fragment>
@@ -42,6 +44,7 @@ const ListaPedidos = props => {
                         clientId={clientId}
                         clientName={props.readyOrders[clientId].name}
                         orderList={props.readyOrders[clientId].products}
+                        check={props.readyOrders[clientId].checked}
                     />
                 })}
             </Fragment>
@@ -57,7 +60,6 @@ const ListaPedidos = props => {
 
 const mapStateToProps = state => {
     return {
-        orders: state.negocio.orders,
         preparing: state.negocio.preparing,
         ready: state.negocio.ready,
         receivedOrders: state.negocio.receivedOrders,

@@ -19,45 +19,42 @@ const initialState = {
             products: {
                 productId1: {
                     name: "Pizza",
-                    amount: 1,
-                    checked: false
+                    amount: 1
                 },
                 productId2: {
                     name: "Amborguesa",
-                    amount: 2,
-                    checked: false
+                    amount: 2
                 },
                 productId3: {
                     name: "Tacos",
-                    amount: 4,
-                    checked: false
+                    amount: 4
                 }
-            }
+            },
+            checked: false
         },
         cl2: {
             name: "Miguel",
             products: {
                 productId1: {
                     name: "Torta",
-                    amount: 2,
-                    checked: false
+                    amount: 2
                 },
                 "productId2": {
                     name: "Amborguesa",
-                    amount: 2,
-                    checked: false
+                    amount: 2
                 }
-            }
+            },
+            checked: false
         },
         cl3: {
             name: "Juan",
             products: {
                 productId1: {
                     name: "Pizza",
-                    amount: 1,
-                    checked: false
+                    amount: 1
                 }
-            }
+            },
+            checked: false
         }
     },
     prepareOrders: {
@@ -66,30 +63,28 @@ const initialState = {
             products: {
                 productId1: {
                     name: "Tacos",
-                    amount: 5,
-                    checked: false
+                    amount: 5
                 },
                 productId2: {
                     name: "Amborguesa",
-                    amount: 2,
-                    checked: false
+                    amount: 2
                 }
-            }
+            },
+            checked: false
         },
         cl5: {
             name: "Donald",
             products: {
                 productId1: {
                     name: "Gorditas",
-                    amount: 3,
-                    checked: false
+                    amount: 3
                 },
                 productId2: {
                     name: "Amborguesa",
-                    amount: 2,
-                    checked: false
+                    amount: 2
                 }
-            }
+            },
+            checked: false
         }
     },
     readyOrders: {
@@ -98,17 +93,18 @@ const initialState = {
             products: {
                 productId1: {
                     name: "Torta",
-                    amount: 3,
-                    checked: false
+                    amount: 3
                 },
                 productId2: {
                     name: "Tacos",
-                    amount: 2,
-                    checked: false
+                    amount: 2
                 }
-            }
+            },
+            checked: false
         }
-    }
+    },
+    checkedOrders: {},
+    checkedPrepare: {}
 }
 
 const changeEditMode = (state, action) => {
@@ -184,34 +180,92 @@ const readyButtonSelected = (state, action) => {
 
 const checkPreparedOrder = (state, action) => {
 
+    const updatedClient = updateObject(state.prepareOrders[action.clientId], {
+        checked: action.checked
+    })
+
     const orders = updateObject(state.prepareOrders, {
-        [action.clientId]: updateObject(state.prepareOrders[action.clientId], {
-            products: updateObject(state.prepareOrders[action.clientId].products, {
-                [action.prodId]: updateObject(state.prepareOrders[action.clientId].products[action.prodId], {
-                    checked: action.checked
-                })
-            })
-        })
+        [action.clientId]: updatedClient
     });
+
+    let checked = { ...state.checkedPrepare }
+    if (action.checked) {
+        const newUpdatedClient = { ...updatedClient }
+        newUpdatedClient.checked = false;
+        checked = updateObject(state.checkedPrepare, {
+            [action.clientId]: newUpdatedClient
+        })
+    } else {
+        delete checked[action.clientId]
+    }
+
     return updateObject(state, {
-        prepareOrders: orders
+        prepareOrders: orders,
+        checkedPrepare: checked
     })
 }
 
 const checkReceivedOrder = (state, action) => {
 
+    const updatedClient = updateObject(state.receivedOrders[action.clientId], {
+        checked: action.checked
+    })
+
     const orders = updateObject(state.receivedOrders, {
-        [action.clientId]: updateObject(state.receivedOrders[action.clientId], {
-            products: updateObject(state.receivedOrders[action.clientId].products, {
-                [action.prodId]: updateObject(state.receivedOrders[action.clientId].products[action.prodId], {
-                    checked: action.checked
-                })
-            })
-        })
+        [action.clientId]: updatedClient
     });
 
+    let checked = { ...state.checkedOrders }
+    if (action.checked) {
+        const newUpdatedClient = { ...updatedClient };
+        newUpdatedClient.checked = false;
+        checked = updateObject(state.checkedOrders, {
+            [action.clientId]: newUpdatedClient
+        })
+    } else {
+        delete checked[action.clientId]
+    }
     return updateObject(state, {
-        receivedOrders: orders
+        receivedOrders: orders,
+        checkedOrders: checked
+    })
+
+}
+
+const empezarPedido = (state, action) => {
+    const receivedOrders = { ...state.receivedOrders };
+    Object.keys(state.checkedOrders).forEach(clientId => delete receivedOrders[clientId]);
+
+    let prepareOrders = { ...state.prepareOrders };
+    Object.keys(state.checkedOrders).forEach(clientId => {
+        prepareOrders = updateObject(prepareOrders, {
+            [clientId]: state.checkedOrders[clientId]
+        })
+    })
+
+
+    return updateObject(state, {
+        receivedOrders: receivedOrders,
+        prepareOrders: prepareOrders,
+        checkedOrders: {}
+    });
+}
+
+const terminarPedido = (state, action) => {
+    const prepareOrders = { ...state.prepareOrders };
+    Object.keys(state.checkedPrepare).forEach(clientId => delete prepareOrders[clientId]);
+
+    let readyOrders = { ...state.readyOrders };
+    Object.keys(state.checkedPrepare).forEach(clientId => {
+        readyOrders = updateObject(readyOrders, {
+            [clientId]: state.checkedPrepare[clientId]
+        })
+    })
+
+    return updateObject(state, {
+        prepareOrders: prepareOrders,
+        readyOrders: readyOrders,
+        checkedPrepare: {}
     })
 }
 
@@ -229,6 +283,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.READY_BUTTON_SELECTED: return readyButtonSelected(state, action);
         case actionTypes.CHECKED_PREPARING_ORDER: return checkPreparedOrder(state, action);
         case actionTypes.CHECKED_RECEIVED_ORDER: return checkReceivedOrder(state, action);
+        case actionTypes.EMPEZAR_PEDIDO: return empezarPedido(state, action);
+        case actionTypes.TERMINAR_PEDIDO: return terminarPedido(state, action);
         default: return state
     }
 }

@@ -62,20 +62,30 @@ export const readyButtonSelected = () => {
     }
 }
 
-export const checkReceivedOrder = (checked, prodId, clientId) => {
+export const checkReceivedOrder = (checked, clientId) => {
     return {
         type: actionTypes.CHECKED_RECEIVED_ORDER,
         checked: checked,
-        prodId: prodId,
         clientId: clientId
     }
 }
 
-export const checkPreparingOrder = (checked, prodId, clientId) => {
+export const checkPreparingOrder = (checked, clientId) => {
     return {
         type: actionTypes.CHECKED_PREPARING_ORDER,
         checked: checked,
-        prodId: prodId,
         clientId: clientId
+    }
+}
+
+export const empezarPedido = () => {
+    return {
+        type: actionTypes.EMPEZAR_PEDIDO
+    }
+}
+
+export const terminarPedido = () => {
+    return {
+        type: actionTypes.TERMINAR_PEDIDO
     }
 }

@@ -1,6 +1,5 @@
 .pedidoContainer{
     display: flex;
-    flex-direction: column;
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -9,8 +8,21 @@
     margin: 2% 0;
 }
 
+.pedidoDetails{
+    width: 60%;
+}
+
+.pedidoDetails .clientName{
+    color: #482856;
+    font-weight: bold;
+}
+
 .pedidoDesc{
     display: flex;
-    justify-content: space-between;
     font-size: 1.1rem;
+}
+
+
+.pedidoDesc div:nth-child(2){
+    margin-left: 55%;
 }

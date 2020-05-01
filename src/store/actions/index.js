@@ -37,7 +37,9 @@ export {
     ordersButtonSelected,
     prepareButtonSelected,
     checkPreparingOrder,
-    checkReceivedOrder
+    checkReceivedOrder,
+    empezarPedido,
+    terminarPedido
 } from './negocio'
 
 export {

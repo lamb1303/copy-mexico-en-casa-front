@@ -8,21 +8,18 @@ const Pedido = props => {
 
     const check = (checked, prodId) => {
         if (props.orders) {
-            props.checkReceivedOrder(checked, prodId, props.clientId);
+            props.checkReceivedOrder(checked, props.clientId);
         } else {
-            props.checkPreparedOrder(checked, prodId, props.clientId);
+            props.checkPreparedOrder(checked, props.clientId);
         }
     }
+
 
     const list = Object.keys(props.orderList).map(prodId => {
         return (
             <div key={prodId} className={classes.pedidoDesc} >
                 <div>{props.orderList[prodId].amount}</div>
                 <div>{props.orderList[prodId].name}</div>
-                {props.ready ? <div></div> : <Checkbox
-                    checked={props.orderList[prodId].checked}
-                    onChange={(event) => check(event.target.checked, prodId)}
-                />}
             </div>
         )
     })
@@ -30,8 +27,14 @@ const Pedido = props => {
 
     return (
         <div className={classes.pedidoContainer} >
-            <div>{props.clientName}</div>
-            {list}
+            <div className={classes.pedidoDetails} >
+                <div className={classes.clientName} >{props.clientName}</div>
+                {list}
+            </div>
+            {props.ready ? <div></div> : <Checkbox
+                checked={props.check}
+                onChange={(event) => check(event.target.checked)}
+            />}
         </div>
     )
 }
@@ -45,8 +48,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        checkPreparedOrder: (checked, prodId, clientId) => dispatch(actions.checkPreparingOrder(checked, prodId, clientId)),
-        checkReceivedOrder: (checked, prodId, clientId) => dispatch(actions.checkReceivedOrder(checked, prodId, clientId))
+        checkPreparedOrder: (checked, clientId) => dispatch(actions.checkPreparingOrder(checked, clientId)),
+        checkReceivedOrder: (checked, clientId) => dispatch(actions.checkReceivedOrder(checked, clientId))
     }
 }
 
