@@ -56,19 +56,15 @@ export const registrarNuevoCliente = (image, cliente) => {
 
                 console.log('creando usuario...')
 
-                const client = {
+                let client = {
                     id: id,
-                    name: 'Pancho',
-                    apellidos: 'Gonzalez Salgado',
-                    email: 'blad@test.com',
-                    password: 'laPassword',
-                    telefono: 8442736598,
-                    direccion: 'calle valencia #345 col. Zaragoza',
-                    fotoINE: urlFoto
+                    ...cliente
                 }
+                client.fotoINE = urlFoto
 
                 axios.post(`${process.env.REACT_APP_API_URL}/registro/newClient`, client)
                     .then(resp => {
+                        console.log(resp)
                         if (resp.data.message === 'CREATION SUCCESS') {
                             console.log("Usuario creado")
                             dispatch(nuevoCliente(id))
@@ -128,23 +124,17 @@ export const registroNuevoNegocio = (negocio) => {
                     console.log('primer foto subida')
                     console.log(urlINE)
                     console.log('subiendo segunda foto...')
-                    subirFoto('business', id, negocio.fotoNegocio)
+                    subirFoto('business', id, negocio.img)
                         .then(urlNegocio => {
                             console.log('segunda foto subida')
                             console.log(urlNegocio)
                             console.log(`Creando usuario...`)
-                            const business = {
-                                id: id,
-                                name: 'Pancho',
-                                apellidos: 'Gonzalez Salgado',
-                                email: 'negocio1@test.com',
-                                password: 'laPassword',
-                                telefono: 8442736598,
-                                direccion: 'calle valencia #345 col. Zaragoza',
-                                fotoINE: urlINE,
-                                img: urlNegocio
+                            let business = {
+                                ...negocio
                             }
-                            axios.post(`${process.env.REACT_APP_API_URL}/registro/newBusiness`, business)
+                            business.fotoINE = urlINE
+                            business.img = urlNegocio
+                            axios.post(`${process.env.REACT_APP_API_URL} `, business)
                                 .then(resp => {
                                     if (resp.data.message === 'CREATION SUCCESS') {
                                         console.log("business creado")
