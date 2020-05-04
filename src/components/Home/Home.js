@@ -11,7 +11,6 @@ import * as actions from '../../store/actions/';
 
 import './Home.scss';
 
-import ImageUpload from './ImageUpload';
 const Home = props => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

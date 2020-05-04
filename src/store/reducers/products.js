@@ -38,7 +38,7 @@ const initialState = {
 
 const getProducts = (state, action) => {
     return updateObject(state, {
-
+        
     })
 }
 

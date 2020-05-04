@@ -43,3 +43,9 @@ export const closeEditProduct = () => {
         type: actionTypes.CLOSE_EDIT_PRODUCT
     }
 }
+
+export const clickAddProduct = () => {
+    return {
+        type: actionTypes.BUSINESS_CLICK_ADD_PRODUCT
+    }
+}
