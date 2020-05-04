@@ -57,8 +57,8 @@ export const registrarNuevoCliente = (image, cliente) => {
                 console.log('creando usuario...')
 
                 let client = {
-                    id: id,
-                    ...cliente
+                    ...cliente,
+                    id: id
                 }
                 client.fotoINE = urlFoto
 
