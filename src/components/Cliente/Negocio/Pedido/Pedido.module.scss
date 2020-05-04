@@ -1,0 +1,98 @@
+@import "../../../../styles/Colors.scss";
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.883);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 100;
+    border-radius: 1.5rem;
+    width: 21em;
+    height: 33em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    &_body {
+        position: relative;
+        display: flex;
+        width: 17em;
+        float: left;
+        padding: 3px;
+    }
+
+    &_price {
+        position: relative;
+        display: flex;
+        width: 3em;
+        float: right;
+        padding: 3px;
+    }
+
+    &_deliver {
+        width: 9em;
+        float: left;
+    }
+
+    &_noDeliver {
+        width: 9em;
+        float: right;
+    }
+
+    & Button {
+        font-size: 1.5em;
+        position: relative;
+        background: #482856;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+        width: 93%;
+        margin: 6% auto;
+    }
+}
+
+.pedidos_image {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 150px;
+    padding: 5px;
+
+    &_noDeliver {
+        border: 2px solid red;
+    }
+
+    &_deliver {
+        border: 2px solid green;
+    }
+}
+
+h4 {
+    margin-left: 1.5em;
+}
+h1 {
+    margin-left: -5.5em;
+}
+input {
+    height: 1.5em;
+    width: 20em;
+    border-radius: 1em;
+    margin: 1.3em;
+}
+
+@media only screen and (max-width: 1024px) {
+    .modal {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 27em;
+
+        &_price {
+            position: relative;
+            display: flex;
+            width: 2em;
+            float: right;
+            padding: 3px;
+        }
+    }
+}

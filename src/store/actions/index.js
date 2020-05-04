@@ -18,7 +18,15 @@ export {
     OpenSelectedProduct,
     CloseSelectedProduct,
     AddOneToSelectedProduct,
-    DelOneToSelectedProduct
+    DelOneToSelectedProduct,
+    OpenOrderModal,
+    CloseOrderModal,
+    OrderIsToGo,
+    OrderToPickUp,
+    CreditCardPayment,
+    CashPayment,
+    BackToDeliverOption,
+    CancelOrder
 } from './cliente'
 
 export {

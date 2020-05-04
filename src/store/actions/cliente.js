@@ -35,6 +35,66 @@ import axios from 'axios';
 //     }
 // }
 
+export const CancelOrder = () => {
+    return {
+        type: actionTypes.CLIENTE_PEDIDO_CANCELAR
+    }
+}
+export const AcceptOrder = () => {
+    return {
+        type: actionTypes.CLIENTE_PEDIDO_ACEPTAR
+    }
+}
+export const BackToDeliverOption = () => {
+    return {
+        type: actionTypes.CLIENTE_REGRESAR_OPCION_PEDIDO
+    }
+}
+export const CashPayment = () => {
+    return {
+        type: actionTypes.CLIENTE_PAGO_EFECTIVO
+    }
+}
+export const CreditCardPayment = () => {
+    return {
+        type: actionTypes.CLIENTE_PAGO_TARJETA
+    }
+}
+
+export const OpenOrderModal = () => {
+    return {
+        type: actionTypes.CLIENTE_MODAL_ORDEN_ABRIR    
+    }
+}
+
+export const CloseOrderModal = () => {
+    return {
+        type: actionTypes.CLIENTE_MODAL_ORDEN_CERRAR
+
+    }
+}
+
+export const OrderIsToGo = (location) => {
+    return {
+        type: actionTypes.CLIENTE_PEDIDO_CASA,
+        location: 'location'
+    }
+}
+
+export const OrderLocation = () => {
+    return {
+        type: actionTypes.CLIENTE_PEDIDO_CASA,
+        location: 'location'
+    }
+}
+
+export const OrderToPickUp = () => {
+    return {
+        type: actionTypes.CLIENTE_PEDIDO_RECOGER,
+        location: 'location'
+    }
+}
+
 export const OpenSelectedProduct = (product) => {
     return {
         type: actionTypes.OPEN_ADD_DEL_OPTIONS,
