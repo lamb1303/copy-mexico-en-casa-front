@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
+import axios from '../../axios';
 
 export const OpenSelectedProduct = (product) => {
     return {
@@ -53,25 +53,27 @@ export const checkout = (orderToSend) => {
         dispatch(checkoutInit());
         console.log('CHECKOUT INICIADO...')
         const order = {
-            clientId: "cl1",
-            name: "Maria",
+            clientId: "cl2",
+            negocioId: "ng1",
+            name: "Shrek",
             products: {
                 productId1: {
-                    name: "Pizza",
-                    amount: 1
-                },
-                productId2: {
                     name: "Amborguesa",
                     amount: 2
                 },
+                productId2: {
+                    name: "Taquitos",
+                    amount: 2
+                },
                 productId3: {
-                    name: "Tacos",
-                    amount: 4
+                    name: "Algo mas",
+                    amount: 2
                 }
             },
             date: new Date().toLocaleString(),
             metodoPago: "Efectivo",
-            metodoEntrega: "Domicilio"
+            metodoEntrega: "Local",
+            stage: "receivedOrders"
         }
 
         axios.post(`${process.env.REACT_APP_API_URL}/client/checkout`, order)

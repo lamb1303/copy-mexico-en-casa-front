@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import classes from './Pedido.module.css'
 import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
 import * as actions from '../../../../../../store/actions';
-
+import Options from '../../../../../UI/PurchaseOptions/Options';
 const Pedido = props => {
 
-    const check = (checked, prodId) => {
+    const check = (checked) => {
+        if (props.ready) {
+            return;
+        }
         if (props.orders) {
-            props.checkReceivedOrder(checked, props.clientId);
+            props.checkReceivedOrder(!checked, props.clientId);
         } else {
-            props.checkPreparedOrder(checked, props.clientId);
+            props.checkPreparedOrder(!checked, props.clientId);
         }
     }
 
@@ -24,17 +27,18 @@ const Pedido = props => {
         )
     })
 
+    let checked = '';
+    if (props.checked) checked = 'checked'
 
     return (
-        <div className={classes.pedidoContainer} >
+        <div className={[classes.pedidoContainer, classes[checked]].join(' ')} onClick={() => check(props.checked)} >
             <div className={classes.pedidoDetails} >
                 <div className={classes.clientName} >{props.clientName}</div>
                 {list}
             </div>
-            {props.ready ? <div></div> : <Checkbox
-                checked={props.check}
-                onChange={(event) => check(event.target.checked)}
-            />}
+            <div className={classes.options} >
+                <Options envio={props.envio} pago={props.pago} />
+            </div>
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Button from '../../../../UI/Button/Button';
 import * as actions from '../../../../../store/actions';
 import classes from './BotonesPedido.module.scss';

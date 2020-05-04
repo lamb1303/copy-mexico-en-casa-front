@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
+// import axios from 'axios';
 
 export const initializeRequest = () => {
     return {
@@ -7,16 +7,16 @@ export const initializeRequest = () => {
     }
 }
 
-export const login = (credentials) =>{
+export const login = (credentials) => {
     return dispatch => {
 
         //dispatch(initializeRequest());
         // axios.post('/laurl/api/login', credentials)
         //     .then(response => {
         //         if (response.data.status === 201) {
-                     dispatch(logging("145755SDFSD"));
+        dispatch(logging("145755SDFSD"));
         //         } else {
-                    
+
         //         }
         //     })
     }

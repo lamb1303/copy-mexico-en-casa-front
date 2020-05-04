@@ -13,7 +13,9 @@ const ListaPedidos = props => {
                     clientId={clientId}
                     clientName={props.receivedOrders[clientId].name}
                     orderList={props.receivedOrders[clientId].products}
-                    check={props.receivedOrders[clientId].checked}
+                    envio={props.receivedOrders[clientId].metodoEntrega}
+                    pago={props.receivedOrders[clientId].metodoPago}
+                    checked={props.receivedOrders[clientId].checked}
                 />
             })}
         </Fragment>
@@ -28,14 +30,17 @@ const ListaPedidos = props => {
                         clientId={clientId}
                         clientName={props.prepareOrders[clientId].name}
                         orderList={props.prepareOrders[clientId].products}
-                        check={props.prepareOrders[clientId].checked}
+                        envio={props.prepareOrders[clientId].metodoEntrega}
+                        pago={props.prepareOrders[clientId].metodoPago}
+                        checked={props.prepareOrders[clientId].checked}
                     />
                 })}
             </Fragment>
         )
     }
-
+    let pedidoReady = '';
     if (props.ready) {
+        pedidoReady = 'readyList';
         pedidos = (
             <Fragment>
                 {Object.keys(props.readyOrders).map(clientId => {
@@ -45,6 +50,29 @@ const ListaPedidos = props => {
                         clientName={props.readyOrders[clientId].name}
                         orderList={props.readyOrders[clientId].products}
                         check={props.readyOrders[clientId].checked}
+                        envio={props.readyOrders[clientId].metodoEntrega}
+                        pago={props.readyOrders[clientId].metodoPago}
+                        checked={props.readyOrders[clientId].checked}
+                    />
+                })}
+            </Fragment>
+        )
+    }
+
+    if (props.entregado) {
+        //change props.readyOrders por los que ya fueron entregados, (calificados)
+        pedidos = (
+            <Fragment>
+                {Object.keys(props.readyOrders).map(clientId => {
+                    return <Pedido
+                        key={clientId}
+                        clientId={clientId}
+                        clientName={props.readyOrders[clientId].name}
+                        orderList={props.readyOrders[clientId].products}
+                        check={props.readyOrders[clientId].checked}
+                        envio={props.readyOrders[clientId].metodoEntrega}
+                        pago={props.readyOrders[clientId].metodoPago}
+                        checked={props.readyOrders[clientId].checked}
                     />
                 })}
             </Fragment>
@@ -52,7 +80,7 @@ const ListaPedidos = props => {
     }
 
     return (
-        <div className={classes.listaPedidos} >
+        <div className={[classes.listaPedidos, classes[pedidoReady]].join(' ')} >
             {pedidos}
         </div>
     )

@@ -26,3 +26,12 @@
 .pedidoDesc div:nth-child(2){
     margin-left: 55%;
 }
+
+.options{
+    display: flex;
+    align-items: center;
+}
+
+.checked{
+    border: 2px solid #F6A030;
+}

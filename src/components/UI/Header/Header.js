@@ -10,10 +10,10 @@ const Header = props => {
     const location = useLocation();
 
     let displayB = true
-    let space = ""
+    // let space = ""
     if (location.pathname === '/registro') {
         displayB = false
-        space = " space"
+        // space = " space"
     }
 
     return (

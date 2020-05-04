@@ -22,9 +22,9 @@ export {
     checkout
 } from './cliente'
 
-export {
-    getProducts,
-} from './products'
+// export {
+//     getProducts,
+// } from './products'
 
 export {
     openEditNegocio,
@@ -40,7 +40,10 @@ export {
     checkPreparingOrder,
     checkReceivedOrder,
     empezarPedido,
-    terminarPedido
+    terminarPedido,
+    getPedidoNegocioId,
+    getPedidoPreparing,
+    getPedidoReady
 } from './negocio'
 
 export {

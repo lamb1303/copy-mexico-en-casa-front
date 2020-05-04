@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react';
 import classes from './PlaceCard.module.css';
-import domicilio from '../../assets/domicilio.PNG';
-import { ReactComponent as Local } from '../../assets/local.svg';
-import efectivo from '../../assets/efectivo.PNG';
-import tarjeta from '../../assets/tarjeta.PNG';
+
+import Options from '../../../UI/PurchaseOptions/Options';
 import { ReactComponent as Star } from '../../assets/star.svg';
 import { ReactComponent as EmptyStar } from '../../assets/emptyStar.svg';
 
@@ -28,16 +26,7 @@ const PlaceCard = () => {
                     <p className={classes.description} >Gorditas de chicharron, de mole y frijol hechas a manuela </p>
                     <div className={classes.stars} >{stars} </div>
                 </div>
-                <div className={classes.options} >
-                    <div className={classes.delivery} >
-                        <img alt='domicilio' src={domicilio} />
-                        <Local />
-                    </div>
-                    <div className={classes.pay} >
-                        <img alt='efectivo' src={efectivo} />
-                        <img alt='tarjeta' src={tarjeta} />
-                    </div>
-                </div>
+                <Options />
             </div>
         </div >
     )

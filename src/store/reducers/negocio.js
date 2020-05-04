@@ -3,6 +3,7 @@ import { updateObject } from '../utility';
 
 const initialState = {
     editMode: false,
+    getPedidosloading: false,
     selectedNegocio: {
         name: 'El nombre',
         desc: 'Esta es la tienda de la señora tencha! donde vera las mejores tortas jaja'
@@ -13,97 +14,163 @@ const initialState = {
     orders: true,
     preparing: false,
     ready: false,
-    receivedOrders: {
+    loading: false,
+    error: false,
+    receivedOrders:
+    {
         cl1: {
-            name: "Maria",
+            stage: 'receivedOrders',
+            negocioId: 'ng1',
             products: {
+                productId3: {
+                    name: 'Algo mas',
+                    amount: 2
+                },
                 productId1: {
-                    name: "Pizza",
-                    amount: 1
+                    name: 'Amborguesa',
+                    amount: 2
                 },
                 productId2: {
-                    name: "Amborguesa",
+                    name: 'Taquitos',
                     amount: 2
-                },
-                productId3: {
-                    name: "Tacos",
-                    amount: 4
                 }
             },
-            checked: false,
-            telefono: 894548548,
-            ubicacion: ""
+            name: 'Shrek',
+            metodoEntrega: 'Local',
+            date: '2/5/2020 0:22:00',
+            clientId: 'cl1',
+            metodoPago: 'Efectivo',
+            orderId: '7f3bca28-3335-4176-92de-39139898b116',
+            checked: false
         },
         cl2: {
-            name: "Miguel",
+            metodoPago: 'Efectivo',
+            stage: 'receivedOrders',
+            negocioId: 'ng1',
             products: {
+                productId3: {
+                    amount: 2,
+                    name: 'Algo mas'
+                },
                 productId1: {
-                    name: "Torta",
+                    name: 'Amborguesa',
                     amount: 2
                 },
-                "productId2": {
-                    name: "Amborguesa",
+                productId2: {
+                    name: 'Taquitos',
                     amount: 2
                 }
             },
+            name: 'Shrek',
+            metodoEntrega: 'Local',
+            date: '3/5/2020 14:54:17',
+            clientId: 'cl2',
+            orderId: '9c38168a-66e9-423c-bd08-d24801efb690',
+            checked: false
+        }
+    },
+    prepareOrders: {},
+    readyOrders: {
+        cl1: {
+            stage: 'readyOrders',
+            negocioId: 'ng1',
+            products: {
+                productId3: {
+                    name: 'Algo mas',
+                    amount: 2
+                },
+                productId1: {
+                    name: 'Amborguesa',
+                    amount: 2
+                },
+                productId2: {
+                    name: 'Taquitos',
+                    amount: 2
+                }
+            },
+            name: 'Shrek',
+            metodoEntrega: 'Local',
+            date: '2/5/2020 0:22:00',
+            clientId: 'cl1',
+            metodoPago: 'Efectivo',
+            orderId: '7f3bca28-3335-4176-92de-39139898b116',
+            checked: false
+        },
+        cl2: {
+            stage: 'readyOrders',
+            negocioId: 'ng1',
+            products: {
+                productId3: {
+                    name: 'Algo mas',
+                    amount: 2
+                },
+                productId1: {
+                    name: 'Amborguesa',
+                    amount: 2
+                },
+                productId2: {
+                    name: 'Taquitos',
+                    amount: 2
+                }
+            },
+            name: 'Shrek Tercero',
+            metodoEntrega: 'Local',
+            date: '2/5/2020 0:22:00',
+            clientId: 'cl2',
+            metodoPago: 'Efectivo',
+            orderId: '7f3bca28-3335-4176-92de-39139898b116',
             checked: false
         },
         cl3: {
-            name: "Juan",
+            stage: 'readyOrders',
+            negocioId: 'ng1',
             products: {
+                productId3: {
+                    name: 'Algo mas',
+                    amount: 2
+                },
                 productId1: {
-                    name: "Pizza",
-                    amount: 1
-                }
-            },
-            checked: false
-        }
-    },
-    prepareOrders: {
-        cl4: {
-            name: "Shrek",
-            products: {
-                productId1: {
-                    name: "Tacos",
-                    amount: 5
+                    name: 'Amborguesa',
+                    amount: 2
                 },
                 productId2: {
-                    name: "Amborguesa",
+                    name: 'Taquitos',
                     amount: 2
                 }
             },
+            name: 'Shrek',
+            metodoEntrega: 'Local',
+            date: '2/5/2020 0:22:00',
+            clientId: 'cl1',
+            metodoPago: 'Efectivo',
+            orderId: '7f3bca28-3335-4176-92de-39139898b116',
             checked: false
         },
-        cl5: {
-            name: "Donald",
+        cl4: {
+            stage: 'readyOrders',
+            negocioId: 'ng1',
             products: {
+                productId3: {
+                    name: 'Algo mas',
+                    amount: 2
+                },
                 productId1: {
-                    name: "Gorditas",
-                    amount: 3
+                    name: 'Amborguesa',
+                    amount: 2
                 },
                 productId2: {
-                    name: "Amborguesa",
+                    name: 'Taquitos',
                     amount: 2
                 }
             },
+            name: 'Shrek Tercero',
+            metodoEntrega: 'Local',
+            date: '2/5/2020 0:22:00',
+            clientId: 'cl2',
+            metodoPago: 'Efectivo',
+            orderId: '7f3bca28-3335-4176-92de-39139898b116',
             checked: false
-        }
-    },
-    readyOrders: {
-        cl6: {
-            name: "El barto",
-            products: {
-                productId1: {
-                    name: "Torta",
-                    amount: 3
-                },
-                productId2: {
-                    name: "Tacos",
-                    amount: 2
-                }
-            },
-            checked: false
-        }
+        },
     },
     checkedOrders: {},
     checkedPrepare: {}
@@ -249,7 +316,8 @@ const empezarPedido = (state, action) => {
     return updateObject(state, {
         receivedOrders: receivedOrders,
         prepareOrders: prepareOrders,
-        checkedOrders: {}
+        checkedOrders: {},
+        loading: false
     });
 }
 
@@ -267,9 +335,57 @@ const terminarPedido = (state, action) => {
     return updateObject(state, {
         prepareOrders: prepareOrders,
         readyOrders: readyOrders,
-        checkedPrepare: {}
+        checkedPrepare: {},
+        loading: false
     })
 }
+
+const getPedidosInit = (state, action) => {
+    return updateObject(state, {
+        getPedidosloading: true
+    })
+}
+
+const getPedidosSuccess = (state, action) => {
+    return updateObject(state, {
+        getPedidosloading: false,
+        receivedOrders: action.ordenes
+    })
+}
+
+const getPrepareSuccess = (state, action) => {
+    return updateObject(state, {
+        getPedidosloading: false,
+        prepareOrders: action.prepare
+    })
+}
+
+const getFinishSuccess = (state, action) => {
+    return updateObject(state, {
+        getPedidosloading: false,
+        readyOrders: action.ready
+    })
+}
+
+const getPedidosFail = (state, action) => {
+    return updateObject(state, {
+        getPedidosloading: false
+    })
+}
+
+const loadingPedido = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+const changeStageFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: true
+    })
+}
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -287,6 +403,13 @@ const reducer = (state = initialState, action) => {
         case actionTypes.CHECKED_RECEIVED_ORDER: return checkReceivedOrder(state, action);
         case actionTypes.EMPEZAR_PEDIDO: return empezarPedido(state, action);
         case actionTypes.TERMINAR_PEDIDO: return terminarPedido(state, action);
+        case actionTypes.GET_PEDIDOS_INIT: return getPedidosInit(state, action);
+        case actionTypes.GET_PEDIDOS_SUCCESS: return getPedidosSuccess(state, action);
+        case actionTypes.GET_PEDIDOS_NEGOCIO_ID_FAIL: return getPedidosFail(state, action);
+        case actionTypes.GET_PREPARING_SUCCESS: return getPrepareSuccess(state, action);
+        case actionTypes.GET_READY_SUCCESS: return getFinishSuccess(state, action);
+        case actionTypes.LOADING_PEDIDOS: return loadingPedido(state, action);
+        case actionTypes.CHANGE_STAGE_FAIL: return changeStageFail(state, action);
         default: return state
     }
 }

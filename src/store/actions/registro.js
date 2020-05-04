@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
+import axios from '../../axios';
 import firebase from '../../firebase/config';
 const { v4: uuid } = require('uuid');
 
@@ -49,8 +49,8 @@ export const registrarNuevoCliente = (image, cliente) => {
         const id = uuid();
         console.log('iniciando subida de img..')
 
-        subirFoto('clients', id, image).
-            then(urlFoto => {
+        subirFoto('clients', id, image)
+            .then(urlFoto => {
                 console.log('Imagen subida')
                 console.log(urlFoto);
 
@@ -117,10 +117,7 @@ export const registroNuevoNegocio = (negocio) => {
     return dispatch => {
         dispatch(initRegister());
         const id = uuid();
-        let fotoINE = '';
         console.log('iniciando...')
-        let fotoNegocio = '';
-        let uploadTask;
         try {
             console.log('subiendo primer foto...')
             subirFoto('business', id, negocio.fotoINE)

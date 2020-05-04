@@ -5,3 +5,12 @@
     position: relative;
     height: calc(100vh - 120px);
 }
+
+.entregado {
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.entregado span{
+    color: #a2a2a2
+}
