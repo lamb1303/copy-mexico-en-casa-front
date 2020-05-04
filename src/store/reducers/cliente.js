@@ -12,7 +12,7 @@ const initialState = {
     orderPrice: 0,
     openOrder: false,
     deliver: null,
-    payment: null
+    payment: null,
     checkoutError: null
 }
 
@@ -23,7 +23,7 @@ const cancelOrder = (state, action) => {
         productCount: [],
         orderPrice: 0,
         openOrder: false
-    } )
+    })
 }
 
 const backToDeliver = (state, action) => {

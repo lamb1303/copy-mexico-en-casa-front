@@ -166,7 +166,8 @@ const EditProduct = props => {
 const mapStateToProps = state => {
     return {
         editMode: state.negocio.editMode,
-        selectedProduct: state.negocio.selectedProduct
+        selectedProduct: state.negocio.selectedProduct,
+        showSidebar: state.negocio.showSidebar
     }
 }
 

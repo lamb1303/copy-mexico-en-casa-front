@@ -27,8 +27,8 @@ export {
     CreditCardPayment,
     CashPayment,
     BackToDeliverOption,
-    CancelOrder
-    checkout
+    CancelOrder,
+    checkout,
     DelOneToSelectedProduct,
 } from './cliente'
 
