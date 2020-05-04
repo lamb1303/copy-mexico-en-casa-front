@@ -7,8 +7,8 @@ const Products = props => {
 
     return (
         <div className={classes.products} >
-            {props.products && props.products.
-                map(prod => {
+            {props.products && props.products
+                .map(prod => {
 
                     let selected = false
                     if (props.selectedProd === prod.name) {

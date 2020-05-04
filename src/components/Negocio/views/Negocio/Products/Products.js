@@ -6,8 +6,8 @@ import Product from './Product';
 const Products = props => {
     return (
         <div className={classes.products}>
-            {props.products && props.products.
-                map(prod => {
+            {props.products && props.products
+                .map(prod => {
 
                     return <Product
                         key={prod.name}

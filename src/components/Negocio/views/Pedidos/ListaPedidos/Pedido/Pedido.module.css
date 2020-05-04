@@ -1,0 +1,37 @@
+.pedidoContainer{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    justify-content: space-between;
+    margin: 2% 0;
+}
+
+.pedidoDetails{
+    width: 60%;
+}
+
+.pedidoDetails .clientName{
+    color: #482856;
+    font-weight: bold;
+}
+
+.pedidoDesc{
+    display: flex;
+    font-size: 1.1rem;
+}
+
+
+.pedidoDesc div:nth-child(2){
+    margin-left: 55%;
+}
+
+.options{
+    display: flex;
+    align-items: center;
+}
+
+.checked{
+    border: 2px solid #F6A030;
+}

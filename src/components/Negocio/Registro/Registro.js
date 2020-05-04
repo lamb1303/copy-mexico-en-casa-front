@@ -17,6 +17,7 @@ import * as actions from '../../../store/actions'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import ImageUpload from '../../UI/ImageUpload/ImageUpload';
+import img from '../../../assets/default_Image.png'
 
 
 const Registro = (props) => {
@@ -55,14 +56,27 @@ const Registro = (props) => {
     const [local, setLocal] = useState(false)
     const [aviso, setAviso] = useState(false)
     const [fotoNegocio, setFotoNegocio] = useState(null)
-    const [fotoMenu, setFotoMenu] = useState(null)
     const [fotoIne, setFotoIne] = useState(null)
-    
+    const [verifyName, setVerifyName] = useState("f")
+    const [verifyLastName, setVerifyLastName] = useState("f")
+    const [verifyEmail, setVerifyEmail] = useState("f")
+    const [verifyPassword, setVerifyPassword] = useState("f")
+    const [verifyTelefono, setVerifyTelefono] = useState("f")
+    const [verifyDireccion, setVerifyDireccion] = useState("f")
+    const [verifyDescripcion, setVerifyDescripcion] = useState("f")
+    const [verifyNameNegocio, setVerifyNameNegocio] = useState("f")
+
+
+
+
 
     const send = () => {
 
-        if (name !== "" && lastName !== "" && email !== "" && password !== null && number !== "" && nNegocio !== "" &&
-            descNegocio !== "" && dNegocio !== "" && fotoIne !== null && fotoNegocio !== null) {
+        verificaciones()
+
+        console.log('si llegue')
+        if (name !== "" && lastName !== "" && email !== "" && password !== "" && number !== "" && nNegocio !== "" &&
+            descNegocio !== "" && dNegocio !== "" && setFotoIne !== null && fotoNegocio !== null) {
             const ob = {
                 nameResponsable: name,
                 apellidos: lastName,
@@ -73,7 +87,6 @@ const Registro = (props) => {
                 direccion: dNegocio,
                 desc: descNegocio,
                 img: fotoNegocio,
-                fotoMenu: fotoMenu,
                 fotoId: fotoIne,
                 horario: [
                     {
@@ -124,10 +137,55 @@ const Registro = (props) => {
                 verificado: false,
 
             }
+            console.log(ob)
+
             props.nuevoNegocio(ob)
-            this.history.push('/RegisroClientes')
+            props.history.push('/RegistroCliente')
         }
 
+    }
+
+    const verificaciones = () => {
+        if (name === "") {
+            setVerifyName("")
+        } else {
+            setVerifyName("f")
+        }
+        if (lastName === "") {
+            setVerifyLastName("")
+        } else {
+            setVerifyLastName("f")
+        }
+        if (email === "") {
+            setVerifyEmail("")
+        } else {
+            setVerifyEmail("f")
+        }
+        if (password === "") {
+            setVerifyPassword("")
+        } else {
+            setVerifyPassword("f")
+        }
+        if (number === "") {
+            setVerifyTelefono("")
+        } else {
+            setVerifyTelefono("f")
+        }
+        if (nNegocio === "") {
+            setVerifyNameNegocio("")
+        } else {
+            setVerifyNameNegocio("f")
+        }
+        if (descNegocio === "") {
+            setVerifyDescripcion("")
+        } else {
+            setVerifyDescripcion("f")
+        }
+        if (dNegocio === "") {
+            setVerifyDireccion("")
+        } else {
+            setVerifyDireccion("f")
+        }
     }
 
     const onSubirImagen = (id, pickedFile, fileIsValid) => {
@@ -136,17 +194,12 @@ const Registro = (props) => {
                 case 'fotoNegocio':
                     setFotoNegocio(pickedFile)
                     break;
-                case 'fotoMenu':
-                    setFotoMenu(pickedFile)
-                    break;
                 case 'fotoIne':
                     setFotoIne(pickedFile)
                     break;
                 default:
                     break;
             }
-            console.log(pickedFile)
-
         }
     }
 
@@ -155,7 +208,7 @@ const Registro = (props) => {
         for (i = 0; i < 24; i++) {
             for (j = 0; j < 2; j++) {
                 let hour = (i <= 9 ? "0" + i : i) + ":" + (j === 0 ? "00" : 30 * j);
-                arr.push(<option value={hour}>{hour}</option>)
+                arr.push(<option key={Math.random() * (10 - 1) + 2} value={hour}>{hour}</option>)
             }
         }
         return arr
@@ -169,37 +222,37 @@ const Registro = (props) => {
                     </h2>
                 <div className='informacionPersonal'>
                     <TextField
-                        error = { name ? false : true}
+                        error={verifyName ? false : true}
                         value={name}
                         onChange={(event) => setName(event.target.value)}
                         required
-                        helperText ={name ? "" : "Campo requeridos"}
+                        helperText={verifyName ? "" : "Campo requeridos"}
                         label="Nombre"
                         defaultValue=""
                         variant="outlined"
                     />
                     <TextField
-                        error = { lastName ? false : true}
+                        error={verifyLastName ? false : true}
                         value={lastName}
                         onChange={(event) => setLastName(event.target.value)}
                         required
                         label="Apellidos"
                         defaultValue=""
                         variant="outlined"
-                        helperText ={lastName ? "" : "Campo requeridos"}
+                        helperText={verifyLastName ? "" : "Campo requeridos"}
                     />
                     <TextField
-                    error = {email ? false : true}
+                        error={verifyEmail ? false : true}
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                         required
                         label="Email"
                         defaultValue=""
                         variant="outlined"
-                        helperText ={email ? "" : "Campo requeridos"}
+                        helperText={verifyEmail ? "" : "Campo requeridos"}
                     />
                     <TextField
-                    error = { password ? false : true}
+                        error={verifyPassword ? false : true}
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         required
@@ -207,17 +260,17 @@ const Registro = (props) => {
                         type="password"
                         defaultValue=""
                         variant="outlined"
-                        helperText ={password ? "" : "Campo requeridos"}
+                        helperText={verifyPassword ? "" : "Campo requeridos"}
                     />
                     <TextField
-                    error = {number ? false : true}
+                        error={verifyTelefono ? false : true}
                         value={number}
                         onChange={(event) => setNumber(event.target.value)}
                         required
                         label="Telefono"
                         defaultValue=""
                         variant="outlined"
-                        helperText ={number ? "" : "Campo requeridos"}
+                        helperText={verifyTelefono ? "" : "Campo requeridos"}
                     />
                 </div>
 
@@ -228,60 +281,56 @@ const Registro = (props) => {
                 <div className='datosNegocio'>
                     <div>
                         <TextField
-                        error = {nNegocio ? false : true}
+                            error={verifyNameNegocio ? false : true}
                             value={nNegocio}
                             onChange={(event) => setNombreNegocio(event.target.value)}
                             required
                             label="Nombre del negocio"
                             defaultValue=""
                             variant="outlined"
-                            helperText ={nNegocio ? "" : "Campo requeridos"}
+                            helperText={verifyNameNegocio ? "" : "Campo requeridos"}
                         />
                         <TextField
-                        error = {dNegocio ? false : true}
+                            error={verifyDireccion ? false : true}
                             value={dNegocio}
                             onChange={(event) => setDNegocio(event.target.value)}
                             required
                             label="Direccion del negocio"
                             defaultValue=""
                             variant="outlined"
-                            helperText ={dNegocio ? "" : "Campo requeridos"}
+                            helperText={verifyDireccion ? "" : "Campo requeridos"}
+                            multiline
+                            rows={4}
                         />
                         <TextField
-                        error = {descNegocio ? false : true}
+                            error={verifyDescripcion ? false : true}
                             value={descNegocio}
                             onChange={(event) => setDescNegocio(event.target.value)}
                             required
                             label="Descipcion del negocio"
                             defaultValue=""
                             variant="outlined"
-                            helperText ={descNegocio ? "" : "Campo requeridos"}
+                            helperText={verifyDireccion ? "" : "Campo requeridos"}
                         />
                     </div>
                     <div>
                         <ImageUpload
                             id='fotoNegocio'
-                            onInput={(pickedFile, fileIsValid) => onSubirImagen('fotoNegocio', pickedFile, fileIsValid)}
-                            errorText='Please provide an image'
-                            text='foto del negocio'
+                            onInput={(id, pickedFile, fileIsValid) => onSubirImagen(id, pickedFile, fileIsValid)}
+                            errorText='Por favor, Agregar imagen'
+                            message='foto del negocio'
+                            img={img}
                         />
                         <ImageUpload
-                            id='fotoMenu'
-                            onInput={(pickedFile, fileIsValid) => onSubirImagen('fotoMenu', pickedFile, fileIsValid)}
-                            errorText='Please provide an image'
-                            text='foto del menu'
+                            id='fotoIne'
+                            onInput={(id, pickedFile, fileIsValid) => onSubirImagen(id, pickedFile, fileIsValid)}
+                            errorText='Por favor, Agregar imagen'
+                            message='Foto frontal de la crendencial'
+                            img={img}
                         />
                     </div>
                 </div>
                 <div className='datosNegocio2'>
-                    <div>
-                        <ImageUpload
-                            id='fotoIne'
-                            onInput={(pickedFile, fileIsValid) => onSubirImagen('fotoIne', pickedFile, fileIsValid)}
-                            errorText='Please provide an image'
-                            text='Foto parte delantera de tu INE'
-                        />
-                    </div>
                     <div>
                         <span>Horario del trabajo</span>
                         <TableContainer component={Paper}>
@@ -596,7 +645,7 @@ const Registro = (props) => {
             />
 
             <div className='crearCuenta'>
-                <Button onClick={() => send()} btnType='Success' >Registrar</Button>
+                <Button clicked={() => send()} btnType='Success' >Registrar</Button>
             </div>
 
         </section>
