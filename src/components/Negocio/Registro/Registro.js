@@ -65,6 +65,7 @@ const Registro = (props) => {
     const [verifyDireccion, setVerifyDireccion] = useState("f")
     const [verifyDescripcion, setVerifyDescripcion] = useState("f")
     const [verifyNameNegocio, setVerifyNameNegocio] = useState("f")
+    const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 
 
 
@@ -76,7 +77,7 @@ const Registro = (props) => {
 
         console.log('si llegue')
         if (name !== "" && lastName !== "" && email !== "" && password !== "" && number !== "" && nNegocio !== "" &&
-            descNegocio !== "" && dNegocio !== "" && setFotoIne !== null && fotoNegocio !== null) {
+            descNegocio !== "" && dNegocio !== "" && setFotoIne !== null && fotoNegocio !== null && emailRegex.test(email)) {
             const ob = {
                 nameResponsable: name,
                 apellidos: lastName,
@@ -87,7 +88,7 @@ const Registro = (props) => {
                 direccion: dNegocio,
                 desc: descNegocio,
                 img: fotoNegocio,
-                fotoId: fotoIne,
+                fotoINE: fotoIne,
                 horario: [
                     {
                         lunes: lunes,
@@ -132,10 +133,7 @@ const Registro = (props) => {
                 metodoEnvio: {
                     domicilio: domicilio,
                     local: local
-                },
-                calificacion: 0,
-                verificado: false,
-
+                }
             }
             console.log(ob)
 
@@ -156,7 +154,7 @@ const Registro = (props) => {
         } else {
             setVerifyLastName("f")
         }
-        if (email === "") {
+        if (email === "" || emailRegex.test(email)) {
             setVerifyEmail("")
         } else {
             setVerifyEmail("f")

@@ -25,12 +25,13 @@ const RegistroCliente = (props) => {
     const [verifyPassword, setVerifyPassword] = useState("f")
     const [verifyTelefono, setVerifyTelefono] = useState("f")
     const [verifyDireccion, setVerifyDireccion] = useState("f")
+    const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 
     const send = () => {
         verificaciones()
         console.log('si llegue')
         if (name !== "" && lastName !== "" && email !== "" && password !== "" && number !== ""  &&
-            setFotoIne !== null) {
+            setFotoIne !== null && emailRegex.test(email)) {
             const ob = {
                 apellidos: lastName,
                 email: email,
@@ -38,14 +39,14 @@ const RegistroCliente = (props) => {
                 telefono: number,
                 name: name,
                 direccion: direccion,
-                fotoId: fotoIne,
+                fotoINE: fotoIne,
                 
 
             }
             console.log(ob)
 
-            props.nuevoCliente(ob)
-            props.history.push('/RegistroCliente')
+            props.nuevoCliente(ob.fotoINE,ob)
+            //props.history.push('/RegistroCliente')
         }
 
     }
@@ -61,7 +62,7 @@ const RegistroCliente = (props) => {
         } else {
             setVerifyLastName("f")
         }
-        if (email === "") {
+        if (email === "" || !emailRegex.test(email)) {
             setVerifyEmail("")
         } else {
             setVerifyEmail("f")
