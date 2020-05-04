@@ -97,3 +97,36 @@ export const registroNuevoNegocio = (negocio) => {
         //si no lo crea mandar mensaje de error
     }
 }
+
+export const addProductClosed = () =>{
+    return {
+        type: actionTypes.CLOSE_ADD_PRODUCT
+    }
+}
+
+export const addProduct = (foodProduct) => {
+    return dispatch => {
+        //
+        if (foodProduct) {
+            // axios.post('`${process.env.REACT_APP_API_URL}/registro/addProduct`')
+            //     .then(response => {
+            //        const data = response.data;
+            //         if(data.status === 201){
+              //          dispatch(productAdded(data.message));
+              dispatch(productAdded("Platillo creado"));
+                //     }
+                // }
+
+                // )
+        }
+
+    }
+
+}
+
+const productAdded = (message) => {
+    return {
+        type: actionTypes.ADDED_FOOD_PRODUCT,
+        message: message,
+    }
+}

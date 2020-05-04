@@ -9,7 +9,8 @@ const initialState = {
     },
     editProduct: false,
     prodToEdit: null,
-    selectedProduct: null
+    selectedProduct: null,
+    addProductClicked: false
 }
 
 const changeEditMode = (state, action) => {
@@ -59,6 +60,12 @@ const closeEditMode = (state, action) => {
     })
 }
 
+const clickAddProduct = (state, action) => {
+    return updateObject(state, {
+        addProductClicked: !state.addProductClicked
+    })
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.OPEN_EDIT_NEGOCIO: return openEditNegocio(state, action);
@@ -68,6 +75,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.OPEN_EDIT_PRODUCT: return openEditProduct(state, action);
         case actionTypes.CLOSE_EDIT_PRODUCT: return closeEditProduct(state, action);
         case actionTypes.CLOSE_EDIT_MODE: return closeEditMode(state, action);
+        case actionTypes.BUSINESS_CLICK_ADD_PRODUCT: return clickAddProduct(state, action);
         default: return state
     }
 }

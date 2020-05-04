@@ -6,6 +6,7 @@ const initialState = {
     loading: false,
     error: false,
     token: "null",
+    idBusiness: null,
     usarname: "",
     join: false
 
@@ -15,6 +16,7 @@ const initialState = {
 const login = (state, action) => {
     return updateObject(state, {
         token: action.token,
+        idBusiness: action.idBusiness,
         loading: false
     })
 }

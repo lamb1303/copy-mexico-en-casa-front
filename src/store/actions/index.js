@@ -1,6 +1,8 @@
 export {
     registrarNuevoCliente,
-    registroNuevoNegocio
+    registroNuevoNegocio,
+    addProduct,
+    addProductClosed
 } from './registro'
 
 export {
@@ -32,7 +34,8 @@ export {
     saveChanges,
     closeEditMode,
     openEditProduct,
-    closeEditProduct
+    closeEditProduct,
+    clickAddProduct,
 } from './negocio'
 
 export {

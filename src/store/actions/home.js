@@ -14,7 +14,7 @@ export const login = (credentials) =>{
         // axios.post('/laurl/api/login', credentials)
         //     .then(response => {
         //         if (response.data.status === 201) {
-                     dispatch(logging("145755SDFSD"));
+                     dispatch(logging("145755SDFSD", 'id'));
         //         } else {
                     
         //         }
@@ -23,10 +23,11 @@ export const login = (credentials) =>{
 
 }
 
-export const logging = (token) => {
+export const logging = (token, idBusiness) => {
     return {
         type: actionTypes.HOME_LOGIN,
-        token: token
+        token: token,
+        idBusiness: idBusiness
     }
 };
 

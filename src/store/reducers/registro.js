@@ -8,7 +8,10 @@ const initialState = {
     name: '',
     otraCosa: false,
     id: null,
-    registroNegocio: null
+    registroNegocio: null, 
+    isProductAdded: false,
+    message: "",
+    cafe: false,
 }
 
 
@@ -43,6 +46,20 @@ const registerFailed = (state, action) => {
 }
 
 
+const addProduct = (state, action) => {
+    return updateObject(state, {
+        isProductAdded: true,
+        message: action.message,
+
+    })
+}
+
+const addProductClosed = (state, action) => {
+    return updateObject(state, {
+        
+    })
+}
+
 
 const reducer = (state = initialState, action) => {
 
@@ -51,6 +68,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REGISTRAR_NUEVO_NEGOCIO: return nuevoNegocio(state, action);
         case actionTypes.INICIAR_REGISTRO: return iniciarRegistro(state, action);
         case actionTypes.REGISTRO_FAIL: return registerFailed(state, action);
+        case actionTypes.ADDED_FOOD_PRODUCT: return addProduct(state, action);
+        case actionTypes.CLOSE_ADD_PRODUCT: return addProductClosed(state, action);
         default: return state
     }
 };
