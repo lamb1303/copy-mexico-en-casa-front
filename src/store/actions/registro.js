@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
+import axios from '../../axios';
 import firebase from '../../firebase/config';
 const { v4: uuid } = require('uuid');
 
@@ -15,62 +15,80 @@ export const registerFailed = () => {
     }
 }
 
-export const registrarNuevoCliente = (image) => {
+const subirFoto = (child, id, imagen) => {
+    return new Promise((resolved, error) => {
+        let uploadTask;
+        uploadTask = firebase.storage.ref().child(`${child}/${id}/${imagen.name}`).put(imagen);
+
+        uploadTask.on('state_changed', () => {
+
+        }, err => {
+            error(err)
+        }, () => {
+            uploadTask.snapshot.ref.getDownloadURL()
+                .then(url => {
+                    resolved(url);
+                })
+                .catch((err) => {
+                    error(err)
+                })
+        })
+    })
+}
+
+const deleteFoto = (from, id, image) => {
+    firebase.storage.ref().child(`${from}/${id}/${image.name}`).delete()
+        .then(() => console.log(`imagen ${image.name} borrada`))
+        .catch(err => console.log(err))
+}
+
+export const registrarNuevoCliente = (image, cliente) => {
     return dispatch => {
 
         dispatch(initRegister());
         const id = uuid();
-        let imageUrl = '';
-        console.log('iniciando...')
-        let uploadTask;
-        try {
-            uploadTask = firebase.storage.ref().child(`clients/test3@test.com/${image.name}`).put(image);
-            uploadTask.on('state_changed', () => {
+        console.log('iniciando subida de img..')
 
-            }, err => {
-                dispatch(registerFailed());
-                return;
-            }, () => {
-                uploadTask.snapshot.ref.getDownloadURL()
-                    .then(url => {
-                        imageUrl = url
-                        console.log(`Creando usuario...`)
-                        const client = {
-                            id: id,
-                            name: 'Pancho',
-                            apellidos: 'Gonzalez Salgado',
-                            email: 'test3@test.com',
-                            password: 'laPassword',
-                            telefono: 8442736598,
-                            direccion: 'calle valencia #345 col. Zaragoza',
-                            fotoINE: imageUrl
+        subirFoto('clients', id, image)
+            .then(urlFoto => {
+                console.log('Imagen subida')
+                console.log(urlFoto);
+
+                console.log('creando usuario...')
+
+                let client = {
+                    ...cliente,
+                    id: id
+                }
+                client.fotoINE = urlFoto
+
+                axios.post(`${process.env.REACT_APP_API_URL}/registro/newClient`, client)
+                    .then(resp => {
+                        console.log(resp)
+                        if (resp.data.message === 'CREATION SUCCESS') {
+                            console.log("Usuario creado")
+                            dispatch(nuevoCliente(id))
+                        } else {
+                            firebase.storage.ref().child(`clients/${id}/${image.name}`).delete()
+                                .then(() => console.log('imagen borrada'))
+                                .catch(err => console.log(err));
+                            dispatch(registerFailed())
+
                         }
-                        axios.post(`${process.env.REACT_APP_API_URL}/registro/newClient`, client)
-                            .then(resp => {
-                                if (resp.data.message === 'CREATION SUCCESS') {
-                                    console.log("Usuario creado")
-                                    dispatch(nuevoCliente(id))
-                                } else {
-                                    firebase.storage.ref().child(`clients/test3@test.com/${image.name}`).delete()
-                                        .then(() => console.log('imagen borrada'))
-                                        .catch(err => console.log(err));
-                                    dispatch(registerFailed())
-
-                                }
-                            }).catch(err => {
-                                firebase.storage.ref().child(`clients/test3@test.com/${image.name}`).delete()
-                                    .then(() => console.log('imagen borrada'))
-                                    .catch(err => console.log(err))
-                                dispatch(registerFailed())
-                            })
+                    }).catch(err => {
+                        firebase.storage.ref().child(`clients/${id}/${image.name}`).delete()
+                            .then(() => console.log('imagen borrada'))
+                            .catch(err => console.log(err))
+                        dispatch(registerFailed())
                     })
+
+            })
+            .catch(err => {
+                console.log(err)
+                dispatch(registerFailed())
             });
-        } catch (error) {
-            console.log(`algo salio mal`)
-            console.log(error)
-            dispatch(registerFailed());
-            return;
-        }
+
+        console.log('Llego al final');
     }
 };
 
@@ -89,11 +107,66 @@ export const registrarNuevoNegocio = (negocio) => {
     }
 }
 
+
+
 export const registroNuevoNegocio = (negocio) => {
     return dispatch => {
-        //mandar el negocio con axios
-        // si se creo 
-        dispatch(registrarNuevoNegocio(negocio))
+        dispatch(initRegister());
+        const id = uuid();
+        console.log('iniciando...')
+        try {
+            console.log('subiendo primer foto...')
+            subirFoto('business', id, negocio.fotoINE)
+                .then(urlINE => {
+                    console.log('primer foto subida')
+                    console.log(urlINE)
+                    console.log('subiendo segunda foto...')
+                    subirFoto('business', id, negocio.img)
+                        .then(urlNegocio => {
+                            console.log('segunda foto subida')
+                            console.log(urlNegocio)
+                            console.log(`Creando usuario...`)
+                            let business = {
+                                ...negocio
+                            }
+                            business.fotoINE = urlINE
+                            business.img = urlNegocio
+                            axios.post(`${process.env.REACT_APP_API_URL} `, business)
+                                .then(resp => {
+                                    if (resp.data.message === 'CREATION SUCCESS') {
+                                        console.log("business creado")
+                                        dispatch(registrarNuevoNegocio(negocio))
+                                    } else {
+                                        deleteFoto('business', id, negocio.fotoINE);
+                                        deleteFoto('business', id, negocio.fotoNegocio);
+                                        dispatch(registerFailed())
+                                    }
+                                }).catch(err => {
+                                    deleteFoto('business', id, negocio.fotoINE);
+                                    deleteFoto('business', id, negocio.fotoNegocio);
+                                    dispatch(registerFailed())
+                                })
+                        })
+                        .catch(err => {
+                            deleteFoto('business', id, negocio.fotoINE);
+                            deleteFoto('business', id, negocio.fotoNegocio);
+                            dispatch(registerFailed())
+                            console.log(err);
+                        })
+                }).catch(err => {
+                    deleteFoto('business', id, negocio.fotoINE);
+                    dispatch(registerFailed())
+                    console.log(err)
+                });
+
+        } catch (error) {
+            console.log(`algo salio mal`)
+            console.log(error)
+            dispatch(registerFailed());
+            return;
+        }
+
+
         //si no lo crea mandar mensaje de error
     }
 }

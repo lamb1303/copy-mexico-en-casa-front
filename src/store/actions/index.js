@@ -20,12 +20,21 @@ export {
     OpenSelectedProduct,
     CloseSelectedProduct,
     AddOneToSelectedProduct,
-    DelOneToSelectedProduct
+    OpenOrderModal,
+    CloseOrderModal,
+    OrderIsToGo,
+    OrderToPickUp,
+    CreditCardPayment,
+    CashPayment,
+    BackToDeliverOption,
+    CancelOrder,
+    checkout,
+    DelOneToSelectedProduct,
 } from './cliente'
 
-export {
-    getProducts,
-} from './products'
+// export {
+//     getProducts,
+// } from './products'
 
 export {
     openEditNegocio,
@@ -34,8 +43,18 @@ export {
     saveChanges,
     closeEditMode,
     openEditProduct,
-    closeEditProduct,
     clickAddProduct,
+    closeEditProduct,
+    readyButtonSelected,
+    ordersButtonSelected,
+    prepareButtonSelected,
+    checkPreparingOrder,
+    checkReceivedOrder,
+    empezarPedido,
+    terminarPedido,
+    getPedidoNegocioId,
+    getPedidoPreparing,
+    getPedidoReady
 } from './negocio'
 
 export {

@@ -31,21 +31,6 @@
     color: #646464;
 }
 
-.options{
-    display: flex;
-    flex-direction: column;
-}
-
-.delivery, .pay{
-    display: flex;
-    justify-content: flex-end;
-}
-
-.delivery img, .pay img, .delivery svg{
-    width: 25px;
-    margin: 2px;
-}
-
 .stars{
     display: flex;
 }
