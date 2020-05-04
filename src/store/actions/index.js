@@ -20,8 +20,16 @@ export {
     OpenSelectedProduct,
     CloseSelectedProduct,
     AddOneToSelectedProduct,
-    DelOneToSelectedProduct,
+    OpenOrderModal,
+    CloseOrderModal,
+    OrderIsToGo,
+    OrderToPickUp,
+    CreditCardPayment,
+    CashPayment,
+    BackToDeliverOption,
+    CancelOrder
     checkout
+    DelOneToSelectedProduct,
 } from './cliente'
 
 // export {

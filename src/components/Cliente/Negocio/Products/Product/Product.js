@@ -44,7 +44,7 @@ const Product = props => {
                         onClick={() => handleOptions()}
                     />
                 </div>
-                <Hidden selected={props.selected} name={props.name} count={props.count} price={props.price} />
+                <Hidden selected={props.selected} name={props.name} count={props.count} price={props.price} img={props.img} />
             </div>
         </Fragment>
     )

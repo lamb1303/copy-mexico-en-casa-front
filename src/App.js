@@ -11,6 +11,7 @@ import Home from './components/Home/Home';
 import RegistroCliente from './components/Cliente/RegistroCliente/RegistroCliente'
 import ClientNegocio from './components/Cliente/Negocio/Negocio';
 import Negocio from './components/Negocio/views/Negocio/Negocio';
+import Pedido from './components/Cliente/Negocio/Pedido/Pedido'
 import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
 

@@ -8,9 +8,64 @@ const initialState = {
     openProduct: false,
     selectedProduct: '',
     productCount: [],
-    orderPrice: 0,
     checkoutInit: false,
+    orderPrice: 0,
+    openOrder: false,
+    deliver: null,
+    payment: null
     checkoutError: null
+}
+
+const cancelOrder = (state, action) => {
+    return updateObject(state, {
+        deliver: null,
+        payment: null,
+        productCount: [],
+        orderPrice: 0,
+        openOrder: false
+    } )
+}
+
+const backToDeliver = (state, action) => {
+    return updateObject(state, {
+        deliver: null,
+        payment: null
+    })
+}
+const cashPayment = (state, action) => {
+    return updateObject(state, {
+        payment: 'Efectivo'
+    })
+}
+
+const creditCardPayment = (state, action) => {
+    return updateObject(state, {
+        payment: 'Tarjeta'
+    })
+
+}
+
+const orderToGo = (state, action) => {
+    return updateObject(state, {
+        deliver: true
+    })
+}
+
+const orderToPickUp = (state, action) => {
+    return updateObject(state, {
+        deliver: false
+    })
+}
+const openOrderModal = (state, action) => {
+    return updateObject(state, {
+        openOrder: true
+    })
+}
+
+const closeOrderModal = (state, action) => {
+    return updateObject(state, {
+        openOrder: false
+    })
 }
 
 const crearCuenta = (state, action) => {
@@ -143,9 +198,17 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.CLOSE_ADD_DEL_OPTIONS: return closeSelectedProduct(state, action);
         case actionTypes.ADD_ONE_TO_SELECTED_PRODUCT: return addOneToSelectedProduct(state, action);
         case actionTypes.DEL_ONE_TO_SELECTED_PRODUCT: return delOneToSelectedProduct(state, action);
-        case actionTypes.CHECKOUT_INIT: return checkoutInit(state, action);
+        case actionTypes.CLIENTE_MODAL_ORDEN_ABRIR: return openOrderModal(state, action);
+        case actionTypes.CLIENTE_MODAL_ORDEN_CERRAR: return closeOrderModal(state, action);
+        case actionTypes.CLIENTE_PEDIDO_CASA: return orderToGo(state, action);
+        case actionTypes.CLIENTE_PEDIDO_RECOGER: return orderToPickUp(state, action);
+        case actionTypes.CLIENTE_PAGO_EFECTIVO: return cashPayment(state, action);
+        case actionTypes.CLIENTE_PAGO_TARJETA: return creditCardPayment(state, action);
+        case actionTypes.CLIENTE_REGRESAR_OPCION_PEDIDO: return backToDeliver(state, action);
+        case actionTypes.CLIENTE_PEDIDO_CANCELAR: return cancelOrder(state, action);
         case actionTypes.CHECKOUT_COMPLETE: return checkoutComplete(state, action);
         case actionTypes.CHECKOUT_FAIL: return checkoutFail(state, action);
+        case actionTypes.CHECKOUT_INIT: return checkoutInit(state, action);
         default: return state;
     }
 };
