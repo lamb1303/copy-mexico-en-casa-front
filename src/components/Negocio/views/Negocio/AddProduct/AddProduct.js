@@ -64,7 +64,6 @@ const AddProduct = props => {
                 desc: desc
             }
             props.addProduct(food);
-            props.clickAddProduct();
             
         }
     }
@@ -145,7 +144,6 @@ const AddProduct = props => {
 const mapStateToProps = state => {
     return {
         isProductAdded: state.registro.isProductAdded,
-        addProductClicked: state.negocio.addProductClicked,
         idBusiness: state.home.idBusiness,
     
     }
@@ -154,7 +152,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
 
     addProduct: actions.addProduct,
-    clickAddProduct: actions.clickAddProduct,
 
 
 }

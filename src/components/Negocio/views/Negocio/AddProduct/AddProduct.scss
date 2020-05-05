@@ -25,7 +25,8 @@
     left: 50%;
     width: 60%;
     height: 40em;
-    z-index: 100;
+    z-index: 10;
+    margin-top: 3rem;
     text-align: center;
     border-radius: 5rem;
     background-color: white;
@@ -84,9 +85,8 @@
     }
 
     .addProduct {
-        z-index: 10;
         width: 100%;
-        padding-top: 3.5rem;
+        margin-top: 3.5rem;
         min-height: 100vh;
         height: auto;
         border-radius: 0px;
