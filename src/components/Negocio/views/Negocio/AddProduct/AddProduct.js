@@ -6,7 +6,6 @@ import * as actions from '../../../../../store/actions';
 import Button from '../../../../UI/Button/Button';
 import { TextField, InputAdornment } from '@material-ui/core';
 import ImageUpload from '../../../../UI/ImageUpload/ImageUpload';
-import Backdrop from '../../../../UI/Backdrop/Backdrop';
 
 
 import NoImage from '../../../assets/no_image_food.svg';
@@ -72,7 +71,6 @@ const AddProduct = props => {
 
     return (
         <Fragment>
-            <Backdrop className='zIndex' show={props.addProductClicked} clicked={() => { props.clickAddProduct() }} />
             <div className="addProduct">
 
                 <div className="addProduct-container">
