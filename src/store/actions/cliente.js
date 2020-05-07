@@ -29,7 +29,7 @@ export const CreditCardPayment = () => {
 
 export const OpenOrderModal = () => {
     return {
-        type: actionTypes.CLIENTE_MODAL_ORDEN_ABRIR    
+        type: actionTypes.CLIENTE_MODAL_ORDEN_ABRIR
     }
 }
 

@@ -8,7 +8,8 @@
     justify-content: flex-end;
 }
 
-.delivery img, .pay img, .delivery svg{
+.pay svg, .delivery svg{
     width: 25px;
+    height: auto;
     margin: 2px;
 }

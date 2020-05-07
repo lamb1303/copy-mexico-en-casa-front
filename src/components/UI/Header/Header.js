@@ -10,15 +10,15 @@ const Header = props => {
     const location = useLocation();
 
     let displayB = true
-    // let space = ""
+    let space = ""
     if (location.pathname === '/registro') {
         displayB = false
-        // space = " space"
+        space = 'space'
     }
 
     return (
         <Fragment>
-            <div className={classes.header}>
+            <div className={[classes.header, classes[space]].join(' ')}>
                 {displayB && <Burguer className={classes.header_burguer} onClick={() => props.onClickBurguer()} />}
                 <div className={classes.header_title}>MÉXICO EN CASA</div>
                 <img className={classes.header_logo} alt='Mexico En Casa Logo' src='../logo.png' />

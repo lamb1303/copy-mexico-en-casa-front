@@ -29,7 +29,7 @@
     left: 50%;
     width: 60%;
     height: 40em;
-    z-index: 100;
+    z-index: 102;
     padding-top: 1em;
     text-align: center;
     border-radius: 5rem;
@@ -82,9 +82,9 @@
 }
 
 @media only screen and (max-width: 1000px) {
-    div[class^="Backdrop_Backdrop"] {
-        z-index: 0;
-    }
+    // div[class^="Backdrop_Backdrop"] {
+    //     z-index: 0;
+    // }
 
     .image-upload {
         & button {
@@ -93,7 +93,7 @@
     }
 
     .addProduct {
-        z-index: 10;
+        z-index: 100;
         width: 100%;
         min-height: 100vh;
         height: auto;
