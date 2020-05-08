@@ -75,7 +75,7 @@ const Pedidos = props => {
                     <Button >ACEPTAR</Button>
                 </div>
                 <div className={classes.modal_noDeliver}>
-                    <Button clicked={()=> props.cancelOrder()}>CANCELAR</Button>
+                    <Button clicked={() => props.cancelOrder()}>CANCELAR</Button>
                 </div>
 
             </div>
@@ -106,7 +106,7 @@ const Pedidos = props => {
                 <div>
                     <h2>DIRECCION DE ENVIO</h2>
                 </div>
-                <div className="centerInput" >
+                <div className={classes.centerInput} >
                     <input type="text" value="Calle del valle valle de calle"></input>
                 </div>
                 <Button clicked={() => props.backToDelilver()} >Regresar</Button>

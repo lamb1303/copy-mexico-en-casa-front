@@ -2,7 +2,6 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-    showSidebar: false,
     editMode: false,
     getPedidosloading: false,
     selectedNegocio: {

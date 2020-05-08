@@ -1,9 +1,10 @@
 import React from 'react';
 
-import domicilio from '../../../assets/domicilio.PNG';
 import { ReactComponent as Local } from '../../../assets/local.svg';
-import efectivo from '../../../assets/efectivo.PNG';
-import tarjeta from '../../../assets/tarjeta.PNG';
+import { ReactComponent as Domicilio } from '../../../assets/domicilio.svg';
+import { ReactComponent as Efectivo } from '../../../assets/efectivo.svg';
+import { ReactComponent as Tarjeta } from '../../../assets/tarjeta.svg';
+
 
 import classes from './Options.module.css';
 
@@ -11,12 +12,12 @@ const purchaseOptions = props => {
 
     return (<div className={classes.options} >
         <div className={classes.delivery} >
-            {props.envio === 'Domicilio' ? <img alt='domicilio' src={domicilio} />
+            {props.envio === 'Domicilio' ? <Domicilio />
                 : <Local />}
         </div>
         <div className={classes.pay} >
-            {props.pago === 'Efectivo' ? <img alt='efectivo' src={efectivo} />
-                : <img alt='tarjeta' src={tarjeta} />}
+            {props.pago === 'Efectivo' ? <Efectivo />
+                : <Tarjeta />}
         </div>
     </div>)
 }
