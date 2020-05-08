@@ -10,7 +10,6 @@ const initialState = {
     },
     editProduct: false,
     prodToEdit: null,
-    addProductClicked: false,
     selectedProduct: null,
     orders: true,
     preparing: false,
@@ -224,12 +223,6 @@ const closeEditMode = (state, action) => {
     })
 }
 
-const clickAddProduct = (state, action) => {
-    return updateObject(state, {
-        addProductClicked: !state.addProductClicked
-    })
-}
-
 const orderButtonSelected = (state, action) => {
     return updateObject(state, {
         orders: true,
@@ -417,7 +410,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_READY_SUCCESS: return getFinishSuccess(state, action);
         case actionTypes.LOADING_PEDIDOS: return loadingPedido(state, action);
         case actionTypes.CHANGE_STAGE_FAIL: return changeStageFail(state, action);
-        case actionTypes.BUSINESS_CLICK_ADD_PRODUCT: return clickAddProduct(state, action);
         default: return state
     }
 }

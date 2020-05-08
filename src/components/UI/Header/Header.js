@@ -9,20 +9,21 @@ const Header = props => {
 
     const location = useLocation();
 
-    let displayB = true
     let space = ""
-    if (location.pathname === '/registro') {
+    let displayB = true;
+    const displayH = location.pathname === '/Home';
+    if (location.pathname === '/Registro' || location.pathname === '/RegistroCliente') {
         displayB = false
         space = 'space'
     }
 
     return (
         <Fragment>
-            <div className={[classes.header, classes[space]].join(' ')}>
+            {!displayH && <div className={classes.header}>
                 {displayB && <Burguer className={classes.header_burguer} onClick={() => props.onClickBurguer()} />}
                 <div className={classes.header_title}>MÉXICO EN CASA</div>
                 <img className={classes.header_logo} alt='Mexico En Casa Logo' src='../logo.png' />
-            </div>
+            </div>}
         </Fragment>
     )
 }

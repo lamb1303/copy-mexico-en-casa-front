@@ -2,18 +2,14 @@
 
 .MuiFormControl-marginNormal {
     color: white !important;
-
-
 }
 
+.editProd {
+    height: 12em !important;
+    width: 13em !important;
+    overflow: hidden;
+    border-radius: 1rem;
 
-.image-upload {
-    &__preview {
-        height: 12em;
-        width: 12em;
-        overflow: hidden;
-        border-radius: 1rem;
-    }
     & button {
         margin: 10px 5rem;
     }
@@ -25,15 +21,15 @@
 
 .addProduct {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     width: 60%;
     height: 40em;
+    margin-top: 3rem;
     z-index: 102;
-    padding-top: 1em;
     text-align: center;
     border-radius: 5rem;
-    background-color: $secundary-color;
+    background-color: white;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
 
@@ -76,17 +72,13 @@
 
         & Button {
             height: 3em;
-            margin: 5px;
+            margin: 10px;
         }
     }
 }
 
 @media only screen and (max-width: 1000px) {
-    // div[class^="Backdrop_Backdrop"] {
-    //     z-index: 0;
-    // }
-
-    .image-upload {
+    .editProd {
         & button {
             margin: 15px 5rem;
         }
@@ -95,24 +87,15 @@
     .addProduct {
         z-index: 100;
         width: 100%;
+        margin-top: 3.5rem;
         min-height: 100vh;
         height: auto;
-        padding-top: 6.5em;
         border-radius: 0px;
-        background-color: white;
+        border-radius: 1.2rem;
 
         &-container {
-            padding-top: 2em;
             margin: 0px;
         }
     }
 }
 
-@media only screen and (min-width: 700px) and (max-width: 1000px) {
-    .image-upload {
-        &__preview {
-            height: 19em;
-            width: 18em;
-        }
-    }
-}

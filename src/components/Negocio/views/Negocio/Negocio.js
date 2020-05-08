@@ -2,6 +2,7 @@ import React, { useState, Fragment } from 'react';
 import classes from './Negocio.module.scss';
 import Products from './Products/Products';
 import { connect } from 'react-redux';
+import { NavLink }  from 'react-router-dom';
 import { ReactComponent as Camera } from '../../assets/camera.svg'
 import Button from '../../../UI/Button/Button';
 import * as actions from '../../../../store/actions';
@@ -47,7 +48,7 @@ const Negocio = props => {
             {props.editMode && (
                 <div className={classes.save}>
                     <Button clicked={() => verifyChanges()} btnType='Success' >GUARDAR</Button>
-                    <Button clicked={() => props.clickAddProduct()} btnType='Success' >AGREGAR COMIDA</Button>
+                    <Button btnType='Success' ><NavLink to='/addProduct'>AGREGAR COMIDA</NavLink></Button>
                 </div>)}
 
             {props.addProductClicked && (<AddProduct />)}

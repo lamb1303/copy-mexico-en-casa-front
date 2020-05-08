@@ -1,6 +1,6 @@
-@import '../../../../styles/Colors.scss';
+@import "../../../../styles/Colors.scss";
 
-.negocio{
+.negocio {
     display: flex;
     flex-direction: column;
     top: 55px;
@@ -10,29 +10,28 @@
     overflow-y: scroll;
 }
 
-.editSize{
+.editSize {
     height: calc(100vh - 200px);
 }
 
-.header{
+.header {
     display: flex;
     justify-content: space-evenly;
     padding: 7% 3%;
 }
 
-.header p{
+.header p {
     box-sizing: border-box;
     padding: 10px;
     margin: 0;
 }
 
-.header textarea{
+.header textarea {
     resize: none;
     width: 60%;
 }
 
-
-.fotoNegocio{
+.fotoNegocio {
     max-width: 100px;
     max-height: 80px;
     border-radius: 150px;
@@ -40,22 +39,31 @@
     margin-right: 3%;
 }
 
-.camera{
+.camera {
     max-width: 60px;
     max-height: 50px;
 }
 
-.blur{
+.blur {
     filter: blur(4px);
 }
 
-.save{
+.save {
     position: fixed;
-    width: 100vw;
-    bottom: -10px;
-    left: 24vw;
+    text-align: center;
+    display: flex;
+    width: 100%;
+    left: 0px;
+    top: 80vh;
 }
 
 .save button {
-    width: 50%;
+    width: 30%;
+    height: 5rem;
+    margin: 2rem auto;
+}
+
+button a {
+    text-decoration: none;
+    color: white;
 }

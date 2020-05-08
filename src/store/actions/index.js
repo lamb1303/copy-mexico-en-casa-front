@@ -56,8 +56,3 @@ export {
     getPedidoPreparing,
     getPedidoReady
 } from './negocio'
-
-export {
-    clickOnBusiness,
-    clickOnCustomer,
-} from './selectionModal'
