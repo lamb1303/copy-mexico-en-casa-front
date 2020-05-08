@@ -47,11 +47,8 @@ const App = (props) => {
 
   return (
     <Fragment>
-      {props.token && (<>
-        <Sidebar />
-        <Header />
-      </>
-      )}
+      <Sidebar />
+      <Header />
       {route}
     </Fragment>
   );
