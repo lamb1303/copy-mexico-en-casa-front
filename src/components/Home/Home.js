@@ -90,6 +90,9 @@ const Home = props => {
                 </div>
 
             </div>
+            <div>
+                {props.error && <AlertComponent title='error'>{props.message}</AlertComponent>}
+            </div>
 
         </div>
     );
@@ -99,8 +102,9 @@ const mapStateToProps = state => {
     return {
         token: state.home.token,
         join: state.home.join,
-        loading: state.registro.loading,
-        id: state.registro.id
+        error: state.home.error,
+        message: state.home.message,
+        loading: state.home.loading,
     }
 }
 

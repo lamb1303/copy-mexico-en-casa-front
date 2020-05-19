@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-// import axios from 'axios';
+import axios from 'axios';
 
 export const initializeRequest = () => {
     return {
@@ -10,26 +10,61 @@ export const initializeRequest = () => {
 export const login = (credentials) => {
     return dispatch => {
 
-        //dispatch(initializeRequest());
-        // axios.post('/laurl/api/login', credentials)
-        //     .then(response => {
-        //         if (response.data.status === 201) {
-                     dispatch(logging("145755SDFSD", 'id'));
-        //         } else {
+        dispatch(initializeRequest());
+        axios.post(`${process.env.REACT_APP_API_URL}/home/login`, credentials)
+            .then(response => {
+                const data = response.data;
+                switch (response.status) {
+                    case 201:
+                        localStorage.setItem(
+                            'user',
+                            JSON.stringify({ token: data.token, isCustomer: data.isCustomer})
+                        );
+                        dispatch(logging(data));
+                        break;
 
-        //         }
-        //     })
+                    default:
+                        break;
+
+                }
+            }).catch(err => {
+
+                err.response && (dispatch(message(err.response.data.message)));
+            });
     }
 
 }
 
-export const logging = (token, idBusiness) => {
+const logging = (data) => {
+
     return {
         type: actionTypes.HOME_LOGIN,
-        token: token,
-        idBusiness: idBusiness
+        ...data
     }
 };
+
+export const setLocalTokenStored = (data) => {
+
+    console.log(`dos ${data}`);
+    return {
+        type: actionTypes.HOME_SET_LOCAL_TOKEN_STORED,
+        ...data,
+
+    }
+}
+
+const message = (message) => {
+    return {
+        type: actionTypes.HOME_INVALID_CREDENTIALS,
+        message: message,
+    }
+}
+
+export const updateError = () => {
+    return {
+        type: actionTypes.HOME_UPDATE_ERROR,
+    }
+}
 
 export const joinToUs = () => {
     return {
