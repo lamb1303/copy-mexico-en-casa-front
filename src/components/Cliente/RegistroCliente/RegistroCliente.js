@@ -30,7 +30,7 @@ const RegistroCliente = (props) => {
     const send = () => {
         verificaciones()
         console.log('si llegue')
-        if (name !== "" && lastName !== "" && email !== "" && password !== "" && number !== ""  &&
+        if (name !== "" && lastName !== "" && email !== "" && password !== "" && number !== "" &&
             setFotoIne !== null && emailRegex.test(email)) {
             const ob = {
                 apellidos: lastName,
@@ -40,12 +40,12 @@ const RegistroCliente = (props) => {
                 name: name,
                 direccion: direccion,
                 fotoINE: fotoIne,
-                
+
 
             }
             console.log(ob)
 
-            props.nuevoCliente(ob.fotoINE,ob)
+            props.nuevoCliente(ob.fotoINE, ob)
             //props.history.push('/RegistroCliente')
         }
 
@@ -77,10 +77,10 @@ const RegistroCliente = (props) => {
         } else {
             setVerifyTelefono("f")
         }
-        
+
         if (direccion === "") {
             setVerifyDireccion("")
-        }else {
+        } else {
             setVerifyDireccion("f")
         }
     }
@@ -104,59 +104,54 @@ const RegistroCliente = (props) => {
                     Texto de bienvenida
                     </h2>
                 <div className='informacionPersonal'>
-                 <TextField
-                        error = { verifyName ? false : true}
+                    <TextField
+                        error={verifyName ? false : true}
                         value={name}
                         onChange={(event) => setName(event.target.value)}
                         required
-                        helperText ={verifyName ? "" : "Campo requeridos"}
+                        helperText={verifyName ? "" : "Campo requeridos"}
                         label="Nombre"
-                        defaultValue=""
                         variant="outlined"
                     />
                     <TextField
-                        error = { verifyLastName ? false : true}
+                        error={verifyLastName ? false : true}
                         value={lastName}
                         onChange={(event) => setLastName(event.target.value)}
                         required
                         label="Apellidos"
-                        defaultValue=""
                         variant="outlined"
-                        helperText ={verifyLastName ? "" : "Campo requeridos"}
+                        helperText={verifyLastName ? "" : "Campo requeridos"}
                     />
                     <TextField
-                    error = {verifyEmail ? false : true}
+                        error={verifyEmail ? false : true}
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                         required
                         label="Email"
-                        defaultValue=""
                         variant="outlined"
-                        helperText ={verifyEmail ? "" : "Campo requeridos"}
+                        helperText={verifyEmail ? "" : "Campo requeridos"}
                     />
                     <TextField
-                    error = { verifyPassword ? false : true}
+                        error={verifyPassword ? false : true}
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         required
                         label="Contraseña"
                         type="password"
-                        defaultValue=""
                         variant="outlined"
-                        helperText ={verifyPassword ? "" : "Campo requeridos"}
+                        helperText={verifyPassword ? "" : "Campo requeridos"}
                     />
                     <TextField
-                    error = {verifyTelefono ? false : true}
+                        error={verifyTelefono ? false : true}
                         value={number}
                         onChange={(event) => setNumber(event.target.value)}
                         required
                         label="Telefono"
-                        defaultValue=""
                         variant="outlined"
-                        helperText ={verifyTelefono ? "" : "Campo requeridos"}
+                        helperText={verifyTelefono ? "" : "Campo requeridos"}
                     />
                     <TextField
-                        error = {verifyDireccion ? false : true}
+                        error={verifyDireccion ? false : true}
                         value={direccion}
                         onChange={(event) => setDireccion(event.target.value)}
                         required
@@ -164,15 +159,15 @@ const RegistroCliente = (props) => {
                         variant="outlined"
                         multiline
                         rows={4}
-                        helperText ={verifyDireccion ? "" : "Campo requerido"}
+                        helperText={verifyDireccion ? "" : "Campo requerido"}
                     />
                 </div>
                 <ImageUpload
-                            id='fotoIne'
-                            onInput={(id,pickedFile, fileIsValid) => onSubirImagen(id, pickedFile, fileIsValid)}
-                            errorText='Por favor, Agregar imagen'
-                            message='Foto frontal de la crendencial'
-                            img = {img}
+                    id='fotoIne'
+                    onInput={(id, pickedFile, fileIsValid) => onSubirImagen(id, pickedFile, fileIsValid)}
+                    errorText='Por favor, Agregar imagen'
+                    message='Foto frontal de la crendencial'
+                    img={img}
                 />
             </div>
             <FormControlLabel
@@ -198,4 +193,4 @@ const mapDispatchtoProps = {
     nuevoCliente: actions.registrarNuevoCliente
 }
 
-export default withRouter(connect(null,mapDispatchtoProps)(RegistroCliente))
+export default withRouter(connect(null, mapDispatchtoProps)(RegistroCliente))

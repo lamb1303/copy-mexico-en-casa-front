@@ -226,7 +226,6 @@ const Registro = (props) => {
                         required
                         helperText={verifyName ? "" : "Campo requeridos"}
                         label="Nombre"
-                        defaultValue=""
                         variant="outlined"
                     />
                     <TextField
@@ -235,7 +234,6 @@ const Registro = (props) => {
                         onChange={(event) => setLastName(event.target.value)}
                         required
                         label="Apellidos"
-                        defaultValue=""
                         variant="outlined"
                         helperText={verifyLastName ? "" : "Campo requeridos"}
                     />
@@ -245,7 +243,6 @@ const Registro = (props) => {
                         onChange={(event) => setEmail(event.target.value)}
                         required
                         label="Email"
-                        defaultValue=""
                         variant="outlined"
                         helperText={verifyEmail ? "" : "Campo requeridos"}
                     />
@@ -256,7 +253,6 @@ const Registro = (props) => {
                         required
                         label="Contraseña"
                         type="password"
-                        defaultValue=""
                         variant="outlined"
                         helperText={verifyPassword ? "" : "Campo requeridos"}
                     />
@@ -266,7 +262,6 @@ const Registro = (props) => {
                         onChange={(event) => setNumber(event.target.value)}
                         required
                         label="Telefono"
-                        defaultValue=""
                         variant="outlined"
                         helperText={verifyTelefono ? "" : "Campo requeridos"}
                     />
@@ -284,7 +279,7 @@ const Registro = (props) => {
                             onChange={(event) => setNombreNegocio(event.target.value)}
                             required
                             label="Nombre del negocio"
-                            defaultValue=""
+
                             variant="outlined"
                             helperText={verifyNameNegocio ? "" : "Campo requeridos"}
                         />
@@ -294,7 +289,7 @@ const Registro = (props) => {
                             onChange={(event) => setDNegocio(event.target.value)}
                             required
                             label="Direccion del negocio"
-                            defaultValue=""
+
                             variant="outlined"
                             helperText={verifyDireccion ? "" : "Campo requeridos"}
                             multiline
@@ -306,7 +301,7 @@ const Registro = (props) => {
                             onChange={(event) => setDescNegocio(event.target.value)}
                             required
                             label="Descipcion del negocio"
-                            defaultValue=""
+
                             variant="outlined"
                             helperText={verifyDireccion ? "" : "Campo requeridos"}
                         />

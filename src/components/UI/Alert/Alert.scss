@@ -1,0 +1,23 @@
+.alert {
+    position: fixed;
+    padding: 50px;
+    width: 35%;
+    top: 0;
+    right: 0;
+    -webkit-transform: 0.5s ease-in-out 2.5s;
+    -ms-transform: 0.5s ease-in-out 2.5s;
+    transition: 0.5s ease-in-out 2.5s;
+
+    & button {
+        position: absolute;
+        right: 0px;
+        margin: 0 10px;
+        border: 0px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .alert {
+        width:auto
+    }
+}
