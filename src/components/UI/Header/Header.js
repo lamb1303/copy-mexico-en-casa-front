@@ -12,7 +12,7 @@ const Header = props => {
 
     let space = ""
     let displayB = true;
-    const displayH = location.pathname === '/Home';
+    const displayH = location.pathname !== '/Home';
     if (location.pathname === '/Registro' || location.pathname === '/RegistroCliente') {
         displayB = false
         space = 'space'
@@ -20,15 +20,14 @@ const Header = props => {
 
     return (
         <Fragment>
-            {!displayH && <div className={[classes.header, classes[space]].join(' ')}>
+            {displayH && <div className={[classes.header, classes[space]].join(' ')}>
                 {displayB && <Burguer className={classes.header_burguer} onClick={() => props.onClickBurguer()} />}
                 <div className={classes.header_title}>MÉXICO EN CASA</div>
-                <Logo className={classes.header_logo} alt='Mexico En Casa Logo'/>
+                <Logo className={classes.header_logo} alt='Mexico En Casa Logo' />
             </div>}
         </Fragment>
     )
 }
-
 
 const mapDispatchToProps = dispatch => {
     return {
