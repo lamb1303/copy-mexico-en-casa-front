@@ -171,7 +171,7 @@ export const registroNuevoNegocio = (negocio) => {
     }
 }
 
-export const addProductClosed = () =>{
+export const addProductClosed = () => {
     return {
         type: actionTypes.CLOSE_ADD_PRODUCT
     }
@@ -185,12 +185,12 @@ export const addProduct = (foodProduct) => {
             //     .then(response => {
             //        const data = response.data;
             //         if(data.status === 201){
-              //          dispatch(productAdded(data.message));
-              dispatch(productAdded("Platillo creado"));
-                //     }
-                // }
+            //          dispatch(productAdded(data.message));
+            dispatch(productAdded("Platillo creado"));
+            //     }
+            // }
 
-                // )
+            // )
         }
 
     }
@@ -201,5 +201,35 @@ const productAdded = (message) => {
     return {
         type: actionTypes.ADDED_FOOD_PRODUCT,
         message: message,
+    }
+}
+
+export const goToPersonal = () => {
+    return {
+        type: actionTypes.GO_TO_PERSONAL
+    }
+}
+
+export const goToInfoNegocio = () => {
+    return {
+        type: actionTypes.GO_TO_INFO_NEGOCIO
+    }
+}
+
+export const goToNegPago = () => {
+    return {
+        type: actionTypes.GO_TO_NEG_PAGO
+    }
+}
+
+export const goToPrivacidad = () => {
+    return {
+        type: actionTypes.GO_TO_PRIVACIDAD
+    }
+}
+
+export const goToWelcome = () => {
+    return {
+        type: actionTypes.GO_TO_WELCOME
     }
 }
