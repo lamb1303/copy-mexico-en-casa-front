@@ -14,7 +14,6 @@ export {
     login,
     joinToUs,
     joinToUsClosed,
-    updateError,
     setLocalTokenStored,
 } from './home'
 

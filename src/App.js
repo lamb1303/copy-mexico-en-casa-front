@@ -52,8 +52,8 @@ const App = (props) => {
       route = (
         <Fragment>
           <Switch >
+            <Route path='/pedidos' component={Pedidos} />
             <Route path='/Negocio' component={Negocio} />
-            <Route path='/Pedidos' component={Pedidos} />
             <Route path='/addProduct' component={AddProduct} />
             <Redirect to='/Negocio' />
 

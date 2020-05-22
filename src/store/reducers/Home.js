@@ -18,6 +18,7 @@ const initialState = {
 const login = (state, action) => {
     return updateObject(state, {
         loading: false,
+        error: action.error,
         token: action.token,
         id: action.id,
         isCustomer: action.isCustomer,
@@ -57,11 +58,6 @@ const message = (state, action) => {
 
 }
 
-const updateError = (state, action) => {
-    return updateObject(state, {
-        error: !state.error
-    });
-}
 
 const reducer = (state = initialState, action) => {
 
@@ -72,7 +68,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.HOME_JOIN_TO_US_CLOSED: return joinToUsClosed(state, action);
         case actionTypes.HOME_WAITING: return initializeRequest(state, action);
         case actionTypes.HOME_INVALID_CREDENTIALS: return message(state, action);
-        case actionTypes.HOME_UPDATE_ERROR: return updateError(state, action);
         default: return state
     }
 };
