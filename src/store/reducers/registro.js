@@ -6,12 +6,16 @@ const initialState = {
     cliente: false,
     negocio: false,
     name: '',
-    otraCosa: false,
     id: null,
-    registroNegocio: null, 
+    registroNegocio: null,
     isProductAdded: false,
     message: "",
     cafe: false,
+    // wellcome: true,
+    personalInfo: false,
+    negocioInfo: false,
+    negocioFinal: false,
+    avisoPriv: false,
 }
 
 
@@ -56,7 +60,52 @@ const addProduct = (state, action) => {
 
 const addProductClosed = (state, action) => {
     return updateObject(state, {
-        
+
+    })
+}
+
+const goToPersonal = (state, action) => {
+    return updateObject(state, {
+        personalInfo: true,
+        negocioInfo: false,
+        negocioFinal: false,
+        avisoPriv: false,
+    })
+}
+
+const goToInfoNegocio = (state, action) => {
+    return updateObject(state, {
+        personalInfo: false,
+        negocioInfo: true,
+        negocioFinal: false,
+        avisoPriv: false,
+    })
+}
+
+const goToNegPago = (state, action) => {
+    return updateObject(state, {
+        personalInfo: false,
+        negocioInfo: false,
+        negocioFinal: true,
+        avisoPriv: false,
+    })
+}
+
+const goToPrivacidad = (state, action) => {
+    return updateObject(state, {
+        personalInfo: false,
+        negocioInfo: false,
+        negocioFinal: false,
+        avisoPriv: true,
+    })
+}
+
+const goToWelcome = (state, action) => {
+    return updateObject(state, {
+        personalInfo: false,
+        negocioInfo: false,
+        negocioFinal: false,
+        avisoPriv: false,
     })
 }
 
@@ -70,6 +119,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REGISTRO_FAIL: return registerFailed(state, action);
         case actionTypes.ADDED_FOOD_PRODUCT: return addProduct(state, action);
         case actionTypes.CLOSE_ADD_PRODUCT: return addProductClosed(state, action);
+        case actionTypes.GO_TO_PERSONAL: return goToPersonal(state, action);
+        case actionTypes.GO_TO_INFO_NEGOCIO: return goToInfoNegocio(state, action);
+        case actionTypes.GO_TO_NEG_PAGO: return goToNegPago(state, action);
+        case actionTypes.GO_TO_PRIVACIDAD: return goToPrivacidad(state, action);
+        case actionTypes.GO_TO_WELCOME: return goToWelcome(state, action);
         default: return state
     }
 };

@@ -2,7 +2,12 @@ export {
     registrarNuevoCliente,
     registroNuevoNegocio,
     addProduct,
-    addProductClosed
+    addProductClosed,
+    goToPersonal,
+    goToInfoNegocio,
+    goToNegPago,
+    goToPrivacidad,
+    goToWelcome
 } from './registro'
 
 export {
