@@ -26,27 +26,27 @@ const Pedidos = props => {
 
     const mostrarOrden = props.productCount.map(
         orden => {
-            if (orden.count >= 1) {
-                return (
+            // if (orden.count >= 1) {
+            return (
 
-                    <>
-                        <div key={orden.name} className={classes.modal_body}>
+                <div key={orden.name} >
+                    <div key={orden.name} className={classes.modal_body}>
 
-                            <img className={classes.pedidos_image} src={imageUrl} />
-                            <h4>{orden.name} </h4>
+                        <img className={classes.pedidos_image} src={imageUrl} alt={orden.name} />
+                        <h4>{orden.name} </h4>
 
-                        </div>
-                        <div className={classes.modal_price} >
+                    </div>
+                    <div className={classes.modal_price} >
 
-                            <h4>
-                                {orden.count}
-                            </h4>
+                        <h4>
+                            {orden.count}
+                        </h4>
 
-                        </div>
-                        <hr />
-                    </>
-                )
-            }
+                    </div>
+                    <hr />
+                </div>
+            )
+            // }
 
         }
     )

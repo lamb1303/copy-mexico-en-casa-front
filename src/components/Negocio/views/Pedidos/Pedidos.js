@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
+// import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import classes from './Pedidos.module.css';
 import BotonesPedidos from './BotonesPedidos/BotonesPedido';
 import ListaPedidos from './ListaPedidos/ListaPedidos';
@@ -7,7 +8,7 @@ import Button from '../../../UI/Button/Button';
 import * as actions from '../../../../store/actions';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
 import Spinner from '../../../UI/Spinner/Spinner';
-import Alert from '../../../UI/Alert/Alert';
+// import Alert from '../../../UI/Alert/Alert';
 
 const Pedidos = props => {
 
@@ -41,10 +42,10 @@ const Pedidos = props => {
         }
     }
 
-    let errorMessage;
-    if (!props.loading && props.error) {
-        errorMessage = 'Algo salio mal, por favor intentalo de nuevo';
-    }
+    // let errorMessage;
+    // if (!props.loading && props.error) {
+    //     errorMessage = 'Algo salio mal, por favor intentalo de nuevo';
+    // }
 
     return (
         <div className={classes.pedidos} >

@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Pedido.module.css'
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
 import * as actions from '../../../../../../store/actions';
 import Options from '../../../../../UI/PurchaseOptions/Options';
