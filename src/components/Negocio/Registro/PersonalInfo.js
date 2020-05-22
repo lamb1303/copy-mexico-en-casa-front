@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '../../UI/Card/Card';
-import TextField from '@material-ui/core/TextField';
 import Button from '../../UI/Button/Button';
 import * as actions from '../../../store/actions';
 
@@ -11,41 +10,136 @@ import { connect } from 'react-redux';
 
 const PersonalInfo = props => {
 
+    const [nombre, setNombre] = useState("");
+    const [apellidos, setApellidos] = useState("");
+    const [email, setEmail] = useState("");
+    const [contra, setContra] = useState("");
+    const [confirm, setConfirm] = useState("");
+    const [telefono, setTelefono] = useState("");
+    const [touched, setTouched] = useState(false);
+    const [phoneTouched, setphoneTouched] = useState(false);
+    const [confirmTouched, setConfirmTouched] = useState(false);
+    const [nameTouched, setNameTouched] = useState(false);
+    const [apellidoTouched, setApellidoTouched] = useState(false);
+    const [contraTouched, setContraTouchedTouched] = useState(false);
+
+    const handlePhone = (value) => {
+        if (value.length >= 11) {
+            return;
+        } else {
+            setTelefono(value);
+            setphoneTouched(true);
+        }
+    }
+
+    const handleName = (value) => {
+        setNameTouched(true);
+        setNombre(value);
+    }
+    const handleEmail = (value) => {
+        setTouched(true);
+        setEmail(value);
+    }
+    const handleConfirm = (value) => {
+        setConfirmTouched(true);
+        setConfirm(value);
+    }
+
+    let emailError = false;
+    if (touched) {
+        emailError = /^\S+@\S+\.\S+$/.test(email);
+    }
+
+    let phoneError = false;
+    if (phoneTouched) {
+        if (telefono.length >= 10) {
+            phoneError = false;
+        } else {
+            phoneError = true;
+        }
+    }
+
+    let confirmError = false;
+    if (confirmTouched) {
+        if (confirm === contra) {
+            confirmError = false;
+        } else {
+            confirmError = true;
+        }
+    }
+
+    let nameError = false;
+    if (nameTouched) {
+        if (nombre.length > 2) {
+            nameError = false;
+        } else {
+            nameError = true;
+        }
+    }
+    let last = '';
+    if (apellidoTouched) {
+        last = 'good';
+    }
+
+    let pass = '';
+    if (contraTouched) {
+        pass = 'good';
+    }
+
     const form = (
         <>
-            <TextField
-                label="Ingresa tu Nombre"
+            <input
+                className={`${classes.input} ${nameError ? classes.error : nameTouched ? classes.good : ''} `}
                 type="text"
-                margin="normal"
                 required
+                value={nombre}
+                onChange={(e) => handleName(e.target.value)}
+                placeholder='Nombre'
             />
-            <TextField
-                label="Ingresa tus Apellidos"
+            <input
+                className={`${classes.input} ${classes[last]} `}
                 type="text"
-                margin="normal"
+                required
+                value={apellidos}
+                onChange={(e) => { setApellidos(e.target.value); setApellidoTouched(true) }}
+                placeholder='Apellidos'
             />
-            <TextField
-                label="Ingresa tu Email"
+            <input
+                className={`${classes.input} ${emailError ? classes.good : touched ? classes.error : ''} `}
                 type="email"
-                margin="normal"
+                required
+                value={email}
+                onChange={(e) => handleEmail(e.target.value)}
+                placeholder='Email'
             />
-            <TextField
-                label="Ingresa una Contraseña"
+            <input
+                className={`${classes.input} ${classes[pass]}`}
                 type="password"
-                margin="normal"
+                required
+                value={contra}
+                onChange={(e) => { setContra(e.target.value); setContraTouchedTouched(true) }}
+                placeholder='Contraseña'
             />
-            <TextField
-                label="Confirmar Contraseña"
+            <input
+                className={`${classes.input} ${confirmError ? classes.error : confirmTouched ? classes.good : ''} `}
                 type="password"
-                margin="normal"
+                required
+                value={confirm}
+                onChange={(e) => handleConfirm(e.target.value)}
+                placeholder='Confirmar Contraseña'
             />
-            <TextField
-                label="Ingresa tu Telefono"
+            <input
+                className={`${classes.input} ${phoneError ? classes.error : phoneTouched ? classes.good : ''}`}
                 type="number"
-                margin="normal"
+                required
+                value={telefono}
+                onChange={(e) => handlePhone(e.target.value)}
+                placeholder='Telefono'
             />
         </>
     )
+
+
 
     return <div className={classes.personalInfo} >
         <div className={classes.header} >

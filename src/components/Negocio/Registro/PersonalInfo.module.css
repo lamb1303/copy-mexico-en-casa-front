@@ -28,6 +28,28 @@
     align-items: center;
 }
 
+.input{
+    width: 80%;
+    margin: 5% auto;
+    border: 1px solid #ccc;
+    height: 35px;
+    font-size: 1rem;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.input:focus{
+    outline: 0.8px solid rgb(8, 143, 206);
+}
+
+.error{
+    border: 2px solid rgb(255, 0, 0);
+}
+
+.good{
+    border: 2px solid rgb(11, 197, 5);
+}
+
 .buttons{
     display: flex;
     justify-content: space-evenly;
