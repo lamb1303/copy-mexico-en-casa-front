@@ -34,7 +34,7 @@ const ClientButtons = props => {
             </Button>
             <Button btnType='Success' >Ayuda</Button>
             <Button btnType='Success' clicked={() => logOut()} >
-                <NavLink to='/home' >Salir</NavLink>
+                <NavLink to='/Home' >Salir</NavLink>
             </Button>
         </div>
     )

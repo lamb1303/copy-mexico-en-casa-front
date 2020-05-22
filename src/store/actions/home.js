@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import { updateObject } from '../utility';
 
 export const initializeRequest = () => {
     return {
@@ -14,6 +15,7 @@ export const login = (credentials) => {
         axios.post(`${process.env.REACT_APP_API_URL}/home/login`, credentials)
             .then(response => {
                 const data = response.data;
+                console.log("entro")
                 switch (response.status) {
                     case 201:
                         localStorage.setItem(
@@ -36,16 +38,15 @@ export const login = (credentials) => {
 }
 
 const logging = (data) => {
-
     return {
         type: actionTypes.HOME_LOGIN,
+        error: false,
         ...data
     }
 };
 
 export const setLocalTokenStored = (data) => {
 
-    console.log(`dos ${data}`);
     return {
         type: actionTypes.HOME_SET_LOCAL_TOKEN_STORED,
         ...data,
@@ -57,12 +58,6 @@ const message = (message) => {
     return {
         type: actionTypes.HOME_INVALID_CREDENTIALS,
         message: message,
-    }
-}
-
-export const updateError = () => {
-    return {
-        type: actionTypes.HOME_UPDATE_ERROR,
     }
 }
 

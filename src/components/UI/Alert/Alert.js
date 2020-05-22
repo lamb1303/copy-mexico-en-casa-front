@@ -31,9 +31,5 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = {
-    updateError: actions.updateError,
 
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AlertComponent);
+export default connect(mapStateToProps)(AlertComponent);
