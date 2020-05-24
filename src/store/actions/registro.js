@@ -233,3 +233,37 @@ export const goToWelcome = () => {
         type: actionTypes.GO_TO_WELCOME
     }
 }
+
+export const setPersonalData = (personalData) => {
+    return {
+        type: actionTypes.REGISTRO_SET_PERSONAL_DATA,
+        data: personalData
+    }
+
+}
+
+export const handleHorario = (value, estado, id) => {
+    return {
+        type: actionTypes.HANDLE_HORARIO,
+        value,
+        estado,
+        id
+    }
+}
+
+export const isOpen = (value, id) => {
+    return {
+        type: actionTypes.IS_OPEN,
+        value,
+        id
+    }
+}
+
+export const setNegocioData = (nombre, direccion, descripcion) => {
+    return {
+        type: actionTypes.REGISTRO_SET_NEGOCIO_DATA,
+        nombre,
+        direccion,
+        descripcion
+    }
+}

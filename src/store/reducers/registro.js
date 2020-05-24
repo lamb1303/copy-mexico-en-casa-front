@@ -16,6 +16,69 @@ const initialState = {
     negocioInfo: false,
     negocioFinal: false,
     avisoPriv: false,
+    personalData: {
+        name: 'Blad',
+        apellidos: 'Test',
+        email: 'test@test.com',
+        psw: 'blad',
+        telefono: '1234567897'
+    },
+    days: [
+        {
+            id: 1,
+            dia: 'Lunes',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 2,
+            dia: 'Martes',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 3,
+            dia: 'Miercoles',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 4,
+            dia: 'Jueves',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 5,
+            dia: 'Viernes',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 6,
+            dia: 'Sabado',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 7,
+            dia: 'Domingo',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+    ],
+    negocioData: {
+        nombre: 'Las pilladas',
+        direccion: 'La calle de la amargura alv',
+        descripcion: 'Puro saboooor!'
+    }
 }
 
 
@@ -87,7 +150,7 @@ const goToNegPago = (state, action) => {
         personalInfo: false,
         negocioInfo: false,
         negocioFinal: true,
-        avisoPriv: false,
+        avisoPriv: false
     })
 }
 
@@ -109,6 +172,58 @@ const goToWelcome = (state, action) => {
     })
 }
 
+const SetPersonalData = (state, action) => {
+    return updateObject(state, {
+        personalData: action.data
+    })
+}
+
+const handleHorarios = (state, action) => {
+    let dia = state.days.find(day => day.id === action.id);
+
+    if (action.estado === 'abierto') {
+        dia.horaAbierto = action.value
+    } else {
+        dia.horaCerrado = action.value
+    };
+    dia.abierto = true;
+    const tempDays = state.days.filter(day => day.id !== action.id);
+    tempDays.push(dia);
+    tempDays.sort((a, b) => a.id - b.id);
+
+    return updateObject(state, {
+        days: tempDays
+    })
+
+}
+
+const isOpen = (state, action) => {
+    let dia = state.days.find(day => day.id === action.id);
+    if (!action.value) {
+        dia.horaAbierto = "";
+        dia.horaCerrado = "";
+    }
+    dia.abierto = action.value;
+    const tempDays = state.days.filter(day => day.id !== action.id);
+    tempDays.push(dia);
+    tempDays.sort((a, b) => a.id - b.id);
+
+    return updateObject(state, {
+        days: tempDays
+    })
+}
+
+const setNegocioData = (state, action) => {
+    const negocioData = {
+        nombre: action.nombre,
+        direccion: action.direccion,
+        descripcion: action.descripcion
+    }
+    return updateObject(state, {
+        negocioData: negocioData
+    })
+}
+
 
 const reducer = (state = initialState, action) => {
 
@@ -124,6 +239,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GO_TO_NEG_PAGO: return goToNegPago(state, action);
         case actionTypes.GO_TO_PRIVACIDAD: return goToPrivacidad(state, action);
         case actionTypes.GO_TO_WELCOME: return goToWelcome(state, action);
+        case actionTypes.REGISTRO_SET_PERSONAL_DATA: return SetPersonalData(state, action);
+        case actionTypes.HANDLE_HORARIO: return handleHorarios(state, action);
+        case actionTypes.IS_OPEN: return isOpen(state, action);
+        case actionTypes.REGISTRO_SET_NEGOCIO_DATA: return setNegocioData(state, action);
         default: return state
     }
 };

@@ -7,7 +7,11 @@ export {
     goToInfoNegocio,
     goToNegPago,
     goToPrivacidad,
-    goToWelcome
+    goToWelcome,
+    setPersonalData,
+    handleHorario,
+    isOpen,
+    setNegocioData
 } from './registro'
 
 export {

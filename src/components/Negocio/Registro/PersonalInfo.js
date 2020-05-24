@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import * as actions from '../../../store/actions';
@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 
 
 const PersonalInfo = props => {
+
+    const { data } = props;
 
     const [nombre, setNombre] = useState("");
     const [apellidos, setApellidos] = useState("");
@@ -22,6 +24,18 @@ const PersonalInfo = props => {
     const [nameTouched, setNameTouched] = useState(false);
     const [apellidoTouched, setApellidoTouched] = useState(false);
     const [contraTouched, setContraTouchedTouched] = useState(false);
+
+    useEffect(() => {
+        if (Object.keys(data).length !== 0) {
+            setNombre(data.name);
+            setApellidos(data.apellidos)
+            setEmail(data.email)
+            setContra(data.psw)
+            setConfirm(data.psw)
+            setTelefono(data.telefono)
+        }
+    }, [data])
+
 
     const handlePhone = (value) => {
         if (value.length >= 11) {
@@ -86,6 +100,22 @@ const PersonalInfo = props => {
         pass = 'good';
     }
 
+    const handleSuccess = () => {
+        try {
+            const data = {
+                name: nombre,
+                apellidos,
+                email,
+                psw: contra,
+                telefono
+            };
+            props.setPersonalData(data);
+            props.goToInfoNegocio();
+        } catch (_) {
+
+        }
+    }
+
     const form = (
         <>
             <input
@@ -139,7 +169,14 @@ const PersonalInfo = props => {
         </>
     )
 
-
+    let formIsValid = false;
+    if (nombre.length > 2
+        && apellidos
+        && /^\S+@\S+\.\S+$/.test(email)
+        && (confirm === contra)
+        && telefono.length >= 10) {
+        formIsValid = true
+    }
 
     return <div className={classes.personalInfo} >
         <div className={classes.header} >
@@ -153,7 +190,7 @@ const PersonalInfo = props => {
             </Card>
         </div>
         <div className={classes.buttons} >
-            <Button btnType='Success' clicked={() => props.goToInfoNegocio()} >
+            <Button btnType='Success' disabled={!formIsValid} clicked={() => handleSuccess()} >
                 CONTINUAR
             </Button>
             <Button btnType='Danger' clicked={() => props.goToWelcome()} >
@@ -163,11 +200,18 @@ const PersonalInfo = props => {
     </div>
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        goToInfoNegocio: () => dispatch(actions.goToInfoNegocio()),
-        goToWelcome: () => dispatch(actions.goToWelcome())
+        data: state.registro.personalData
     }
 }
 
-export default connect(null, mapDispatchToProps)(PersonalInfo);
+const mapDispatchToProps = dispatch => {
+    return {
+        goToInfoNegocio: () => dispatch(actions.goToInfoNegocio()),
+        goToWelcome: () => dispatch(actions.goToWelcome()),
+        setPersonalData: (data) => dispatch(actions.setPersonalData(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalInfo);

@@ -1,8 +1,10 @@
-import React from 'react';
-import classes from './Table.module.css';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions';
 
-const Days = () => {
-    const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+import classes from './Table.module.css';
+const Days = props => {
+
     const options = () => {
         let arr = [], i, j;
         for (i = 0; i < 24; i++) {
@@ -13,27 +15,34 @@ const Days = () => {
         }
         return arr
     }
+
     const option = options();
 
-    const handleChange = (event, day) => {
-        console.log(day);
-        console.log(event.target.value);
-    }
 
     return (
-        days.map(day => {
+        props.days.map(day => {
             return (
-                <div className={classes.days} key={day} >
-                    <input type='checkbox' />
-                    <label className={classes.day} >{day}</label>
+                <div className={classes.days} key={day.id} >
+                    <input
+                        type='checkbox'
+                        checked={day.abierto}
+                        onChange={(event) => props.isOpen(event.target.checked, day.id)}
+                    />
+                    <label className={classes.day} >{day.dia}</label>
                     <div className={classes.box}>
-                        <select onChange={(e) => handleChange(e, day)} >
+                        <select
+                            value={day.horaAbierto.length > 0 ? day.horaAbierto : ""}
+                            onChange={(event) => props.horario(event.target.value, 'abierto', day.id)}
+                        >
                             {option}
                         </select>
                     </div>
                     <div> - </div>
                     <div className={classes.box}>
-                        <select onChange={(e) => handleChange(e, day)} >
+                        <select
+                            value={day.horaCerrado.length > 0 ? day.horaCerrado : ""}
+                            onChange={(event) => props.horario(event.target.value, 'cerrado', day.id)}
+                        >
                             {option}
                         </select>
                     </div>
@@ -43,11 +52,24 @@ const Days = () => {
     )
 };
 
-const Table = () => {
+const Table = props => {
     return <div className={classes.table} >
         <div>Horario de Trabajo</div>
-        <Days />
+        <Days {...props} />
     </div>
 }
 
-export default Table;
+const mapStateToProps = state => {
+    return {
+        days: state.registro.days
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        horario: (value, estado, id) => dispatch(actions.handleHorario(value, estado, id)),
+        isOpen: (value, id) => dispatch(actions.isOpen(value, id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
