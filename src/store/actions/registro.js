@@ -227,3 +227,76 @@ export const goToWelcome = () => {
         type: actionTypes.GO_TO_WELCOME
     }
 }
+
+export const setPersonalData = (personalData) => {
+    return {
+        type: actionTypes.REGISTRO_SET_PERSONAL_DATA,
+        data: personalData
+    }
+
+}
+
+export const handleHorario = (value, estado, id) => {
+    return {
+        type: actionTypes.HANDLE_HORARIO,
+        value,
+        estado,
+        id
+    }
+}
+
+export const isOpen = (value, id) => {
+    return {
+        type: actionTypes.IS_OPEN,
+        value,
+        id
+    }
+}
+
+export const setNegocioData = (nombre, direccion, descripcion) => {
+    return {
+        type: actionTypes.REGISTRO_SET_NEGOCIO_DATA,
+        nombre,
+        direccion,
+        descripcion
+    }
+}
+
+export const pagoTarjeta = () => {
+    return {
+        type: actionTypes.REGISTRO_PAGO_TARJETA
+    }
+}
+
+export const pagoEfectivo = () => {
+    return {
+        type: actionTypes.REGISTRO_PAGO_EFECTIVO
+    }
+}
+
+export const entregaNegocio = () => {
+    return {
+        type: actionTypes.REGISTRO_ENTREGA_NEGOCIO
+    }
+}
+
+export const entregaDomicilio = () => {
+    return {
+        type: actionTypes.REGISTRO_ENTREGA_DOMICILIO
+    }
+}
+
+export const setFotoId = (foto) => {
+    return {
+        type: actionTypes.REGISTRO_FOTO_ID,
+        foto
+    }
+}
+
+export const setFotoNegocio = (foto) => {
+    return {
+        type: actionTypes.REGISTRO_FOTO_NEGOCIO,
+        foto
+    }
+}
+ 

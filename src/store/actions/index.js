@@ -6,7 +6,17 @@ export {
     goToInfoNegocio,
     goToNegPago,
     goToPrivacidad,
-    goToWelcome
+    goToWelcome,
+    setPersonalData,
+    handleHorario,
+    isOpen,
+    setNegocioData,
+    pagoEfectivo,
+    pagoTarjeta,
+    entregaDomicilio,
+    entregaNegocio,
+    setFotoId,
+    setFotoNegocio
 } from './registro'
 
 export {

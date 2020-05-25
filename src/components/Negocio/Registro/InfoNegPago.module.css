@@ -20,6 +20,9 @@
 
 .card{
     margin: 5% auto;
+    min-height: 60vh;
+    height: 63vh;
+    max-height: 62vh;
 }
 
 .pago{
@@ -58,6 +61,19 @@
     height: 10rem;
 }
 
+.imageUpload{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imageUpload span{
+    font-size: 0.6rem;
+    color: rgb(107, 107, 107);
+    position: relative;
+    top: -12px;
+}
+
 .uploads button{
     font-size: 0.6rem;
     width: 100%;
@@ -72,3 +88,9 @@
     margin: 0 5%;
     max-width: 185px;
 }
+
+.selected{
+    box-sizing: border-box;
+    border: 3px solid #f6a030;
+}
+
