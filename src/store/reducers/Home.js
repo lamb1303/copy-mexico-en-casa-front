@@ -1,10 +1,12 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
+import * as alertTypes from '../Util/enums/alertTypes';
 
 
 const initialState = {
     loading: false,
-    error: false,
+    isAlert: false,
+    alertType: '',
     token: null,
     id: null,
     isCustomer: null,
@@ -18,7 +20,7 @@ const initialState = {
 const login = (state, action) => {
     return updateObject(state, {
         loading: false,
-        error: action.error,
+        isAlert: action.isAlert,
         token: action.token,
         id: action.id,
         isCustomer: action.isCustomer,
@@ -53,9 +55,16 @@ const initializeRequest = (state, action) => {
 const message = (state, action) => {
     return updateObject(state, {
         message: action.message,
-        error: true,
+        isAlert: true,
+        alertType: alertTypes.error,
     });
 
+}
+
+const updateHomeAlert = (state, action) => {
+    return  updateObject(state, {
+        isAlert: !state.isAlert,
+    });
 }
 
 
@@ -68,6 +77,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.HOME_JOIN_TO_US_CLOSED: return joinToUsClosed(state, action);
         case actionTypes.HOME_WAITING: return initializeRequest(state, action);
         case actionTypes.HOME_INVALID_CREDENTIALS: return message(state, action);
+        case actionTypes.HOME_UPDATE_ALERT: return updateHomeAlert(state, action);
         default: return state
     }
 };

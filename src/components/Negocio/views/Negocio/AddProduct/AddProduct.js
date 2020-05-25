@@ -57,14 +57,15 @@ const AddProduct = props => {
 
     const saveProduct = () => {
         if (!foodNameError && !priceError && !descError) {
-            const food = {
+            console.log(props.idBusiness);
+            const foodProduct = {
                 idBusiness: props.idBusiness,
                 name: foodName,
                 price: price,
                 desc: desc
             }
-            props.addProduct(food);
-            
+            props.addProduct(foodProduct);
+
         }
     }
 
@@ -87,7 +88,7 @@ const AddProduct = props => {
                     <div className="addProduct-container-info">
                         <TextField
                             required
-                            name = 'email'
+                            name='email'
                             className="addProduct-container-info__name"
                             error={foodNameError ? true : false}
                             value={foodName}
@@ -100,7 +101,7 @@ const AddProduct = props => {
 
                         <TextField
                             required
-                            name = 'price'
+                            name='price'
                             className='addProduct-container-info__price'
                             error={priceError ? true : false}
                             value={price}
@@ -117,7 +118,7 @@ const AddProduct = props => {
                     <div className="addProduct-container__desc">
                         <TextField
                             required
-                            name = 'desc'
+                            name='desc'
                             multiline
                             error={descError ? true : false}
                             value={desc}
@@ -145,7 +146,7 @@ const mapStateToProps = state => {
     return {
         isProductAdded: state.registro.isProductAdded,
         idBusiness: state.home.idBusiness,
-    
+
     }
 }
 

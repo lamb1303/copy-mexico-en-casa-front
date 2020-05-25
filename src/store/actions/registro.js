@@ -171,26 +171,18 @@ export const registroNuevoNegocio = (negocio) => {
     }
 }
 
-export const addProductClosed = () => {
-    return {
-        type: actionTypes.CLOSE_ADD_PRODUCT
-    }
-}
-
 export const addProduct = (foodProduct) => {
     return dispatch => {
-        //
         if (foodProduct) {
-            // axios.post('`${process.env.REACT_APP_API_URL}/registro/addProduct`')
-            //     .then(response => {
-            //        const data = response.data;
-            //         if(data.status === 201){
-            //          dispatch(productAdded(data.message));
-            dispatch(productAdded("Platillo creado"));
-            //     }
-            // }
+            axios.post(`${process.env.REACT_APP_API_URL}/business/addProduct`, foodProduct)
+                .then(response => {
+                    const data = response.data;
+                    if (data.status === 201) {
+                        dispatch(productAdded(data.message));
+                    }
+                }
 
-            // )
+                )
         }
 
     }
@@ -201,6 +193,8 @@ const productAdded = (message) => {
     return {
         type: actionTypes.ADDED_FOOD_PRODUCT,
         message: message,
+        isAlert: true,
+        alertType: 'Success'
     }
 }
 

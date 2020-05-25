@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
-import { updateObject } from '../utility';
 
 export const initializeRequest = () => {
     return {
@@ -15,7 +14,6 @@ export const login = (credentials) => {
         axios.post(`${process.env.REACT_APP_API_URL}/home/login`, credentials)
             .then(response => {
                 const data = response.data;
-                console.log("entro")
                 switch (response.status) {
                     case 201:
                         localStorage.setItem(
@@ -70,5 +68,11 @@ export const joinToUs = () => {
 export const joinToUsClosed = () => {
     return {
         type: actionTypes.HOME_JOIN_TO_US_CLOSED
+    }
+}
+
+export const updateHomeAlert = () => {
+    return {
+        type:actionTypes.HOME_UPDATE_ALERT,
     }
 }
