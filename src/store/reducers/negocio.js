@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
+import * as stageType from '../Util/enums/stageType';
 
 const initialState = {
     editMode: false,
@@ -19,7 +20,7 @@ const initialState = {
     receivedOrders:
     {
         cl1: {
-            stage: 'receivedOrders',
+            stage: stageType.receivedOrders,
             negocioId: 'ng1',
             products: {
                 productId3: {
