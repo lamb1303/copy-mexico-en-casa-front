@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import ImageUpload from '../../UI/ImageUpload/ImageUpload';
@@ -23,10 +23,41 @@ const Metodo = props => {
 
 const InfoNegPago = props => {
 
+    const { idImage, negocioImage } = props;
+    const [image, setImage] = useState();
+
     const handleUpload = (id, pickedFile, fileIsValid) => {
         if (fileIsValid) {
-            console.log(id);
-            console.log(pickedFile);
+            if (id === 'negocio') {
+                props.setFotoNegocio(pickedFile);
+                console.log(pickedFile);
+            } else {
+                setImage(pickedFile);
+                console.log(pickedFile);
+            }
+        }
+    }
+
+    const handleContinue = () => {
+        if (props.pagoTarjeta || props.pagoEfectivo) {
+            if (props.entregaDomicilio || props.entregaNegocio) {
+                if (image !== undefined) {
+                    props.goToPrivacidad();
+                    console.log('Subiendo al reducer...')
+                    props.setFotoId(image);
+                } else {
+                    console.log('Foto del ID requerida')
+                }
+            }
+        }
+    }
+
+    let isFormValid = false;
+    if (props.pagoTarjeta || props.pagoEfectivo) {
+        if (props.entregaDomicilio || props.entregaNegocio) {
+            if (image !== undefined) {
+                isFormValid = true;
+            }
         }
     }
 
@@ -36,37 +67,61 @@ const InfoNegPago = props => {
                 <span>Hazle saber a tus clientes tu metodo de pago y metodo de entrega</span>
             </div>
             <div className={classes.card} >
-                <Card>
+                <Card >
                     <Metodo metodo={'PAGO'}>
-                        <Tarjeta />
-                        <Efectivo />
+                        <Tarjeta
+                            className={props.pagoTarjeta ? classes.selected : ''}
+                            onClick={() => props.onPagoTarjeta()}
+                        />
+                        <Efectivo
+                            className={props.pagoEfectivo ? classes.selected : ''}
+                            onClick={() => props.onPagoEfectivo()}
+                        />
                     </Metodo>
                     <Metodo metodo={'ENTREGA'}>
-                        <Local />
-                        <Domicilio />
+                        <Local
+                            className={props.entregaNegocio ? classes.selected : ''}
+                            onClick={() => props.onEntNegocio()}
+                        />
+                        <Domicilio
+                            className={props.entregaDomicilio ? classes.selected : ''}
+                            onClick={() => props.onEntDomicilio()}
+                        />
                     </Metodo>
                     <div className={classes.uploads} >
-                        <ImageUpload
-                            from='registro'
-                            center
-                            btnType='Success'
-                            message='Seleccionar foto'
-                            id='negocio'
-                            onInput={(id, pickedFile, fileIsValid) => handleUpload(id, pickedFile, fileIsValid)}
-                        />
-                        <ImageUpload
-                            from='registro'
-                            center
-                            btnType='Success'
-                            message='Seleccionar foto'
-                            id='ID'
-                            onInput={(id, pickedFile, fileIsValid) => handleUpload(id, pickedFile, fileIsValid)}
-                        />
+                        <div className={classes.imageUpload} >
+                            <span>Foto del negocio</span>
+                            <ImageUpload
+                                img={image}
+                                from='registro'
+                                center
+                                btnType='Success'
+                                message='Seleccionar foto'
+                                id='negocio'
+                                onInput={(id, pickedFile, fileIsValid) => handleUpload(id, pickedFile, fileIsValid)}
+                            />
+                        </div>
+                        <div className={classes.imageUpload}>
+                            <span>Identificacion Oficial</span>
+                            <ImageUpload
+                                img={negocioImage}
+                                from='registro'
+                                center
+                                btnType='Success'
+                                message='Seleccionar foto'
+                                id='ID'
+                                onInput={(id, pickedFile, fileIsValid) => handleUpload(id, pickedFile, fileIsValid)}
+                            />
+                        </div>
                     </div>
                 </Card>
             </div>
             <div className={classes.buttons} >
-                <Button btnType='Success' clicked={() => props.goToPrivacidad()} >
+                <Button
+                    btnType='Success'
+                    clicked={() => handleContinue()}
+                    disabled={!isFormValid}
+                >
                     CONTINUAR
             </Button>
                 <Button btnType='Danger' clicked={() => props.goToInfoNegocio()} >
@@ -77,11 +132,28 @@ const InfoNegPago = props => {
     )
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        goToInfoNegocio: () => dispatch(actions.goToInfoNegocio()),
-        goToPrivacidad: () => dispatch(actions.goToPrivacidad())
+        pagoEfectivo: state.registro.pagoEfectivo,
+        pagoTarjeta: state.registro.pagoTarjeta,
+        entregaDomicilio: state.registro.entregaDomicilio,
+        entregaNegocio: state.registro.entregaNegocio,
+        idImage: state.registro.idImage,
+        negocioImage: state.registro.negocioImage
     }
 }
 
-export default connect(null, mapDispatchToProps)(InfoNegPago);
+const mapDispatchToProps = dispatch => {
+    return {
+        goToInfoNegocio: () => dispatch(actions.goToInfoNegocio()),
+        goToPrivacidad: () => dispatch(actions.goToPrivacidad()),
+        onPagoTarjeta: () => dispatch(actions.pagoTarjeta()),
+        onPagoEfectivo: () => dispatch(actions.pagoEfectivo()),
+        onEntDomicilio: () => dispatch(actions.entregaDomicilio()),
+        onEntNegocio: () => dispatch(actions.entregaNegocio()),
+        setFotoNegocio: (foto) => dispatch(actions.setFotoNegocio(foto)),
+        setFotoId: (foto) => dispatch(actions.setFotoId(foto))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoNegPago);

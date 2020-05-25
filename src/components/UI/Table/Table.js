@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 
@@ -18,6 +18,30 @@ const Days = props => {
 
     const option = options();
 
+    const handleClose = (value, day) => {
+        if (day.horaAbierto === "") {
+            props.horario(value, 'cerrado', day.id)
+        } else {
+            if (day.horaAbierto < value) {
+                props.horario(value, 'cerrado', day.id)
+            } else {
+                console.log('El horario de cerrado debe ser mayor al horario de abierto')
+            }
+        }
+    }
+
+    const handleOpen = (value, day) => {
+        if (day.horaCerrado === "") {
+            props.horario(value, 'abierto', day.id)
+        } else {
+            if (day.horaCerrado > value) {
+                props.horario(value, 'abierto', day.id)
+            } else {
+                console.log('El horario de abierto debe ser menor al horario de cerrado')
+            }
+        }
+    }
+
 
     return (
         props.days.map(day => {
@@ -32,7 +56,7 @@ const Days = props => {
                     <div className={classes.box}>
                         <select
                             value={day.horaAbierto.length > 0 ? day.horaAbierto : ""}
-                            onChange={(event) => props.horario(event.target.value, 'abierto', day.id)}
+                            onChange={(event) => handleOpen(event.target.value, day)}
                         >
                             {option}
                         </select>
@@ -41,7 +65,7 @@ const Days = props => {
                     <div className={classes.box}>
                         <select
                             value={day.horaCerrado.length > 0 ? day.horaCerrado : ""}
-                            onChange={(event) => props.horario(event.target.value, 'cerrado', day.id)}
+                            onChange={(event) => handleClose(event.target.value, day)}
                         >
                             {option}
                         </select>

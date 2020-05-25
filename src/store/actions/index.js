@@ -11,7 +11,13 @@ export {
     setPersonalData,
     handleHorario,
     isOpen,
-    setNegocioData
+    setNegocioData,
+    pagoEfectivo,
+    pagoTarjeta,
+    entregaDomicilio,
+    entregaNegocio,
+    setFotoId,
+    setFotoNegocio
 } from './registro'
 
 export {

@@ -78,7 +78,13 @@ const initialState = {
         nombre: 'Las pilladas',
         direccion: 'La calle de la amargura alv',
         descripcion: 'Puro saboooor!'
-    }
+    },
+    pagoEfectivo: false,
+    pagoTarjeta: false,
+    entregaDomicilio: false,
+    entregaNegocio: false,
+    idImage: {},
+    negocioImage: undefined
 }
 
 
@@ -224,6 +230,45 @@ const setNegocioData = (state, action) => {
     })
 }
 
+const pagoTarjeta = (state, action) => {
+    return updateObject(state, {
+        pagoTarjeta: !state.pagoTarjeta
+    })
+}
+
+const pagoEfectivo = (state, action) => {
+    return updateObject(state, {
+        pagoEfectivo: !state.pagoEfectivo,
+    })
+}
+
+const entregaDomicilio = (state, action) => {
+    return updateObject(state, {
+        entregaDomicilio: !state.entregaDomicilio
+    })
+}
+
+const entregaNegocio = (state, action) => {
+    return updateObject(state, {
+        entregaNegocio: !state.entregaNegocio
+    })
+}
+
+const setFotoId = (state, action) => {
+    console.log('from the reducer');
+    const localImage = window.URL.createObjectURL(action.foto);
+    console.log(localImage);
+    return updateObject(state, {
+        idImage: localImage
+    })
+}
+
+const setFotoNegocio = (state, action) => {
+    return updateObject(state, {
+        negocioImage: action.foto
+    })
+}
+
 
 const reducer = (state = initialState, action) => {
 
@@ -243,6 +288,12 @@ const reducer = (state = initialState, action) => {
         case actionTypes.HANDLE_HORARIO: return handleHorarios(state, action);
         case actionTypes.IS_OPEN: return isOpen(state, action);
         case actionTypes.REGISTRO_SET_NEGOCIO_DATA: return setNegocioData(state, action);
+        case actionTypes.REGISTRO_PAGO_EFECTIVO: return pagoEfectivo(state, action);
+        case actionTypes.REGISTRO_PAGO_TARJETA: return pagoTarjeta(state, action);
+        case actionTypes.REGISTRO_ENTREGA_DOMICILIO: return entregaDomicilio(state, action);
+        case actionTypes.REGISTRO_ENTREGA_NEGOCIO: return entregaNegocio(state, action);
+        case actionTypes.REGISTRO_FOTO_ID: return setFotoId(state, action);
+        case actionTypes.REGISTRO_FOTO_NEGOCIO: return setFotoNegocio(state, action);
         default: return state
     }
 };
