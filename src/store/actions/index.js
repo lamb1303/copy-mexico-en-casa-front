@@ -14,9 +14,7 @@ export {
     pagoEfectivo,
     pagoTarjeta,
     entregaDomicilio,
-    entregaNegocio,
-    setFotoId,
-    setFotoNegocio
+    entregaNegocio
 } from './registro'
 
 export {

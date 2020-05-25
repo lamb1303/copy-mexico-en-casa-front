@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import ImageUpload from '../../UI/ImageUpload/ImageUpload';
@@ -23,17 +23,15 @@ const Metodo = props => {
 
 const InfoNegPago = props => {
 
-    const { idImage, negocioImage } = props;
-    const [image, setImage] = useState();
+    const [photoINE, setPhotoINE] = useState();
+    const [photoBusiness, setPhotoBusiness] = useState();
 
     const handleUpload = (id, pickedFile, fileIsValid) => {
         if (fileIsValid) {
             if (id === 'negocio') {
-                props.setFotoNegocio(pickedFile);
-                console.log(pickedFile);
+                setPhotoBusiness(pickedFile);
             } else {
-                setImage(pickedFile);
-                console.log(pickedFile);
+                setPhotoINE(pickedFile)
             }
         }
     }
@@ -41,10 +39,8 @@ const InfoNegPago = props => {
     const handleContinue = () => {
         if (props.pagoTarjeta || props.pagoEfectivo) {
             if (props.entregaDomicilio || props.entregaNegocio) {
-                if (image !== undefined) {
-                    props.goToPrivacidad();
-                    console.log('Subiendo al reducer...')
-                    props.setFotoId(image);
+                if (photoINE !== undefined) {
+                    console.log('Continue...')
                 } else {
                     console.log('Foto del ID requerida')
                 }
@@ -55,7 +51,7 @@ const InfoNegPago = props => {
     let isFormValid = false;
     if (props.pagoTarjeta || props.pagoEfectivo) {
         if (props.entregaDomicilio || props.entregaNegocio) {
-            if (image !== undefined) {
+            if (photoINE !== undefined) {
                 isFormValid = true;
             }
         }
@@ -92,7 +88,7 @@ const InfoNegPago = props => {
                         <div className={classes.imageUpload} >
                             <span>Foto del negocio</span>
                             <ImageUpload
-                                img={image}
+                                img={photoINE}
                                 from='registro'
                                 center
                                 btnType='Success'
@@ -104,7 +100,7 @@ const InfoNegPago = props => {
                         <div className={classes.imageUpload}>
                             <span>Identificacion Oficial</span>
                             <ImageUpload
-                                img={negocioImage}
+                                img={photoBusiness}
                                 from='registro'
                                 center
                                 btnType='Success'
@@ -146,13 +142,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         goToInfoNegocio: () => dispatch(actions.goToInfoNegocio()),
-        goToPrivacidad: () => dispatch(actions.goToPrivacidad()),
         onPagoTarjeta: () => dispatch(actions.pagoTarjeta()),
         onPagoEfectivo: () => dispatch(actions.pagoEfectivo()),
         onEntDomicilio: () => dispatch(actions.entregaDomicilio()),
         onEntNegocio: () => dispatch(actions.entregaNegocio()),
-        setFotoNegocio: (foto) => dispatch(actions.setFotoNegocio(foto)),
-        setFotoId: (foto) => dispatch(actions.setFotoId(foto))
     }
 }
 

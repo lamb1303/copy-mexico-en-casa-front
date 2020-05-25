@@ -84,8 +84,6 @@ const initialState = {
     pagoTarjeta: false,
     entregaDomicilio: false,
     entregaNegocio: false,
-    idImage: {},
-    negocioImage: undefined
 }
 
 
@@ -251,20 +249,6 @@ const entregaNegocio = (state, action) => {
     })
 }
 
-const setFotoId = (state, action) => {
-    console.log('from the reducer');
-    const localImage = window.URL.createObjectURL(action.foto);
-    console.log(localImage);
-    return updateObject(state, {
-        idImage: localImage
-    })
-}
-
-const setFotoNegocio = (state, action) => {
-    return updateObject(state, {
-        negocioImage: action.foto
-    })
-}
 
 
 const reducer = (state = initialState, action) => {
@@ -288,8 +272,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REGISTRO_PAGO_TARJETA: return pagoTarjeta(state, action);
         case actionTypes.REGISTRO_ENTREGA_DOMICILIO: return entregaDomicilio(state, action);
         case actionTypes.REGISTRO_ENTREGA_NEGOCIO: return entregaNegocio(state, action);
-        case actionTypes.REGISTRO_FOTO_ID: return setFotoId(state, action);
-        case actionTypes.REGISTRO_FOTO_NEGOCIO: return setFotoNegocio(state, action);
         default: return state
     }
 };

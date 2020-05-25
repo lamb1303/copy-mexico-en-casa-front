@@ -16,9 +16,7 @@ const RegistroNegocio = props => {
         stage = <NegocioInfo />
     } else if (props.negocioFinal) {
         stage = <InfoNegPago />
-    } else if (props.avisoPriv) {
-        stage = <AvisoPrivacidad />
-    }
+    } 
 
     return (
         <div className={classes.registro} >
