@@ -91,7 +91,7 @@ const Home = props => {
 
             </div>
             <div>
-                {props.error && <AlertComponent title='error'>{props.message}</AlertComponent>}
+                {props.isAlert && <AlertComponent title={props.alertType} clicked= {() => props.updateHomeAlert()}>{props.message}</AlertComponent>}
             </div>
 
         </div>
@@ -102,7 +102,8 @@ const mapStateToProps = state => {
     return {
         token: state.home.token,
         join: state.home.join,
-        error: state.home.error,
+        isAlert: state.home.isAlert,
+        alertType: state.home.alertType,
         message: state.home.message,
         loading: state.home.loading,
     }
@@ -112,6 +113,7 @@ const mapDispatchToProps = {
     login: actions.login,
     joinToUs: actions.joinToUs,
     joinToUsClosed: actions.joinToUsClosed,
+    updateHomeAlert: actions.updateHomeAlert,
 }
 
 

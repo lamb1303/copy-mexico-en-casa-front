@@ -2,7 +2,6 @@ export {
     registrarNuevoCliente,
     registroNuevoNegocio,
     addProduct,
-    addProductClosed,
     goToPersonal,
     goToInfoNegocio,
     goToNegPago,
@@ -20,6 +19,7 @@ export {
     joinToUs,
     joinToUsClosed,
     setLocalTokenStored,
+    updateHomeAlert,
 } from './home'
 
 export {

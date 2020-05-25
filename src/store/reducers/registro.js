@@ -8,7 +8,8 @@ const initialState = {
     name: '',
     id: null,
     registroNegocio: null,
-    isProductAdded: false,
+    isAlert: false,
+    alertType: '',
     message: "",
     cafe: false,
     // wellcome: true,
@@ -54,12 +55,8 @@ const addProduct = (state, action) => {
     return updateObject(state, {
         isProductAdded: true,
         message: action.message,
-
-    })
-}
-
-const addProductClosed = (state, action) => {
-    return updateObject(state, {
+        isAlert: true,
+        alertType: 'Success',
 
     })
 }
@@ -118,7 +115,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.INICIAR_REGISTRO: return iniciarRegistro(state, action);
         case actionTypes.REGISTRO_FAIL: return registerFailed(state, action);
         case actionTypes.ADDED_FOOD_PRODUCT: return addProduct(state, action);
-        case actionTypes.CLOSE_ADD_PRODUCT: return addProductClosed(state, action);
         case actionTypes.GO_TO_PERSONAL: return goToPersonal(state, action);
         case actionTypes.GO_TO_INFO_NEGOCIO: return goToInfoNegocio(state, action);
         case actionTypes.GO_TO_NEG_PAGO: return goToNegPago(state, action);
