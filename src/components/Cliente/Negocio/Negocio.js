@@ -20,12 +20,10 @@ const Negocio = props => {
                 <Button btnType='Success' clicked={() => props.abrirModal()} >Ver pedido</Button>
                 {
                     props.openOrder &&
-                        <Pedido
-                            total={props.orderPrice}
+                    <Pedido
+                        key={""}
+                        total={props.orderPrice}
                         />
-                
-
-
                 }
             </div>
         </>

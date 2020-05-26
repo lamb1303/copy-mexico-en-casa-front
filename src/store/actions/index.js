@@ -30,6 +30,7 @@ export {
     CancelOrder,
     checkout,
     DelOneToSelectedProduct,
+    BackToPayment
 } from './cliente'
 
 // export {

@@ -11,7 +11,7 @@
     text-align: center;
     z-index: 100;
     border-radius: 1.5rem;
-    width: 21em;
+    width: 33em;
     height: 33em;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -43,7 +43,6 @@
     }
 
     & Button {
-        font-size: 1.5em;
         position: relative;
         background: #482856;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -87,12 +86,36 @@ h1 {
         overflow-y: scroll;
         height: 27em;
 
+        &_body {
+            position: relative;
+            display: flex;
+            width: 13em;
+            float: left;
+            padding: 3px;
+        }
+
         &_price {
             position: relative;
             display: flex;
             width: 2em;
             float: right;
             padding: 3px;
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .modal {
+        width: 17em;
+        height: 33em;
+        &_deliver {
+            width: 7em;
+            float: left;
+        }
+
+        &_noDeliver {
+            width: 7em;
+            float: right;
         }
     }
 }
