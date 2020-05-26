@@ -216,9 +216,10 @@ export const goToNegPago = () => {
     }
 }
 
-export const goToPrivacidad = () => {
+export const goToPrivacidad = (isOpen) => {
     return {
-        type: actionTypes.GO_TO_PRIVACIDAD
+        type: actionTypes.GO_TO_PRIVACIDAD,
+        isOpen
     }
 }
 

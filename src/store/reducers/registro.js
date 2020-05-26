@@ -28,7 +28,7 @@ const initialState = {
         {
             id: 1,
             dia: 'Lunes',
-            abierto: false,
+            abierto: true,
             horaAbierto: '',
             horaCerrado: '',
         },
@@ -157,10 +157,7 @@ const goToNegPago = (state, action) => {
 
 const goToPrivacidad = (state, action) => {
     return updateObject(state, {
-        personalInfo: false,
-        negocioInfo: false,
-        negocioFinal: false,
-        avisoPriv: true,
+        avisoPriv: action.isOpen,
     })
 }
 

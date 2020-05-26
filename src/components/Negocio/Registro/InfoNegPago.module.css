@@ -21,7 +21,7 @@
 .card{
     margin: 5% auto;
     min-height: 60vh;
-    height: 63vh;
+    height: 60vh;
     max-height: 62vh;
 }
 
@@ -74,6 +74,24 @@
     top: -12px;
 }
 
+.aviso{
+    display: flex;
+    color: white;
+    left: 5%;
+    padding-left: 5%;
+    margin: 3% 0;
+    position: relative;
+    width: 80vw;
+    top: -2%;
+}
+
+.privacidad{
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
 .uploads button{
     font-size: 0.6rem;
     width: 100%;
@@ -94,3 +112,28 @@
     border: 3px solid #f6a030;
 }
 
+.avisoP{
+    z-index: 103;
+    position: fixed;
+    width: 100%;
+    top: 10%;
+}
+
+.avisoP div{
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    margin: 5% auto;
+    font-weight: bold;
+}
+
+.delete{
+    position: relative;
+}
+
+.delete svg{
+    height: 20px;
+    width: 12px;
+}

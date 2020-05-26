@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PersonalInfo from './PersonalInfo';
 import NegocioInfo from './NegocioInfo';
 import InfoNegPago from './InfoNegPago';
-import AvisoPrivacidad from './AvisoPrivacidad';
 import classes from './RegistroNegocio.module.css';
 
 const RegistroNegocio = props => {
@@ -32,7 +31,6 @@ const mapStateToProps = state => {
         personalInfo: state.registro.personalInfo,
         negocioInfo: state.registro.negocioInfo,
         negocioFinal: state.registro.negocioFinal,
-        avisoPriv: state.registro.avisoPriv,
     }
 }
 
