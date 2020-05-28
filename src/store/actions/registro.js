@@ -171,33 +171,6 @@ export const registroNuevoNegocio = (negocio) => {
     }
 }
 
-export const addProduct = (foodProduct) => {
-    return dispatch => {
-        if (foodProduct) {
-            axios.post(`${process.env.REACT_APP_API_URL}/business/addProduct`, foodProduct)
-                .then(response => {
-                    const data = response.data;
-                    if (data.status === 201) {
-                        dispatch(productAdded(data.message));
-                    }
-                }
-
-                )
-        }
-
-    }
-
-}
-
-const productAdded = (message) => {
-    return {
-        type: actionTypes.ADDED_FOOD_PRODUCT,
-        message: message,
-        isAlert: true,
-        alertType: 'Success'
-    }
-}
-
 export const goToPersonal = () => {
     return {
         type: actionTypes.GO_TO_PERSONAL
@@ -299,4 +272,3 @@ export const setFotoNegocio = (foto) => {
         foto
     }
 }
- 

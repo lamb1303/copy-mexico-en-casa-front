@@ -1,7 +1,6 @@
 export {
     registrarNuevoCliente,
     registroNuevoNegocio,
-    addProduct,
     goToPersonal,
     goToInfoNegocio,
     goToNegPago,
@@ -48,9 +47,11 @@ export {
     DelOneToSelectedProduct,
 } from './cliente'
 
-// export {
-//     getProducts,
-// } from './products'
+export {
+    getProducts,
+    addProduct,
+    updateAddProductAlert,
+} from './products'
 
 export {
     openEditNegocio,
