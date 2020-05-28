@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useCallback, useState } from 'react';
 import './App.css';
 import * as actions from './store/actions';
 import { connect } from 'react-redux'
@@ -16,16 +16,49 @@ import Pedido from './components/Cliente/Negocio/Pedido/Pedido'
 import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
 
+let logoutTimer;
+
 const App = (props) => {
+
+  const [expirationDate, setExpirationDate] = useState();
+
+
+  const logout = useCallback(() => {
+    const userData = {
+      token: null,
+      isCustomer: null,
+    };
+    setExpirationDate(null);
+    localStorage.removeItem('user');
+    props.setLocalTokenStored(userData);
+
+  }, [props]);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('user'));
-    if (storedData && storedData.token && storedData.isCustomer !== null) {
-      console.log(`uno:  ${storedData.token}`);
+
+    if (storedData && storedData.token &&
+      storedData.isCustomer !== null
+      && new Date(storedData.expiration) > new Date()
+    ) {
       props.setLocalTokenStored(storedData);
+    }else{
+      logout();
     }
 
-  });
+  }, [logout, props]);
+
+  useEffect(() => {
+    if (expirationDate) {
+      const remainingTime = new Date(expirationDate).getTime() - new Date().getTime()
+      console.log(remainingTime)
+      logoutTimer = setTimeout(logout, remainingTime);
+    } else {
+      console.log("entro")
+      clearTimeout(logoutTimer);
+    }
+
+  }, [logout, expirationDate]);
 
   let route = (
     <Switch >
@@ -76,6 +109,7 @@ const App = (props) => {
 const mapStateToProps = state => {
   return {
     token: state.home.token !== null,
+    id: state.home.id,
     isCustomer: state.home.isCustomer,
   }
 }

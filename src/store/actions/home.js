@@ -16,9 +16,13 @@ export const login = (credentials) => {
                 const data = response.data;
                 switch (response.status) {
                     case 201:
+                        const tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);
                         localStorage.setItem(
                             'user',
-                            JSON.stringify({ token: data.token, isCustomer: data.isCustomer})
+                            JSON.stringify({
+                                ...data,
+                                expiration: tokenExpirationDate.toISOString()
+                            })
                         );
                         dispatch(logging(data));
                         break;
@@ -73,6 +77,6 @@ export const joinToUsClosed = () => {
 
 export const updateHomeAlert = () => {
     return {
-        type:actionTypes.HOME_UPDATE_ALERT,
+        type: actionTypes.HOME_UPDATE_ALERT,
     }
 }
