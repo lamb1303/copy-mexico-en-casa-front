@@ -27,7 +27,6 @@ const RegistroNegocio = props => {
 
 const mapStateToProps = state => {
     return {
-        // wellcome: state.registro.wellcome,
         personalInfo: state.registro.personalInfo,
         negocioInfo: state.registro.negocioInfo,
         negocioFinal: state.registro.negocioFinal,

@@ -12,23 +12,16 @@ const initialState = {
     alertType: '',
     message: "",
     cafe: false,
-    // wellcome: true,
     personalInfo: false,
     negocioInfo: false,
     negocioFinal: false,
     avisoPriv: false,
-    personalData: {
-        name: 'Blad',
-        apellidos: 'Test',
-        email: 'test@test.com',
-        psw: 'blad',
-        telefono: '1234567897'
-    },
+    personalData: {},
     days: [
         {
             id: 1,
             dia: 'Lunes',
-            abierto: true,
+            abierto: false,
             horaAbierto: '',
             horaCerrado: '',
         },
@@ -75,11 +68,7 @@ const initialState = {
             horaCerrado: '',
         },
     ],
-    negocioData: {
-        nombre: 'Las pilladas',
-        direccion: 'La calle de la amargura alv',
-        descripcion: 'Puro saboooor!'
-    },
+    negocioData: {},
     pagoEfectivo: false,
     pagoTarjeta: false,
     entregaDomicilio: false,

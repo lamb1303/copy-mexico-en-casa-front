@@ -59,6 +59,12 @@ const PersonalInfo = props => {
         setConfirm(value);
     }
 
+    const handleContra = (value) => {
+        setContra(value);
+        if (!contraTouched)
+            setContraTouchedTouched(true)
+    }
+
     let emailError = false;
     if (touched) {
         emailError = /^\S+@\S+\.\S+$/.test(email);
@@ -90,14 +96,22 @@ const PersonalInfo = props => {
             nameError = true;
         }
     }
-    let last = '';
+    let lastError = false;
     if (apellidoTouched) {
-        last = 'good';
+        if (apellidos.length > 5) {
+            lastError = false;
+        } else {
+            lastError = true;
+        }
     }
 
-    let pass = '';
+    let passError = false;
     if (contraTouched) {
-        pass = 'good';
+        if (contra.length >= 8) {
+            passError = false;
+        } else {
+            passError = true;
+        }
     }
 
     const handleSuccess = () => {
@@ -127,7 +141,7 @@ const PersonalInfo = props => {
                 placeholder='Nombre'
             />
             <input
-                className={`${classes.input} ${classes[last]} `}
+                className={`${classes.input} ${lastError ? classes.error : apellidoTouched ? classes.good : ''} `}
                 type="text"
                 required
                 value={apellidos}
@@ -143,11 +157,11 @@ const PersonalInfo = props => {
                 placeholder='Email'
             />
             <input
-                className={`${classes.input} ${classes[pass]}`}
+                className={`${classes.input} ${passError ? classes.error : contraTouched ? classes.good : ''}`}
                 type="password"
                 required
                 value={contra}
-                onChange={(e) => { setContra(e.target.value); setContraTouchedTouched(true) }}
+                onChange={(e) => handleContra(e.target.value)}
                 placeholder='Contraseña'
             />
             <input
@@ -174,6 +188,7 @@ const PersonalInfo = props => {
         && apellidos
         && /^\S+@\S+\.\S+$/.test(email)
         && (confirm === contra)
+        && contra.length > 0
         && telefono.length >= 10) {
         formIsValid = true
     }

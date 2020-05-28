@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState, Fragment } from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import ImageUpload from '../../UI/ImageUpload/ImageUpload';
