@@ -68,5 +68,6 @@ export {
     terminarPedido,
     getPedidoNegocioId,
     getPedidoPreparing,
-    getPedidoReady
+    getPedidoReady,
+    loadNegocio
 } from './negocio'

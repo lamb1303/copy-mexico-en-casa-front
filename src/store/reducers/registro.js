@@ -97,6 +97,7 @@ const nuevoNegocio = (state, action) => {
         loading: false,
         token: action.token,
         isCustomer: action.isCustomer,
+        id: action.id
     })
 }
 

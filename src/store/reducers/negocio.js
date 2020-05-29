@@ -3,6 +3,8 @@ import { updateObject } from '../utility';
 import * as stageType from '../Util/enums/stageType';
 
 const initialState = {
+    token: null,
+    id: null,
     editMode: false,
     getPedidosloading: false,
     selectedNegocio: {
@@ -387,6 +389,12 @@ const changeStageFail = (state, action) => {
     })
 }
 
+const loadNegocio = (state, action) => {
+    return updateObject(state, {
+        token: action.token,
+        id: action.id
+    })
+}
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -411,6 +419,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_READY_SUCCESS: return getFinishSuccess(state, action);
         case actionTypes.LOADING_PEDIDOS: return loadingPedido(state, action);
         case actionTypes.CHANGE_STAGE_FAIL: return changeStageFail(state, action);
+        case actionTypes.LOAD_NEGOCIO: return loadNegocio(state, action);
         default: return state
     }
 }

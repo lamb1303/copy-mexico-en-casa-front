@@ -31,6 +31,7 @@ const setLocalTokenStored = (state, action) => {
     return updateObject(state, {
         token: action.token,
         isCustomer: action.isCustomer,
+        id: action.id
     });
 }
 

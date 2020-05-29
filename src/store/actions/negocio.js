@@ -245,3 +245,45 @@ export const clickAddProduct = () => {
         type: actionTypes.BUSINESS_CLICK_ADD_PRODUCT
     }
 }
+
+export const loadNegocio = (negocioIds) => {
+    return {
+        type: actionTypes.LOAD_NEGOCIO,
+        token: negocioIds.token,
+        id: negocioIds.id
+    }
+}
+
+export const initGetNegocioDetails = () => {
+    return {
+        type: actionTypes.INIT_GET_NEGOCIO_DETAILS
+    }
+}
+
+export const getNegocioDetailsSuccess = (negocio) => {
+    return {
+        type: actionTypes.GET_NEGOCIO_DETAILS_SUCCESS,
+        negocio: negocio
+    }
+}
+
+export const getNegocioDetailsFail = () => {
+    return {
+        type: actionTypes.GET_NEGOCIO_DETAILS_FAIL
+    }
+}
+//Aqui me quede
+export const getNegocioDetails = (id) => {
+    return dispatch => {
+        dispatch(initGetNegocioDetails());
+
+        axios.get(process.env.REACT_APP_API_URL + `/business/getNegocio/${id}`)
+            .then(resp => {
+                dispatch(getNegocioDetailsSuccess(resp.data))
+            })
+            .catch(err => {
+                dispatch(getNegocioDetailsFail())
+            })
+
+    }
+}

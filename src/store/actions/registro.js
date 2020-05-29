@@ -105,7 +105,8 @@ export const registrarNuevoNegocio = (negocio, data) => {
         type: actionTypes.REGISTRAR_NUEVO_NEGOCIO,
         negocio: negocio,
         isCustomer: data.isCustomer,
-        token: data.token
+        token: data.token,
+        id: data.id
     }
 }
 
@@ -168,7 +169,10 @@ export const registroNuevoNegocio = (negocio) => {
                     if (negocio.photoBusiness === undefined) {
                         negocio.photoBusiness = 'https://thumbs.dreamstime.com/b/empty-white-room-inner-space-box-vector-design-illustration-mock-up-you-business-project-138003758.jpg';
                         crearNegocio(negocio, '', id)
-                            .then(resolved => dispatch(registrarNuevoNegocio(negocio, resolved)))
+                            .then(resolved => {
+                                localStorage.setItem('id', resolved.id)
+                                dispatch(registrarNuevoNegocio(negocio, resolved))
+                            })
                             .catch(err => dispatch(registerFailed()))
                     } else {
                         console.log('subiendo segunda foto...')
