@@ -17,15 +17,15 @@ import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
 
 const App = (props) => {
-
+  const { setLocalTokenStored } = props;
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('user'));
     if (storedData && storedData.token && storedData.isCustomer !== null) {
       console.log(`uno:  ${storedData.token}`);
-      props.setLocalTokenStored(storedData);
+      setLocalTokenStored(storedData);
     }
 
-  });
+  }, [setLocalTokenStored]);
 
   let route = (
     <Switch >

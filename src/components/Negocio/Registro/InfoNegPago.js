@@ -3,6 +3,7 @@ import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import ImageUpload from '../../UI/ImageUpload/ImageUpload';
 import Backdrop from '../../UI/Backdrop/Backdrop';
+import Spinner from '../../UI/Spinner/Spinner';
 import { ReactComponent as Efectivo } from '../../../assets/efectivo.svg';
 import { ReactComponent as Tarjeta } from '../../../assets/tarjeta.svg';
 import { ReactComponent as Local } from '../../../assets/local.svg';
@@ -44,7 +45,30 @@ const InfoNegPago = props => {
         if (props.pagoTarjeta || props.pagoEfectivo) {
             if (props.entregaDomicilio || props.entregaNegocio) {
                 if (photoINE !== undefined) {
-                    console.log('Continue...')
+                    const negocio = {
+                        address: props.negocioData.direccion,
+                        businessDesc: props.negocioData.descripcion,
+                        businessName: props.negocioData.nombre,
+                        email: props.personalData.email,
+                        firstName: props.personalData.name,
+                        geolocalitation: '',
+                        lastName: props.personalData.apellidos,
+                        mobile: props.personalData.telefono,
+                        password: props.personalData.psw,
+                        photoBusiness: photoBusiness,
+                        photoINE: photoINE,
+                        rate: '',
+                        schedule: props.days,
+                        payment: {
+                            cash: props.pagoEfectivo,
+                            creditCard: props.pagoTarjeta
+                        },
+                        delivery: {
+                            isToGo: props.entregaDomicilio,
+                            isToTake: props.entregaNegocio
+                        }
+                    }
+                    props.register(negocio);
                 } else {
                     console.log('Foto del ID requerida')
                 }
@@ -81,7 +105,9 @@ const InfoNegPago = props => {
     return (
         <Fragment>
             {<Backdrop show={props.avisoPriv} clicked={() => props.goToPrivacidad(false)} />}
+            {<Backdrop show={props.loading} />}
             {props.avisoPriv && avisoPrivacidad}
+            {props.loading && <Spinner />}
             <div className={classes.negPago} >
                 <div className={classes.header} >
                     <span>Hazle saber a tus clientes tu metodo de pago y metodo de entrega</span>
@@ -168,6 +194,10 @@ const mapStateToProps = state => {
         idImage: state.registro.idImage,
         negocioImage: state.registro.negocioImage,
         avisoPriv: state.registro.avisoPriv,
+        personalData: state.registro.personalData,
+        days: state.registro.days,
+        negocioData: state.registro.negocioData,
+        loading: state.registro.loading
     }
 }
 
@@ -178,7 +208,8 @@ const mapDispatchToProps = dispatch => {
         onPagoEfectivo: () => dispatch(actions.pagoEfectivo()),
         onEntDomicilio: () => dispatch(actions.entregaDomicilio()),
         onEntNegocio: () => dispatch(actions.entregaNegocio()),
-        goToPrivacidad: (isOpen) => dispatch(actions.goToPrivacidad(isOpen))
+        goToPrivacidad: (isOpen) => dispatch(actions.goToPrivacidad(isOpen)),
+        register: (negocio) => dispatch(actions.registroNuevoNegocio(negocio)),
     }
 }
 
