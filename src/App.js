@@ -15,12 +15,17 @@ import Negocio from './components/Negocio/views/Negocio/Negocio';
 import Pedido from './components/Cliente/Negocio/Pedido/Pedido'
 import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
+import Spinner from './components/UI/Spinner/Spinner';
+import Backdrop from './components/UI/Backdrop/Backdrop';
+
 
 let logoutTimer;
 
 const App = (props) => {
 
   const [expirationDate, setExpirationDate] = useState();
+  const { getUserType, setLocalTokenStored } = props;
+  let storagedToken = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
 
 
   const logout = useCallback(() => {
@@ -30,31 +35,29 @@ const App = (props) => {
     };
     setExpirationDate(null);
     localStorage.removeItem('user');
-    props.setLocalTokenStored(userData);
+    setLocalTokenStored(userData);
 
-  }, [props]);
+  }, [setLocalTokenStored]);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('user'));
 
-    if (storedData && storedData.token &&
-      storedData.isCustomer !== null
-      && new Date(storedData.expiration) > new Date()
-    ) {
-      props.setLocalTokenStored(storedData);
-    }else{
-      logout();
+    if (storedData && storedData.token && storedData.id
+      && new Date(storedData.expiration) > new Date()) {
+      setExpirationDate(storedData.expiration);
+      getUserType(storedData.id);
+
+    } else {
+      logout()
     }
 
-  }, [logout, props]);
+  }, [getUserType, logout]);
 
   useEffect(() => {
     if (expirationDate) {
       const remainingTime = new Date(expirationDate).getTime() - new Date().getTime()
-      console.log(remainingTime)
       logoutTimer = setTimeout(logout, remainingTime);
     } else {
-      console.log("entro")
       clearTimeout(logoutTimer);
     }
 
@@ -69,31 +72,40 @@ const App = (props) => {
     </Switch>
   )
 
-  if (props.token && props.token !== "") {
+  if (props.loading && props.isCustomer === null) {
+    route = (
+      <Fragment>
+        <Backdrop show={true} />
+        <Spinner />
+      </Fragment>
+    );
+  } else {
+    if (storagedToken && storagedToken !== "") {
 
-    if (props.isCustomer) {
-      route = (
-        <Fragment>
-          <Switch >
-            <Route path='/Client' component={Client} />
-            <Route path='/Negocio' component={ClientNegocio} />
-            <Route path='/Pedido' component={Pedido} />
-            <Redirect to='/Client' />
-          </Switch>
-        </Fragment>
-      )
-    } else {
-      route = (
-        <Fragment>
-          <Switch >
-            <Route path='/pedidos' component={Pedidos} />
-            <Route path='/Negocio' component={Negocio} />
-            <Route path='/addProduct' component={AddProduct} />
-            <Redirect to='/Negocio' />
+      if (!props.loading) {
+        route = (
+          <Fragment>
+            <Switch >
+              <Route path='/Client' component={Client} />
+              <Route path='/VerNegocio' component={ClientNegocio} />
+              <Route path='/Pedido' component={Pedido} />
+              <Redirect to='/Client' />
+            </Switch>
+          </Fragment>
+        )
+      } else {
+        route = (
+          <Fragment>
+            <Switch >
+              <Route path='/pedidos' component={Pedidos} />
+              <Route path='/Negocio' component={Negocio} />
+              <Route path='/addProduct' component={AddProduct} />
+              <Redirect to='/Negocio' />
 
-          </Switch>
-        </Fragment>
-      )
+            </Switch>
+          </Fragment>
+        )
+      }
     }
   }
 
@@ -111,11 +123,12 @@ const mapStateToProps = state => {
     token: state.home.token !== null,
     id: state.home.id,
     isCustomer: state.home.isCustomer,
+    loading: state.home.loading,
   }
 }
 
 const mapDispatchToProps = {
-
+  getUserType: actions.getUserType,
   setLocalTokenStored: actions.setLocalTokenStored,
 }
 

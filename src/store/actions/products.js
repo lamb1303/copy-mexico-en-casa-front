@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import axios from '../../axios';
 import createHeaders from '../Util/headers/createHeaders';
+import * as alertType from '../Util/enums/alertTypes';
 
 export const getProducts = () => {
     return {
@@ -11,7 +12,6 @@ export const getProducts = () => {
 export const addProduct = (foodProduct) => {
     return dispatch => {
         if (foodProduct) {
-            console.log(createHeaders());
 
             axios.post(`${process.env.REACT_APP_API_URL}/business/addProduct`, foodProduct, createHeaders())
                 .then(response => {
@@ -29,8 +29,10 @@ export const addProduct = (foodProduct) => {
 
 const message = (message) => {
     return {
-        type: actionTypes.HOME_INVALID_CREDENTIALS,
+        type: actionTypes.ADD_PRODUCT_SHOW_MESSAGE,
         message: message,
+        alertType: alertType.warning,
+        isAlert: true,
     }
 }
 
@@ -45,7 +47,7 @@ const productAdded = (message) => {
         type: actionTypes.ADDED_FOOD_PRODUCT,
         message: message,
         isAlert: true,
-        alertType: 'Success'
+        alertType: alertType.success,
     }
 }
 

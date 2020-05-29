@@ -58,7 +58,7 @@ export const setLocalTokenStored = (data) => {
 
 const message = (message) => {
     return {
-        type: actionTypes.HOME_INVALID_CREDENTIALS,
+        type: actionTypes.HOME_SHOW_MESSAGE,
         message: message,
     }
 }
@@ -74,6 +74,30 @@ export const joinToUsClosed = () => {
         type: actionTypes.HOME_JOIN_TO_US_CLOSED
     }
 }
+
+export const getUserType = (userId) => {
+    return dispatch => {
+        dispatch(initializeRequest());
+        axios.get(`${process.env.REACT_APP_API_URL}/home/login/getUserType/${userId}`)
+            .then(response => {
+                const data = response.data;
+                switch (response.status) {
+                    case 201:
+                        dispatch(setLocalTokenStored(data));
+
+                        break;
+
+                    default:
+                        break;
+
+                }
+            }).catch(err => {
+
+                err.response && (dispatch(message(err.response.data.message)));
+            });
+    }
+}
+
 
 export const updateHomeAlert = () => {
     return {

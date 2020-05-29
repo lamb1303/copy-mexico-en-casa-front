@@ -29,6 +29,7 @@ export {
     joinToUsClosed,
     setLocalTokenStored,
     updateHomeAlert,
+    getUserType,
 } from './home'
 
 export {
