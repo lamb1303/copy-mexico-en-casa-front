@@ -100,10 +100,12 @@ export const nuevoCliente = (id) => {
     }
 }
 
-export const registrarNuevoNegocio = (negocio) => {
+export const registrarNuevoNegocio = (negocio, data) => {
     return {
         type: actionTypes.REGISTRAR_NUEVO_NEGOCIO,
-        negocio: negocio
+        negocio: negocio,
+        isCustomer: data.isCustomer,
+        token: data.token
     }
 }
 
@@ -115,13 +117,12 @@ const crearNegocio = (negocio, negPhoto, id) => {
         }
         delete business['photoINEName'];
         delete business['photoBusinessName'];
-        
+
         axios.post(`${process.env.REACT_APP_API_URL}/registro/newBusiness`, business)
             .then(resp => {
                 if (resp.data.message === 'CREATION SUCCESS') {
                     console.log("business creado")
-                    resolved(negocio)
-
+                    resolved(resp.data)
                 } else {
                     deleteFoto('business', id, negocio.photoINEName);
                     console.log('Foto INE borrada 1');
@@ -153,7 +154,7 @@ export const registroNuevoNegocio = (negocio) => {
             negocio["photoINEName"] = negocio.photoINE.name;
             if (negocio.photoBusiness !== undefined) {
                 negocio["photoBusinessName"] = negocio.photoBusiness.name;
-            }else{
+            } else {
                 negocio["photoBusinessName"] = '';
             }
 
@@ -167,7 +168,7 @@ export const registroNuevoNegocio = (negocio) => {
                     if (negocio.photoBusiness === undefined) {
                         negocio.photoBusiness = 'https://thumbs.dreamstime.com/b/empty-white-room-inner-space-box-vector-design-illustration-mock-up-you-business-project-138003758.jpg';
                         crearNegocio(negocio, '', id)
-                            .then(resolved => dispatch(registrarNuevoNegocio(negocio)))
+                            .then(resolved => dispatch(registrarNuevoNegocio(negocio, resolved)))
                             .catch(err => dispatch(registerFailed()))
                     } else {
                         console.log('subiendo segunda foto...')

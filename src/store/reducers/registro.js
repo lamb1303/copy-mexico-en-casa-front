@@ -3,6 +3,8 @@ import { updateObject } from '../utility';
 
 
 const initialState = {
+    token: null,
+    isCustomer: false,
     loading: false,
     cliente: false,
     negocio: false,
@@ -92,7 +94,9 @@ const nuevoNegocio = (state, action) => {
         cliente: false,
         negocio: true,
         registroNegocio: action.negocio,
-        loading: false
+        loading: false,
+        token: action.token,
+        isCustomer: action.isCustomer,
     })
 }
 

@@ -101,6 +101,13 @@ const InfoNegPago = props => {
         )
     }
 
+    if (props.negocio) {
+        const data = {
+            token: props.token,
+            isCustomer: props.isCustomer
+        }
+        props.setLocalTokenStored(data);
+    }
 
     return (
         <Fragment>
@@ -197,7 +204,10 @@ const mapStateToProps = state => {
         personalData: state.registro.personalData,
         days: state.registro.days,
         negocioData: state.registro.negocioData,
-        loading: state.registro.loading
+        loading: state.registro.loading,
+        negocio: state.registro.negocio,
+        token: state.registro.token,
+        isCustomer: state.registro.isCustomer
     }
 }
 
@@ -210,6 +220,7 @@ const mapDispatchToProps = dispatch => {
         onEntNegocio: () => dispatch(actions.entregaNegocio()),
         goToPrivacidad: (isOpen) => dispatch(actions.goToPrivacidad(isOpen)),
         register: (negocio) => dispatch(actions.registroNuevoNegocio(negocio)),
+        setLocalTokenStored: (data) => dispatch(actions.setLocalTokenStored(data))
     }
 }
 

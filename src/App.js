@@ -17,8 +17,11 @@ import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
 
 const App = (props) => {
+
   const { setLocalTokenStored } = props;
+
   useEffect(() => {
+    console.log('useEffect en App.js')
     const storedData = JSON.parse(localStorage.getItem('user'));
     if (storedData && storedData.token && storedData.isCustomer !== null) {
       console.log(`uno:  ${storedData.token}`);
@@ -36,7 +39,7 @@ const App = (props) => {
     </Switch>
   )
 
-  if (props.token && props.token !== "") {
+  if (props.token) {
 
     if (props.isCustomer) {
       route = (
