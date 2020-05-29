@@ -3,24 +3,20 @@ import { updateObject } from '../utility';
 
 
 const initialState = {
+    token: null,
+    isCustomer: false,
+    loading: false,
     cliente: false,
     negocio: false,
     name: '',
     id: null,
     registroNegocio: null,
     cafe: false,
-    // wellcome: true,
     personalInfo: false,
     negocioInfo: false,
     negocioFinal: false,
     avisoPriv: false,
-    personalData: {
-        name: 'Blad',
-        apellidos: 'Test',
-        email: 'test@test.com',
-        psw: 'blad',
-        telefono: '1234567897'
-    },
+    personalData: {},
     days: [
         {
             id: 1,
@@ -72,17 +68,11 @@ const initialState = {
             horaCerrado: '',
         },
     ],
-    negocioData: {
-        nombre: 'Las pilladas',
-        direccion: 'La calle de la amargura alv',
-        descripcion: 'Puro saboooor!'
-    },
+    negocioData: {},
     pagoEfectivo: false,
     pagoTarjeta: false,
     entregaDomicilio: false,
     entregaNegocio: false,
-    idImage: {},
-    negocioImage: undefined
 }
 
 
@@ -100,7 +90,11 @@ const nuevoNegocio = (state, action) => {
     return updateObject(state, {
         cliente: false,
         negocio: true,
-        registroNegocio: action.negocio
+        registroNegocio: action.negocio,
+        loading: false,
+        token: action.token,
+        isCustomer: action.isCustomer,
+        id: action.id
     })
 }
 
@@ -145,10 +139,7 @@ const goToNegPago = (state, action) => {
 
 const goToPrivacidad = (state, action) => {
     return updateObject(state, {
-        personalInfo: false,
-        negocioInfo: false,
-        negocioFinal: false,
-        avisoPriv: true,
+        avisoPriv: action.isOpen,
     })
 }
 
@@ -237,20 +228,6 @@ const entregaNegocio = (state, action) => {
     })
 }
 
-const setFotoId = (state, action) => {
-    console.log('from the reducer');
-    const localImage = window.URL.createObjectURL(action.foto);
-    console.log(localImage);
-    return updateObject(state, {
-        idImage: localImage
-    })
-}
-
-const setFotoNegocio = (state, action) => {
-    return updateObject(state, {
-        negocioImage: action.foto
-    })
-}
 
 
 const reducer = (state = initialState, action) => {
@@ -273,8 +250,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REGISTRO_PAGO_TARJETA: return pagoTarjeta(state, action);
         case actionTypes.REGISTRO_ENTREGA_DOMICILIO: return entregaDomicilio(state, action);
         case actionTypes.REGISTRO_ENTREGA_NEGOCIO: return entregaNegocio(state, action);
-        case actionTypes.REGISTRO_FOTO_ID: return setFotoId(state, action);
-        case actionTypes.REGISTRO_FOTO_NEGOCIO: return setFotoNegocio(state, action);
         default: return state
     }
 };

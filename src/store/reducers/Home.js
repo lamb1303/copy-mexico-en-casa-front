@@ -32,7 +32,6 @@ const setLocalTokenStored = (state, action) => {
         token: action.token,
         id: action.id,
         isCustomer: action.isCustomer,
-
         loading: false,
     });
 }

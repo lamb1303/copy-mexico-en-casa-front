@@ -13,9 +13,7 @@ export {
     pagoEfectivo,
     pagoTarjeta,
     entregaDomicilio,
-    entregaNegocio,
-    setFotoId,
-    setFotoNegocio
+    entregaNegocio
 } from './registro'
 
 export {
@@ -72,5 +70,7 @@ export {
     terminarPedido,
     getPedidoNegocioId,
     getPedidoPreparing,
-    getPedidoReady
+    getPedidoReady,
+    loadNegocio,
+    getNegocioDetails
 } from './negocio'

@@ -96,7 +96,7 @@ const AddProduct = props => {
                 <div className="addProduct-container">
                     <h3>Crear un nuevo platillo</h3>
                     <ImageUpload
-                        from='editProd'
+                        // from='editProd'
                         center
                         id='image'
                         btnType='Success'

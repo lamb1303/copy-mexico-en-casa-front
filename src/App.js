@@ -40,6 +40,7 @@ const App = (props) => {
   }, [setLocalTokenStored]);
 
   useEffect(() => {
+    console.log('useEffect en App.js')
     const storedData = JSON.parse(localStorage.getItem('user'));
 
     if (storedData && storedData.token && storedData.id
