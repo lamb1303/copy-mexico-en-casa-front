@@ -7,13 +7,13 @@ import './SelectionModal.scss';
 
 const SelectionModal = props => {
     return (
-        props.show ? 
+        props.show ?
             <div className='modal-container'>
                 <div className="modal-container__button">
-                    <Button btnType='Success'><NavLink to='/Registro'>Negocio</NavLink></Button>
-                    <Button btnType='Success'><NavLink to='/RegistroCliente'>Cliente</NavLink></Button>
+                    <NavLink to='/Registro'><Button btnType='Success'>Negocio</Button></NavLink>
+                    <NavLink to='/RegistroCliente'><Button btnType='Success'>Cliente</Button></NavLink>
                 </div>
-            </div>: null
+            </div> : null
     );
 
 }

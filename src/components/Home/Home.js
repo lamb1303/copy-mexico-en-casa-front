@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { ReactComponent as Logo } from '../../assets/logo.svg';
 import Button from '../UI/Button/Button';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import SelectionModal from './SelectionModal/SelectionModal';
@@ -47,12 +48,13 @@ const Home = props => {
             <SelectionModal show={props.join} />
             <div className='home-container'>
                 <div className='home-container__logo'>
-                    <img src="./logo.png" alt="logo mexico en casa" />
+                    <Logo alt="logo mexico en casa" />
                 </div>
                 <div className='home-container__login'>
                     <h3>Iniciar sesi&oacute;n</h3>
                     <div>
                         <TextField
+                            className="home-container__login_txt"
                             error={emailRequired ? true : false}
                             label="Ingresa tu correo"
                             id="filled-margin-normal"
@@ -68,6 +70,7 @@ const Home = props => {
 
                         />
                         <TextField
+                            className="home-container__login_txt"
                             error={passwordRequired ? true : false}
                             label="Ingresa tu contraseña"
                             id="filled-margin-normal"
@@ -87,6 +90,9 @@ const Home = props => {
                 </div>
 
             </div>
+            <div>
+                {props.isAlert && <AlertComponent title={props.alertType} clicked= {() => props.updateHomeAlert()}>{props.message}</AlertComponent>}
+            </div>
 
         </div>
     );
@@ -96,8 +102,10 @@ const mapStateToProps = state => {
     return {
         token: state.home.token,
         join: state.home.join,
-        loading: state.registro.loading,
-        id: state.registro.id
+        isAlert: state.home.isAlert,
+        alertType: state.home.alertType,
+        message: state.home.message,
+        loading: state.home.loading,
     }
 }
 
@@ -105,6 +113,7 @@ const mapDispatchToProps = {
     login: actions.login,
     joinToUs: actions.joinToUs,
     joinToUsClosed: actions.joinToUsClosed,
+    updateHomeAlert: actions.updateHomeAlert,
 }
 
 

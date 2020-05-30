@@ -2,7 +2,21 @@ export {
     registrarNuevoCliente,
     registroNuevoNegocio,
     addProduct,
-    addProductClosed
+    goToPersonal,
+    goToInfoNegocio,
+    goToNegPago,
+    goToPrivacidad,
+    goToWelcome,
+    setPersonalData,
+    handleHorario,
+    isOpen,
+    setNegocioData,
+    pagoEfectivo,
+    pagoTarjeta,
+    entregaDomicilio,
+    entregaNegocio,
+    setFotoId,
+    setFotoNegocio
 } from './registro'
 
 export {
@@ -13,7 +27,9 @@ export {
 export {
     login,
     joinToUs,
-    joinToUsClosed
+    joinToUsClosed,
+    setLocalTokenStored,
+    updateHomeAlert,
 } from './home'
 
 export {

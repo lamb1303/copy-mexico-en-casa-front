@@ -1,5 +1,9 @@
 @import "../../styles/Colors.scss";
 
+.header{
+    display: none;
+}
+
 .MuiFormControl-marginNormal {
     background-color: white !important;
     border-radius: 8px 8px 0px 0px !important;
@@ -31,16 +35,21 @@
             text-align: center;
             overflow: hidden;
 
-            & img {
+            
+            & svg {
                 height: 100%;
+                width: 100%;
             }
         }
-
+        
         &__login {
             margin-top: 1em;
             align-items: center;
             text-align: center;
-
+            
+            &_txt {
+                max-width: 100% !important;
+            }
             > div {
                 max-height: 80vh;
                 display: flex;

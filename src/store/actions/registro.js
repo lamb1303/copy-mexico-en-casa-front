@@ -171,26 +171,18 @@ export const registroNuevoNegocio = (negocio) => {
     }
 }
 
-export const addProductClosed = () =>{
-    return {
-        type: actionTypes.CLOSE_ADD_PRODUCT
-    }
-}
-
 export const addProduct = (foodProduct) => {
     return dispatch => {
-        //
         if (foodProduct) {
-            // axios.post('`${process.env.REACT_APP_API_URL}/registro/addProduct`')
-            //     .then(response => {
-            //        const data = response.data;
-            //         if(data.status === 201){
-              //          dispatch(productAdded(data.message));
-              dispatch(productAdded("Platillo creado"));
-                //     }
-                // }
+            axios.post(`${process.env.REACT_APP_API_URL}/business/addProduct`, foodProduct)
+                .then(response => {
+                    const data = response.data;
+                    if (data.status === 201) {
+                        dispatch(productAdded(data.message));
+                    }
+                }
 
-                // )
+                )
         }
 
     }
@@ -201,5 +193,110 @@ const productAdded = (message) => {
     return {
         type: actionTypes.ADDED_FOOD_PRODUCT,
         message: message,
+        isAlert: true,
+        alertType: 'Success'
     }
 }
+
+export const goToPersonal = () => {
+    return {
+        type: actionTypes.GO_TO_PERSONAL
+    }
+}
+
+export const goToInfoNegocio = () => {
+    return {
+        type: actionTypes.GO_TO_INFO_NEGOCIO
+    }
+}
+
+export const goToNegPago = () => {
+    return {
+        type: actionTypes.GO_TO_NEG_PAGO
+    }
+}
+
+export const goToPrivacidad = () => {
+    return {
+        type: actionTypes.GO_TO_PRIVACIDAD
+    }
+}
+
+export const goToWelcome = () => {
+    return {
+        type: actionTypes.GO_TO_WELCOME
+    }
+}
+
+export const setPersonalData = (personalData) => {
+    return {
+        type: actionTypes.REGISTRO_SET_PERSONAL_DATA,
+        data: personalData
+    }
+
+}
+
+export const handleHorario = (value, estado, id) => {
+    return {
+        type: actionTypes.HANDLE_HORARIO,
+        value,
+        estado,
+        id
+    }
+}
+
+export const isOpen = (value, id) => {
+    return {
+        type: actionTypes.IS_OPEN,
+        value,
+        id
+    }
+}
+
+export const setNegocioData = (nombre, direccion, descripcion) => {
+    return {
+        type: actionTypes.REGISTRO_SET_NEGOCIO_DATA,
+        nombre,
+        direccion,
+        descripcion
+    }
+}
+
+export const pagoTarjeta = () => {
+    return {
+        type: actionTypes.REGISTRO_PAGO_TARJETA
+    }
+}
+
+export const pagoEfectivo = () => {
+    return {
+        type: actionTypes.REGISTRO_PAGO_EFECTIVO
+    }
+}
+
+export const entregaNegocio = () => {
+    return {
+        type: actionTypes.REGISTRO_ENTREGA_NEGOCIO
+    }
+}
+
+export const entregaDomicilio = () => {
+    return {
+        type: actionTypes.REGISTRO_ENTREGA_DOMICILIO
+    }
+}
+
+export const setFotoId = (foto) => {
+    return {
+        type: actionTypes.REGISTRO_FOTO_ID,
+        foto
+    }
+}
+
+export const setFotoNegocio = (foto) => {
+    return {
+        type: actionTypes.REGISTRO_FOTO_NEGOCIO,
+        foto
+    }
+}
+ 

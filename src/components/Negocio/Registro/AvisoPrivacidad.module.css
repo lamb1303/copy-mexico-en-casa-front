@@ -1,0 +1,35 @@
+.aviso{
+    top: 55px;
+    z-index: 3;
+    position: relative;
+    height: calc(100vh - 55px);
+    display: flex;
+    flex-direction: column; 
+}
+
+.header{
+    width: 80%;
+    min-width: 80%;
+    border-radius: 9px;
+    background-color: white;
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 10%;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+}
+
+.message{
+    margin: 5% auto;
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.buttons button{
+    margin: 0 5%;
+    max-width: 185px;
+}

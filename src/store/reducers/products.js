@@ -1,5 +1,5 @@
-import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../utility';
+// import * as actionTypes from '../actions/actionTypes';
+// import { updateObject } from '../utility';
 
 const initialState = {
     products: [
@@ -36,11 +36,11 @@ const initialState = {
     ]
 }
 
-const getProducts = (state, action) => {
-    return updateObject(state, {
-        
-    })
-}
+// const getProducts = (state, action) => {
+//     return updateObject(state, {
+
+//     })
+// }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {

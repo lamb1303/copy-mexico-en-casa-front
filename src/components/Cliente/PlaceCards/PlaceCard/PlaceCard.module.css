@@ -1,3 +1,4 @@
+
 .PlaceCard{
     display: flex;
     justify-content: space-evenly;
@@ -33,4 +34,8 @@
 
 .stars{
     display: flex;
+}
+.PlaceCard:hover{
+    border: 2px solid #F5A303;
+    border-radius: 15px;
 }

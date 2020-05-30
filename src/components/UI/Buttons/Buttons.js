@@ -12,6 +12,16 @@ const ClientButtons = props => {
         props.closeSidebar();
     }
 
+    const logOut = () => {
+        const userData = {
+            token: null,
+            isCustomer: null,
+        };
+        localStorage.removeItem('user');
+        props.setLocalTokenStored(userData);
+        editMode();
+    }
+
     return (
         <div className={classes.Buttons}>
             <Button btnType='Success' clicked={() => props.closeSidebar()} >
@@ -23,7 +33,9 @@ const ClientButtons = props => {
                     <NavLink to='/negocio'>Editar Perfil</NavLink>}
             </Button>
             <Button btnType='Success' >Ayuda</Button>
-            <Button btnType='Success' >Salir</Button>
+            <Button btnType='Success' clicked={() => logOut()} >
+                <NavLink to='/Home' >Salir</NavLink>
+            </Button>
         </div>
     )
 }
@@ -34,12 +46,12 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        editMode: () => dispatch(actions.changeEditMode()),
-        closeSidebar: () => dispatch(actions.burguerHandler())
-    }
-}
+const mapDispatchToProps = {
 
+    editMode: actions.changeEditMode,
+    closeSidebar: actions.burguerHandler,
+    setLocalTokenStored: actions.setLocalTokenStored
+
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientButtons);

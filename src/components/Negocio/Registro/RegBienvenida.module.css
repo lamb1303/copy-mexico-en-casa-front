@@ -1,0 +1,28 @@
+.bienvenida{
+    margin: auto;
+    z-index: 7;
+    position: relative;
+    width: 89%;
+    top: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bienvenida div{
+    max-height: 50vh;
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 6% 0;
+}
+
+.buttons button{
+    margin: 10% 2%;
+    max-width: 185px;
+}
+
+.buttons button a {
+    color: inherit;
+}

@@ -57,14 +57,15 @@ const AddProduct = props => {
 
     const saveProduct = () => {
         if (!foodNameError && !priceError && !descError) {
-            const food = {
+            console.log(props.idBusiness);
+            const foodProduct = {
                 idBusiness: props.idBusiness,
                 name: foodName,
                 price: price,
                 desc: desc
             }
-            props.addProduct(food);
-            
+            props.addProduct(foodProduct);
+
         }
     }
 
@@ -86,26 +87,26 @@ const AddProduct = props => {
 
                     <div className="addProduct-container-info">
                         <TextField
-                            className="addProduct-container-info__name"
                             required
+                            name='email'
+                            className="addProduct-container-info__name"
                             error={foodNameError ? true : false}
                             value={foodName}
                             onChange={(event) => handleInput("foodName", event.target.value)}
                             label="Nombre del platillo"
-                            defaultValue=""
                             variant="outlined"
                             helperText={foodNameError}
                         />
 
 
                         <TextField
-                            className='addProduct-container-info__desc'
                             required
+                            name='price'
+                            className='addProduct-container-info__price'
                             error={priceError ? true : false}
                             value={price}
                             onChange={(event) => handleInput("price", event.target.value)}
                             label="Precio del platillo"
-                            defaultValue=""
                             variant="outlined"
                             helperText={priceError}
                             InputProps={{
@@ -117,13 +118,13 @@ const AddProduct = props => {
                     <div className="addProduct-container__desc">
                         <TextField
                             required
+                            name='desc'
                             multiline
                             error={descError ? true : false}
                             value={desc}
                             onChange={(event) => handleInput("desc", event.target.value)}
                             label="Descripción del platillo"
                             rows={4}
-                            defaultValue=""
                             variant="outlined"
                             helperText={descError}
                         />
@@ -145,7 +146,7 @@ const mapStateToProps = state => {
     return {
         isProductAdded: state.registro.isProductAdded,
         idBusiness: state.home.idBusiness,
-    
+
     }
 }
 
