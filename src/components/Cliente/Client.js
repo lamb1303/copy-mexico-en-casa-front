@@ -3,7 +3,7 @@ import Search from './Search/Search';
 import classes from './Client.module.css';
 import PlaceCards from './PlaceCards/PlaceCards';
 
-const Client = () => {
+const Client2 = () => {
     return (
         <div className={classes.client} >
             <Search />
@@ -12,4 +12,4 @@ const Client = () => {
     )
 }
 
-export default Client;
+export default Client2;

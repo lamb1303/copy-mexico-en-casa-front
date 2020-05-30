@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import * as actions from '../../../store/actions';
@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 
 
 const PersonalInfo = props => {
+
+    const { data } = props;
 
     const [nombre, setNombre] = useState("");
     const [apellidos, setApellidos] = useState("");
@@ -22,6 +24,18 @@ const PersonalInfo = props => {
     const [nameTouched, setNameTouched] = useState(false);
     const [apellidoTouched, setApellidoTouched] = useState(false);
     const [contraTouched, setContraTouchedTouched] = useState(false);
+
+    useEffect(() => {
+        if (Object.keys(data).length !== 0) {
+            setNombre(data.name);
+            setApellidos(data.apellidos)
+            setEmail(data.email)
+            setContra(data.psw)
+            setConfirm(data.psw)
+            setTelefono(data.telefono)
+        }
+    }, [data])
+
 
     const handlePhone = (value) => {
         if (value.length >= 11) {
@@ -43,6 +57,12 @@ const PersonalInfo = props => {
     const handleConfirm = (value) => {
         setConfirmTouched(true);
         setConfirm(value);
+    }
+
+    const handleContra = (value) => {
+        setContra(value);
+        if (!contraTouched)
+            setContraTouchedTouched(true)
     }
 
     let emailError = false;
@@ -76,14 +96,38 @@ const PersonalInfo = props => {
             nameError = true;
         }
     }
-    let last = '';
+    let lastError = false;
     if (apellidoTouched) {
-        last = 'good';
+        if (apellidos.length > 5) {
+            lastError = false;
+        } else {
+            lastError = true;
+        }
     }
 
-    let pass = '';
+    let passError = false;
     if (contraTouched) {
-        pass = 'good';
+        if (contra.length >= 8) {
+            passError = false;
+        } else {
+            passError = true;
+        }
+    }
+
+    const handleSuccess = () => {
+        try {
+            const data = {
+                name: nombre,
+                apellidos,
+                email,
+                psw: contra,
+                telefono
+            };
+            props.setPersonalData(data);
+            props.goToInfoNegocio();
+        } catch (_) {
+
+        }
     }
 
     const form = (
@@ -97,7 +141,7 @@ const PersonalInfo = props => {
                 placeholder='Nombre'
             />
             <input
-                className={`${classes.input} ${classes[last]} `}
+                className={`${classes.input} ${lastError ? classes.error : apellidoTouched ? classes.good : ''} `}
                 type="text"
                 required
                 value={apellidos}
@@ -113,11 +157,11 @@ const PersonalInfo = props => {
                 placeholder='Email'
             />
             <input
-                className={`${classes.input} ${classes[pass]}`}
+                className={`${classes.input} ${passError ? classes.error : contraTouched ? classes.good : ''}`}
                 type="password"
                 required
                 value={contra}
-                onChange={(e) => { setContra(e.target.value); setContraTouchedTouched(true) }}
+                onChange={(e) => handleContra(e.target.value)}
                 placeholder='Contraseña'
             />
             <input
@@ -139,7 +183,15 @@ const PersonalInfo = props => {
         </>
     )
 
-
+    let formIsValid = false;
+    if (nombre.length > 2
+        && apellidos
+        && /^\S+@\S+\.\S+$/.test(email)
+        && (confirm === contra)
+        && contra.length > 0
+        && telefono.length >= 10) {
+        formIsValid = true
+    }
 
     return <div className={classes.personalInfo} >
         <div className={classes.header} >
@@ -153,7 +205,7 @@ const PersonalInfo = props => {
             </Card>
         </div>
         <div className={classes.buttons} >
-            <Button btnType='Success' clicked={() => props.goToInfoNegocio()} >
+            <Button btnType='Success' disabled={!formIsValid} clicked={() => handleSuccess()} >
                 CONTINUAR
             </Button>
             <Button btnType='Danger' clicked={() => props.goToWelcome()} >
@@ -163,11 +215,18 @@ const PersonalInfo = props => {
     </div>
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        goToInfoNegocio: () => dispatch(actions.goToInfoNegocio()),
-        goToWelcome: () => dispatch(actions.goToWelcome())
+        data: state.registro.personalData
     }
 }
 
-export default connect(null, mapDispatchToProps)(PersonalInfo);
+const mapDispatchToProps = dispatch => {
+    return {
+        goToInfoNegocio: () => dispatch(actions.goToInfoNegocio()),
+        goToWelcome: () => dispatch(actions.goToWelcome()),
+        setPersonalData: (data) => dispatch(actions.setPersonalData(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalInfo);

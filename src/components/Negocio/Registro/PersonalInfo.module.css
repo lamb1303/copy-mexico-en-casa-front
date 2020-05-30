@@ -50,9 +50,18 @@
     border: 2px solid rgb(11, 197, 5);
 }
 
+.see{
+    display: flex;
+}
+.eye svg {
+    width: auto;
+    height: 100%;
+}
+
 .buttons{
     display: flex;
     justify-content: space-evenly;
+    margin: 5% 0;
 }
 
 .buttons button{

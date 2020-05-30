@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import * as actions from '../../../store/actions';
+// import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
 
 import './Alert.scss';

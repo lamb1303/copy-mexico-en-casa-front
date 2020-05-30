@@ -28,7 +28,35 @@
 }
 
 .input{
-    width: 100vw;
+    width: 95%;
+    margin: 3% auto;
+    border: 1px solid #ccc;
+    height: 35px;
+    font-size: 1rem;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.textarea{
+    width: 95%;
+    margin: 3% auto;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    padding-left: 10px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.input:focus, .textarea:focus{
+    outline: 0.8px solid rgb(8, 143, 206);
+}
+
+.error{
+    border: 2px solid rgb(255, 0, 0);
+}
+
+.good{
+    border: 2px solid rgb(11, 197, 5);
 }
 
 .buttons{
