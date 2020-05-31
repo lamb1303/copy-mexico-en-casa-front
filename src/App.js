@@ -83,7 +83,7 @@ const App = (props) => {
   } else {
     if (storagedToken && storagedToken !== "") {
 
-      if (!props.loading) {
+      if (props.isCustomer) {
         route = (
           <Fragment>
             <Switch >
