@@ -12,11 +12,15 @@ import AddProduct from './AddProduct/AddProduct';
 
 const Negocio = props => {
 
-    const { getNegocioDetails, id } = props;
+    const { getNegocioDetails, id, customer } = props;
+
+    const getNegocio = useCallback(() => {
+        getNegocioDetails(id)
+    }, [getNegocioDetails, id])
 
     useEffect(() => {
-        getNegocioDetails(id)
-    },[])
+        if (customer !== null) getNegocio()
+    }, [getNegocio, customer])
 
     const [desc, setDesc] = useState('');
 
@@ -75,6 +79,7 @@ const mapStateToProps = state => {
         addProductClicked: state.negocio.addProductClicked,
         id: state.negocio.id,
         loading: state.negocio.loading,
+        customer: state.home.isCustomer
     }
 }
 
