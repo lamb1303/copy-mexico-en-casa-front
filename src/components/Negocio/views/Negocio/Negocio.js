@@ -5,25 +5,21 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Camera } from '../../assets/camera.svg'
 import Button from '../../../UI/Button/Button';
+import Backdrop from '../../../UI/Backdrop/Backdrop';
+import Spinner from '../../../UI/Spinner/Spinner';
 import * as actions from '../../../../store/actions';
 import EditProduct from './EditProduct/EditProduct';
 import AddProduct from './AddProduct/AddProduct';
 
 const Negocio = props => {
 
+    const { getNegocioDetails, id } = props;
+
     useEffect(() => {
-        props.getNegocioDetails(props.id)
-    })
+        getNegocioDetails(id)
+    }, [getNegocioDetails, id])
 
-    const imageUrl = props.selectedNegocio.photoBusiness;
     const [desc, setDesc] = useState(props.selectedNegocio.businessDesc);
-
-    let blur = '';
-    let negocio = '';
-    if (props.editMode) {
-        blur = 'blur';
-        negocio = 'editSize'
-    }
 
     const verifyChanges = () => {
         if (desc !== props.selectedNegocio.businessDesc) {
@@ -33,15 +29,27 @@ const Negocio = props => {
         }
     }
 
+    let blur = '';
+    let negocio = '';
+    if (props.editMode) {
+        blur = 'blur';
+        negocio = 'editSize'
+    }
+    const loading = <Fragment>
+        <Backdrop show={props.loading} />
+        <Spinner />
+    </Fragment>
+
     return (
         <Fragment>
             {props.editProductMode && <EditProduct />}
+            {props.loading && loading}
             <div className={[classes.negocio, classes[negocio]].join(' ')} >
                 <div className={classes.header} >
                     {props.editMode ? <Camera className={[classes.fotoNegocio, classes['camera']].join(' ')} /> : <img
                         className={[classes.fotoNegocio, classes[blur]].join(' ')}
                         alt='foto del negocio'
-                        src={imageUrl}
+                        src={props.selectedNegocio.photoBusiness}
                     />}
                     {props.editMode ? <textarea value={desc} onChange={(event) => setDesc(event.target.value)} />
                         : <p>{props.selectedNegocio.businessDesc}</p>
@@ -66,7 +74,8 @@ const mapStateToProps = state => {
         selectedNegocio: state.negocio.selectedNegocio,
         editProductMode: state.negocio.editProduct,
         addProductClicked: state.negocio.addProductClicked,
-        id: state.negocio.id
+        id: state.negocio.id,
+        loading: state.negocio.loading
     }
 }
 
