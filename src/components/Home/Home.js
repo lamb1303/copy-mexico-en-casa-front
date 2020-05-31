@@ -73,7 +73,6 @@ const Home = props => {
                             className="home-container__login_txt"
                             error={passwordRequired ? true : false}
                             label="Ingresa tu contraseña"
-                            id="filled-margin-normal"
                             margin="normal"
                             variant="filled"
                             type="password"

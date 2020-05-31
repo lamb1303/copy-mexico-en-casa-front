@@ -30,8 +30,9 @@ const login = (state, action) => {
 const setLocalTokenStored = (state, action) => {
     return updateObject(state, {
         token: action.token,
+        id: action.id,
         isCustomer: action.isCustomer,
-        id: action.id
+        loading: false,
     });
 }
 
@@ -77,7 +78,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.HOME_JOIN_TO_US: return joinToUs(state, action);
         case actionTypes.HOME_JOIN_TO_US_CLOSED: return joinToUsClosed(state, action);
         case actionTypes.HOME_WAITING: return initializeRequest(state, action);
-        case actionTypes.HOME_INVALID_CREDENTIALS: return message(state, action);
+        case actionTypes.HOME_SHOW_MESSAGE: return message(state, action);
         case actionTypes.HOME_UPDATE_ALERT: return updateHomeAlert(state, action);
         default: return state
     }

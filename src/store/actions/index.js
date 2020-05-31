@@ -1,7 +1,6 @@
 export {
     registrarNuevoCliente,
     registroNuevoNegocio,
-    addProduct,
     goToPersonal,
     goToInfoNegocio,
     goToNegPago,
@@ -28,6 +27,7 @@ export {
     joinToUsClosed,
     setLocalTokenStored,
     updateHomeAlert,
+    getUserType,
 } from './home'
 
 export {
@@ -46,9 +46,11 @@ export {
     DelOneToSelectedProduct,
 } from './cliente'
 
-// export {
-//     getProducts,
-// } from './products'
+export {
+    getProducts,
+    addProduct,
+    updateAddProductAlert,
+} from './products'
 
 export {
     openEditNegocio,
