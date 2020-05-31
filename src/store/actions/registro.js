@@ -298,17 +298,3 @@ export const entregaDomicilio = () => {
         type: actionTypes.REGISTRO_ENTREGA_DOMICILIO
     }
 }
-
-export const setFotoId = (foto) => {
-    return {
-        type: actionTypes.REGISTRO_FOTO_ID,
-        foto
-    }
-}
-
-export const setFotoNegocio = (foto) => {
-    return {
-        type: actionTypes.REGISTRO_FOTO_NEGOCIO,
-        foto
-    }
-}

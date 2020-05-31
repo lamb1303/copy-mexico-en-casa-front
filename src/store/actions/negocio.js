@@ -272,18 +272,23 @@ export const getNegocioDetailsFail = () => {
         type: actionTypes.GET_NEGOCIO_DETAILS_FAIL
     }
 }
-//Aqui me quede
+
 export const getNegocioDetails = (id) => {
     return dispatch => {
         dispatch(initGetNegocioDetails());
+        if (id === null) id = localStorage.getItem('id')
+        if (id !== null) {
+            axios.get(process.env.REACT_APP_API_URL + `/business/getNegocio/${id}`)
+                .then(resp => {
+                    dispatch(getNegocioDetailsSuccess(resp.data))
+                })
+                .catch(err => {
+                    dispatch(getNegocioDetailsFail())
+                })
+        }
 
-        axios.get(process.env.REACT_APP_API_URL + `/business/getNegocio/${id}`)
-            .then(resp => {
-                dispatch(getNegocioDetailsSuccess(resp.data))
-            })
-            .catch(err => {
-                dispatch(getNegocioDetailsFail())
-            })
+
+
 
     }
 }
