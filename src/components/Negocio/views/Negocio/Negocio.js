@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState, Fragment, useEffect, useCallback } from 'react';
 import classes from './Negocio.module.scss';
 import Products from './Products/Products';
 import { connect } from 'react-redux';
@@ -15,9 +15,15 @@ const Negocio = props => {
 
     const { getNegocioDetails, id } = props;
 
+    // useEffect(useCallback(() => {
+    //     getNegocioDetails(id)
+    // }, [getNegocioDetails, id]), [getNegocioDetails, id]);
     useEffect(() => {
         getNegocioDetails(id)
     }, [getNegocioDetails, id])
+    // if (Object.keys(props.selectedNegocio).length === 0) {
+    //     props.getNegocioDetails(props.id)
+    // }
 
     const [desc, setDesc] = useState(props.selectedNegocio.businessDesc);
 
@@ -75,7 +81,7 @@ const mapStateToProps = state => {
         editProductMode: state.negocio.editProduct,
         addProductClicked: state.negocio.addProductClicked,
         id: state.negocio.id,
-        loading: state.negocio.loading
+        loading: state.negocio.loading,
     }
 }
 
