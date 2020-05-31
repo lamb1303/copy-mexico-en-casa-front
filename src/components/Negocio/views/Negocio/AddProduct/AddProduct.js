@@ -61,6 +61,7 @@ const AddProduct = props => {
     const saveProduct = () => {
         if (!foodNameError && !priceError && !descError) {
             const id = JSON.parse(localStorage.getItem('user')).id;
+            console.log(id)
             const foodProduct = {
                 idBusiness: id,
                 name: foodName,
