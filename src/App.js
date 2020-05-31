@@ -38,31 +38,31 @@ const App = (props) => {
     setLocalTokenStored(userData);
 
   }, [setLocalTokenStored]);
+  
+  // useEffect(() => {
+  //   console.log('useEffect en App.js')
+  //   const storedData = JSON.parse(localStorage.getItem('user'));
 
-  useEffect(() => {
-    console.log('useEffect en App.js')
-    const storedData = JSON.parse(localStorage.getItem('user'));
+  //   if (storedData && storedData.token && storedData.id
+  //     && new Date(storedData.expiration) > new Date()) {
+  //     setExpirationDate(storedData.expiration);
+  //     getUserType(storedData.id);
 
-    if (storedData && storedData.token && storedData.id
-      && new Date(storedData.expiration) > new Date()) {
-      setExpirationDate(storedData.expiration);
-      getUserType(storedData.id);
+  //   } else {
+  //     logout()
+  //   }
 
-    } else {
-      logout()
-    }
+  // }, [getUserType, logout]);
 
-  }, [getUserType, logout]);
+  // useEffect(() => {
+  //   if (expirationDate) {
+  //     const remainingTime = new Date(expirationDate).getTime() - new Date().getTime()
+  //     logoutTimer = setTimeout(logout, remainingTime);
+  //   } else {
+  //     clearTimeout(logoutTimer);
+  //   }
 
-  useEffect(() => {
-    if (expirationDate) {
-      const remainingTime = new Date(expirationDate).getTime() - new Date().getTime()
-      logoutTimer = setTimeout(logout, remainingTime);
-    } else {
-      clearTimeout(logoutTimer);
-    }
-
-  }, [logout, expirationDate]);
+  // }, [logout, expirationDate]);
 
   let route = (
     <Switch >

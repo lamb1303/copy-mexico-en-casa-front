@@ -18,6 +18,7 @@ const Products = props => {
         </div>
     )
 
+    if (!props.products) products = productsEmpty
     if (props.products.length < 1) products = productsEmpty
     else products = (
         props.products && props.products
