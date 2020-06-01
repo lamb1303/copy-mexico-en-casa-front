@@ -28,6 +28,7 @@ export {
     setLocalTokenStored,
     updateHomeAlert,
     getUserType,
+    logOut,
 } from './home'
 
 export {

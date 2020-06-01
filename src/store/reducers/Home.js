@@ -70,6 +70,7 @@ const updateHomeAlert = (state, action) => {
 }
 
 
+
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
