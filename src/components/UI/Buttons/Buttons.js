@@ -12,16 +12,6 @@ const ClientButtons = props => {
         props.closeSidebar();
     }
 
-    const logOut = () => {
-        const userData = {
-            token: null,
-            isCustomer: null,
-        };
-        localStorage.removeItem('user');
-        props.setLocalTokenStored(userData);
-        editMode();
-    }
-
     return (
         <div className={classes.Buttons}>
             <Button btnType='Success' clicked={() => props.closeSidebar()} >
@@ -33,7 +23,7 @@ const ClientButtons = props => {
                     <NavLink to='/negocio'>Editar Perfil</NavLink>}
             </Button>
             <Button btnType='Success' >Ayuda</Button>
-            <Button btnType='Success' clicked={() => logOut()} >
+            <Button btnType='Success' clicked={() => props.logOut()} >
                 <NavLink to='/Home' >Salir</NavLink>
             </Button>
         </div>
@@ -50,7 +40,7 @@ const mapDispatchToProps = {
 
     editMode: actions.changeEditMode,
     closeSidebar: actions.burguerHandler,
-    setLocalTokenStored: actions.setLocalTokenStored
+    logOut: actions.logOut,
 
 }
 

@@ -104,3 +104,11 @@ export const updateHomeAlert = () => {
         type: actionTypes.HOME_UPDATE_ALERT,
     }
 }
+
+export const logOut = () => {
+    localStorage.removeItem('user');
+    return {
+        type: actionTypes.HOME_LOGOUT,
+    }
+    
+};
