@@ -19,7 +19,7 @@ const Hidden = props => {
 
     return (
         <div className={[classes.options, classes[show]].join(' ')} >
-            <AddProd onClick={() => props.onAddOneProduct(props.name, props.price)} className={classes.addOne} />
+            <AddProd onClick={() => props.onAddOneProduct(props.name, props.price, props.img)} className={classes.addOne} />
             <div className={classes.amount} > {props.count} </div>
             <DelProd className={classes.delOne} onClick={() => handleDelProd()} />
         </div>
@@ -33,7 +33,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddOneProduct: (name, price) => dispatch(actions.AddOneToSelectedProduct(name, price)),
+        onAddOneProduct: (name, price, img) => dispatch(actions.AddOneToSelectedProduct(name, price, img)),
         onDelOneProduct: (name, price) => dispatch(actions.DelOneToSelectedProduct(name, price))
     }
 }

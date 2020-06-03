@@ -9,10 +9,7 @@ import { ReactComponent as Cash } from './commerce-and-shopping.svg';
 import { ReactComponent as CreditCard } from './business-and-finance.svg';
 import { connect } from 'react-redux';
 
-const Pedidos = props => {
-
-    const imageUrl = 'https://c8.alamy.com/compes/t20754/la-ilustracion-muestra-una-casa-pequena-hecho-en-un-estilo-de-dibujos-animados-aislado-sobre-fondo-blanco-t20754.jpg';
-
+const Pedido = props => {
     const head = (
         <>
             <div >
@@ -23,6 +20,14 @@ const Pedidos = props => {
             </div>
         </>
     )
+
+    const enviarOrden = {
+        ...props.productCount,
+        deliver: props.deliver,
+        payment: props.payment,
+        total: props.total
+    }
+
 
     const mostrarOrden = props.productCount.map(
         orden => {
@@ -72,7 +77,7 @@ const Pedidos = props => {
         <>
             <div>
                 <div className={classes.modal_deliver} >
-                    <Button >ACEPTAR</Button>
+                    <Button clicked={() => { console.log(enviarOrden)}}>ACEPTAR</Button>
                 </div>
                 <div className={classes.modal_noDeliver}>
                     <Button clicked={() => props.cancelOrder()}>CANCELAR</Button>
@@ -107,9 +112,9 @@ const Pedidos = props => {
                     <h2>DIRECCION DE ENVIO</h2>
                 </div>
                 <div className={classes.centerInput} >
-                    <input type="text" value="Calle del valle valle de calle"></input>
+                    <input type="text" value={props.calle}></input>
                 </div>
-                <Button clicked={() => props.backToDelilver()} >Regresar</Button>
+                <Button clicked={() => props.backToPayment()} >Regresar</Button>
                 {
                     acceptCancel
                 }
@@ -135,7 +140,7 @@ const Pedidos = props => {
                     payment
                 }
                 {
-                    props.payment != null &&
+                   (props.payment != null && props.payment !== null) &&
                     location
                 }
 
@@ -163,8 +168,9 @@ const mapDispatchToProps = {
     cashPayment: actions.CashPayment,
     creditCardPayment: actions.CreditCardPayment,
     backToDelilver: actions.BackToDeliverOption,
+    backToPayment: actions.BackToPayment,
     cancelOrder: actions.CancelOrder
 
 
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Pedidos);
+export default connect(mapStateToProps, mapDispatchToProps)(Pedido);
