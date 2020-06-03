@@ -1,6 +1,12 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
 
+export const BackToPayment = () => {
+    return {
+        type: actionTypes.CLIENTE_REGRESAR_OPCION_PAGO
+    }
+}
+
 export const CancelOrder = () => {
     return {
         type: actionTypes.CLIENTE_PEDIDO_CANCELAR
@@ -73,19 +79,21 @@ export const CloseSelectedProduct = () => {
     }
 }
 
-export const AddOneToSelectedProduct = (product, price) => {
+export const AddOneToSelectedProduct = (product, price, img) => {
     return {
         type: actionTypes.ADD_ONE_TO_SELECTED_PRODUCT,
         product: product,
-        price: price
+        price: price,
+        img: img
     }
 }
 
-export const DelOneToSelectedProduct = (product, price) => {
+export const DelOneToSelectedProduct = (product, price, img) => {
     return {
         type: actionTypes.DEL_ONE_TO_SELECTED_PRODUCT,
         product: product,
-        price: price
+        price: price,
+        img: img
     }
 }
 

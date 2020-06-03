@@ -29,6 +29,7 @@ export {
     setLocalTokenStored,
     updateHomeAlert,
     getUserType,
+    logOut,
 } from './home'
 
 export {
@@ -45,6 +46,7 @@ export {
     CancelOrder,
     checkout,
     DelOneToSelectedProduct,
+    BackToPayment
 } from './cliente'
 
 export {
