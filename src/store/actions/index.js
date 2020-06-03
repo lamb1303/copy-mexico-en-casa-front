@@ -13,7 +13,8 @@ export {
     pagoEfectivo,
     pagoTarjeta,
     entregaDomicilio,
-    entregaNegocio
+    entregaNegocio,
+    verifyEmailExist
 } from './registro'
 
 export {
@@ -45,6 +46,7 @@ export {
     CancelOrder,
     checkout,
     DelOneToSelectedProduct,
+    BackToPayment
 } from './cliente'
 
 export {
