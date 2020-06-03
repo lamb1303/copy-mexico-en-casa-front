@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Card from '../../UI/Card/Card';
 import Table from '../../UI/Table/Table';
 import Button from '../../UI/Button/Button';
@@ -84,56 +84,81 @@ const NegocioInfo = props => {
         }
     }
 
+    const successPosition = (position) => {
+        console.log(position)
+    }
+    const failPosition = (error) => {
+        console.log(error);
+    }
+
+    const getLocation = () => {
+        if ('geolocation' in navigator) {
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+            }
+            navigator.geolocation.getCurrentPosition(successPosition, failPosition, options);
+        } else {
+            return
+        }
+    }
+
     let isFormValid = false;
     if (nombre.length > 2 &&
-        direccion.length > 10 &&
-        descripcion.length > 5) {
+        direccion.length >= 10 &&
+        descripcion.length > 5 &&
+        props.days.find(day => day.abierto === true)) {
         isFormValid = true;
     }
 
 
-    return <div className={classes.NegocioInfo}>
-        <div className={classes.header} >
-            <span>Datos del Negocio. Por favor llene los datos del negocio</span>
-        </div>
-        <div className={classes.card} >
-            <Card>
-                <div className={classes.form} >
-                    <input
-                        className={`${classes.input} ${nombreError ? classes.error : nombreTouched ? classes.good : ''}`}
-                        type="text"
-                        value={nombre}
-                        onChange={(event) => handleNombre(event.target.value)}
-                        placeholder='Nombre del negocio'
-                    />
-                    <input
-                        className={`${classes.input} ${dirError ? classes.error : direccionTouched ? classes.good : ''}`}
-                        type="text"
-                        value={direccion}
-                        onChange={(event) => handleDireccion(event.target.value)}
-                        placeholder='Direccion del negocio'
-                    />
-                    <textarea
-                        className={`${classes.textarea} ${descError ? classes.error : descripcionTouched ? classes.good : ''}`}
-                        type="text"
-                        rows='10'
-                        value={descripcion}
-                        onChange={(event) => handleDescripcion(event.target.value)}
-                        placeholder='Descripcion del negocio'
-                    />
-                    <Table />
+    return (
+        <Fragment>
+            <div className={classes.NegocioInfo}>
+                <div className={classes.header} >
+                    <span>Datos del Negocio. Por favor llene los datos del negocio</span>
                 </div>
-            </Card>
-        </div>
-        <div className={classes.buttons} >
-            <Button btnType='Success' disabled={!isFormValid} clicked={() => handleContinue()} >
-                CONTINUAR
+                <div className={classes.card} >
+                    <Card>
+                        <div className={classes.form} >
+                            <input
+                                className={`${classes.input} ${nombreError ? classes.error : nombreTouched ? classes.good : ''}`}
+                                type="text"
+                                value={nombre}
+                                onChange={(event) => handleNombre(event.target.value)}
+                                placeholder='Nombre del negocio'
+                            />
+                            <input
+                                className={`${classes.input} ${dirError ? classes.error : direccionTouched ? classes.good : ''}`}
+                                type="text"
+                                value={direccion}
+                                onChange={(event) => handleDireccion(event.target.value)}
+                                placeholder='Direccion del negocio'
+                                onFocus={() => getLocation()}
+                            />
+                            <textarea
+                                className={`${classes.textarea} ${descError ? classes.error : descripcionTouched ? classes.good : ''}`}
+                                type="text"
+                                rows='10'
+                                value={descripcion}
+                                onChange={(event) => handleDescripcion(event.target.value)}
+                                placeholder='Descripcion del negocio'
+                            />
+                            <Table />
+                        </div>
+                    </Card>
+                </div>
+                <div className={classes.buttons} >
+                    <Button btnType='Success' disabled={!isFormValid} clicked={() => handleContinue()} >
+                        CONTINUAR
             </Button>
-            <Button btnType='Danger' clicked={() => props.goToPersonal()} >
-                CANCELAR
+                    <Button btnType='Danger' clicked={() => props.goToPersonal()} >
+                        CANCELAR
             </Button>
-        </div>
-    </div>
+                </div>
+            </div>
+        </Fragment>
+    )
 };
 
 const mapStateToProps = state => {

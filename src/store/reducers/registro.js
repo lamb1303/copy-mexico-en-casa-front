@@ -8,6 +8,7 @@ const initialState = {
     loading: false,
     cliente: false,
     negocio: false,
+    errorMessage: '',
     name: '',
     id: null,
     registroNegocio: null,
@@ -228,6 +229,19 @@ const entregaNegocio = (state, action) => {
     })
 }
 
+const verifyEmailExistInit = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+const verifyEmailExistEnd = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        errorMessage: action.errorMessage
+    })
+}
+
 
 
 const reducer = (state = initialState, action) => {
@@ -250,6 +264,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REGISTRO_PAGO_TARJETA: return pagoTarjeta(state, action);
         case actionTypes.REGISTRO_ENTREGA_DOMICILIO: return entregaDomicilio(state, action);
         case actionTypes.REGISTRO_ENTREGA_NEGOCIO: return entregaNegocio(state, action);
+        case actionTypes.VERIFY_EMAIL_EXIST_INIT: return verifyEmailExistInit(state, action);
+        case actionTypes.VERIFY_EMAIL_EXIST_END: return verifyEmailExistEnd(state, action);
         default: return state
     }
 };
