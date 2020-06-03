@@ -298,3 +298,36 @@ export const entregaDomicilio = () => {
         type: actionTypes.REGISTRO_ENTREGA_DOMICILIO
     }
 }
+
+export const verifyEmailExistInit = () => {
+    return {
+        type: actionTypes.VERIFY_EMAIL_EXIST_INIT
+    }
+}
+
+export const verifyEmailExistEnd = (message) => {
+    return {
+        type: actionTypes.VERIFY_EMAIL_EXIST_END,
+        errorMessage: message
+    }
+}
+
+export const verifyEmailExist = (data) => {
+    return dispatch => {
+        dispatch(verifyEmailExistInit());
+        axios.get(process.env.REACT_APP_API_URL + `/registro/verifyEmail/${data.email}`)
+            .then(resp => {
+                if (resp.data.message === 'Ok') {
+                    dispatch(setPersonalData(data))
+                    dispatch(goToInfoNegocio())
+                    dispatch(verifyEmailExistEnd(''))
+                } else {
+                    dispatch(verifyEmailExistEnd(resp.data.message))
+                }
+            })
+            .catch(err => {
+                dispatch(verifyEmailExistEnd('Algo salio mal. Por favor intente mas tarde'));
+            })
+
+    }
+}

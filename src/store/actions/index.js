@@ -13,7 +13,8 @@ export {
     pagoEfectivo,
     pagoTarjeta,
     entregaDomicilio,
-    entregaNegocio
+    entregaNegocio,
+    verifyEmailExist
 } from './registro'
 
 export {

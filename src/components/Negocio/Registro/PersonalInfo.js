@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
+import Backdrop from '../../UI/Backdrop/Backdrop';
+import Spinner from '../../UI/Spinner/Spinner';
+import Alert from '../../UI/Alert/Alert';
 import * as actions from '../../../store/actions';
 
 import classes from './PersonalInfo.module.css';
@@ -123,8 +126,7 @@ const PersonalInfo = props => {
                 psw: contra,
                 telefono
             };
-            props.setPersonalData(data);
-            props.goToInfoNegocio();
+            props.verifyEmailExist(data);
         } catch (_) {
 
         }
@@ -193,39 +195,47 @@ const PersonalInfo = props => {
         formIsValid = true
     }
 
-    return <div className={classes.personalInfo} >
-        <div className={classes.header} >
-            <span>Datos Personales. Por favor llene los datos de la persona responsable del negocio.</span>
-        </div>
-        <div className={classes.card} >
-            <Card >
-                <div className={classes.data} >
-                    {form}
+    return (
+        <Fragment>
+            {props.loading && <Backdrop show={props.loading} />}
+            {props.loading && <Spinner />}
+            {props.errorMessage.length > 0 && <Alert title='Error' clase={'personalInfo'} > {props.errorMessage} </Alert>}
+            <div className={classes.personalInfo} >
+                <div className={classes.header} >
+                    <span>Datos Personales. Por favor llene los datos de la persona responsable del negocio.</span>
                 </div>
-            </Card>
-        </div>
-        <div className={classes.buttons} >
-            <Button btnType='Success' disabled={!formIsValid} clicked={() => handleSuccess()} >
-                CONTINUAR
+                <div className={classes.card} >
+                    <Card >
+                        <div className={classes.data} >
+                            {form}
+                        </div>
+                    </Card>
+                </div>
+                <div className={classes.buttons} >
+                    <Button btnType='Success' disabled={!formIsValid} clicked={() => handleSuccess()} >
+                        CONTINUAR
             </Button>
-            <Button btnType='Danger' clicked={() => props.goToWelcome()} >
-                CANCELAR
+                    <Button btnType='Danger' clicked={() => props.goToWelcome()} >
+                        CANCELAR
             </Button>
-        </div>
-    </div>
+                </div>
+            </div>
+        </Fragment>
+    )
 };
 
 const mapStateToProps = state => {
     return {
-        data: state.registro.personalData
+        data: state.registro.personalData,
+        loading: state.registro.loading,
+        errorMessage: state.registro.errorMessage
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        goToInfoNegocio: () => dispatch(actions.goToInfoNegocio()),
         goToWelcome: () => dispatch(actions.goToWelcome()),
-        setPersonalData: (data) => dispatch(actions.setPersonalData(data))
+        verifyEmailExist: (data) => dispatch(actions.verifyEmailExist(data))
     }
 }
 
