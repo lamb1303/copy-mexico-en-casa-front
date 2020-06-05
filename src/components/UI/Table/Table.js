@@ -19,26 +19,18 @@ const Days = props => {
     const option = options();
 
     const handleClose = (value, day) => {
-        if (day.horaAbierto === "") {
-            props.horario(value, 'cerrado', day.id)
-        } else {
-            if (day.horaAbierto < value) {
-                props.horario(value, 'cerrado', day.id)
-            } else {
-                console.log('El horario de cerrado debe ser mayor al horario de abierto')
-            }
+        if (day.horaAbierto === "") props.horario(value, 'cerrado', day.id)
+        else {
+            if (day.horaAbierto < value) props.horario(value, 'cerrado', day.id)
+            else props.horarioError('El horario de cerrado debe ser mayor al horario de abierto')
         }
     }
 
     const handleOpen = (value, day) => {
-        if (day.horaCerrado === "") {
-            props.horario(value, 'abierto', day.id)
-        } else {
-            if (day.horaCerrado > value) {
-                props.horario(value, 'abierto', day.id)
-            } else {
-                console.log('El horario de abierto debe ser menor al horario de cerrado')
-            }
+        if (day.horaCerrado === "") props.horario(value, 'abierto', day.id)
+        else {
+            if (day.horaCerrado > value) props.horario(value, 'abierto', day.id)
+            else props.horarioError('El horario de abierto debe ser menor al horario de cerrado')
         }
     }
 

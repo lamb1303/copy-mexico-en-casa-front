@@ -51,7 +51,7 @@ const InfoNegPago = props => {
                         businessName: props.negocioData.nombre,
                         email: props.personalData.email,
                         firstName: props.personalData.name,
-                        geolocalitation: '',
+                        geolocation: '',
                         lastName: props.personalData.apellidos,
                         mobile: props.personalData.telefono,
                         password: props.personalData.psw,

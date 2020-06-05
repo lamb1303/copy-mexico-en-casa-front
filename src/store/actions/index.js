@@ -14,7 +14,8 @@ export {
     pagoTarjeta,
     entregaDomicilio,
     entregaNegocio,
-    verifyEmailExist
+    verifyEmailExist,
+    setBCoordinates
 } from './registro'
 
 export {

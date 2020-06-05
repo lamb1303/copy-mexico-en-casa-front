@@ -2,9 +2,15 @@ import React, { useState, useEffect, Fragment } from 'react';
 import Card from '../../UI/Card/Card';
 import Table from '../../UI/Table/Table';
 import Button from '../../UI/Button/Button';
+import Backdrop from '../../UI/Backdrop/Backdrop';
+// import Map from '../../UI/Map/Map';
+import ShowMap from './showMap/showMap';
+import Alert from '../../UI/Alert/Alert';
 import * as actions from '../../../store/actions';
-import classes from './NegocioInfo.module.css';
 import { connect } from 'react-redux';
+import { ReactComponent as MapLogo } from '../../../assets/map.svg';
+
+import classes from './NegocioInfo.module.css';
 
 const NegocioInfo = props => {
 
@@ -16,6 +22,11 @@ const NegocioInfo = props => {
     const [nombreTouched, setNombreTouched] = useState(false);
     const [direccionTouched, setDireccionTouched] = useState(false);
     const [descripcionTouched, setDescripcionTouched] = useState(false);
+    const [showBackdrop, setShowBackdrop] = useState(false);
+    const [coordinates, setCoordinates] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [showHorarioAlert, setShowHorarioAlert] = useState(false);
 
     useEffect(() => {
         if (Object.keys(negocioData).length > 0) {
@@ -84,23 +95,32 @@ const NegocioInfo = props => {
         }
     }
 
-    const successPosition = (position) => {
-        console.log(position)
-    }
-    const failPosition = (error) => {
-        console.log(error);
-    }
 
     const getLocation = () => {
         if ('geolocation' in navigator) {
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 5000,
+            if (coordinates) {
+                setShowBackdrop(true);
+            } else {
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                }
+                navigator.geolocation.getCurrentPosition((coords) => {
+                    setCoordinates({ lat: coords.coords.latitude, lng: coords.coords.longitude });
+                    setShowBackdrop(true);
+                }, (err) => {
+                    setShowAlert(true)
+                }, options);
             }
-            navigator.geolocation.getCurrentPosition(successPosition, failPosition, options);
         } else {
-            return
+            setCoordinates({});
+            setShowBackdrop(true);
         }
+    }
+
+    const horarioError = (message) => {
+        setAlertMessage(message);
+        setShowHorarioAlert(true);
     }
 
     let isFormValid = false;
@@ -111,9 +131,24 @@ const NegocioInfo = props => {
         isFormValid = true;
     }
 
+    if (showHorarioAlert) {
+        setTimeout(() => {
+            setShowHorarioAlert(false);
+        }, 5000)
+    }
+
+    const getCoordinatesFromMap = (currentPosition) => {
+        setCoordinates(currentPosition);
+        props.onSetCoordinates(currentPosition);
+        setShowBackdrop(false);
+    }
 
     return (
         <Fragment>
+            {<Backdrop show={showBackdrop} clicked={() => setShowBackdrop(false)} />}
+            {showBackdrop && <ShowMap nombre={nombre} coordinates={coordinates} getCoords={(currentPosition) => getCoordinatesFromMap(currentPosition)} />}
+            {showAlert && <Alert title='Error' clase={'personalInfo'} clicked={() => setShowAlert(false)} >No se puede abrir el mapa por el momento. Intentelo mas tarde</Alert>}
+            {showHorarioAlert && <Alert title='Warning' clase={'personalInfo'} >{alertMessage} </Alert>}
             <div className={classes.NegocioInfo}>
                 <div className={classes.header} >
                     <span>Datos del Negocio. Por favor llene los datos del negocio</span>
@@ -128,14 +163,16 @@ const NegocioInfo = props => {
                                 onChange={(event) => handleNombre(event.target.value)}
                                 placeholder='Nombre del negocio'
                             />
-                            <input
-                                className={`${classes.input} ${dirError ? classes.error : direccionTouched ? classes.good : ''}`}
-                                type="text"
-                                value={direccion}
-                                onChange={(event) => handleDireccion(event.target.value)}
-                                placeholder='Direccion del negocio'
-                                onFocus={() => getLocation()}
-                            />
+                            <div className={classes.location} >
+                                <input
+                                    className={`${classes.input} ${dirError ? classes.error : direccionTouched ? classes.good : ''}`}
+                                    type="text"
+                                    value={direccion}
+                                    onChange={(event) => handleDireccion(event.target.value)}
+                                    placeholder='Direccion del negocio'
+                                />
+                                <MapLogo onClick={() => getLocation()} />
+                            </div>
                             <textarea
                                 className={`${classes.textarea} ${descError ? classes.error : descripcionTouched ? classes.good : ''}`}
                                 type="text"
@@ -144,7 +181,7 @@ const NegocioInfo = props => {
                                 onChange={(event) => handleDescripcion(event.target.value)}
                                 placeholder='Descripcion del negocio'
                             />
-                            <Table />
+                            <Table horarioError={(message) => horarioError(message)} />
                         </div>
                     </Card>
                 </div>
@@ -172,7 +209,8 @@ const mapDispatchToProps = dispatch => {
     return {
         goToPersonal: () => dispatch(actions.goToPersonal()),
         goToNegPago: () => dispatch(actions.goToNegPago()),
-        setNegocioData: (nombre, direccion, descripcion) => dispatch(actions.setNegocioData(nombre, direccion, descripcion))
+        setNegocioData: (nombre, direccion, descripcion) => dispatch(actions.setNegocioData(nombre, direccion, descripcion)),
+        onSetCoordinates: (coords) => dispatch(actions.setBCoordinates(coords))
     }
 }
 
