@@ -51,7 +51,7 @@ const InfoNegPago = props => {
                         businessName: props.negocioData.nombre,
                         email: props.personalData.email,
                         firstName: props.personalData.name,
-                        geolocation: '',
+                        geolocation: props.geolocation,
                         lastName: props.personalData.apellidos,
                         mobile: props.personalData.telefono,
                         password: props.personalData.psw,
@@ -210,7 +210,8 @@ const mapStateToProps = state => {
         negocio: state.registro.negocio,
         token: state.registro.token,
         isCustomer: state.registro.isCustomer,
-        businessId: state.registro.id
+        businessId: state.registro.id,
+        geolocation: state.registro.geolocation
     }
 }
 
