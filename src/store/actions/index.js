@@ -46,7 +46,8 @@ export {
     CancelOrder,
     checkout,
     DelOneToSelectedProduct,
-    BackToPayment
+    BackToPayment,
+    getBusinesses
 } from './cliente'
 
 // export {
@@ -71,5 +72,6 @@ export {
     terminarPedido,
     getPedidoNegocioId,
     getPedidoPreparing,
-    getPedidoReady
+    getPedidoReady,
+    getProducts
 } from './negocio'

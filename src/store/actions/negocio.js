@@ -1,6 +1,38 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
 
+export const getProducts = () => {
+    return dispatch => {
+        axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts/${'0T9pMWNog11U2jd7xg4Z'}`).then(
+            response => {
+                const products = response.data.products
+                const updatedProducts = Object.keys(products).map(
+                    igKey => {
+                        return [...Array(products[igKey])].map((field   , i) => {
+                            return {
+                                key: igKey,
+                                name: field.name,
+                                price: field.price,
+                                description: field.description
+                            }
+                        })
+                    }
+                ).reduce((arr, el) => {
+                    return arr.concat(el)
+                }, []);
+                console.log(updatedProducts)
+                dispatch(getProductsSuccess(updatedProducts))
+            }
+        ).catch(e => console.log(e))
+    }
+}
+
+export const getProductsSuccess = (products) => {
+    return {
+        type: actionTypes.GET_ALL_PRODUCTS,
+        products: products
+    }
+}
 export const openEditNegocio = () => {
     return {
         type: actionTypes.OPEN_EDIT_NEGOCIO

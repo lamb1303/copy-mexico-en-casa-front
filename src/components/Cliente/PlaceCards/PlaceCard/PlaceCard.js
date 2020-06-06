@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import classes from './PlaceCard.module.css';
-
 import Options from '../../../UI/PurchaseOptions/Options';
 import { ReactComponent as Star } from '../../assets/star.svg';
 import { ReactComponent as EmptyStar } from '../../assets/emptyStar.svg';
@@ -25,8 +24,7 @@ const PlaceCard = (props) => {
     });
 
     return (
-        <div className={classes.PlaceCard}
-            onClick={() => alert(props.businessId)}>
+        <div className={classes.PlaceCard}>
             <img className={classes.PlaceCard_image} src={imageUrl} alt='Imagen Negocio' />
             <div className={classes.PlaceCard_details}>
                 <div className={classes.PlaceCard_details_place} >
@@ -36,6 +34,7 @@ const PlaceCard = (props) => {
                 </div>
                 <Options envio={isToGo} pago={cash} />
             </div>
+            
         </div >
     )
 }

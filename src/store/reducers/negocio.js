@@ -174,7 +174,14 @@ const initialState = {
         },
     },
     checkedOrders: {},
-    checkedPrepare: {}
+    checkedPrepare: {},
+    products: {}
+}
+
+const getProductsSuccess = (state, action) => {
+    return updateObject(state, {
+        products: action.products
+    })
 }
 
 const changeEditMode = (state, action) => {
@@ -411,6 +418,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_READY_SUCCESS: return getFinishSuccess(state, action);
         case actionTypes.LOADING_PEDIDOS: return loadingPedido(state, action);
         case actionTypes.CHANGE_STAGE_FAIL: return changeStageFail(state, action);
+        case actionTypes.GET_ALL_PRODUCTS: return getProductsSuccess(state, action)
         default: return state
     }
 }

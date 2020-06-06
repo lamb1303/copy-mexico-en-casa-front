@@ -31,13 +31,12 @@ const Pedido = props => {
 
     const mostrarOrden = props.productCount.map(
         orden => {
-            // if (orden.count >= 1) {
             return (
 
                 <div key={orden.name} >
                     <div key={orden.name} className={classes.modal_body}>
 
-                            <img className={classes.pedidos_image} src={orden.img} />
+                            <img className={classes.pedidos_image} src={orden.img} alt="img"/>
                             <h4>{orden.name} </h4>
 
                     </div>
@@ -51,8 +50,6 @@ const Pedido = props => {
                     <hr />
                 </div>
             )
-            // }
-
         }
     )
 

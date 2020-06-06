@@ -1,46 +1,52 @@
 import React, { Component } from 'react';
 import classes from './Negocio.module.scss';
 import Button from '../../UI/Button/Button';
-import Products from './Products/Products';
+import Product from './Products/Product/Product';
 import Pedido from './Pedido/Pedido';
 import * as actions from '../../../store/actions'
 import { connect } from 'react-redux';
-import axios from 'axios'
 
 class Negocio extends Component {
 
-    state = {
-        products: {}
-    }
     componentDidMount() {
-        //id product
-        axios.get(`${process.env.REACT_APP_API_URL}/products/businessProducts`).then(
-            response => {
-                const products = response.data.products
-                const updatedProducts = Object.keys(products).map(
-                    igKey => {
-                        return [...Array(products[igKey])].map((_, i) => {
-                           console.log(_)
-                       })
-                   }
-               )
-            }
-        ).catch(e => console.log(e))
+        this.props.getProducts()
     }
+
     render() {
-        // const products = Object.keys(this.state.products).map(
-        //     product => {
-        //         console.log(product)
-        //     }
-        // )
+        const products = Object.values(this.props.products).map(
+            prod => {
+
+                let selected = false
+                if (this.props.selectedProd === prod.name) {
+                    selected = true
+                }
+                const productCount = this.props.productCount.find(p => p.name === prod.name);
+                let count = 0;
+                if (productCount) {
+                    count = productCount.count
+                }
+
+                return <Product
+                    key={prod.key}
+                    name={prod.name}
+                    img={prod.img}
+                    desc={prod.description}
+                    selected={selected}
+                    count={count}
+                    price={prod.price}
+                />
+            })
         const imageUrl = 'https://c8.alamy.com/compes/t20754/la-ilustracion-muestra-una-casa-pequena-hecho-en-un-estilo-de-dibujos-animados-aislado-sobre-fondo-blanco-t20754.jpg';
         return (
             <>
                 <div className={classes.negocio} >
                     <img className={classes.negocio_imagen} src={imageUrl} alt='Foto del negocio' />
                     <div className={classes.amount} >${this.props.orderPrice}</div>
+                    <div className={classes.products} >
+                         {products}
+                    </div>
                    
-                    <Button btnType='Success' clicked={() => this.props.abrirModal()} >Ver pedido</Button>
+                    <Button btnType='Success' clicked={() => this.props.openModal()} >Ver pedido</Button>
                     {
                         this.props.openOrder &&
                         <Pedido
@@ -58,13 +64,17 @@ class Negocio extends Component {
 const mapStateToProps = state => {
     return {
         orderPrice: state.cliente.orderPrice,
-        openOrder: state.cliente.openOrder
+        openOrder: state.cliente.openOrder,
+        products: state.negocio.products,
+        selectedProd: state.cliente.selectedProduct,
+        productCount: state.cliente.productCount
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        abrirModal: () => dispatch(actions.OpenOrderModal())
+        getProducts: () => dispatch(actions.getProducts()),
+        openModal: () => dispatch(actions.OpenOrderModal())
 
     }
 }

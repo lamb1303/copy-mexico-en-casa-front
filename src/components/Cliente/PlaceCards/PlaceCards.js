@@ -1,53 +1,31 @@
 import React, { Component } from 'react';
 import PlaceCard from './PlaceCard/PlaceCard';
-import axios from 'axios'
+import { connect } from 'react-redux';
+import * as action from '../../../store/actions'
+import { NavLink } from 'react-router-dom';
 
 class PlaceCards extends Component {
-    state = {
-        businesses: {}
-    }
-    componentDidMount() {
-        //id product
-        axios.get(`${process.env.REACT_APP_API_URL}/Business/businesses`).then(
-            response => {
-                const businesses = response.data.businesses
 
-                const Updatedbusinesses = Object.keys(businesses).map(igKey => {
-                    return [...Array(businesses[igKey])].map((_, i) => {
-                        return {
-                            key: igKey,
-                            name: _.businessName,
-                            desc: _.businessDesc,
-                            payment: {
-                                cash: _.payment.cash
-                            },
-                            delivery: {
-                                isToGo: _.delivery.isToGo
-                            },
-                            rate: [_.rate],
-                            photoBusiness: _.photoBusiness
-                        }
-                    })
-                }).reduce((arr, el) => {
-                    return arr.concat(el)
-                }, []);
-                console.log(Updatedbusinesses)
-                this.setState({ businesses: Updatedbusinesses })
-            }
-        ).catch(e => console.log(e))
+    componentDidMount() {
+        this.props.getBusinesses()
     }
+
+
     render() {
-        const businesses = Object.values(this.state.businesses).map(
+        const businesses = Object.values(this.props.businesses).map(
             business => {
-                return <PlaceCard
-                    key={business.key}
-                    businessId={business.key}
-                    name={business.name}
-                    isToGo={business.delivery.isToGo}
-                    rate={business.rate}
-                    photoBusiness={business.photoBusiness}
-                    desc={business.desc}
-                />
+                return <NavLink onClick={()=> alert(business.key)} key={business.key} to="./../../Cliente/Negocio/Negocio.js">
+                    <PlaceCard
+                        key={business.key}
+                        businessId={business.key}
+                        name={business.name}
+                        isToGo={business.delivery.isToGo}
+                        rate={business.rate}
+                        photoBusiness={business.photoBusiness}
+                        desc={business.desc}
+                    />
+                </NavLink>
+
             }
         )
         return (
@@ -58,4 +36,16 @@ class PlaceCards extends Component {
     }
 }
 
-export default PlaceCards;
+const mapStateToProps = state => {
+    return {
+        businesses: state.cliente.businesses
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getBusinesses: () => dispatch(action.getBusinesses())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceCards);

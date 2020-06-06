@@ -13,7 +13,14 @@ const initialState = {
     openOrder: false,
     deliver: null,
     payment: null,
-    checkoutError: null
+    checkoutError: null,
+    businesses: {}
+}
+
+const getBusinessesSuccess = (state, action) => {
+    return updateObject(state, {
+        businesses: action.businesses
+    })
 }
 
 const cancelOrder = (state, action) => {
@@ -116,6 +123,7 @@ const addOneToSelectedProduct = (state, action) => {
 
     //if the product exist in the list
     if (product) {
+        console.log(product)
         //get all items but the one selected
         let copy = state.productCount.filter(x => x.name !== action.product)        
         //add 1 to the selected product
@@ -219,6 +227,7 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.CHECKOUT_FAIL: return checkoutFail(state, action);
         case actionTypes.CHECKOUT_INIT: return checkoutInit(state, action);
         case actionTypes.CLIENTE_REGRESAR_OPCION_PAGO: return backToPayment(state, action);
+        case actionTypes.CLIENTE_VER_NEGOCIOS: return getBusinessesSuccess(state, action);
         default: return state;
     }
 };
