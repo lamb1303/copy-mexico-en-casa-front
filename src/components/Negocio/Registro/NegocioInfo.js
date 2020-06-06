@@ -9,6 +9,7 @@ import Alert from '../../UI/Alert/Alert';
 import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
 import { ReactComponent as MapLogo } from '../../../assets/map.svg';
+import axios from 'axios'
 
 import classes from './NegocioInfo.module.css';
 
@@ -86,35 +87,63 @@ const NegocioInfo = props => {
     }
 
     const handleContinue = () => {
-        const atLeastOneOpen = props.days.find(day => day.abierto === true);
-        if (atLeastOneOpen) {
-            props.goToNegPago()
-            props.setNegocioData(nombre, direccion, descripcion);
-        } else {
-            console.log('selecciona al menos un dia prro')
-        }
-    }
-
-
-    const getLocation = () => {
-        if ('geolocation' in navigator) {
-            if (coordinates) {
-                setShowBackdrop(true);
-            } else {
+        const openDays = props.days.filter(day => day.abierto === true).find(day => day.horaAbierto === '' || day.horaCerrado === '');
+        if (!openDays) {
+            if (props.geolocation === '') {
                 const options = {
                     enableHighAccuracy: true,
                     timeout: 5000,
                 }
                 navigator.geolocation.getCurrentPosition((coords) => {
-                    setCoordinates({ lat: coords.coords.latitude, lng: coords.coords.longitude });
-                    setShowBackdrop(true);
+                    props.onSetCoordinates({ lat: coords.coords.latitude, lng: coords.coords.longitude });
                 }, (err) => {
-                    setShowAlert(true)
+                    setShowHorarioAlert(true);
+                    setAlertMessage('Algo salio mal, por favor, vuelve a intentarlo');
+                    return;
                 }, options);
             }
+            props.goToNegPago()
+            props.setNegocioData(nombre, direccion, descripcion);
         } else {
-            setCoordinates({});
+            setShowHorarioAlert(true);
+            setAlertMessage('Por favor, revisa el Horario de Trabajo')
+        }
+    }
+
+    const getLocationByBrowser = () => {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+        }
+        navigator.geolocation.getCurrentPosition((coords) => {
+            setCoordinates({ lat: coords.coords.latitude, lng: coords.coords.longitude });
             setShowBackdrop(true);
+        }, (err) => {
+            setShowAlert(true)
+        }, options);
+    }
+
+    const getLocation = () => {
+        if (props.geolocation) { setShowBackdrop(true); return }
+        if (direccion.length > 5) {
+            const street = direccion.trim().replace(/ /g, '+');
+            console.log(street);
+            axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
+                .then(resp => {
+                    console.log(resp.data.length)
+                    if (Object.keys(resp.data).length > 0) {
+                        setCoordinates({
+                            lat: resp.data[0].lat,
+                            lng: resp.data[0].lon
+                        })
+                        setShowBackdrop(true)
+                    } else {
+                        getLocationByBrowser();
+                    }
+                })
+                .catch(err => console.log(err));
+        } else {
+            getLocationByBrowser();
         }
     }
 
@@ -145,9 +174,22 @@ const NegocioInfo = props => {
 
     return (
         <Fragment>
-            {<Backdrop show={showBackdrop} clicked={() => setShowBackdrop(false)} />}
-            {showBackdrop && <ShowMap nombre={nombre} coordinates={coordinates} getCoords={(currentPosition) => getCoordinatesFromMap(currentPosition)} />}
-            {showAlert && <Alert title='Error' clase={'personalInfo'} clicked={() => setShowAlert(false)} >No se puede abrir el mapa por el momento. Intentelo mas tarde</Alert>}
+            {<Backdrop show={showBackdrop} />}
+            {showBackdrop && (
+                <ShowMap
+                    nombre={nombre}
+                    coordinates={coordinates}
+                    getCoords={(currentPosition) => getCoordinatesFromMap(currentPosition)}
+                    address={direccion}
+                />
+            )}
+            {showAlert &&
+                (<Alert
+                    title='Error'
+                    clase={'personalInfo'}
+                    clicked={() => setShowAlert(false)}
+                >No se puede abrir el mapa por el momento. Intentelo mas tarde
+                </Alert>)}
             {showHorarioAlert && <Alert title='Warning' clase={'personalInfo'} >{alertMessage} </Alert>}
             <div className={classes.NegocioInfo}>
                 <div className={classes.header} >
@@ -169,7 +211,7 @@ const NegocioInfo = props => {
                                     type="text"
                                     value={direccion}
                                     onChange={(event) => handleDireccion(event.target.value)}
-                                    placeholder='Direccion del negocio'
+                                    placeholder='Calle, Ciudad, C.P.'
                                 />
                                 <MapLogo onClick={() => getLocation()} />
                             </div>
@@ -201,7 +243,8 @@ const NegocioInfo = props => {
 const mapStateToProps = state => {
     return {
         days: state.registro.days,
-        negocioData: state.registro.negocioData
+        negocioData: state.registro.negocioData,
+        geolocation: state.registro.geolocation
     }
 }
 
