@@ -12,11 +12,11 @@ const purchaseOptions = props => {
 
     return (<div className={classes.options} >
         <div className={classes.delivery} >
-            {props.envio === 'Domicilio' ? <Domicilio />
+            {props.envio ? <Domicilio />
                 : <Local />}
         </div>
         <div className={classes.pay} >
-            {props.pago === 'Efectivo' ? <Efectivo />
+            {props.pago ? <Efectivo />
                 : <Tarjeta />}
         </div>
     </div>)

@@ -31,7 +31,6 @@ const Pedido = props => {
 
     const mostrarOrden = props.productCount.map(
         orden => {
-            // if (orden.count >= 1) {
             return (
 
                 <div key={orden.name} >
@@ -51,8 +50,6 @@ const Pedido = props => {
                     <hr />
                 </div>
             )
-            // }
-
         }
     )
 

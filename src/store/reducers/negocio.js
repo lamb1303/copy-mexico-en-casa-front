@@ -175,7 +175,14 @@ const initialState = {
         },
     },
     checkedOrders: {},
-    checkedPrepare: {}
+    checkedPrepare: {},
+    products: {}
+}
+
+const getProductsSuccess = (state, action) => {
+    return updateObject(state, {
+        products: action.products
+    })
 }
 
 const changeEditMode = (state, action) => {
@@ -443,6 +450,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.INIT_GET_NEGOCIO_DETAILS: return initGetNegocioDetails(state, action);
         case actionTypes.GET_NEGOCIO_DETAILS_SUCCESS: return getNegocioDetailsSuccess(state, action);
         case actionTypes.GET_NEGOCIO_DETAILS_FAIL: return getNegocioDetailsFail(state, action);
+        case actionTypes.GET_ALL_PRODUCTS: return getProductsSuccess(state, action)
         default: return state
     }
 }
