@@ -331,3 +331,10 @@ export const verifyEmailExist = (data) => {
 
     }
 }
+
+export const setBCoordinates = (coordinates) => {
+    return {
+        type: actionTypes.SET_BUSINESS_COORDINATES,
+        coords: coordinates
+    }
+}

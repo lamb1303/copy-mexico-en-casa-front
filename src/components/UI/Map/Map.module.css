@@ -1,0 +1,19 @@
+.map{
+    width: 90%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 70%;
+    min-height: 400px;
+    position: fixed;
+    z-index: 205;
+    outline: none;
+    overflow-y: scroll;
+}
+
+.map input{
+    min-width: 90% !important;
+    width: 90% !important;
+}

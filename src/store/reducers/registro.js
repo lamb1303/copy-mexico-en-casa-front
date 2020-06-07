@@ -9,13 +9,14 @@ const initialState = {
     cliente: false,
     negocio: false,
     errorMessage: '',
+    geolocation: '',
     name: '',
     id: null,
     registroNegocio: null,
     cafe: false,
     personalInfo: false,
     negocioInfo: false,
-    negocioFinal: false,
+    negocioFinal: true,
     avisoPriv: false,
     personalData: {},
     days: [
@@ -242,6 +243,12 @@ const verifyEmailExistEnd = (state, action) => {
     })
 }
 
+const setCoordinates = (state, action) => {
+    return updateObject(state, {
+        geolocation: action.coords
+    })
+}
+
 
 
 const reducer = (state = initialState, action) => {
@@ -266,6 +273,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REGISTRO_ENTREGA_NEGOCIO: return entregaNegocio(state, action);
         case actionTypes.VERIFY_EMAIL_EXIST_INIT: return verifyEmailExistInit(state, action);
         case actionTypes.VERIFY_EMAIL_EXIST_END: return verifyEmailExistEnd(state, action);
+        case actionTypes.SET_BUSINESS_COORDINATES: return setCoordinates(state, action);
         default: return state
     }
 };
