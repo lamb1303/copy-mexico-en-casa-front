@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PersonalInfo from './PersonalInfo';
 import NegocioInfo from './NegocioInfo';
 import InfoNegPago from './InfoNegPago';
-import AvisoPrivacidad from './AvisoPrivacidad';
 import classes from './RegistroNegocio.module.css';
 
 const RegistroNegocio = props => {
@@ -16,9 +15,7 @@ const RegistroNegocio = props => {
         stage = <NegocioInfo />
     } else if (props.negocioFinal) {
         stage = <InfoNegPago />
-    } else if (props.avisoPriv) {
-        stage = <AvisoPrivacidad />
-    }
+    } 
 
     return (
         <div className={classes.registro} >
@@ -30,11 +27,9 @@ const RegistroNegocio = props => {
 
 const mapStateToProps = state => {
     return {
-        // wellcome: state.registro.wellcome,
         personalInfo: state.registro.personalInfo,
         negocioInfo: state.registro.negocioInfo,
         negocioFinal: state.registro.negocioFinal,
-        avisoPriv: state.registro.avisoPriv,
     }
 }
 

@@ -3,27 +3,22 @@ import { updateObject } from '../utility';
 
 
 const initialState = {
+    token: null,
+    isCustomer: false,
+    loading: false,
     cliente: false,
     negocio: false,
+    errorMessage: '',
+    geolocation: '',
     name: '',
     id: null,
     registroNegocio: null,
-    isAlert: false,
-    alertType: '',
-    message: "",
     cafe: false,
-    // wellcome: true,
     personalInfo: false,
     negocioInfo: false,
-    negocioFinal: false,
+    negocioFinal: true,
     avisoPriv: false,
-    personalData: {
-        name: 'Blad',
-        apellidos: 'Test',
-        email: 'test@test.com',
-        psw: 'blad',
-        telefono: '1234567897'
-    },
+    personalData: {},
     days: [
         {
             id: 1,
@@ -75,17 +70,11 @@ const initialState = {
             horaCerrado: '',
         },
     ],
-    negocioData: {
-        nombre: 'Las pilladas',
-        direccion: 'La calle de la amargura alv',
-        descripcion: 'Puro saboooor!'
-    },
+    negocioData: {},
     pagoEfectivo: false,
     pagoTarjeta: false,
     entregaDomicilio: false,
     entregaNegocio: false,
-    idImage: {},
-    negocioImage: undefined
 }
 
 
@@ -103,7 +92,11 @@ const nuevoNegocio = (state, action) => {
     return updateObject(state, {
         cliente: false,
         negocio: true,
-        registroNegocio: action.negocio
+        registroNegocio: action.negocio,
+        loading: false,
+        token: action.token,
+        isCustomer: action.isCustomer,
+        id: action.id
     })
 }
 
@@ -116,17 +109,6 @@ const iniciarRegistro = (state, action) => {
 const registerFailed = (state, action) => {
     return updateObject(state, {
         loading: false
-    })
-}
-
-
-const addProduct = (state, action) => {
-    return updateObject(state, {
-        isProductAdded: true,
-        message: action.message,
-        isAlert: true,
-        alertType: 'Success',
-
     })
 }
 
@@ -159,10 +141,7 @@ const goToNegPago = (state, action) => {
 
 const goToPrivacidad = (state, action) => {
     return updateObject(state, {
-        personalInfo: false,
-        negocioInfo: false,
-        negocioFinal: false,
-        avisoPriv: true,
+        avisoPriv: action.isOpen,
     })
 }
 
@@ -251,20 +230,25 @@ const entregaNegocio = (state, action) => {
     })
 }
 
-const setFotoId = (state, action) => {
-    console.log('from the reducer');
-    const localImage = window.URL.createObjectURL(action.foto);
-    console.log(localImage);
+const verifyEmailExistInit = (state, action) => {
     return updateObject(state, {
-        idImage: localImage
+        loading: true
     })
 }
 
-const setFotoNegocio = (state, action) => {
+const verifyEmailExistEnd = (state, action) => {
     return updateObject(state, {
-        negocioImage: action.foto
+        loading: false,
+        errorMessage: action.errorMessage
     })
 }
+
+const setCoordinates = (state, action) => {
+    return updateObject(state, {
+        geolocation: action.coords
+    })
+}
+
 
 
 const reducer = (state = initialState, action) => {
@@ -274,7 +258,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REGISTRAR_NUEVO_NEGOCIO: return nuevoNegocio(state, action);
         case actionTypes.INICIAR_REGISTRO: return iniciarRegistro(state, action);
         case actionTypes.REGISTRO_FAIL: return registerFailed(state, action);
-        case actionTypes.ADDED_FOOD_PRODUCT: return addProduct(state, action);
         case actionTypes.GO_TO_PERSONAL: return goToPersonal(state, action);
         case actionTypes.GO_TO_INFO_NEGOCIO: return goToInfoNegocio(state, action);
         case actionTypes.GO_TO_NEG_PAGO: return goToNegPago(state, action);
@@ -288,8 +271,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.REGISTRO_PAGO_TARJETA: return pagoTarjeta(state, action);
         case actionTypes.REGISTRO_ENTREGA_DOMICILIO: return entregaDomicilio(state, action);
         case actionTypes.REGISTRO_ENTREGA_NEGOCIO: return entregaNegocio(state, action);
-        case actionTypes.REGISTRO_FOTO_ID: return setFotoId(state, action);
-        case actionTypes.REGISTRO_FOTO_NEGOCIO: return setFotoNegocio(state, action);
+        case actionTypes.VERIFY_EMAIL_EXIST_INIT: return verifyEmailExistInit(state, action);
+        case actionTypes.VERIFY_EMAIL_EXIST_END: return verifyEmailExistEnd(state, action);
+        case actionTypes.SET_BUSINESS_COORDINATES: return setCoordinates(state, action);
         default: return state
     }
 };

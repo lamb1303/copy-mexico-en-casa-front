@@ -16,7 +16,7 @@ import './Alert.scss';
 
 const AlertComponent = props => {
 
-    return <Alert className='alert' severity={props.title.toLowerCase()}>
+    return <Alert className={`alert ${props.clase}`} severity={props.title.toLowerCase()}>
         <button href="" onClick={ props.clicked }> X </button>
         <AlertTitle>{props.title}</AlertTitle>
         {props.children}

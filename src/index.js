@@ -16,14 +16,24 @@ import { BrowserRouter } from 'react-router-dom';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   registro: registroReducer,
   cliente: clienteReducer,
   header: headerReducer,
   home: homeReducer,
   products: productsReducer,
   negocio: negocioReducer,
+
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'HOME_LOGOUT') {
+    state = undefined
+  }
+
+
+  return appReducer(state, action)
+}
 
 const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)

@@ -1,9 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../../../store/actions';
 
 import Button from '../../../../UI/Button/Button';
+import AlertComponent from '../../../../UI/Alert/Alert';
 import { TextField, InputAdornment } from '@material-ui/core';
 import ImageUpload from '../../../../UI/ImageUpload/ImageUpload';
 
@@ -40,6 +41,8 @@ const AddProduct = props => {
                     setPriceError("Campo requerido")
                 } else if (isNaN(value)) {
                     setPriceError("Solo valores númericos")
+                } else if (value <= 0) {
+                    setPriceError("No se permiten precio menor o igual a 0")
                 } else {
                     setPriceError("")
                 };
@@ -57,9 +60,10 @@ const AddProduct = props => {
 
     const saveProduct = () => {
         if (!foodNameError && !priceError && !descError) {
-            console.log(props.idBusiness);
+            const id = JSON.parse(localStorage.getItem('user')).id;
+            console.log(id)
             const foodProduct = {
-                idBusiness: props.idBusiness,
+                idBusiness: id,
                 name: foodName,
                 price: price,
                 desc: desc
@@ -69,6 +73,23 @@ const AddProduct = props => {
         }
     }
 
+    const clearField = useCallback(() => {
+        if (props.isProductAdded) {
+            setSelectedImage(NoImage);
+            setFoodName("");
+            setFoodNameError("");
+            setPrice("");
+            setPriceError("");
+            setDesc("");
+            setDescError("");
+        }
+
+    }, [props.isProductAdded]);
+
+    useEffect(() => {
+        clearField()
+    },[clearField])
+
     return (
         <Fragment>
             <div className="addProduct">
@@ -76,7 +97,7 @@ const AddProduct = props => {
                 <div className="addProduct-container">
                     <h3>Crear un nuevo platillo</h3>
                     <ImageUpload
-                        from='editProd'
+                        // from='editProd'
                         center
                         id='image'
                         btnType='Success'
@@ -136,7 +157,11 @@ const AddProduct = props => {
                         GUARDAR
                 </Button>
                 </div>
+                <div>
+                    {props.isAlert && <AlertComponent title={props.alertType} clicked={() => props.updateAddProductAlert()}>{props.message}</AlertComponent>}
+                </div>
             </div>
+
         </Fragment>
     );
 
@@ -144,16 +169,17 @@ const AddProduct = props => {
 
 const mapStateToProps = state => {
     return {
-        isProductAdded: state.registro.isProductAdded,
-        idBusiness: state.home.idBusiness,
-
+        isProductAdded: state.products.isProductAdded,
+        isAlert: state.products.isAlert,
+        alertType: state.products.alertType,
+        message: state.products.message,
     }
 }
 
 const mapDispatchToProps = {
 
     addProduct: actions.addProduct,
-
+    updateAddProductAlert: actions.updateAddProductAlert,
 
 }
 
