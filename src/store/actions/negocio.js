@@ -1,9 +1,9 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
 
-export const getProducts = () => {
+export const getProducts = (id) => {
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts/${'0T9pMWNog11U2jd7xg4Z'}`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts/${id}`).then(
             response => {
                 const products = response.data.products
                 const updatedProducts = Object.keys(products).map(

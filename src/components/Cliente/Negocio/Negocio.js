@@ -8,9 +8,22 @@ import { connect } from 'react-redux';
 
 class Negocio extends Component {
 
+       
     componentDidMount() {
-        this.props.getProducts()
+        if (localStorage.getItem("businessId")) {
+            this.props.getProducts(localStorage.getItem("businessId"))
+        }  
+        
+        if (Object.keys(this.props.selectedNegocio).length == 0) {
+            this.props.getSelectedBusiness(localStorage.getItem("businessId"))
+        }
     }
+
+    componentWillUnmount() {
+        localStorage.removeItem("businessId")
+    }
+
+    
 
     render() {
         const products = Object.values(this.props.products).map(
@@ -67,14 +80,16 @@ const mapStateToProps = state => {
         openOrder: state.cliente.openOrder,
         products: state.negocio.products,
         selectedProd: state.cliente.selectedProduct,
-        productCount: state.cliente.productCount
+        productCount: state.cliente.productCount,
+        selectedNegocio: state.negocio.selectedNegocio
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProducts: () => dispatch(actions.getProducts()),
-        openModal: () => dispatch(actions.OpenOrderModal())
+        getProducts: (id) => dispatch(actions.getProducts(id)),
+        openModal: () => dispatch(actions.OpenOrderModal()),
+        getSelectedBusiness: (idBusiness)=> dispatch(actions.getSelectedBusiness(idBusiness))
 
     }
 }

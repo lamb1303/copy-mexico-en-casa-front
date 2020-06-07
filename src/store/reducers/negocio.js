@@ -5,10 +5,7 @@ import * as stageType from '../Util/enums/stageType';
 const initialState = {
     editMode: false,
     getPedidosloading: false,
-    selectedNegocio: {
-        name: 'El nombre',
-        desc: 'Esta es la tienda de la señora tencha! donde vera las mejores tortas jaja'
-    },
+    selectedNegocio: {},
     editProduct: false,
     prodToEdit: null,
     selectedProduct: null,
@@ -177,7 +174,11 @@ const initialState = {
     checkedPrepare: {},
     products: {}
 }
-
+const clienteSelectedBusiness = (state, action) => {
+    return updateObject(state, {
+        selectedNegocio: action.business
+    })
+}
 const getProductsSuccess = (state, action) => {
     return updateObject(state, {
         products: action.products
@@ -418,7 +419,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_READY_SUCCESS: return getFinishSuccess(state, action);
         case actionTypes.LOADING_PEDIDOS: return loadingPedido(state, action);
         case actionTypes.CHANGE_STAGE_FAIL: return changeStageFail(state, action);
-        case actionTypes.GET_ALL_PRODUCTS: return getProductsSuccess(state, action)
+        case actionTypes.GET_ALL_PRODUCTS: return getProductsSuccess(state, action);
+        case actionTypes.CLIENTE_SET_SELECTED_BUSINESS: return clienteSelectedBusiness(state, action);
         default: return state
     }
 }
