@@ -6,3 +6,18 @@
 .products hr{
     width: 99vw;
 }
+
+.emptyList{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    height: 60vh;
+    justify-content: center;
+}
+
+.emptyList span{
+    font-size: 1.5rem;
+    color: #482856;
+    font-weight: bold;
+}

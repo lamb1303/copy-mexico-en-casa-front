@@ -3,12 +3,13 @@ import { updateObject } from '../utility';
 import * as stageType from '../Util/enums/stageType';
 
 const initialState = {
+    token: null,
+    id: null,
+    negocio: {},
+    products: [],
     editMode: false,
     getPedidosloading: false,
-    selectedNegocio: {
-        name: 'El nombre',
-        desc: 'Esta es la tienda de la señora tencha! donde vera las mejores tortas jaja'
-    },
+    selectedNegocio: {},
     editProduct: false,
     prodToEdit: null,
     selectedProduct: null,
@@ -394,6 +395,33 @@ const changeStageFail = (state, action) => {
     })
 }
 
+const loadNegocio = (state, action) => {
+    return updateObject(state, {
+        token: action.token,
+        id: action.id
+    })
+}
+
+const initGetNegocioDetails = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+const getNegocioDetailsSuccess = (state, action) => {
+  
+    return updateObject(state, {
+        loading: false,
+        selectedNegocio: action.negocio.details,
+        products: action.negocio.products
+    })
+}
+
+const getNegocioDetailsFail = (state, action) => {
+    return updateObject(state, {
+        loading: false
+    })
+}
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -418,6 +446,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_READY_SUCCESS: return getFinishSuccess(state, action);
         case actionTypes.LOADING_PEDIDOS: return loadingPedido(state, action);
         case actionTypes.CHANGE_STAGE_FAIL: return changeStageFail(state, action);
+        case actionTypes.LOAD_NEGOCIO: return loadNegocio(state, action);
+        case actionTypes.INIT_GET_NEGOCIO_DETAILS: return initGetNegocioDetails(state, action);
+        case actionTypes.GET_NEGOCIO_DETAILS_SUCCESS: return getNegocioDetailsSuccess(state, action);
+        case actionTypes.GET_NEGOCIO_DETAILS_FAIL: return getNegocioDetailsFail(state, action);
         case actionTypes.GET_ALL_PRODUCTS: return getProductsSuccess(state, action)
         default: return state
     }

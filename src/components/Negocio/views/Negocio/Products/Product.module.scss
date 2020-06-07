@@ -14,18 +14,22 @@
 }
 
 .product_image {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 70px;
+    max-height: 80px;
     border-radius: 150px;
-    border: 2px solid $primary-color;
     padding: 5px;
+    min-height: 80px;
+    min-width: 70px;
+    border: 2px solid $primary-color;
+    
 }
 
 .product_desc{
     min-width: 50vw;
-    margin: auto;
+    margin: auto 0;
     max-height: 65px;
     padding-left: 3%;
+    max-width: 60vw;
 }
 
 .product_desc div{
@@ -38,12 +42,18 @@
     width: 100vw;
     transition: transform 400ms ease-in-out;
     height: 100%;
+    //test
+    position: relative;
 }
 
 .editIcon{
     max-width: 23px;
     max-height: 38px;
-    margin: auto;
+    margin: auto 0;
+    //test
+    position: absolute;
+    right: 3%;
+    top: 27%;
 }
 
 // .product_addToCar {

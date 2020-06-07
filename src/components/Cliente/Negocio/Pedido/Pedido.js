@@ -36,8 +36,8 @@ const Pedido = props => {
                 <div key={orden.name} >
                     <div key={orden.name} className={classes.modal_body}>
 
-                            <img className={classes.pedidos_image} src={orden.img} alt="img"/>
-                            <h4>{orden.name} </h4>
+                        {/* <img className={classes.pedidos_image} src={imageUrl} alt={orden.name} /> */}
+                        <h4>{orden.name} </h4>
 
                     </div>
                     <div className={classes.modal_price} >

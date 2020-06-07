@@ -27,6 +27,25 @@
     align-items: center;
 }
 
+.location{
+    display: flex;
+    width: 95%;
+}
+
+.location svg{
+    height: 45px;
+    width: 45px;
+    margin-left: 10px;
+}
+
+.closeMap{
+    z-index: 102;
+    color: white;
+    position: absolute;
+    right: 10%;
+    top: 3%;
+}
+
 .input{
     width: 95%;
     margin: 3% auto;

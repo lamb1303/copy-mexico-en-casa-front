@@ -16,9 +16,13 @@ export const login = (credentials) => {
                 const data = response.data;
                 switch (response.status) {
                     case 201:
+                        const tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);
                         localStorage.setItem(
                             'user',
-                            JSON.stringify({ token: data.token, isCustomer: data.isCustomer})
+                            JSON.stringify({
+                                ...data,
+                                expiration: tokenExpirationDate.toISOString()
+                            })
                         );
                         dispatch(logging(data));
                         break;
@@ -54,7 +58,7 @@ export const setLocalTokenStored = (data) => {
 
 const message = (message) => {
     return {
-        type: actionTypes.HOME_INVALID_CREDENTIALS,
+        type: actionTypes.HOME_SHOW_MESSAGE,
         message: message,
     }
 }
@@ -71,8 +75,40 @@ export const joinToUsClosed = () => {
     }
 }
 
-export const updateHomeAlert = () => {
-    return {
-        type:actionTypes.HOME_UPDATE_ALERT,
+export const getUserType = (userId) => {
+    return dispatch => {
+        dispatch(initializeRequest());
+        axios.get(`${process.env.REACT_APP_API_URL}/home/login/getUserType/${userId}`)
+            .then(response => {
+                const data = response.data;
+                switch (response.status) {
+                    case 201:
+                        dispatch(setLocalTokenStored(data));
+
+                        break;
+
+                    default:
+                        break;
+
+                }
+            }).catch(err => {
+
+                err.response && (dispatch(message(err.response.data.message)));
+            });
     }
 }
+
+
+export const updateHomeAlert = () => {
+    return {
+        type: actionTypes.HOME_UPDATE_ALERT,
+    }
+}
+
+export const logOut = () => {
+    localStorage.removeItem('user');
+    return {
+        type: actionTypes.HOME_LOGOUT,
+    }
+    
+};

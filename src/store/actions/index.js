@@ -1,7 +1,6 @@
 export {
     registrarNuevoCliente,
     registroNuevoNegocio,
-    addProduct,
     goToPersonal,
     goToInfoNegocio,
     goToNegPago,
@@ -15,8 +14,8 @@ export {
     pagoTarjeta,
     entregaDomicilio,
     entregaNegocio,
-    setFotoId,
-    setFotoNegocio
+    verifyEmailExist,
+    setBCoordinates
 } from './registro'
 
 export {
@@ -30,6 +29,8 @@ export {
     joinToUsClosed,
     setLocalTokenStored,
     updateHomeAlert,
+    getUserType,
+    logOut,
 } from './home'
 
 export {
@@ -50,9 +51,11 @@ export {
     getBusinesses
 } from './cliente'
 
-// export {
-//     getProducts,
-// } from './products'
+export {
+    getProducts,
+    addProduct,
+    updateAddProductAlert,
+} from './products'
 
 export {
     openEditNegocio,
@@ -73,5 +76,7 @@ export {
     getPedidoNegocioId,
     getPedidoPreparing,
     getPedidoReady,
+    loadNegocio,
+    getNegocioDetails
     getProducts
 } from './negocio'
