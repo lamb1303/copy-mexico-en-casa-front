@@ -14,7 +14,8 @@ export {
     pagoTarjeta,
     entregaDomicilio,
     entregaNegocio,
-    verifyEmailExist
+    verifyEmailExist,
+    setBCoordinates
 } from './registro'
 
 export {
@@ -46,7 +47,10 @@ export {
     CancelOrder,
     checkout,
     DelOneToSelectedProduct,
-    BackToPayment
+    BackToPayment,
+    getBusinesses,
+    clienteSelectedBusiness,
+    getSelectedBusiness
 } from './cliente'
 
 export {

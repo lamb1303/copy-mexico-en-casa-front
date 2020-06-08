@@ -1,10 +1,21 @@
-.PlaceCard{
+.PlaceCard {
     display: flex;
     justify-content: space-evenly;
     margin: 30px auto;
+    animation-name: stretch;
+    animation-duration: .5s;
+    animation-timing-function: ease-out;
 }
+@keyframes stretch {
+    0% {
+      transform: scale(.3);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 
-.PlaceCard_image{
+.PlaceCard_image {
     max-width: 100px;
     max-height: 100px;
     border: 1px solid #000000;
@@ -12,16 +23,16 @@
     margin: 0 2%;
 }
 
-.PlaceCard_details{
+.PlaceCard_details {
     display: flex;
     justify-content: space-around;
 }
 
-.PlaceCard_details_place{
+.PlaceCard_details_place {
     width: 150%;
 }
 
-.title{
+.title {
     font-size: 0.8rem;
     font-weight: bold;
 }
@@ -31,6 +42,10 @@
     color: #646464;
 }
 
-.stars{
+.stars {
     display: flex;
+}
+.PlaceCard:hover {
+    border: 2px solid #f5a303;
+    border-radius: 15px;
 }

@@ -3,9 +3,37 @@ import axios from '../../axios';
 import createHeaders from '../Util/headers/createHeaders';
 import * as alertType from '../Util/enums/alertTypes';
 
-export const getProducts = () => {
+export const getProducts = (id) => {
+    return dispatch => {
+        axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts/${id}`).then(
+            response => {
+                const products = response.data.products
+                const updatedProducts = Object.keys(products).map(
+                    igKey => {
+                        return [...Array(products[igKey])].map((field   , i) => {
+                            return {
+                                key: igKey,
+                                name: field.name,
+                                price: field.price,
+                                description: field.description,
+                                url: field.url
+                            }
+                        })
+                    }
+                ).reduce((arr, el) => {
+                    return arr.concat(el)
+                }, []);
+                console.log(updatedProducts)
+                dispatch(getProductsSuccess(updatedProducts))
+            }
+        ).catch(e => console.log(e))
+    }
+}
+
+export const getProductsSuccess = (products) => {
     return {
-        type: actionTypes.GET_ALL_PRODUCTS
+        type: actionTypes.GET_ALL_PRODUCTS,
+        products: products
     }
 }
 

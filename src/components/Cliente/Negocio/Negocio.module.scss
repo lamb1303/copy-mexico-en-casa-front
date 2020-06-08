@@ -1,4 +1,11 @@
 @import '../../../styles/Colors.scss';
+.products {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 127px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 
 .negocio{
     display: flex;

@@ -63,24 +63,31 @@ const App = (props) => {
 
   }, [logout, expirationDate]);
 
-  let route = (
-    <Switch >
-      <Route path='/Registro' component={RegistroNegocio} />
-      <Route path='/RegistroCliente' component={RegistroCliente} />
-      <Route path='/Home' component={Home} />
-      <Redirect to='/Home' />
-    </Switch>
-  )
 
-  if (props.loading && props.isCustomer === null) {
+
+  let route;
+
+  if (!storagedToken || storagedToken === "" || storagedToken === null) {
     route = (
-      <Fragment>
-        <Backdrop show={true} />
-        <Spinner />
-      </Fragment>
-    );
+      <Switch >
+        <Route path='/Registro' component={RegistroNegocio} />
+        <Route path='/RegistroCliente' component={RegistroCliente} />
+        <Route path='/Home' component={Home} />
+        <Redirect to='/Home' />
+      </Switch>
+    )
   } else {
-    if (storagedToken && storagedToken !== "") {
+
+    if (props.isCustomer === null) {
+      route = (
+        <Fragment>
+          <Backdrop show={true} />
+          <Spinner />
+        </Fragment>
+      );
+
+    } else {
+      //if (storagedToken && storagedToken !== "") {
 
       if (props.isCustomer) {
         route = (
@@ -106,8 +113,18 @@ const App = (props) => {
           </Fragment>
         )
       }
+      // }
     }
   }
+
+  // if (props.loading) {
+  //   route = (
+  //     <Fragment>
+  //       <Backdrop show={true} />
+  //       <Spinner />
+  //     </Fragment>
+  //   );
+  // }
 
   return (
     <Fragment>

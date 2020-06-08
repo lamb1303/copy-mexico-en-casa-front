@@ -2,9 +2,16 @@ import React, { useState, useEffect, Fragment } from 'react';
 import Card from '../../UI/Card/Card';
 import Table from '../../UI/Table/Table';
 import Button from '../../UI/Button/Button';
+import Backdrop from '../../UI/Backdrop/Backdrop';
+// import Map from '../../UI/Map/Map';
+import ShowMap from './showMap/showMap';
+import Alert from '../../UI/Alert/Alert';
 import * as actions from '../../../store/actions';
-import classes from './NegocioInfo.module.css';
 import { connect } from 'react-redux';
+import { ReactComponent as MapLogo } from '../../../assets/map.svg';
+import axios from 'axios'
+
+import classes from './NegocioInfo.module.css';
 
 const NegocioInfo = props => {
 
@@ -16,6 +23,11 @@ const NegocioInfo = props => {
     const [nombreTouched, setNombreTouched] = useState(false);
     const [direccionTouched, setDireccionTouched] = useState(false);
     const [descripcionTouched, setDescripcionTouched] = useState(false);
+    const [showBackdrop, setShowBackdrop] = useState(false);
+    const [coordinates, setCoordinates] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [showHorarioAlert, setShowHorarioAlert] = useState(false);
 
     useEffect(() => {
         if (Object.keys(negocioData).length > 0) {
@@ -75,32 +87,69 @@ const NegocioInfo = props => {
     }
 
     const handleContinue = () => {
-        const atLeastOneOpen = props.days.find(day => day.abierto === true);
-        if (atLeastOneOpen) {
+        const openDays = props.days.filter(day => day.abierto === true).find(day => day.horaAbierto === '' || day.horaCerrado === '');
+        if (!openDays) {
+            if (props.geolocation === '') {
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                }
+                navigator.geolocation.getCurrentPosition((coords) => {
+                    props.onSetCoordinates({ lat: coords.coords.latitude, lng: coords.coords.longitude });
+                }, (err) => {
+                    setShowHorarioAlert(true);
+                    setAlertMessage('Algo salio mal, por favor, vuelve a intentarlo');
+                    return;
+                }, options);
+            }
             props.goToNegPago()
             props.setNegocioData(nombre, direccion, descripcion);
         } else {
-            console.log('selecciona al menos un dia prro')
+            setShowHorarioAlert(true);
+            setAlertMessage('Por favor, revisa el Horario de Trabajo')
         }
     }
 
-    const successPosition = (position) => {
-        console.log(position)
-    }
-    const failPosition = (error) => {
-        console.log(error);
+    const getLocationByBrowser = () => {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+        }
+        navigator.geolocation.getCurrentPosition((coords) => {
+            setCoordinates({ lat: coords.coords.latitude, lng: coords.coords.longitude });
+            setShowBackdrop(true);
+        }, (err) => {
+            setShowAlert(true)
+        }, options);
     }
 
     const getLocation = () => {
-        if ('geolocation' in navigator) {
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 5000,
-            }
-            navigator.geolocation.getCurrentPosition(successPosition, failPosition, options);
+        if (props.geolocation) { setShowBackdrop(true); return }
+        if (direccion.length > 5) {
+            const street = direccion.trim().replace(/ /g, '+');
+            console.log(street);
+            axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
+                .then(resp => {
+                    console.log(resp.data.length)
+                    if (Object.keys(resp.data).length > 0) {
+                        setCoordinates({
+                            lat: resp.data[0].lat,
+                            lng: resp.data[0].lon
+                        })
+                        setShowBackdrop(true)
+                    } else {
+                        getLocationByBrowser();
+                    }
+                })
+                .catch(err => console.log(err));
         } else {
-            return
+            getLocationByBrowser();
         }
+    }
+
+    const horarioError = (message) => {
+        setAlertMessage(message);
+        setShowHorarioAlert(true);
     }
 
     let isFormValid = false;
@@ -111,9 +160,37 @@ const NegocioInfo = props => {
         isFormValid = true;
     }
 
+    if (showHorarioAlert) {
+        setTimeout(() => {
+            setShowHorarioAlert(false);
+        }, 5000)
+    }
+
+    const getCoordinatesFromMap = (currentPosition) => {
+        setCoordinates(currentPosition);
+        props.onSetCoordinates(currentPosition);
+        setShowBackdrop(false);
+    }
 
     return (
         <Fragment>
+            {<Backdrop show={showBackdrop} />}
+            {showBackdrop && (
+                <ShowMap
+                    nombre={nombre}
+                    coordinates={coordinates}
+                    getCoords={(currentPosition) => getCoordinatesFromMap(currentPosition)}
+                    address={direccion}
+                />
+            )}
+            {showAlert &&
+                (<Alert
+                    title='Error'
+                    clase={'personalInfo'}
+                    clicked={() => setShowAlert(false)}
+                >No se puede abrir el mapa por el momento. Intentelo mas tarde
+                </Alert>)}
+            {showHorarioAlert && <Alert title='Warning' clase={'personalInfo'} >{alertMessage} </Alert>}
             <div className={classes.NegocioInfo}>
                 <div className={classes.header} >
                     <span>Datos del Negocio. Por favor llene los datos del negocio</span>
@@ -128,14 +205,16 @@ const NegocioInfo = props => {
                                 onChange={(event) => handleNombre(event.target.value)}
                                 placeholder='Nombre del negocio'
                             />
-                            <input
-                                className={`${classes.input} ${dirError ? classes.error : direccionTouched ? classes.good : ''}`}
-                                type="text"
-                                value={direccion}
-                                onChange={(event) => handleDireccion(event.target.value)}
-                                placeholder='Direccion del negocio'
-                                onFocus={() => getLocation()}
-                            />
+                            <div className={classes.location} >
+                                <input
+                                    className={`${classes.input} ${dirError ? classes.error : direccionTouched ? classes.good : ''}`}
+                                    type="text"
+                                    value={direccion}
+                                    onChange={(event) => handleDireccion(event.target.value)}
+                                    placeholder='Calle, Ciudad, C.P.'
+                                />
+                                <MapLogo onClick={() => getLocation()} />
+                            </div>
                             <textarea
                                 className={`${classes.textarea} ${descError ? classes.error : descripcionTouched ? classes.good : ''}`}
                                 type="text"
@@ -144,7 +223,7 @@ const NegocioInfo = props => {
                                 onChange={(event) => handleDescripcion(event.target.value)}
                                 placeholder='Descripcion del negocio'
                             />
-                            <Table />
+                            <Table horarioError={(message) => horarioError(message)} />
                         </div>
                     </Card>
                 </div>
@@ -164,7 +243,8 @@ const NegocioInfo = props => {
 const mapStateToProps = state => {
     return {
         days: state.registro.days,
-        negocioData: state.registro.negocioData
+        negocioData: state.registro.negocioData,
+        geolocation: state.registro.geolocation
     }
 }
 
@@ -172,7 +252,8 @@ const mapDispatchToProps = dispatch => {
     return {
         goToPersonal: () => dispatch(actions.goToPersonal()),
         goToNegPago: () => dispatch(actions.goToNegPago()),
-        setNegocioData: (nombre, direccion, descripcion) => dispatch(actions.setNegocioData(nombre, direccion, descripcion))
+        setNegocioData: (nombre, direccion, descripcion) => dispatch(actions.setNegocioData(nombre, direccion, descripcion)),
+        onSetCoordinates: (coords) => dispatch(actions.setBCoordinates(coords))
     }
 }
 

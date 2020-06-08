@@ -1,6 +1,61 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
 
+export const getBusinesses = () => {
+    return dispatch => {
+        axios.get(`${process.env.REACT_APP_API_URL}/business/businesses`).then(
+            response => {
+                const businesses = response.data.businesses
+                const Updatedbusinesses = Object.keys(businesses).map(igKey => {
+                    return [...Array(businesses[igKey])].map((field, i) => {
+                        return {
+                            key: igKey,
+                            name: field.businessName,
+                            desc: field.businessDesc,
+                            payment: {
+                                cash: field.payment.cash
+                            },
+                            delivery: {
+                                isToGo: field.delivery.isToGo
+                            },
+                            rate: [field.rate],
+                            photoBusiness: field.photoBusiness
+                        }
+                    })
+                }).reduce((arr, el) => {
+                    return arr.concat(el)
+                }, []);
+                dispatch(getBusinessesSuccess(Updatedbusinesses))
+            }
+        ).catch(e => console.log(e))
+    }
+}
+export const getSelectedBusiness = (idBusiness) => {
+    return dispatch => {
+        axios.get(`${process.env.REACT_APP_API_URL}/business/getBusiness/${idBusiness}`).then(
+            res => {
+                const data = {
+                    ...res.data
+                }
+                dispatch(clienteSelectedBusiness(data))
+            }
+        ).catch(e => console.log(e))
+    }
+}
+export const getBusinessesSuccess = (businesses) => {
+    return {
+        type: actionTypes.CLIENTE_VER_NEGOCIOS,
+        businesses: businesses
+    }
+}
+
+export const clienteSelectedBusiness = (business) => {
+    return {
+        type: actionTypes.CLIENTE_SET_SELECTED_BUSINESS,
+        business: business
+    }
+}
+
 export const BackToPayment = () => {
     return {
         type: actionTypes.CLIENTE_REGRESAR_OPCION_PAGO
