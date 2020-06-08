@@ -9,11 +9,13 @@ export const getProducts = () => {
     }
 }
 
-export const addProduct = (foodProduct) => {
+export const addProduct = (formData) => {
     return dispatch => {
-        if (foodProduct) {
+        if (formData) {
 
-            axios.post(`${process.env.REACT_APP_API_URL}/business/addProduct`, foodProduct, createHeaders())
+            axios.post(`${process.env.REACT_APP_API_URL}/business/addProduct`, formData, createHeaders({
+                'content-type': `multipart/form-data  boundary=${formData._boundary}`
+            }))
                 .then(response => {
                     const data = response.data;
                     if (response.status === 201) {

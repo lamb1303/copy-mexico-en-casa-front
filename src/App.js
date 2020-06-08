@@ -12,7 +12,7 @@ import Home from './components/Home/Home';
 import RegistroCliente from './components/Cliente/RegistroCliente/RegistroCliente'
 import ClientNegocio from './components/Cliente/Negocio/Negocio';
 import Negocio from './components/Negocio/views/Negocio/Negocio';
-import Pedido from './components/Cliente/Negocio/Pedido/Pedido'
+import Pedido from './components/Cliente/Negocio/Pedido/Pedido';
 import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
 import Spinner from './components/UI/Spinner/Spinner';
@@ -40,7 +40,6 @@ const App = (props) => {
   }, [setLocalTokenStored]);
 
   useEffect(() => {
-    console.log('useEffect en App.js')
     const storedData = JSON.parse(localStorage.getItem('user'));
 
     if (storedData && storedData.token && storedData.id

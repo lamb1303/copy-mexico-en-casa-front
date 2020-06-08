@@ -23,9 +23,9 @@ const AddProduct = props => {
     const [desc, setDesc] = useState("");
     const [descError, setDescError] = useState("");
 
-    const uploadImage = (pickedFile, fileIsValid) => {
+    const uploadImage = (_, pickedFile, fileIsValid) => {
         if (fileIsValid) {
-            setSelectedImage(pickedFile)
+            setSelectedImage(pickedFile);
         }
     }
 
@@ -60,15 +60,15 @@ const AddProduct = props => {
 
     const saveProduct = () => {
         if (!foodNameError && !priceError && !descError) {
-            const id = JSON.parse(localStorage.getItem('user')).id;
-            console.log(id)
-            const foodProduct = {
-                idBusiness: id,
-                name: foodName,
-                price: price,
-                desc: desc
-            }
-            props.addProduct(foodProduct);
+            
+            const formData = new FormData();
+            formData.set('idBusiness', props.id);
+            formData.set('name', foodName);
+            formData.set('desc', desc);
+            formData.set('price', price);
+            formData.append('file', selectedImage);
+
+            props.addProduct(formData);
 
         }
     }
@@ -88,7 +88,7 @@ const AddProduct = props => {
 
     useEffect(() => {
         clearField()
-    },[clearField])
+    }, [clearField])
 
     return (
         <Fragment>
@@ -97,11 +97,10 @@ const AddProduct = props => {
                 <div className="addProduct-container">
                     <h3>Crear un nuevo platillo</h3>
                     <ImageUpload
-                        // from='editProd'
                         center
                         id='image'
                         btnType='Success'
-                        onInput={(_, pickedFile, fileIsValid) => uploadImage(pickedFile, fileIsValid)}
+                        onInput={(_, pickedFile, fileIsValid) => uploadImage(_, pickedFile, fileIsValid)}
                         message='CAMBIAR IMAGEN'
                         img={selectedImage}
                     />
@@ -173,6 +172,7 @@ const mapStateToProps = state => {
         isAlert: state.products.isAlert,
         alertType: state.products.alertType,
         message: state.products.message,
+        id: state.home.id,
     }
 }
 

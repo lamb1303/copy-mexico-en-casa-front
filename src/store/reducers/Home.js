@@ -19,11 +19,11 @@ const initialState = {
 
 const login = (state, action) => {
     return updateObject(state, {
-        loading: false,
         isAlert: action.isAlert,
         token: action.token,
         id: action.id,
         isCustomer: action.isCustomer,
+        loading: false,
     });
 }
 
