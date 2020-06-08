@@ -118,14 +118,14 @@ const App = (props) => {
     }
   }
 
-  if (props.loading) {
-    route = (
-      <Fragment>
-        <Backdrop show={true} />
-        <Spinner />
-      </Fragment>
-    );
-  }
+  // if (props.loading) {
+  //   route = (
+  //     <Fragment>
+  //       <Backdrop show={true} />
+  //       <Spinner />
+  //     </Fragment>
+  //   );
+  // }
 
   return (
     <Fragment>

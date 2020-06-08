@@ -43,7 +43,7 @@ const Products = props => {
 
 const mapStateToProps = state => {
     return {
-        products: state.negocio.products
+        products: state.products.products
     }
 }
 

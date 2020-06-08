@@ -15,8 +15,8 @@ const initialState = {
     registroNegocio: null,
     cafe: false,
     personalInfo: false,
-    negocioInfo: false,
-    negocioFinal: true,
+    negocioInfo: true,
+    negocioFinal: false,
     avisoPriv: false,
     personalData: {},
     days: [
