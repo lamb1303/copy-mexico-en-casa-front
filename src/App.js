@@ -12,6 +12,7 @@ import Home from './components/Home/Home';
 import RegistroCliente from './components/Cliente/RegistroCliente/RegistroCliente'
 import ClientNegocio from './components/Cliente/Negocio/Negocio';
 import Negocio from './components/Negocio/views/Negocio/Negocio';
+import Pedido from './components/Cliente/Negocio/Pedido/Pedido';
 import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
 import Spinner from './components/UI/Spinner/Spinner';
@@ -63,24 +64,31 @@ const App = (props) => {
 
   }, [logout, expirationDate]);
 
-  let route = (
-    <Switch >
-      <Route path='/Registro' component={RegistroNegocio} />
-      <Route path='/RegistroCliente' component={RegistroCliente} />
-      <Route path='/Home' component={Home} />
-      <Redirect to='/Home' />
-    </Switch>
-  )
 
-  if (props.loading && props.isCustomer === null) {
+
+  let route;
+
+  if (!storagedToken || storagedToken === "" || storagedToken === null) {
     route = (
-      <Fragment>
-        <Backdrop show={true} />
-        <Spinner />
-      </Fragment>
-    );
+      <Switch >
+        <Route path='/Registro' component={RegistroNegocio} />
+        <Route path='/RegistroCliente' component={RegistroCliente} />
+        <Route path='/Home' component={Home} />
+        <Redirect to='/Home' />
+      </Switch>
+    )
   } else {
-    if (storagedToken && storagedToken !== "") {
+
+    if (props.isCustomer === null) {
+      route = (
+        <Fragment>
+          <Backdrop show={true} />
+          <Spinner />
+        </Fragment>
+      );
+
+    } else {
+      //if (storagedToken && storagedToken !== "") {
 
       if (props.isCustomer) {
         route = (
@@ -106,7 +114,17 @@ const App = (props) => {
           </Fragment>
         )
       }
+      // }
     }
+  }
+
+  if (props.loading) {
+    route = (
+      <Fragment>
+        <Backdrop show={true} />
+        <Spinner />
+      </Fragment>
+    );
   }
 
   return (

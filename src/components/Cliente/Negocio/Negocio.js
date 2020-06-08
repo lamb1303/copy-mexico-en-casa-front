@@ -8,9 +8,22 @@ import { connect } from 'react-redux';
 
 class Negocio extends Component {
 
+       
     componentDidMount() {
-        this.props.getProducts()
+        if (localStorage.getItem("businessId")) {
+            this.props.getProducts(localStorage.getItem("businessId"))
+        }  
+        
+        if (Object.keys(this.props.selectedNegocio).length == 0) {
+            this.props.getSelectedBusiness(localStorage.getItem("businessId"))
+        }
     }
+
+    componentWillUnmount() {
+        localStorage.removeItem("businessId")
+    }
+
+    
 
     render() {
         const products = Object.values(this.props.products).map(
@@ -29,7 +42,7 @@ class Negocio extends Component {
                 return <Product
                     key={prod.key}
                     name={prod.name}
-                    img={prod.img}
+                    img={prod.url}
                     desc={prod.description}
                     selected={selected}
                     count={count}
@@ -65,16 +78,18 @@ const mapStateToProps = state => {
     return {
         orderPrice: state.cliente.orderPrice,
         openOrder: state.cliente.openOrder,
-        products: state.negocio.products,
+        products: state.products.products,
         selectedProd: state.cliente.selectedProduct,
-        productCount: state.cliente.productCount
+        productCount: state.cliente.productCount,
+        selectedNegocio: state.negocio.selectedNegocio
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProducts: () => dispatch(actions.getProducts()),
-        openModal: () => dispatch(actions.OpenOrderModal())
+        getProducts: (id) => dispatch(actions.getProducts(id)),
+        openModal: () => dispatch(actions.OpenOrderModal()),
+        getSelectedBusiness: (idBusiness)=> dispatch(actions.getSelectedBusiness(idBusiness))
 
     }
 }

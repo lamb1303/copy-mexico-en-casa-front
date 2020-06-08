@@ -10,13 +10,19 @@ class PlaceCards extends Component {
         this.props.getBusinesses()
     }
 
+    //Save a business in selectedBusiness:{}
+
+    selectedBusiness= (business) =>{
+        localStorage.setItem("businessId", business.key)
+        this.props.clienteSelectedBusiness(business)
+    }
 
     render() {
         const businesses = Object.values(this.props.businesses).map(
             business => {
-                return <NavLink onClick={()=> alert(business.key)} key={business.key} to="./../../Cliente/Negocio/Negocio.js">
+                return <NavLink onClick = {()=> this.selectedBusiness(business)} key={business.key} to="/VerNegocio">
                     <PlaceCard
-                        key={business.key}
+                        
                         businessId={business.key}
                         name={business.name}
                         isToGo={business.delivery.isToGo}
@@ -38,13 +44,14 @@ class PlaceCards extends Component {
 
 const mapStateToProps = state => {
     return {
-        businesses: state.cliente.businesses
+        businesses: state.cliente.businesses,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getBusinesses: () => dispatch(action.getBusinesses())
+        getBusinesses: () => dispatch(action.getBusinesses()),
+        clienteSelectedBusiness: (business) => dispatch(action.clienteSelectedBusiness(business))
     }
 }
 

@@ -48,7 +48,9 @@ export {
     checkout,
     DelOneToSelectedProduct,
     BackToPayment,
-    getBusinesses
+    getBusinesses,
+    clienteSelectedBusiness,
+    getSelectedBusiness
 } from './cliente'
 
 export {
@@ -78,5 +80,4 @@ export {
     getPedidoReady,
     loadNegocio,
     getNegocioDetails
-    getProducts
 } from './negocio'

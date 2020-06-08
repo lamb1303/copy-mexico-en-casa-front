@@ -30,11 +30,29 @@ export const getBusinesses = () => {
         ).catch(e => console.log(e))
     }
 }
-
+export const getSelectedBusiness = (idBusiness) => {
+    return dispatch => {
+        axios.get(`${process.env.REACT_APP_API_URL}/business/getBusiness/${idBusiness}`).then(
+            res => {
+                const data = {
+                    ...res.data
+                }
+                dispatch(clienteSelectedBusiness(data))
+            }
+        ).catch(e => console.log(e))
+    }
+}
 export const getBusinessesSuccess = (businesses) => {
     return {
         type: actionTypes.CLIENTE_VER_NEGOCIOS,
         businesses: businesses
+    }
+}
+
+export const clienteSelectedBusiness = (business) => {
+    return {
+        type: actionTypes.CLIENTE_SET_SELECTED_BUSINESS,
+        business: business
     }
 }
 
