@@ -450,7 +450,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_READY_SUCCESS: return getFinishSuccess(state, action);
         case actionTypes.LOADING_PEDIDOS: return loadingPedido(state, action);
         case actionTypes.CHANGE_STAGE_FAIL: return changeStageFail(state, action);
-        case actionTypes.GET_ALL_PRODUCTS: return getProductsSuccess(state, action);
         case actionTypes.CLIENTE_SET_SELECTED_BUSINESS: return clienteSelectedBusiness(state, action);
         case actionTypes.LOAD_NEGOCIO: return loadNegocio(state, action);
         case actionTypes.INIT_GET_NEGOCIO_DETAILS: return initGetNegocioDetails(state, action);

@@ -80,5 +80,4 @@ export {
     getPedidoReady,
     loadNegocio,
     getNegocioDetails
-    getProducts
 } from './negocio'

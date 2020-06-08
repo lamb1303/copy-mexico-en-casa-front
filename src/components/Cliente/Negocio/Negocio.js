@@ -42,7 +42,7 @@ class Negocio extends Component {
                 return <Product
                     key={prod.key}
                     name={prod.name}
-                    img={prod.img}
+                    img={prod.url}
                     desc={prod.description}
                     selected={selected}
                     count={count}
@@ -78,7 +78,7 @@ const mapStateToProps = state => {
     return {
         orderPrice: state.cliente.orderPrice,
         openOrder: state.cliente.openOrder,
-        products: state.negocio.products,
+        products: state.products.products,
         selectedProd: state.cliente.selectedProduct,
         productCount: state.cliente.productCount,
         selectedNegocio: state.negocio.selectedNegocio

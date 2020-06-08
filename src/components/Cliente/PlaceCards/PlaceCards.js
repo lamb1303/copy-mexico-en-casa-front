@@ -20,7 +20,7 @@ class PlaceCards extends Component {
     render() {
         const businesses = Object.values(this.props.businesses).map(
             business => {
-                return <NavLink onClick = {()=> this.selectedBusiness(business)} key={business.key} to="/Negocio">
+                return <NavLink onClick = {()=> this.selectedBusiness(business)} key={business.key} to="/VerNegocio">
                     <PlaceCard
                         
                         businessId={business.key}

@@ -32,7 +32,7 @@ export const getBusinesses = () => {
 }
 export const getSelectedBusiness = (idBusiness) => {
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/business/${idBusiness}`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/business/getBusiness/${idBusiness}`).then(
             res => {
                 const data = {
                     ...res.data

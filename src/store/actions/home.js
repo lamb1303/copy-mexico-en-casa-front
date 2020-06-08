@@ -20,7 +20,8 @@ export const login = (credentials) => {
                         localStorage.setItem(
                             'user',
                             JSON.stringify({
-                                ...data,
+                                token: data.token,
+                                id: data.id,
                                 expiration: tokenExpirationDate.toISOString()
                             })
                         );
@@ -110,5 +111,5 @@ export const logOut = () => {
     return {
         type: actionTypes.HOME_LOGOUT,
     }
-    
+
 };
