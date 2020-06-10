@@ -5,7 +5,8 @@ import Button from '../Button/Button';
 const ImageUpload = props => {
     const filePickerRef = useRef();
     const [file, setFile] = useState();
-    const [previewUrl, setPreviewUrl] = useState(props.img);
+    const { img } = props
+    const [previewUrl, setPreviewUrl] = useState(img);
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
@@ -18,8 +19,11 @@ const ImageUpload = props => {
             setPreviewUrl(fileReader.result);
         };
         fileReader.readAsDataURL(file);
-
     }, [file]);
+
+    useEffect(() => {
+        setPreviewUrl(img);
+    }, [img]);
 
     const pickedHandler = event => {
         let pickedFile;
