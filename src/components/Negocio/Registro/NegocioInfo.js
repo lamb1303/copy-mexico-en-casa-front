@@ -166,9 +166,10 @@ const NegocioInfo = props => {
         }, 5000)
     }
 
-    const getCoordinatesFromMap = (currentPosition) => {
+    const getCoordinatesFromMap = (currentPosition, address) => {
         setCoordinates(currentPosition);
         props.onSetCoordinates(currentPosition);
+        setDireccion(address);
         setShowBackdrop(false);
     }
 
@@ -179,7 +180,7 @@ const NegocioInfo = props => {
                 <ShowMap
                     nombre={nombre}
                     coordinates={coordinates}
-                    getCoords={(currentPosition) => getCoordinatesFromMap(currentPosition)}
+                    getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
                     address={direccion}
                 />
             )}
