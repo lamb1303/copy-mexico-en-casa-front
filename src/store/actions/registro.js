@@ -3,6 +3,7 @@ import axios from '../../axios';
 import firebase from '../../firebase/config';
 import { loadForm } from '../utility';
 import createHeaders from '../Util/headers/createHeaders';
+import { logging } from './home';
 
 const { v4: uuid } = require('uuid');
 
@@ -18,33 +19,6 @@ export const registerFailed = () => {
     }
 }
 
-const subirFoto = (child, id, imagen) => {
-    return new Promise((resolved, error) => {
-        let uploadTask;
-        uploadTask = firebase.storage.ref().child(`${child}/${id}/${imagen.name}`).put(imagen);
-
-        uploadTask.on('state_changed', () => {
-
-        }, err => {
-            error(err)
-        }, () => {
-            uploadTask.snapshot.ref.getDownloadURL()
-                .then(url => {
-                    resolved(url);
-                })
-                .catch((err) => {
-                    error(err)
-                })
-        })
-    })
-}
-
-const deleteFoto = (from, id, image) => {
-    firebase.storage.ref().child(`${from}/${id}/${image}`).delete()
-        .then(() => console.log(`imagen ${image} borrada`))
-        .catch(err => console.log(err))
-}
-
 export const registrarNuevoCliente = (image, cliente) => {
     return dispatch => {
 
@@ -52,44 +26,44 @@ export const registrarNuevoCliente = (image, cliente) => {
         const id = uuid();
         console.log('iniciando subida de img..')
 
-        subirFoto('clients', id, image)
-            .then(urlFoto => {
-                console.log('Imagen subida')
-                console.log(urlFoto);
+        // subirFoto('clients', id, image)
+        //     .then(urlFoto => {
+        //         console.log('Imagen subida')
+        //         console.log(urlFoto);
 
-                console.log('creando usuario...')
+        //         console.log('creando usuario...')
 
-                let client = {
-                    ...cliente,
-                    id: id
-                }
-                client.fotoINE = urlFoto
+        //         let client = {
+        //             ...cliente,
+        //             id: id
+        //         }
+        //         client.fotoINE = urlFoto
 
-                axios.post(`${process.env.REACT_APP_API_URL}/registro/newClient`, client)
-                    .then(resp => {
-                        console.log(resp)
-                        if (resp.data.message === 'CREATION SUCCESS') {
-                            console.log("Usuario creado")
-                            dispatch(nuevoCliente(id))
-                        } else {
-                            firebase.storage.ref().child(`clients/${id}/${image.name}`).delete()
-                                .then(() => console.log('imagen borrada'))
-                                .catch(err => console.log(err));
-                            dispatch(registerFailed())
+        //         axios.post(`${process.env.REACT_APP_API_URL}/registro/newClient`, client)
+        //             .then(resp => {
+        //                 console.log(resp)
+        //                 if (resp.data.message === 'CREATION SUCCESS') {
+        //                     console.log("Usuario creado")
+        //                     dispatch(nuevoCliente(id))
+        //                 } else {
+        //                     firebase.storage.ref().child(`clients/${id}/${image.name}`).delete()
+        //                         .then(() => console.log('imagen borrada'))
+        //                         .catch(err => console.log(err));
+        //                     dispatch(registerFailed())
 
-                        }
-                    }).catch(err => {
-                        firebase.storage.ref().child(`clients/${id}/${image.name}`).delete()
-                            .then(() => console.log('imagen borrada'))
-                            .catch(err => console.log(err))
-                        dispatch(registerFailed())
-                    })
+        //                 }
+        //             }).catch(err => {
+        //                 firebase.storage.ref().child(`clients/${id}/${image.name}`).delete()
+        //                     .then(() => console.log('imagen borrada'))
+        //                     .catch(err => console.log(err))
+        //                 dispatch(registerFailed())
+        //             })
 
-            })
-            .catch(err => {
-                console.log(err)
-                dispatch(registerFailed())
-            });
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //         dispatch(registerFailed())
+        //     });
 
         console.log('Llego al final');
     }
@@ -113,62 +87,40 @@ export const registrarNuevoNegocio = (data) => {
     }
 }
 
-const crearNegocio = (negocio, negPhoto, id) => {
-    return new Promise((resolved, error) => {
-        console.log(`Creando usuario...`)
-        let business = {
-            ...negocio
-        }
-        delete business['photoINEName'];
-        delete business['photoBusinessName'];
-
-        axios.post(`${process.env.REACT_APP_API_URL}/registro/newBusiness`, business)
-            .then(resp => {
-                if (resp.data.message === 'CREATION SUCCESS') {
-                    console.log("business creado")
-                    resolved(resp.data)
-                } else {
-                    deleteFoto('business', id, negocio.photoINEName);
-                    console.log('Foto INE borrada 1');
-                    if (negPhoto === 'negocioURL') {
-                        deleteFoto('business', id, negocio.photoBusinessName);
-                        console.log('foto negocio borrada 1');
-                    }
-                    error()
-                }
-            }).catch(err => {
-                deleteFoto('business', id, negocio.photoINEName);
-                console.log('Foto INE borrada 2');
-                if (negPhoto === 'negocioURL') {
-                    deleteFoto('business', id, negocio.photoBusinessName);
-                    console.log('foto negocio borrada 2');
-                }
-                error()
-            })
-    })
-}
 
 export const registroNuevoNegocio = (negocio) => {
     return dispatch => {
-        // dispatch(initRegister());
+        dispatch(initRegister());
         console.log('iniciando...')
         try {
             const formData = loadForm(negocio);
+            console.log(formData);
             axios.post(`${process.env.REACT_APP_API_URL}/registro/newBusiness`, formData, createHeaders({
                 'content-type': `multipart/form-data  boundary=${formData._boundary}`
             }))
                 .then(resp => {
                     console.log(resp.data);
-                    // dispatch(registrarNuevoNegocio(resp.data))
+
+                    dispatch(registrarNuevoNegocio(resp.data))
+                    const tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);
+                    localStorage.setItem(
+                        'user',
+                        JSON.stringify({
+                            token: resp.data.token,
+                            id: resp.data.id,
+                            expiration: tokenExpirationDate.toISOString()
+                        })
+                    );
+                    dispatch(logging(resp.data))
                 })
                 .catch(err => {
                     console.log(err);
-                    // dispatch(registerFailed());
+                    dispatch(registerFailed());
                 })
         } catch (error) {
             console.log(`algo salio mal`)
             console.log(error)
-            // dispatch(registerFailed());
+            dispatch(registerFailed());
         }
     }
 }

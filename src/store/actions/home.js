@@ -41,7 +41,7 @@ export const login = (credentials) => {
 
 }
 
-const logging = (data) => {
+export const logging = (data) => {
     return {
         type: actionTypes.HOME_LOGIN,
         error: false,

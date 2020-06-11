@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import Card from '../../UI/Card/Card';
 import Button from '../../UI/Button/Button';
 import ImageUpload from '../../UI/ImageUpload/ImageUpload';
@@ -68,7 +68,6 @@ const InfoNegPago = props => {
                             isToTake: props.entregaNegocio
                         }
                     }
-                    console.log(negocio);
                     props.register(negocio);
                 } else {
                     console.log('Foto del ID requerida')
@@ -100,16 +99,6 @@ const InfoNegPago = props => {
                 </Card>
             </div>
         )
-    }
-
-    if (props.negocio) {
-        const data = {
-            token: props.token,
-            isCustomer: props.isCustomer,
-            id: props.businessId
-        }
-        props.setLocalTokenStored(data);
-        props.onLoadNegocio(data);
     }
 
     return (
@@ -212,7 +201,7 @@ const mapStateToProps = state => {
         token: state.registro.token,
         isCustomer: state.registro.isCustomer,
         businessId: state.registro.id,
-        geolocation: state.registro.geolocation
+        geolocation: state.registro.geolocation,
     }
 }
 
@@ -225,8 +214,8 @@ const mapDispatchToProps = dispatch => {
         onEntNegocio: () => dispatch(actions.entregaNegocio()),
         goToPrivacidad: (isOpen) => dispatch(actions.goToPrivacidad(isOpen)),
         register: (negocio) => dispatch(actions.registroNuevoNegocio(negocio)),
-        setLocalTokenStored: (data) => dispatch(actions.setLocalTokenStored(data)),
-        onLoadNegocio: (data) => dispatch(actions.loadNegocio(data))
+        // setLocalTokenStored: (data) => dispatch(actions.setLocalTokenStored(data)),
+        // onLoadNegocio: (data) => dispatch(actions.loadNegocio(data))
     }
 }
 

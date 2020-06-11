@@ -24,7 +24,7 @@ let logoutTimer;
 const App = (props) => {
 
   const [expirationDate, setExpirationDate] = useState();
-  const { getUserType, logOut } = props;
+  const { getUserType, logOut, id } = props;
   let storagedToken = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
 
 
@@ -57,6 +57,10 @@ const App = (props) => {
     }
 
   }, [logout, expirationDate]);
+
+  useEffect(() => {
+    console.log('Reload for loggin in')
+  }, [id])
 
 
 

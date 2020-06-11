@@ -13,9 +13,9 @@ export const loadForm = (object) => {
         if (object[att] instanceof File) {
             formData.append(att, object[att]);
         } else {
-            formData.set(att, object[att]);
+            formData.set(att, JSON.stringify(object[att]));
         }
     }
-
+   
     return formData
 }
