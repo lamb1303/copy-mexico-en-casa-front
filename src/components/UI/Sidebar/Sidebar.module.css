@@ -24,3 +24,9 @@
 .slide_out {
     transform: translateX(-360px);
 }
+
+@media only screen and (min-width: 900px){
+    .slide_out {
+        transform: translateX(-600px);
+    }
+}

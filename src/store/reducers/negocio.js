@@ -175,17 +175,11 @@ const initialState = {
         },
     },
     checkedOrders: {},
-    checkedPrepare: {},
-    products: {}
+    checkedPrepare: {}
 }
 const clienteSelectedBusiness = (state, action) => {
     return updateObject(state, {
         selectedNegocio: action.business
-    })
-}
-const getProductsSuccess = (state, action) => {
-    return updateObject(state, {
-        products: action.products
     })
 }
 

@@ -1,9 +1,12 @@
 .Search_section svg{
     width: 30px;
-    height: 34px;
+    height: 56px;
     min-width: 30px;
-    background-color: #eaeaea80;
-    position: relative;
+    margin: auto 10px;
+}
+
+.Search_section svg:hover{
+    transform: scale(1.3); 
 }
 
 .Search_section {
@@ -11,18 +14,5 @@
     display: flex;
     justify-content: center;
     margin: 10% auto;
-    border: 1px solid #000000;
-    box-sizing: border-box;
     position: relative;
-}
-
-.Search_section input{
-    border: none;
-    width: 100%;
-    font-size: 1rem;
-}
-
-
-.Search_section input:focus {
-    outline: none;
 }
