@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Alert, AlertTitle } from '@material-ui/lab';
-// import * as actions from '../../../store/actions';
-import { connect } from 'react-redux';
 
 import './Alert.scss';
 
@@ -15,13 +13,24 @@ import './Alert.scss';
 
 
 const AlertComponent = props => {
+    const { closeAlert, isActive } = props
 
-    return <Alert className={`alert ${props.clase}`} severity={props.title.toLowerCase()}>
-        <button href="" onClick={ props.clicked }> X </button>
-        <AlertTitle>{props.title}</AlertTitle>
-        {props.children}
-    </Alert>
+    useEffect(() => {
+        console.log("alert in alert"+isActive);
+        if (isActive) {
+            setTimeout(() => closeAlert(), 3000)
+        }
+
+    }, [closeAlert, isActive])
+
+    return (
+        < Alert className={`alert ${props.clase}`
+        } severity={props.title.toLowerCase()} >
+            <AlertTitle>{props.title}</AlertTitle>
+            {props.children}
+        </Alert >
+    )
 }
 
 
-export default connect(null)(AlertComponent);
+export default AlertComponent;

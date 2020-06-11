@@ -25,7 +25,8 @@ const AddProduct = props => {
     const [priceError, setPriceError] = useState("");
     const [desc, setDesc] = useState("");
     const [descError, setDescError] = useState("");
-    const { isProductAdded, changeIsProductAdded } = props;
+    const { isProductAdded, changeIsProductAdded, isAlert } = props;
+
 
     const uploadImage = (_, pickedFile, fileIsValid) => {
         if (fileIsValid) {
@@ -75,12 +76,11 @@ const AddProduct = props => {
             const formData = loadForm(foodProduct);
 
             props.addProduct(formData);
-            console.log(formData)
         }
     }
 
     const clearField = useCallback(() => {
-        if (isProductAdded) {
+        if (isProductAdded && !isAlert) {
             setFoodName("");
             setFoodNameError("");
             setPrice("");
@@ -91,7 +91,7 @@ const AddProduct = props => {
             changeIsProductAdded();
         }
 
-    }, [isProductAdded, changeIsProductAdded]);
+    }, [isProductAdded, changeIsProductAdded, isAlert]);
 
     useEffect(() => {
         clearField()
@@ -124,7 +124,6 @@ const AddProduct = props => {
                             variant="outlined"
                             helperText={foodNameError}
                         />
-
 
                         <TextField
                             required
@@ -165,7 +164,15 @@ const AddProduct = props => {
                 </div>
             </div>
             <div>
-                {props.isAlert && <AlertComponent title={props.alertType} clicked={() => props.updateAddProductAlert()}>{props.message}</AlertComponent>}
+                {console.log("alert add p" + isAlert)}
+                {isAlert &&
+                    <AlertComponent
+                        title={props.alertType}
+                        isActive={isAlert}
+                        closeAlert={() => props.updateAddProductAlert()}>
+                        {props.message}
+                    </AlertComponent>
+                }
             </div>
             {props.loading && (
                 <Fragment>

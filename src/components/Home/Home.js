@@ -90,7 +90,13 @@ const Home = props => {
 
             </div>
             <div>
-                {props.isAlert && <AlertComponent title={props.alertType} clicked= {() => props.updateHomeAlert()}>{props.message}</AlertComponent>}
+                {props.isAlert &&
+                    <AlertComponent
+                        title={props.alertType}
+                        isActive={props.isAlert}
+                        closeAlert={() => props.updateHomeAlert()}>
+                        {props.message}
+                    </AlertComponent>}
             </div>
 
         </div>

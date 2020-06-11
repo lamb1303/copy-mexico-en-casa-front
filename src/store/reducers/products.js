@@ -37,8 +37,7 @@ const addProduct = (state, action) => {
 
 const updateAddProductAlert = (state, action) => {
     return  updateObject(state, {
-        isAlert: !state.isAlert,
-        loading: false,
+        isAlert: false,
     });
 }
 
