@@ -21,9 +21,9 @@ const ImageUpload = props => {
         fileReader.readAsDataURL(file);
     }, [file]);
 
-    useEffect(() => {
-        setPreviewUrl(img);
-    }, [img]);
+    // useEffect(() => {
+    //     setPreviewUrl(img);
+    // }, [img]);
 
     const pickedHandler = event => {
         let pickedFile;

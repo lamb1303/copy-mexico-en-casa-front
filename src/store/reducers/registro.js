@@ -15,7 +15,7 @@ const initialState = {
     registroNegocio: null,
     personalInfo: false,
     negocioInfo: false,
-    negocioFinal: true,
+    negocioFinal: false,
     avisoPriv: false,
     personalData: {},
     days: [

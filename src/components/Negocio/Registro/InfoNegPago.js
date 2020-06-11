@@ -55,8 +55,8 @@ const InfoNegPago = props => {
                         lastName: props.personalData.apellidos,
                         mobile: props.personalData.telefono,
                         password: props.personalData.psw,
-                        photoBusiness: photoBusiness,
-                        photoINE: photoINE,
+                        photoBusiness: photoBusiness ? photoBusiness : null,
+                        photoINE: photoINE ? photoINE : null,
                         rate: '',
                         schedule: props.days,
                         payment: {
@@ -68,6 +68,7 @@ const InfoNegPago = props => {
                             isToTake: props.entregaNegocio
                         }
                     }
+                    console.log(negocio);
                     props.register(negocio);
                 } else {
                     console.log('Foto del ID requerida')
@@ -157,7 +158,7 @@ const InfoNegPago = props => {
                                 />
                             </div>
                             <div className={classes.imageUpload}>
-                                <span>Identificacion Oficial</span>
+                                <span>Identificacion Oficial*</span>
                                 <ImageUpload
                                     img={photoBusiness}
                                     from='registro'

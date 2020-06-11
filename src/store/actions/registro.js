@@ -1,6 +1,9 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
 import firebase from '../../firebase/config';
+import { loadForm } from '../utility';
+import createHeaders from '../Util/headers/createHeaders';
+
 const { v4: uuid } = require('uuid');
 
 export const initRegister = () => {
@@ -100,10 +103,10 @@ export const nuevoCliente = (id) => {
     }
 }
 
-export const registrarNuevoNegocio = (negocio, data) => {
+export const registrarNuevoNegocio = (data) => {
     return {
         type: actionTypes.REGISTRAR_NUEVO_NEGOCIO,
-        negocio: negocio,
+        negocio: data.business,
         isCustomer: data.isCustomer,
         token: data.token,
         id: data.id
@@ -147,66 +150,26 @@ const crearNegocio = (negocio, negPhoto, id) => {
 
 export const registroNuevoNegocio = (negocio) => {
     return dispatch => {
-        dispatch(initRegister());
-        const id = uuid();
+        // dispatch(initRegister());
         console.log('iniciando...')
         try {
-
-            negocio["photoINEName"] = negocio.photoINE.name;
-            if (negocio.photoBusiness !== undefined) {
-                negocio["photoBusinessName"] = negocio.photoBusiness.name;
-            } else {
-                negocio["photoBusinessName"] = '';
-            }
-
-            console.log('subiendo primer foto...')
-            subirFoto('business', id, negocio.photoINE)
-                .then(urlINE => {
-                    console.log('primer foto subida')
-                    console.log(urlINE)
-                    negocio.photoINE = urlINE;
-
-                    if (negocio.photoBusiness === undefined) {
-                        negocio.photoBusiness = 'https://thumbs.dreamstime.com/b/empty-white-room-inner-space-box-vector-design-illustration-mock-up-you-business-project-138003758.jpg';
-                        crearNegocio(negocio, '', id)
-                            .then(resolved => {
-                                localStorage.setItem('id', resolved.id)
-                                dispatch(registrarNuevoNegocio(negocio, resolved))
-                            })
-                            .catch(err => dispatch(registerFailed()))
-                    } else {
-                        console.log('subiendo segunda foto...')
-                        subirFoto('business', id, negocio.photoBusiness)
-                            .then(urlNegocio => {
-                                console.log('segunda foto subida')
-                                console.log(urlNegocio);
-                                negocio.photoBusiness = urlNegocio;
-                                crearNegocio(negocio, 'negocioURL', id)
-                                    .then(resolved => dispatch(registrarNuevoNegocio(negocio)))
-                                    .catch(err => dispatch(registerFailed()))
-                            })
-                            .catch(err => {
-                                deleteFoto('business', id, negocio.photoINEName);
-                                // deleteFoto('business', id, negocio.photoBusinessName);
-                                dispatch(registerFailed())
-                                console.log(err);
-                            })
-                    }
-                }).catch(err => {
-                    deleteFoto('business', id, negocio.photoINEName);
-                    dispatch(registerFailed())
-                    console.log(err)
-                });
-
+            const formData = loadForm(negocio);
+            axios.post(`${process.env.REACT_APP_API_URL}/registro/newBusiness`, formData, createHeaders({
+                'content-type': `multipart/form-data  boundary=${formData._boundary}`
+            }))
+                .then(resp => {
+                    console.log(resp.data);
+                    // dispatch(registrarNuevoNegocio(resp.data))
+                })
+                .catch(err => {
+                    console.log(err);
+                    // dispatch(registerFailed());
+                })
         } catch (error) {
             console.log(`algo salio mal`)
             console.log(error)
-            dispatch(registerFailed());
-            return;
+            // dispatch(registerFailed());
         }
-
-
-        //si no lo crea mandar mensaje de error
     }
 }
 
