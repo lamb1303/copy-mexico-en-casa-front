@@ -52,6 +52,13 @@
     margin-left: 10px;
 }
 
+.closeMap{
+    z-index: 102;
+    color: white;
+    position: absolute;
+    right: 10%;
+    top: 3%;
+}
 
 .input{
     width: 90%;
@@ -74,4 +81,15 @@
 
 .good{
     border: 2px solid rgb(11, 197, 5);
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 5% 0;
+}
+
+.buttons button{
+    margin: 0 5%;
+    max-width: 185px;
 }

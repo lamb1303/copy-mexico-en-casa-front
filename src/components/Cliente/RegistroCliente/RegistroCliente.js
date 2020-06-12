@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 
 import Button from '../../UI/Button/Button'
 // import ImageUpload from '../../UI/ImageUpload/ImageUpload';
@@ -11,13 +11,14 @@ import classes from './RegistroCliente.module.css'
 import { ReactComponent as MapLogo } from '../../../assets/map.svg';
 import Alert from '../../UI/Alert/Alert';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 
-const baseObject = {
-    isValid: false,
-    touched: false,
-    value: ''
-}
+// const baseObject = {
+//     isValid: false,
+//     touched: false,
+//     value: ''
+// }
 
 const RegistroCliente = props => {
 
@@ -29,9 +30,10 @@ const RegistroCliente = props => {
     const [direction, setDirection] = useState({ isValid: false, touched: false, value: '' });
 
     const [showBackdrop, setShowBackdrop] = useState(false);
-    const [coordinates, setCoordinates] = useState(false);
+    const [coordinates, setCoordinates] = useState();
     const [showAlert, setShowAlert] = useState(false);
 
+    const [cancelReg, setCancelReg] = useState(false);
 
     const printAll = () => {
         console.log(name)
@@ -122,9 +124,10 @@ const RegistroCliente = props => {
     }
 
     const getCoordinatesFromMap = (currentPosition, address) => {
+        if (address.includes('undefined')) return;
         setCoordinates(currentPosition);
         props.onSetCoordinates(currentPosition);
-        setDirection(address);
+        setDirection({ ...direction, value: address, isValid: rules(address, 'text') })
         setShowBackdrop(false);
     }
 
@@ -178,26 +181,37 @@ const RegistroCliente = props => {
         </>
     )
 
-    return (
-        <>
-            <div className={classes.background}></div>
+    let formValid = false;
+    if (name.isValid &&
+        lastName.isValid &&
+        email.isValid &&
+        password.isValid &&
+        phone.isValid &&
+        direction.isValid
+    ) formValid = true;
 
+
+
+    return (
+        <Fragment>
+            {cancelReg && <Redirect to='/Home' />}
+            <div className={classes.background}></div>
+            {<Backdrop show={showBackdrop} />}
+            {showBackdrop && (
+                <ShowMap
+                    nombre={name.value}
+                    coordinates={coordinates}
+                    getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
+                    address={direction.value}
+                />
+            )}
+            {showAlert && (<Alert
+                title='Error'
+                clase={'personalInfo'}
+                clicked={() => setShowAlert(false)}
+            >No se puede abrir el mapa por el momento. Intentelo mas tarde
+            </Alert>)}}
             <div className={classes.personalInfo} >
-                {<Backdrop show={showBackdrop} />}
-                {showBackdrop && (
-                    <ShowMap
-                        nombre={name}
-                        coordinates={coordinates}
-                        getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
-                        address={direction}
-                    />
-                )}
-                {showAlert && (<Alert
-                    title='Error'
-                    clase={'personalInfo'}
-                    clicked={() => setShowAlert(false)}
-                >No se puede abrir el mapa por el momento. Intentelo mas tarde
-                </Alert>)}}
                 <div className={classes.header} >
                     <span>Listo para disfrutar las delicias de México. Por favor, llena los siguientes datos.</span>
                 </div>
@@ -209,9 +223,19 @@ const RegistroCliente = props => {
 
                     </Card>
                 </div>
-                <div> <Button clicked={() => printAll()} >Click</Button> </div>
+                <div className={classes.buttons} >
+                    <Button
+                        btnType='Success'
+                        clicked={() => printAll()}
+                        disabled={!formValid}
+                    >REGISTRAME!</Button>
+                    <Button
+                        btnType='Danger'
+                        clicked={() => setCancelReg(true)}
+                    >SALIR</Button>
+                </div>
             </div>
-        </>
+        </Fragment>
     )
 }
 

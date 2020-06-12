@@ -6,13 +6,14 @@ import "leaflet-geosearch/dist/geosearch.css";
 import Marker from "../../../assets/marker.png";
 import classes from "./Map.module.css";
 import axios from "axios";
+import { connect } from "react-redux";
 
-export default class Map extends React.Component {
+class Map extends React.Component {
   componentDidMount() {
     let myMap;
     let lat = 25.473872;
     let lng = -100.976701;
-    let name = "Tu negocio";
+    let name = "Tú estas aqui";
 
     if (this.props.coords) {
       lat = this.props.coords.lat;
@@ -36,7 +37,9 @@ export default class Map extends React.Component {
 
     let marker = L.marker([lat, lng], {
       icon: iconMarker,
-    }).addTo(myMap);
+    })
+    
+    if(this.props.geolocation) marker.addTo(myMap);
 
     myMap.doubleClickZoom.disable();
 
@@ -74,3 +77,11 @@ export default class Map extends React.Component {
     return <div className={classes.map} id="map" />;
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    geolocation: state.registro.geolocation
+  }
+}
+
+export default connect(mapStateToProps)(Map);
