@@ -176,18 +176,17 @@ const initialState = {
     },
     checkedOrders: {},
     checkedPrepare: {},
-    products: {}
 }
 const clienteSelectedBusiness = (state, action) => {
     return updateObject(state, {
         selectedNegocio: action.business
     })
 }
-const getProductsSuccess = (state, action) => {
-    return updateObject(state, {
-        products: action.products
-    })
-}
+// const getProductsSuccess = (state, action) => {
+//     return updateObject(state, {
+//         products: action.products
+//     })
+// }
 
 const changeEditMode = (state, action) => {
     return updateObject(state, {

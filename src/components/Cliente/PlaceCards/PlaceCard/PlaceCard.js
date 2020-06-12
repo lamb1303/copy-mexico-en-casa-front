@@ -1,10 +1,10 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import classes from './PlaceCard.module.css';
 import Options from '../../../UI/PurchaseOptions/Options';
 import { ReactComponent as Star } from '../../assets/star.svg';
-import { ReactComponent as EmptyStar } from '../../assets/emptyStar.svg';
-import * as actions from '../../../../store/actions'
-import { connect } from 'react-redux';
+// import { ReactComponent as EmptyStar } from '../../assets/emptyStar.svg';
+// import * as actions from '../../../../store/actions'
+// import { connect } from 'react-redux';
 
 
 class PlaceCard extends Component {

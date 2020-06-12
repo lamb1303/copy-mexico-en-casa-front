@@ -4,7 +4,7 @@ import Table from '../../UI/Table/Table';
 import Button from '../../UI/Button/Button';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 // import Map from '../../UI/Map/Map';
-import ShowMap from './showMap/showMap';
+import ShowMap from  '../../UI/ShowMap/ShowMap';
 import Alert from '../../UI/Alert/Alert';
 import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';

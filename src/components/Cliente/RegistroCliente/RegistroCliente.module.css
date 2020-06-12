@@ -1,0 +1,77 @@
+.personalInfo{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 55px;
+    z-index: 3;
+    height: calc(100vh - 55px);
+}
+
+.header {
+    width: 80%;
+    min-width: 80%;
+    border-radius: 9px;
+    background-color: white;
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 10%;
+    font-size: 0.9rem;
+}
+
+.background{
+    background-image: url('../assets/cafe.jpg');
+    height: 100vh;
+    background-size: cover;
+    z-index: 2;
+    position: fixed;
+    width: 100vw;
+}
+
+.card{
+    margin: 5% auto;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    margin: 5% 0;
+}
+
+.location{
+    display: flex;
+    width: 95%;
+    margin: 4% auto;
+    padding-left: 10px;
+    box-sizing: border-box;
+    align-items: flex-end;
+}
+
+.location svg{
+    height: 45px;
+    width: 45px;
+    margin-left: 10px;
+}
+
+
+.input{
+    width: 90%;
+    margin: 4% auto;
+    border: 1px solid #ccc;
+    height: 35px;
+    font-size: 1rem;
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.input:focus{
+    outline: 0.8px solid rgb(8, 143, 206);
+}
+
+.bad{
+    border: 2px solid rgb(255, 0, 0);
+}
+
+.good{
+    border: 2px solid rgb(11, 197, 5);
+}

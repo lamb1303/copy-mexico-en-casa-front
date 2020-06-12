@@ -249,7 +249,6 @@ const setCoordinates = (state, action) => {
 }
 
 
-
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
@@ -273,6 +272,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.VERIFY_EMAIL_EXIST_INIT: return verifyEmailExistInit(state, action);
         case actionTypes.VERIFY_EMAIL_EXIST_END: return verifyEmailExistEnd(state, action);
         case actionTypes.SET_BUSINESS_COORDINATES: return setCoordinates(state, action);
+        case actionTypes.SET_CLIENT_COORDINATES: return setCoordinates(state, action);
         default: return state
     }
 };

@@ -1,11 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
-import firebase from '../../firebase/config';
 import { loadForm } from '../utility';
 import createHeaders from '../Util/headers/createHeaders';
 import { logging } from './home';
-
-const { v4: uuid } = require('uuid');
 
 export const initRegister = () => {
     return {
@@ -23,7 +20,6 @@ export const registrarNuevoCliente = (image, cliente) => {
     return dispatch => {
 
         dispatch(initRegister());
-        const id = uuid();
         console.log('iniciando subida de img..')
 
         // subirFoto('clients', id, image)
@@ -250,6 +246,12 @@ export const verifyEmailExist = (data) => {
 export const setBCoordinates = (coordinates) => {
     return {
         type: actionTypes.SET_BUSINESS_COORDINATES,
+        coords: coordinates
+    }
+}
+export const setClientCoordinates = (coordinates) => {
+    return {
+        type: actionTypes.SET_CLIENT_COORDINATES,
         coords: coordinates
     }
 }
