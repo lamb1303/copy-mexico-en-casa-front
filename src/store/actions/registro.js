@@ -16,63 +16,6 @@ export const registerFailed = () => {
     }
 }
 
-export const registrarNuevoCliente = (image, cliente) => {
-    return dispatch => {
-
-        dispatch(initRegister());
-        console.log('iniciando subida de img..')
-
-        // subirFoto('clients', id, image)
-        //     .then(urlFoto => {
-        //         console.log('Imagen subida')
-        //         console.log(urlFoto);
-
-        //         console.log('creando usuario...')
-
-        //         let client = {
-        //             ...cliente,
-        //             id: id
-        //         }
-        //         client.fotoINE = urlFoto
-
-        //         axios.post(`${process.env.REACT_APP_API_URL}/registro/newClient`, client)
-        //             .then(resp => {
-        //                 console.log(resp)
-        //                 if (resp.data.message === 'CREATION SUCCESS') {
-        //                     console.log("Usuario creado")
-        //                     dispatch(nuevoCliente(id))
-        //                 } else {
-        //                     firebase.storage.ref().child(`clients/${id}/${image.name}`).delete()
-        //                         .then(() => console.log('imagen borrada'))
-        //                         .catch(err => console.log(err));
-        //                     dispatch(registerFailed())
-
-        //                 }
-        //             }).catch(err => {
-        //                 firebase.storage.ref().child(`clients/${id}/${image.name}`).delete()
-        //                     .then(() => console.log('imagen borrada'))
-        //                     .catch(err => console.log(err))
-        //                 dispatch(registerFailed())
-        //             })
-
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //         dispatch(registerFailed())
-        //     });
-
-        console.log('Llego al final');
-    }
-};
-
-
-export const nuevoCliente = (id) => {
-    return {
-        type: actionTypes.REGISTRAR_NUEVO_CLIENTE,
-        id: id
-    }
-}
-
 export const registrarNuevoNegocio = (data) => {
     return {
         type: actionTypes.REGISTRAR_NUEVO_NEGOCIO,
@@ -253,5 +196,48 @@ export const setClientCoordinates = (coordinates) => {
     return {
         type: actionTypes.SET_CLIENT_COORDINATES,
         coords: coordinates
+    }
+}
+
+export const nuevoCliente = (client) => {
+    return {
+        type: actionTypes.REGISTRAR_NUEVO_CLIENTE,
+        client: client
+    }
+}
+
+export const registrarNuevoCliente = (client) => {
+    return dispatch => {
+        dispatch(verifyEmailExistInit());
+        axios.post(process.env.REACT_APP_API_URL + `/registro/newClient`, client)
+            .then(resp => {
+                let error = '';
+                if (resp.data.message !== 'Ok') {
+                    error = resp.data.message
+                } else {
+                    console.log(resp.data)
+                    dispatch(nuevoCliente(resp.data.client))
+                    const tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);
+                    localStorage.setItem(
+                        'user',
+                        JSON.stringify({
+                            token: resp.data.token,
+                            id: resp.data.id,
+                            expiration: tokenExpirationDate.toISOString()
+                        })
+                    );
+                    dispatch(logging({ token: resp.data.token, id: resp.data.id, isCustomer: resp.data.isCustomer })) //token, id, isCustomer
+                }
+                dispatch(verifyEmailExistEnd(error));
+            })
+            .catch(err => {
+                dispatch(verifyEmailExistEnd('Algo salio mal, por favor, intentalo mas tarde'));
+            })
+    }
+}
+
+export const setErrorMessage = () => {
+    return {
+        type: actionTypes.SET_ERROR_MESSAGE
     }
 }

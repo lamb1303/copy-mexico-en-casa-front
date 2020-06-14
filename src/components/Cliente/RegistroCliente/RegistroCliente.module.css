@@ -43,7 +43,7 @@
     margin: 4% auto;
     padding-left: 10px;
     box-sizing: border-box;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .location svg{
@@ -92,4 +92,28 @@
 .buttons button{
     margin: 0 5%;
     max-width: 185px;
+}
+
+.aviso{
+    display: flex;
+    color: white;
+    left: 5%;
+    padding-left: 5%;
+    margin: 3% 0;
+    position: relative;
+    width: 80vw;
+    top: -2%;
+}
+
+.privacidad{
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.avisoLink{
+    color: white;
+    font-size: 1.1rem;
+    margin: 0 2%;
 }

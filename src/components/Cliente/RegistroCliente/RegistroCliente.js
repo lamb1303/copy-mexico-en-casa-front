@@ -1,47 +1,83 @@
 import React, { useState, Fragment } from 'react';
 
 import Button from '../../UI/Button/Button'
-// import ImageUpload from '../../UI/ImageUpload/ImageUpload';
 import Card from '../../UI/Card/Card';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import ShowMap from '../../UI/ShowMap/ShowMap';
+import Spinner from '../../UI/Spinner/Spinner';
 import * as actions from '../../../store/actions'
 import { connect } from 'react-redux'
 import classes from './RegistroCliente.module.css'
 import { ReactComponent as MapLogo } from '../../../assets/map.svg';
 import Alert from '../../UI/Alert/Alert';
 import axios from 'axios';
+import AvisoPrivacidad from './AvisoPrivacidad';
 import { Redirect } from 'react-router-dom';
 
 
-// const baseObject = {
-//     isValid: false,
-//     touched: false,
-//     value: ''
-// }
+const baseObject = {
+    isValid: false,
+    touched: false,
+    value: ''
+}
 
 const RegistroCliente = props => {
 
-    const [name, setName] = useState({ isValid: false, touched: false, value: '' });
-    const [lastName, setLastName] = useState({ isValid: false, touched: false, value: '' });
-    const [email, setEmail] = useState({ isValid: false, touched: false, value: '' });
-    const [password, setPassword] = useState({ isValid: false, touched: false, value: '' });
-    const [phone, setPhone] = useState({ isValid: false, touched: false, value: '' });
-    const [direction, setDirection] = useState({ isValid: false, touched: false, value: '' });
+    const [name, setName] = useState(baseObject);
+    const [lastName, setLastName] = useState(baseObject);
+    const [email, setEmail] = useState(baseObject);
+    const [password, setPassword] = useState(baseObject);
+    const [phone, setPhone] = useState(baseObject);
+    const [direction, setDirection] = useState(baseObject);
 
     const [showBackdrop, setShowBackdrop] = useState(false);
     const [coordinates, setCoordinates] = useState();
     const [showAlert, setShowAlert] = useState(false);
 
     const [cancelReg, setCancelReg] = useState(false);
+    const [avisoPrivacidad, setAvisoPrivacidad] = useState({ show: false, accepted: false })
 
-    const printAll = () => {
-        console.log(name)
-        console.log(lastName)
-        console.log(email)
-        console.log(password)
-        console.log(phone)
-        console.log(direction)
+    const register = () => {
+        const client = {
+            name: name.value,
+            apellidos: lastName.value,
+            email: email.value,
+            password: password.value,
+            telefono: phone.value,
+            direccion: direction.value,
+        }
+
+        // if Previously selected from map
+        if (props.geolocation) {
+            client['geolocation'] = props.geolocation
+            props.onClientExist(client);
+        } else {
+            // Search by entered Street
+            const street = direction.value.trim().replace(/ /g, '+');
+            axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
+                .then(resp => {
+                    if (Object.keys(resp.data).length > 0) {
+                        client['geolocation'] = { lat: resp.data[0].lat, lng: resp.data[0].lon }
+                        props.onClientExist(client);
+                    } else {
+                        /**
+                         * Search by entered Street bring no results.
+                         * Then get position from browser
+                         */
+                        const options = {
+                            enableHighAccuracy: true,
+                            timeout: 5000,
+                        }
+                        navigator.geolocation.getCurrentPosition((coords) => {
+                            client['geolocation'] = { lat: coords.coords.latitude, lng: coords.coords.longitude }
+                            props.onClientExist(client);
+                        }, (err) => {
+                            console.log('No se obtubo coordenadas');
+                        }, options);
+                    }
+                })
+                .catch(err => console.log(err));
+        }
     }
 
     const rules = (value, type) => {
@@ -55,6 +91,8 @@ const RegistroCliente = props => {
     }
 
     const handleInput = (id, value) => {
+
+        if (props.errorMessage) props.setErrorMessage()
 
         switch (id) {
             case 'name':
@@ -93,7 +131,6 @@ const RegistroCliente = props => {
         }
         navigator.geolocation.getCurrentPosition((coords) => {
             setCoordinates({ lat: coords.coords.latitude, lng: coords.coords.longitude });
-            setShowBackdrop(true);
         }, (err) => {
             setShowAlert(true)
         }, options);
@@ -101,25 +138,23 @@ const RegistroCliente = props => {
 
     const getLocation = () => {
         if (props.geolocation) { setShowBackdrop(true); return }
-        if (direction.length > 5) {
-            const street = direction.trim().replace(/ /g, '+');
-            console.log(street);
+        if (direction.value.length > 5) {
+            const street = direction.value.trim().replace(/ /g, '+');
             axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
-                .then(resp => {
+                .then(resp => { //Tulipanes 342 Saltillo
                     console.log(resp.data.length)
                     if (Object.keys(resp.data).length > 0) {
                         setCoordinates({
                             lat: resp.data[0].lat,
                             lng: resp.data[0].lon
                         })
-                        setShowBackdrop(true)
-                    } else {
-                        getLocationByBrowser();
-                    }
+                    } else getLocationByBrowser();
+                    setShowBackdrop(true)
                 })
                 .catch(err => console.log(err));
         } else {
             getLocationByBrowser();
+            setShowBackdrop(true)
         }
     }
 
@@ -171,7 +206,7 @@ const RegistroCliente = props => {
             <div className={classes.location}>
                 <input
                     type='text'
-                    placeholder='Direccion'
+                    placeholder='Calle, Ciudad, CP'
                     value={direction.value}
                     className={`${classes.input} ${direction.isValid ? classes.good : direction.touched ? classes.bad : ''}`}
                     onChange={(event) => handleInput('direction', event.target.value)}
@@ -187,14 +222,22 @@ const RegistroCliente = props => {
         email.isValid &&
         password.isValid &&
         phone.isValid &&
-        direction.isValid
+        direction.isValid &&
+        avisoPrivacidad.accepted
     ) formValid = true;
-
 
 
     return (
         <Fragment>
+            {props.loading && <> <Backdrop show={props.loading} /> <Spinner /> </>}
             {cancelReg && <Redirect to='/Home' />}
+            {avisoPrivacidad.show && (
+                <Backdrop
+                    clicked={() => setAvisoPrivacidad({ ...avisoPrivacidad, show: false })}
+                    show={avisoPrivacidad.show}
+                />)}
+            {avisoPrivacidad.show && <AvisoPrivacidad />}
+            {props.errorMessage && <Alert title='Error' clase={'personalInfo'} >{props.errorMessage}</Alert>}
             <div className={classes.background}></div>
             {<Backdrop show={showBackdrop} />}
             {showBackdrop && (
@@ -220,13 +263,17 @@ const RegistroCliente = props => {
                         <div className={classes.form} >
                             {form}
                         </div>
-
                     </Card>
+                </div>
+                <div className={classes.aviso} >
+                    <input type='checkbox' onChange={event => setAvisoPrivacidad({ ...avisoPrivacidad, accepted: event.target.checked })} />
+                    <span className={classes.avisoLink} >Acepto </span>
+                    <span onClick={() => setAvisoPrivacidad({ ...avisoPrivacidad, show: true })} className={classes.privacidad} >aviso de privacidad</span>
                 </div>
                 <div className={classes.buttons} >
                     <Button
                         btnType='Success'
-                        clicked={() => printAll()}
+                        clicked={() => register()}
                         disabled={!formValid}
                     >REGISTRAME!</Button>
                     <Button
@@ -241,14 +288,18 @@ const RegistroCliente = props => {
 
 const mapStateToProps = state => {
     return {
-        geolocation: state.registro.geolocation
+        geolocation: state.registro.geolocation,
+        loading: state.registro.loading,
+        errorMessage: state.registro.errorMessage,
     }
 }
 
 const mapDispatchtoProps = dispatch => {
     return {
         nuevoCliente: () => dispatch(actions.registrarNuevoCliente()),
-        onSetCoordinates: (coords) => dispatch(actions.setBCoordinates(coords))
+        onSetCoordinates: (coords) => dispatch(actions.setBCoordinates(coords)),
+        onClientExist: (client) => dispatch(actions.registrarNuevoCliente(client)),
+        setErrorMessage: () => dispatch(actions.setErrorMessage())
     }
 }
 
