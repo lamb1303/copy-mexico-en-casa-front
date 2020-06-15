@@ -13,7 +13,7 @@ class Negocio extends Component {
             this.props.getProducts(localStorage.getItem("businessId"))
         }
 
-        if (Object.keys(this.props.selectedNegocio).length == 0) {
+        if (Object.keys(this.props.selectedNegocio).length === 0) {
             this.props.getSelectedBusiness(localStorage.getItem("businessId"))
         }
     }

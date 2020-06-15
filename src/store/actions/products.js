@@ -23,7 +23,6 @@ export const getProducts = (id) => {
                 ).reduce((arr, el) => {
                     return arr.concat(el)
                 }, []);
-                console.log(updatedProducts)
                 dispatch(getProductsSuccess(updatedProducts))
             }
         ).catch(e => console.log(e))

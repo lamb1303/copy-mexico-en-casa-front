@@ -4,11 +4,17 @@ import classes from './Search.module.css';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import PlaceCard from '../PlaceCards/PlaceCard/PlaceCard';
+import Pagination from './Pagination/Pagination'
 import * as action from '../../../store/actions'
 import { NavLink } from 'react-router-dom';
 const Search = (props) => {
 
     const [businessDesc, typeBusiness] = useState("");
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage] = useState(6)
+
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
 
     const selectedBusiness = (business) => {
         localStorage.setItem("businessId", business.key)
@@ -17,8 +23,10 @@ const Search = (props) => {
 
     const businesses = Object.values(props.businesses).map(
         business => {
+
             if (business.desc.includes(businessDesc)) {
                 return <NavLink
+
                     onClick={() => selectedBusiness(business)}
                     key={business.key}
                     to={{
@@ -30,22 +38,29 @@ const Search = (props) => {
                         businessId={business.key}
                         name={business.name}
                         isToGo={business.delivery.isToGo}
+                        isToTake={business.delivery.isToTake}
+                        cash={business.payment.cash}
+                        creditCard={business.payment.creditCard}
                         rate={business.rate}
                         photoBusiness={business.photoBusiness}
                         desc={business.desc}
                     />
                 </NavLink>
-            } else {
-                return <Lupa key={Math.random()} />
             }
         }
-    )
+    ).slice(indexOfFirstPost, indexOfLastPost)
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
 
     return (
         <>
             <div className={classes.Search_section} >
                 <TextField
-                    style={{left: "3em"}}
+                    style={{
+                        left: "4em"
+                    }}
                     type='text'
                     label="Buscar Negocio"
                     value={businessDesc}
@@ -54,7 +69,14 @@ const Search = (props) => {
                     }} />
                 <Lupa />
             </div>
-            {businesses}
+            <div className={classes.Search_container}>
+                {businesses}
+            </div>
+            <Pagination
+                postPerPage={postsPerPage}
+                paginate={paginate}
+                totalPosts={props.businesses.length} />
+
         </>
     )
 }

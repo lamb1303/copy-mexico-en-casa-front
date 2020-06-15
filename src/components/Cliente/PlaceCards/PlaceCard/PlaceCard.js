@@ -6,7 +6,9 @@ import { ReactComponent as EmptyStar } from '../../assets/emptyStar.svg';
 
 const PlaceCard = (props) => {
     const isToGo = props.isToGo
+    const isToTake = props.isToTake
     const cash = props.cash
+    const creditCard = props.creditCard
     const rate = props.rate
     const imageUrl = props.photoBusiness
 
@@ -30,7 +32,7 @@ const PlaceCard = (props) => {
                     <p className={classes.description} >{props.desc}</p>
                     <div className={classes.stars} >{stars} </div>
                 </div>
-                <Options envio={isToGo} pago={cash} />
+                <Options envio={isToGo, isToTake} cash={cash} creditCard={creditCard}/>
             </div>
 
         </div >
