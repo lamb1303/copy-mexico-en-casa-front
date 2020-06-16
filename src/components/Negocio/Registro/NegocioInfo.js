@@ -4,7 +4,7 @@ import Table from '../../UI/Table/Table';
 import Button from '../../UI/Button/Button';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 // import Map from '../../UI/Map/Map';
-import ShowMap from './showMap/showMap';
+import ShowMap from  '../../UI/ShowMap/ShowMap';
 import Alert from '../../UI/Alert/Alert';
 import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
@@ -166,9 +166,10 @@ const NegocioInfo = props => {
         }, 5000)
     }
 
-    const getCoordinatesFromMap = (currentPosition) => {
+    const getCoordinatesFromMap = (currentPosition, address) => {
         setCoordinates(currentPosition);
         props.onSetCoordinates(currentPosition);
+        setDireccion(address);
         setShowBackdrop(false);
     }
 
@@ -179,7 +180,7 @@ const NegocioInfo = props => {
                 <ShowMap
                     nombre={nombre}
                     coordinates={coordinates}
-                    getCoords={(currentPosition) => getCoordinatesFromMap(currentPosition)}
+                    getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
                     address={direccion}
                 />
             )}

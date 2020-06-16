@@ -58,8 +58,6 @@ const App = (props) => {
 
   }, [logout, expirationDate]);
 
-
-
   let route;
 
   if (!storagedToken || storagedToken === "" || storagedToken === null) {

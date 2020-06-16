@@ -13,9 +13,8 @@ const initialState = {
     name: '',
     id: null,
     registroNegocio: null,
-    cafe: false,
     personalInfo: false,
-    negocioInfo: true,
+    negocioInfo: false,
     negocioFinal: false,
     avisoPriv: false,
     personalData: {},
@@ -80,9 +79,7 @@ const initialState = {
 
 const nuevoCliente = (state, action) => {
     return updateObject(state, {
-        cliente: true,
-        negocio: false,
-        id: action.id,
+        cliente: action.client,
         loading: false
     })
 }
@@ -249,6 +246,11 @@ const setCoordinates = (state, action) => {
     })
 }
 
+const setErrorMessage = (state, action) => {
+    return updateObject(state, {
+        errorMessage: ''
+    })
+}
 
 
 const reducer = (state = initialState, action) => {
@@ -274,6 +276,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.VERIFY_EMAIL_EXIST_INIT: return verifyEmailExistInit(state, action);
         case actionTypes.VERIFY_EMAIL_EXIST_END: return verifyEmailExistEnd(state, action);
         case actionTypes.SET_BUSINESS_COORDINATES: return setCoordinates(state, action);
+        case actionTypes.SET_CLIENT_COORDINATES: return setCoordinates(state, action);
+        case actionTypes.SET_ERROR_MESSAGE: return setErrorMessage(state, action);
         default: return state
     }
 };

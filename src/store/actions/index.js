@@ -15,7 +15,9 @@ export {
     entregaDomicilio,
     entregaNegocio,
     verifyEmailExist,
-    setBCoordinates
+    setBCoordinates,
+    setClientCoordinates,
+    setErrorMessage
 } from './registro'
 
 export {

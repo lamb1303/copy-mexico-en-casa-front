@@ -55,8 +55,8 @@ const InfoNegPago = props => {
                         lastName: props.personalData.apellidos,
                         mobile: props.personalData.telefono,
                         password: props.personalData.psw,
-                        photoBusiness: photoBusiness,
-                        photoINE: photoINE,
+                        photoBusiness: photoBusiness ? photoBusiness : null,
+                        photoINE: photoINE ? photoINE : null,
                         rate: '',
                         schedule: props.days,
                         payment: {
@@ -99,16 +99,6 @@ const InfoNegPago = props => {
                 </Card>
             </div>
         )
-    }
-
-    if (props.negocio) {
-        const data = {
-            token: props.token,
-            isCustomer: props.isCustomer,
-            id: props.businessId
-        }
-        props.setLocalTokenStored(data);
-        props.onLoadNegocio(data);
     }
 
     return (
@@ -157,7 +147,7 @@ const InfoNegPago = props => {
                                 />
                             </div>
                             <div className={classes.imageUpload}>
-                                <span>Identificacion Oficial</span>
+                                <span>Identificacion Oficial*</span>
                                 <ImageUpload
                                     img={photoBusiness}
                                     from='registro'
@@ -211,7 +201,7 @@ const mapStateToProps = state => {
         token: state.registro.token,
         isCustomer: state.registro.isCustomer,
         businessId: state.registro.id,
-        geolocation: state.registro.geolocation
+        geolocation: state.registro.geolocation,
     }
 }
 
@@ -224,8 +214,8 @@ const mapDispatchToProps = dispatch => {
         onEntNegocio: () => dispatch(actions.entregaNegocio()),
         goToPrivacidad: (isOpen) => dispatch(actions.goToPrivacidad(isOpen)),
         register: (negocio) => dispatch(actions.registroNuevoNegocio(negocio)),
-        setLocalTokenStored: (data) => dispatch(actions.setLocalTokenStored(data)),
-        onLoadNegocio: (data) => dispatch(actions.loadNegocio(data))
+        // setLocalTokenStored: (data) => dispatch(actions.setLocalTokenStored(data)),
+        // onLoadNegocio: (data) => dispatch(actions.loadNegocio(data))
     }
 }
 

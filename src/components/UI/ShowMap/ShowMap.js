@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Map from "../../../UI/Map/Map";
-import Button from "../../../UI/Button/Button";
-import classes from "./showMap.module.css";
+import Map from '../Map/Map';
+import Card from '../Card/Card';
+import Button from '../Button/Button'
+import classes from './ShowMap.module.css';
 
 const ShowMap = (props) => {
-  const [markerVisible, setMarkerVisible] = useState(false);
+  const [markerVisible, setMarkerVisible] = useState(true);
   const [currentPosition, setCurrentPosition] = useState(props.coordinates);
   const [currentAddress, setCurrentAddress] = useState(props.address);
 
@@ -15,6 +16,9 @@ const ShowMap = (props) => {
 
   return (
     <div className={classes.showMap}>
+      <div className={classes.instructions} >
+        <Card >Por favor. Selecciona tu ubicacion</Card>
+      </div>
       <Map
         name={props.nombre}
         getAddress={(address) => setCurrentAddress(address)}

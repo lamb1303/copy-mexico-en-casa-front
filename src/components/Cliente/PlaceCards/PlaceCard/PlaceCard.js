@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import classes from './PlaceCard.module.css';
 import Options from '../../../UI/PurchaseOptions/Options';
 import { ReactComponent as Star } from '../../assets/star.svg';
