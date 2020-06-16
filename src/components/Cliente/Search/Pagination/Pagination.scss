@@ -1,0 +1,28 @@
+.pagination {
+    background-color: #fffcce;
+    box-shadow: 0 0 3px #000;
+    border-radius: 0.6em;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    box-shadow: 0 0 3px #000;
+    border-radius: 0.6em;
+}
+
+.pagination a:hover {
+    background-color: #ffdfa4;
+}
+.pagination a.active {
+    background-color: #4caf50;
+    color: white;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+}

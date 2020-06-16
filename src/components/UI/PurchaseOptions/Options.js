@@ -16,8 +16,20 @@ const purchaseOptions = props => {
                 : <Local />}
         </div>
         <div className={classes.pay} >
-            {props.pago ? <Efectivo />
-                : <Tarjeta />}
+            {(props.creditCard) ?
+                <>
+                    <Tarjeta />
+                </>
+                : 
+                <>
+                </>}
+                {(props.cash) ?
+                <>
+                    <Efectivo />
+                </>
+                : 
+                <>
+                </>}
         </div>
     </div>)
 }

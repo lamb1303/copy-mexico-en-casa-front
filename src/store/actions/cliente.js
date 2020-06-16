@@ -6,25 +6,28 @@ export const getBusinesses = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/business/businesses`).then(
             response => {
                 const businesses = response.data.businesses
-                const Updatedbusinesses = Object.keys(businesses).map(igKey => {
-                    return [...Array(businesses[igKey])].map((field, i) => {
-                        return {
-                            key: igKey,
-                            name: field.businessName,
-                            desc: field.businessDesc,
-                            payment: {
-                                cash: field.payment.cash
-                            },
-                            delivery: {
-                                isToGo: field.delivery.isToGo
-                            },
-                            rate: [field.rate],
-                            photoBusiness: field.photoBusiness
-                        }
-                    })
+            
+                const Updatedbusinesses = businesses.map((business,id) => {
+                    
+                    const idBusiness = response.data.businesses[id].id
+                    return {
+                        key: idBusiness,
+                        name: business[idBusiness].businessName,
+                        desc: business[idBusiness].businessDesc,
+                        payment: {
+                            cash: business[idBusiness].payment.cash,
+                            creditCard: business[idBusiness].payment.creditCard
+                        },
+                        delivery: {
+                            isToGo: business[idBusiness].delivery.isToGo,
+                            isToTake: business[idBusiness].delivery.isToTake
+                        },
+                        rate: [business[idBusiness].rate],
+                        photoBusiness: business[idBusiness].photoBusiness
+                    }
                 }).reduce((arr, el) => {
                     return arr.concat(el)
-                }, []);
+                }, []); 
                 dispatch(getBusinessesSuccess(Updatedbusinesses))
             }
         ).catch(e => console.log(e))

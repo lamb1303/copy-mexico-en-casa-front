@@ -1,9 +1,21 @@
-.client{
-    background: #FFFFFF;
-    width: 100vw;
-    height: calc(100vh - 55px);
+.client {
+    width: 100%;
+    height: 100%;
     position: relative;
     top: 55px;
     display: flex;
     flex-direction: column;
+}
+
+@media only screen and (min-width: 600px) {
+    .client {
+        box-shadow: 0 0 6px #000;
+        margin-left: 20%;
+        width: 60%;
+        height: 100%;
+        border-radius: 1em;
+    }
+    html{
+        background-color: #482856;
+    }
 }

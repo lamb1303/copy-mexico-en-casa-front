@@ -22,7 +22,7 @@ const appReducer = combineReducers({
   header: headerReducer,
   home: homeReducer,
   products: productsReducer,
-  negocio: negocioReducer,
+  negocio: negocioReducer
 
 });
 
