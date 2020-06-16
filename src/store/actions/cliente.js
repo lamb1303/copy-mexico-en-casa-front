@@ -22,6 +22,10 @@ export const getBusinesses = () => {
                             isToGo: business[idBusiness].delivery.isToGo,
                             isToTake: business[idBusiness].delivery.isToTake
                         },
+                        geolocation: {
+                            lat: business[idBusiness].geolocation.lat,
+                            lng: business[idBusiness].geolocation.lng
+                        },
                         rate: [business[idBusiness].rate],
                         photoBusiness: business[idBusiness].photoBusiness
                     }
