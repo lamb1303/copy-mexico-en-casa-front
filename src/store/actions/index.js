@@ -57,6 +57,8 @@ export {
     getProducts,
     addProduct,
     updateAddProductAlert,
+    accessDeny,
+    changeIsProductAdded,
 } from './products'
 
 export {

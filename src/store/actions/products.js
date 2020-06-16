@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import axios from '../../axios';
 import createHeaders from '../Util/headers/createHeaders';
-import * as alertType from '../Util/enums/alertTypes';
+import * as alertTypes from '../Util/enums/alertTypes';
 
 export const getProducts = (id) => {
     return dispatch => {
@@ -10,7 +10,7 @@ export const getProducts = (id) => {
                 const products = response.data.products
                 const updatedProducts = Object.keys(products).map(
                     igKey => {
-                        return [...Array(products[igKey])].map((field   , i) => {
+                        return [...Array(products[igKey])].map((field, i) => {
                             return {
                                 key: igKey,
                                 name: field.name,
@@ -39,9 +39,10 @@ export const getProductsSuccess = (products) => {
 
 export const addProduct = (formData) => {
     return dispatch => {
+        dispatch(initializeRequest());
         if (formData) {
 
-            axios.post(`${process.env.REACT_APP_API_URL}/business/addProduct`, formData, createHeaders({
+            axios.post(`${process.env.REACT_APP_API_URL}/products/addProduct`, formData, createHeaders({
                 'content-type': `multipart/form-data  boundary=${formData._boundary}`
             }))
                 .then(response => {
@@ -49,20 +50,23 @@ export const addProduct = (formData) => {
                     if (response.status === 201) {
                         dispatch(productAdded(data.message));
                     }
-                }).catch(error =>{
-                    error.response && (dispatch(message(error.response.data.message)));
+                }).catch(error => {
+                    if (error.response) {
+                        dispatch(message(error.response.data.message));
+                        if (error.response.status === 403) {
+                            setTimeout(
+                                () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
+                        }
+                    }
                 });
         }
 
     }
 }
 
-const message = (message) => {
+export const accessDeny = (message) => {
     return {
-        type: actionTypes.ADD_PRODUCT_SHOW_MESSAGE,
-        message: message,
-        alertType: alertType.warning,
-        isAlert: true,
+        type: actionTypes.HOME_LOGOUT,
     }
 }
 
@@ -72,12 +76,37 @@ export const updateAddProductAlert = () => {
     }
 }
 
+export const changeIsProductAdded = () => {
+    return {
+        type: actionTypes.CHANGE_IS_PRODUCT_ADDED,
+    }
+}
+
+const initializeRequest = () => {
+    return {
+        type: actionTypes.ADD_PRODUCT_INIT_REQUEST,
+    }
+}
+
+const message = (message) => {
+    return {
+        type: actionTypes.ADD_PRODUCT_SHOW_MESSAGE,
+        isAlert: true,
+        alertType: alertTypes.warning,
+        message: message,
+    }
+}
+
+
 const productAdded = (message) => {
     return {
         type: actionTypes.ADDED_FOOD_PRODUCT,
         message: message,
         isAlert: true,
-        alertType: alertType.success,
+        alertType: alertTypes.success,
+        isProductAdded: true,
+        loading: false,
     }
 }
+
 

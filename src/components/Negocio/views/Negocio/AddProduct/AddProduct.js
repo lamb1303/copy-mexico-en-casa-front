@@ -1,10 +1,13 @@
 import React, { Fragment, useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { loadForm } from '../../../../../store/utility'
 
 import * as actions from '../../../../../store/actions';
 
 import Button from '../../../../UI/Button/Button';
 import AlertComponent from '../../../../UI/Alert/Alert';
+import Spinner from '../../../../UI/Spinner/Spinner';
+import Backdrop from '../../../../UI/Backdrop/Backdrop';
 import { TextField, InputAdornment } from '@material-ui/core';
 import ImageUpload from '../../../../UI/ImageUpload/ImageUpload';
 
@@ -22,6 +25,8 @@ const AddProduct = props => {
     const [priceError, setPriceError] = useState("");
     const [desc, setDesc] = useState("");
     const [descError, setDescError] = useState("");
+    const { isProductAdded, changeIsProductAdded, isAlert } = props;
+
 
     const uploadImage = (_, pickedFile, fileIsValid) => {
         if (fileIsValid) {
@@ -60,31 +65,33 @@ const AddProduct = props => {
 
     const saveProduct = () => {
         if (!foodNameError && !priceError && !descError) {
-            
-            const formData = new FormData();
-            formData.set('idBusiness', props.id);
-            formData.set('name', foodName);
-            formData.set('desc', desc);
-            formData.set('price', price);
-            formData.append('file', selectedImage);
+            const foodProduct = {
+                idBusiness: props.id,
+                name: foodName,
+                desc: desc,
+                price: price,
+                file: selectedImage,
+            }
+
+            const formData = loadForm(foodProduct);
 
             props.addProduct(formData);
-
         }
     }
 
     const clearField = useCallback(() => {
-        if (props.isProductAdded) {
-            setSelectedImage(NoImage);
+        if (isProductAdded && !isAlert) {
             setFoodName("");
             setFoodNameError("");
             setPrice("");
             setPriceError("");
             setDesc("");
             setDescError("");
+            setSelectedImage(NoImage);
+            changeIsProductAdded();
         }
 
-    }, [props.isProductAdded]);
+    }, [isProductAdded, changeIsProductAdded, isAlert]);
 
     useEffect(() => {
         clearField()
@@ -117,7 +124,6 @@ const AddProduct = props => {
                             variant="outlined"
                             helperText={foodNameError}
                         />
-
 
                         <TextField
                             required
@@ -156,10 +162,23 @@ const AddProduct = props => {
                         GUARDAR
                 </Button>
                 </div>
-                <div>
-                    {props.isAlert && <AlertComponent title={props.alertType} clicked={() => props.updateAddProductAlert()}>{props.message}</AlertComponent>}
-                </div>
             </div>
+            <div>
+                {console.log("alert add p" + isAlert)}
+                {isAlert &&
+                    <AlertComponent
+                        title={props.alertType}
+                        isActive={isAlert}
+                        closeAlert={() => props.updateAddProductAlert()}>
+                        {props.message}
+                    </AlertComponent>
+                }
+            </div>
+            {props.loading && (
+                <Fragment>
+                    <Backdrop show={true} />
+                    <Spinner />
+                </Fragment>)}
 
         </Fragment>
     );
@@ -168,6 +187,7 @@ const AddProduct = props => {
 
 const mapStateToProps = state => {
     return {
+        loading: state.products.loading,
         isProductAdded: state.products.isProductAdded,
         isAlert: state.products.isAlert,
         alertType: state.products.alertType,
@@ -177,9 +197,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-
     addProduct: actions.addProduct,
     updateAddProductAlert: actions.updateAddProductAlert,
+    changeIsProductAdded: actions.changeIsProductAdded,
 
 }
 

@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import createHeaders from '../Util/headers/createHeaders';
 
 export const initializeRequest = () => {
     return {
@@ -79,7 +80,7 @@ export const joinToUsClosed = () => {
 export const getUserType = (userId) => {
     return dispatch => {
         dispatch(initializeRequest());
-        axios.get(`${process.env.REACT_APP_API_URL}/home/login/getUserType/${userId}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/home/login/getUserType/${userId}`, createHeaders())
             .then(response => {
                 const data = response.data;
                 switch (response.status) {
@@ -107,7 +108,6 @@ export const updateHomeAlert = () => {
 }
 
 export const logOut = () => {
-    localStorage.removeItem('user');
     return {
         type: actionTypes.HOME_LOGOUT,
     }

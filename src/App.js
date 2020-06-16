@@ -24,20 +24,15 @@ let logoutTimer;
 const App = (props) => {
 
   const [expirationDate, setExpirationDate] = useState();
-  const { getUserType, setLocalTokenStored } = props;
+  const { getUserType, logOut } = props;
   let storagedToken = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
 
 
   const logout = useCallback(() => {
-    const userData = {
-      token: null,
-      isCustomer: null,
-    };
+    logOut();
     setExpirationDate(null);
-    localStorage.removeItem('user');
-    setLocalTokenStored(userData);
 
-  }, [setLocalTokenStored]);
+  }, [logOut]);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('user'));
@@ -147,6 +142,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getUserType: actions.getUserType,
   setLocalTokenStored: actions.setLocalTokenStored,
+  logOut: actions.logOut,
 }
 
 
