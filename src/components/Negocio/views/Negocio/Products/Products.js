@@ -23,12 +23,11 @@ const Products = props => {
     else products = (
         props.products && props.products
             .map(prod => {
-
                 return <Product
                     key={prod.name}
                     id={prod.name}
                     name={prod.name}
-                    img={prod.img}
+                    img={prod.url}
                     desc={prod.description}
                     price={prod.price}
                 />
@@ -43,7 +42,7 @@ const Products = props => {
 
 const mapStateToProps = state => {
     return {
-        products: state.products.products
+        products: state.negocio.products
     }
 }
 

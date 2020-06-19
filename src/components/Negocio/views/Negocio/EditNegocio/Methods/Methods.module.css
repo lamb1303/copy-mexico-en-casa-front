@@ -1,0 +1,37 @@
+.methods{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #f8f8f8;
+    justify-content: center;
+    min-height: 128px;
+}
+
+.money, .delivery{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 10px 0;
+}
+
+.label{
+    width: 50%;
+}
+
+
+.icons{
+    display: flex;
+    width: 40%;
+    justify-content: space-around;
+}
+
+.icons svg{
+    max-width: 50px;
+    max-height: 50px;
+    height: 40px;
+}
+
+.selected{
+    border: 2px solid #f1a030;
+    box-sizing: border-box;
+}

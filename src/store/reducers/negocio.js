@@ -18,6 +18,7 @@ const initialState = {
     ready: false,
     loading: false,
     error: false,
+    updated: false,
     receivedOrders:
     {
         cl1: {
@@ -407,17 +408,72 @@ const initGetNegocioDetails = (state, action) => {
 }
 
 const getNegocioDetailsSuccess = (state, action) => {
-  
+
     return updateObject(state, {
         loading: false,
         selectedNegocio: action.negocio.details,
-        products: action.negocio.products
+        products: action.negocio.products,
+        updated: false
     })
 }
 
 const getNegocioDetailsFail = (state, action) => {
     return updateObject(state, {
         loading: false
+    })
+}
+
+const cancelEdit = (state, action) => {
+    return updateObject(state, {
+        editMode: false
+    })
+}
+
+const editInit = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+const editEnd = (state, action) => {
+
+    if (action.updates.image) {
+        return updateObject(state, {
+            loading: false,
+            editMode: false,
+            selectedNegocio: {
+                ...state.selectedNegocio,
+                photoBusiness: action.updates.image,
+                businessDesc: action.updates.businessDesc,
+                businessName: action.updates.businessName
+            }
+        })
+    } else {
+        return updateObject(state, {
+            loading: false,
+            editMode: false,
+            selectedNegocio: {
+                ...state.selectedNegocio,
+                businessDesc: action.updates.businessDesc,
+                businessName: action.updates.businessName
+            }
+        })
+    }
+}
+
+
+const updateFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+    })
+}
+
+
+const updateComplete = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        updated: true,
+        selectedNegocio: updateObject(state.selectedNegocio, action.updatedBusiness),
     })
 }
 
@@ -449,6 +505,12 @@ const reducer = (state = initialState, action) => {
         case actionTypes.INIT_GET_NEGOCIO_DETAILS: return initGetNegocioDetails(state, action);
         case actionTypes.GET_NEGOCIO_DETAILS_SUCCESS: return getNegocioDetailsSuccess(state, action);
         case actionTypes.GET_NEGOCIO_DETAILS_FAIL: return getNegocioDetailsFail(state, action);
+        case actionTypes.CANCEL_EDIT_BUSINESS: return cancelEdit(state, action);
+        case actionTypes.EDIT_INIT: return editInit(state, action);
+        case actionTypes.EDIT_END: return editEnd(state, action);
+        case actionTypes.UPDATE_COMPLETE: return updateComplete(state, action);
+        case actionTypes.UPDATE_FAIL: return updateFail(state, action);
+
         default: return state
     }
 }

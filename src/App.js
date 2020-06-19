@@ -17,7 +17,7 @@ import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
 import Spinner from './components/UI/Spinner/Spinner';
 import Backdrop from './components/UI/Backdrop/Backdrop';
-
+import EditBusiness from './components/Negocio/views/Negocio/EditNegocio/EditBusiness';
 
 let logoutTimer;
 
@@ -100,6 +100,7 @@ const App = (props) => {
               <Route path='/pedidos' component={Pedidos} />
               <Route path='/Negocio' component={Negocio} />
               <Route path='/addProduct' component={AddProduct} />
+              <Route path='/editBusiness' component={EditBusiness} />
               <Redirect to='/Negocio' />
 
             </Switch>

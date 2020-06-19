@@ -1,5 +1,7 @@
 import * as actionTypes from './actionTypes';
+import { loadForm } from '../utility';
 import axios from '../../axios';
+import createHeaders from '../Util/headers/createHeaders';
 
 
 export const openEditNegocio = () => {
@@ -291,5 +293,78 @@ export const getNegocioDetails = (id) => {
         else {
             dispatch(getNegocioDetailsFail())
         }
+    }
+}
+
+export const cancelEdit = () => {
+    return {
+        type: actionTypes.CANCEL_EDIT_BUSINESS
+    }
+}
+
+export const updateInit = () => {
+    return {
+        type: actionTypes.EDIT_INIT
+    }
+}
+
+export const updateEnd = (updates) => {
+
+    return {
+        type: actionTypes.EDIT_END,
+        updates
+    }
+}
+
+export const EditBusinessWithPhoto = (business, id) => {
+    return dispatch => {
+        dispatch(updateInit());
+        const formData = loadForm(business);
+        axios.post(process.env.REACT_APP_API_URL + `/business/updWithImage/${id}`, formData, createHeaders({
+            'content-type': `multipart/form-data  boundary=${formData._boundary}`
+        }))
+            .then(resp => {
+                business['image'] = resp.data.imageUrl
+                dispatch(updateEnd(business))
+            })
+            .catch(err => {
+                dispatch(updateEnd(business))
+                console.log(err)
+            })
+    }
+}
+
+export const EditBusinessWithoutPhoto = (business, id) => {
+    return dispatch => {
+        dispatch(updateInit());
+        axios.post(process.env.REACT_APP_API_URL + `/business/updWithoutImage/${id}`, business)
+            .then(_ => dispatch(updateEnd(business)))
+            .catch(_ => dispatch(updateEnd(business)))
+    }
+}
+
+export const updateFail = () => {
+    return {
+        type: actionTypes.UPDATE_FAIL
+    }
+}
+
+export const updateComplete = (updatedBusiness) => {
+    return {
+        type: actionTypes.UPDATE_COMPLETE,
+        updatedBusiness
+    }
+}
+
+export const updateBusiness = (business, id) => {
+
+    return dispatch => {
+        dispatch(updateInit());
+
+        axios.patch(process.env.REACT_APP_API_URL + `/business/update/${id}`, business)
+            .then(resp => {
+                if (resp.status === 200) dispatch(updateComplete(business))
+                else dispatch(updateFail())
+            }).catch(err => dispatch(updateFail()))
     }
 }

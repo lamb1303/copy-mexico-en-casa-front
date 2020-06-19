@@ -83,5 +83,9 @@ export {
     getPedidoPreparing,
     getPedidoReady,
     loadNegocio,
-    getNegocioDetails
+    getNegocioDetails,
+    cancelEdit,
+    EditBusinessWithPhoto,
+    EditBusinessWithoutPhoto,
+    updateBusiness,
 } from './negocio'
