@@ -6,9 +6,9 @@ export const getBusinesses = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/business/businesses`).then(
             response => {
                 const businesses = response.data.businesses
-            
-                const Updatedbusinesses = businesses.map((business,id) => {
-                    
+
+                const Updatedbusinesses = businesses.map((business, id) => {
+
                     const idBusiness = response.data.businesses[id].id
                     return {
                         key: idBusiness,
@@ -27,7 +27,7 @@ export const getBusinesses = () => {
                     }
                 }).reduce((arr, el) => {
                     return arr.concat(el)
-                }, []); 
+                }, []);
                 dispatch(getBusinessesSuccess(Updatedbusinesses))
             }
         ).catch(e => console.log(e))
@@ -214,4 +214,41 @@ export const checkout = (orderToSend) => {
                 dispatch(checkoutFail('CHECKOUT FALLO'))
             })
     }
+}
+
+export const getClientInit = () => {
+    return {
+        type: actionTypes.GET_CLIENT_INIT
+    }
+}
+
+export const getClientSuccess = (clientData) => {
+    return {
+        type: actionTypes.GET_CLIENT_SUCCESS,
+        client: clientData
+    }
+}
+
+export const getClientFail = () => {
+    return {
+        type: actionTypes.GET_CLIENT_FAIL
+    }
+}
+
+export const getClient = (clientId) => {
+    return dispatch => {
+        if (!clientId) return;
+        dispatch(getClientInit());
+
+        axios.get(process.env.REACT_APP_API_URL + `/client/getClient/${clientId}`)
+            .then(resp => {
+                if (!resp.data.client) dispatch(getClientFail());
+                dispatch(getClientSuccess(resp.data.client))
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(getClientFail());
+            })
+    }
+
 }

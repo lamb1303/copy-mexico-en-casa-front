@@ -52,7 +52,8 @@ export {
     BackToPayment,
     getBusinesses,
     clienteSelectedBusiness,
-    getSelectedBusiness
+    getSelectedBusiness,
+    getClient
 } from './cliente'
 
 export {

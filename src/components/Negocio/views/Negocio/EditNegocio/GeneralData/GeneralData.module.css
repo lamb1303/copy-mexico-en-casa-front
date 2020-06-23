@@ -69,7 +69,7 @@
     min-height: 70px;
 }
 
-input:focus, textarea:focus{
+.input input:focus, .input textarea:focus{
     outline: 0.8px solid rgb(8, 143, 206);
 }
 

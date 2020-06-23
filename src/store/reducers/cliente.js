@@ -119,13 +119,13 @@ const addOneToSelectedProduct = (state, action) => {
 
     const product = state.productCount.find(prod => prod.name === action.product);
     const productImg = action.img
-  
+
 
     //if the product exist in the list
     if (product) {
         console.log(product)
         //get all items but the one selected
-        let copy = state.productCount.filter(x => x.name !== action.product)        
+        let copy = state.productCount.filter(x => x.name !== action.product)
         //add 1 to the selected product
         // const newProduct = {
         //     ...product,
@@ -206,6 +206,25 @@ export const checkoutFail = (state, action) => {
     })
 }
 
+export const getClientInit = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+export const getClientSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: true,
+        cliente: action.client,
+    })
+}
+
+export const getClientFail = (state, action) => {
+    return updateObject(state, {
+        loading: false
+    })
+}
+
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.CLIENTE_CREAR_CUENTA: return crearCuenta(state, action);
@@ -228,6 +247,9 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.CHECKOUT_INIT: return checkoutInit(state, action);
         case actionTypes.CLIENTE_REGRESAR_OPCION_PAGO: return backToPayment(state, action);
         case actionTypes.CLIENTE_VER_NEGOCIOS: return getBusinessesSuccess(state, action);
+        case actionTypes.GET_CLIENT_INIT: return getClientInit(state, action);
+        case actionTypes.GET_CLIENT_SUCCESS: return getClientSuccess(state, action);
+        case actionTypes.GET_CLIENT_FAIL: return getClientFail(state, action);
         default: return state;
     }
 };

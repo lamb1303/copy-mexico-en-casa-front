@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 const ClientButtons = props => {
 
     const editMode = () => {
-        props.editMode();
+        if (!props.isClient) props.editMode();
         props.closeSidebar();
     }
 
@@ -19,7 +19,7 @@ const ClientButtons = props => {
                     <NavLink to='/pedidos'>Ver Pedidos</NavLink>}
             </Button>
             <Button btnType='Success' clicked={() => editMode()} >
-                {props.isClient ? <NavLink>Editar Perfil</NavLink> :
+                {props.isClient ? <NavLink to='/editClient' >Editar Perfil</NavLink> :
                     <NavLink to='/negocio'>Editar Perfil</NavLink>}
             </Button>
             <Button btnType='Success' >Ayuda</Button>
@@ -32,7 +32,7 @@ const ClientButtons = props => {
 
 const mapStateToProps = state => {
     return {
-        isClient: state.cliente.cliente
+        isClient: state.home.isCustomer
     }
 }
 

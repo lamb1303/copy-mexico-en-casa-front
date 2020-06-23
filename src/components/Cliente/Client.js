@@ -8,7 +8,8 @@ import * as action from '../../store/actions'
 class Client2 extends Component {
 
     componentDidMount() {
-        this.props.getBusinesses()
+        // this.props.getBusinesses()
+        this.props.getClient(this.props.id);
     }
 
     render() {
@@ -23,12 +24,14 @@ class Client2 extends Component {
 const mapStateToProps = state => {
     return {
         businesses: state.cliente.businesses,
+        id: state.home.id
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getBusinesses: () => dispatch(action.getBusinesses())
+        getBusinesses: () => dispatch(action.getBusinesses()),
+        getClient: (id) => dispatch(action.getClient(id))
     }
 }
 

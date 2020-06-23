@@ -1,0 +1,71 @@
+@import '../../../styles/Colors.scss';
+
+
+.editClient{
+    display: flex;
+    flex-direction: column;
+    top: 55px;
+    height: calc(100vh - 55px);
+    position: relative;
+}
+
+.clientDetails{
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    align-items: center;
+}
+
+.avatar{
+    height: 100px;
+    width: 90px;
+    border-radius: 50%;
+    background-color: $contrast-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.46);
+
+    & span {
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
+    }
+}
+
+.editClient form{
+    margin: 5% auto;
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    height: 100%;
+    align-items: center;
+    background-color: #ececec59;
+}
+
+.inputBox{
+    width: 100%;
+    margin-top: 4%;
+    padding-left: 5%;
+}
+
+.password{
+    font-size: 0.8rem;
+    color: $contrast-color;
+    text-decoration: underline;
+    width: 100%;
+}
+
+.buttons{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+
+    position: relative;
+
+    & button{
+        width: 40%;
+        margin: 10px auto;
+    }
+}
