@@ -13,6 +13,9 @@
 .Search_section svg:hover{
     transform: scale(1.5);
 }
+a{
+    text-decoration: none;
+}
 
 .Search_section {
     position: sticky;

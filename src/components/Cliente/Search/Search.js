@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactComponent as Lupa } from './lupa.svg';
 import classes from './Search.module.css';
 import TextField from '@material-ui/core/TextField';
@@ -10,18 +10,17 @@ import { NavLink } from 'react-router-dom';
 const Search = (props) => {
 
     const [businessDesc, typeBusiness] = useState("");
-    const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage] = useState(6)
-
-    const indexOfLastPost = currentPage * postsPerPage
-    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    // const [currentPage, setCurrentPage] = useState(1)
+    // const [postsPerPage] = useState(6)
+    // const indexOfLastPost = currentPage * postsPerPage
+    // const indexOfFirstPost = indexOfLastPost - postsPerPage
 
     const selectedBusiness = (business) => {
         localStorage.setItem("businessId", business.key)
         props.clienteSelectedBusiness(business)
     }
 
-    const businesses = Object.values(props.businesses).map(
+    let businesses = Object.values(props.businesses).map(
         business => {
 
             if (business.desc.includes(businessDesc)) {
@@ -44,16 +43,20 @@ const Search = (props) => {
                         rate={business.rate}
                         photoBusiness={business.photoBusiness}
                         desc={business.desc}
+                        distance={business.distance}
+                        horaAbierto={business.schedule.horaAbierto}
+                        horaCerrado={business.schedule.horaCerrado}
                     />
                 </NavLink>
             }
         }
-    ).slice(indexOfFirstPost, indexOfLastPost)
-
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber)
+    )
+    // const paginate = (pageNumber) => {
+    //     setCurrentPage(pageNumber)
+    // }
+    if (businesses.length === 0) {
+        businesses = <h4 style={{textAlign: "center"}}>Negocios fuera de tu locación</h4>
     }
-
     return (
         <>
             <div className={classes.Search_section} >
@@ -70,12 +73,13 @@ const Search = (props) => {
                 <Lupa />
             </div>
             <div className={classes.Search_container}>
-                {businesses}
+                {businesses &&
+                    businesses}
             </div>
-            <Pagination
+            {/* <Pagination
                 postPerPage={postsPerPage}
                 paginate={paginate}
-                totalPosts={props.businesses.length} />
+                totalPosts={props.businesses.length} /> */}
 
         </>
     )
@@ -83,7 +87,7 @@ const Search = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        clienteSelectedBusiness: (business) => dispatch(action.clienteSelectedBusiness(business))
+        clienteSelectedBusiness: (business) => dispatch(action.clienteSelectedBusiness(business)),
     }
 }
 

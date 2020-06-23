@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import Search from './Search/Search';
 import classes from './Client.module.css';
-import PlaceCards from './PlaceCards/PlaceCards';
 import { connect } from 'react-redux';
-import * as action from '../../store/actions'
+import * as action from '../../store/actions';
 
 class Client2 extends Component {
 
     componentDidMount() {
-        this.props.getBusinesses()
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => { 
+                this.lat = position.coords.latitude
+                this.lng = position.coords.longitude
+                this.props.getBusinesses(this.lat, this.lng)
+            })
+
+        } else {
+            console.log(alert("Error: Sin acceso a localizacion"))
+        }
+       
+
     }
 
     render() {
@@ -28,7 +39,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getBusinesses: () => dispatch(action.getBusinesses())
+        getBusinesses: (lat, lng) => dispatch(action.getBusinesses(lat, lng))
     }
 }
 
