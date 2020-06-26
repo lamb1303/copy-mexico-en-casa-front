@@ -140,6 +140,7 @@ const RegistroCliente = props => {
         if (props.geolocation) { setShowBackdrop(true); return }
         if (direction.value.length > 5) {
             const street = direction.value.trim().replace(/ /g, '+');
+            street.replace('#', '');
             axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
                 .then(resp => { //Tulipanes 342 Saltillo
                     console.log(resp.data.length)

@@ -53,7 +53,10 @@ export {
     getBusinesses,
     clienteSelectedBusiness,
     getSelectedBusiness,
-    getClient
+    getClient,
+    updateClient,
+    updateClientPassword,
+    setClientError
 } from './cliente'
 
 export {

@@ -14,7 +14,9 @@ const initialState = {
     deliver: null,
     payment: null,
     checkoutError: null,
-    businesses: {}
+    businesses: {},
+    updated: false,
+    updatedPsw: false,
 }
 
 const getBusinessesSuccess = (state, action) => {
@@ -214,14 +216,49 @@ export const getClientInit = (state, action) => {
 
 export const getClientSuccess = (state, action) => {
     return updateObject(state, {
-        loading: true,
+        loading: false,
+        updated: false,
         cliente: action.client,
+        updatedPsw: false,
+        error: false,
     })
 }
 
 export const getClientFail = (state, action) => {
     return updateObject(state, {
         loading: false
+    })
+}
+
+export const updateClientInit = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+export const updateClientSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        updated: true,
+    })
+}
+
+export const updateClientFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: true,
+    })
+}
+
+export const updatePassword = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        updatedPsw: true,
+    })
+}
+export const setClientError = (state, action) => {
+    return updateObject(state, {
+        error: false,
     })
 }
 
@@ -250,6 +287,11 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.GET_CLIENT_INIT: return getClientInit(state, action);
         case actionTypes.GET_CLIENT_SUCCESS: return getClientSuccess(state, action);
         case actionTypes.GET_CLIENT_FAIL: return getClientFail(state, action);
+        case actionTypes.UPDATE_CLIENT_INIT: return updateClientInit(state, action);
+        case actionTypes.UPDATE_CLIENT_SUCCESS: return updateClientSuccess(state, action);
+        case actionTypes.UPDATE_CLIENT_FAIL: return updateClientFail(state, action);
+        case actionTypes.UPDATE_CLIENT_PASSWORD: return updatePassword(state, action);
+        case actionTypes.SET_CLIENT_ERROR: return setClientError(state, action);
         default: return state;
     }
 };

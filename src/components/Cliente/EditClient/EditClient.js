@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
+import Spinner from '../../UI/Spinner/Spinner';
+import Backdrop from '../../UI/Backdrop/Backdrop';
+import Alert from '../../UI/Alert/Alert';
+import axios from '../../../axios';
 
 import ChangePassword from './ChangePassword/ChangePassword';
 
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import * as actions from '../../../store/actions';
 
 import classes from './EditClient.module.scss';
 
@@ -37,7 +42,7 @@ const EditClient = props => {
             touched: false,
             value: props.client.direccion,
             type: 'text',
-            placeholder: 'Dirección'
+            placeholder: 'Calle, Número, Ciudad, C.P. '
         },
         phone: {
             element: 'input',
@@ -53,13 +58,14 @@ const EditClient = props => {
             label: 'Referencia',
             isValid: props.client.reference ? true : false,
             touched: false,
-            value: props.client.reference,
+            value: props.client.reference ? props.client.reference : '',
             type: 'text',
             placeholder: 'Entre calle y calle, Color de casa...'
         },
     });
     const [cancelEdit, setCancelEdit] = useState(false);
     const [viewPassword, setViewPassword] = useState(false);
+    const [alert, setAlert] = useState({ message: '', show: false });
 
     const setValue = (input) => {
 
@@ -79,9 +85,109 @@ const EditClient = props => {
         setForm(newForm);
     }
 
+    const checkValidity = () => {
+        if (!form['name'].isValid) return false;
+        if (!form['lastName'].isValid) return false;
+        if (!form['direction'].isValid) return false;
+        if (!form['phone'].isValid) return false;
+        if (form['reference'].value !== '') {
+            if (!form['reference'].isValid) return false;
+        }
+        return true;
+    }
+
+    const checkChanges = async () => {
+        let reference = props.client.reference;
+        if (reference === undefined) reference = '';
+
+        if (props.client.name === form['name'].value &&
+            props.client.apellidos === form['lastName'].value &&
+            props.client.direccion === form['direction'].value &&
+            props.client.telefono === form['phone'].value &&
+            reference === form['reference'].value
+        ) return false;
+        return true;
+    }
+
+    const getLocationByBrowser = async () => {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+        }
+        navigator.geolocation.getCurrentPosition((coords) => {
+            return { lat: coords.coords.latitude, lng: coords.coords.longitude };
+        }, (err) => false, options);
+    }
+
+    const getLocation = async () => {
+        const street = form['direction'].value.trim().replace(/ /g, '+');
+        street.replace('#', '');
+        const resp = await axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
+            .then(resp => resp)
+            .catch(err => false);
+
+        if (!resp) {
+            const coords = await getLocationByBrowser();
+            return coords;
+        }
+
+        if (Object.keys(resp.data).length > 0) {
+            return {
+                lat: resp.data[0].lat,
+                lng: resp.data[0].lon
+            }
+        } else {
+            const coords = await getLocationByBrowser();
+            return coords;
+        }
+    }
+
+    const handleSaveButton = async () => {
+        const formIsValid = checkValidity();
+        if (!formIsValid) {
+            setAlert({ message: 'Por favor, revisa que tus datos sean correctos.', show: true });
+            return;
+        }
+
+        const hasChanges = await checkChanges();
+        if (!hasChanges) {
+            setCancelEdit(true);
+            return;
+        }
+
+        const location = await getLocation();
+
+        const client = {
+            name: form['name'].value,
+            apellidos: form['lastName'].value,
+            direccion: form['direction'].value,
+            telefono: form['phone'].value,
+            reference: form['reference'].value,
+            geolocation: location
+        }
+        props.updateClient(client, props.id);
+    }
+
+    const updatePasswordHandler = () => {
+        if (props.updatedPsw) {
+            setAlert({ message: 'Por favor, intentalo más tarde', show: true })
+            return;
+        }
+        setViewPassword(true);
+    }
+
+    if (alert.show) {
+        setTimeout(() => {
+            setAlert({ message: '', show: false })
+        }, 3000);
+    }
+
     return (
         <>
-            {viewPassword && <ChangePassword setView={() => setViewPassword(false)} />}
+            {alert.show && <Alert title='Warning' > {alert.message} </Alert>}
+            {props.updated && <Redirect to='/Cliente' />}
+            {props.loading && <> <Backdrop show={props.loading} /> <Spinner /> </>}
+            {(viewPassword && !props.updatedPsw) && <ChangePassword setView={() => setViewPassword(false)} />}
             {cancelEdit && <Redirect to='/Client' />}
             {!props.client ? <Redirect to='/Client' /> :
                 (
@@ -102,12 +208,12 @@ const EditClient = props => {
                                     )
                                 })}
                             </form>
-                            <div className={classes.password} onClick={() => setViewPassword(true)} >
+                            <div className={classes.password} onClick={() => updatePasswordHandler()} >
                                 cambiar contraseña
                             </div>
                         </div>
                         <div className={classes.buttons} >
-                            <Button btnType='Success' >GUARDAR</Button>
+                            <Button btnType='Success' clicked={() => handleSaveButton()} >GUARDAR</Button>
                             <Button btnType='Danger' clicked={() => setCancelEdit(true)} >CANCELAR</Button>
                         </div>
                     </div >
@@ -118,8 +224,18 @@ const EditClient = props => {
 
 const mapStateToProps = state => {
     return {
-        client: state.cliente.cliente
+        client: state.cliente.cliente,
+        id: state.home.id,
+        loading: state.cliente.loading,
+        updated: state.cliente.updated,
+        updatedPsw: state.cliente.updatedPsw,
     }
 }
 
-export default connect(mapStateToProps)(EditClient);
+const mapDispatchToProps = dispatch => {
+    return {
+        updateClient: (client, id) => dispatch(actions.updateClient(client, id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditClient);
