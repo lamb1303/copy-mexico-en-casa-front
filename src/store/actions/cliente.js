@@ -4,7 +4,7 @@ import axios from '../../axios';
 export const getBusinesses = (lat, lng) => {
 
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/business/businesses/${lat}/${lng}`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/customer/businesses/${lat}/${lng}`).then(
             response => {
                 const businesses = response.data.businesses
 
@@ -212,7 +212,7 @@ export const checkout = (orderToSend) => {
             stage: "receivedOrders"
         }
 
-        axios.post(`${process.env.REACT_APP_API_URL}/client/checkout`, order)
+        axios.post(`${process.env.REACT_APP_API_URL}/customer/checkout`, order)
             .then(resp => {
                 if (resp.data.message === 'Order received by Business') {
                     dispatch(checkoutComplete())
@@ -250,7 +250,7 @@ export const getClient = (clientId) => {
         if (!clientId) return;
         dispatch(getClientInit());
 
-        axios.get(process.env.REACT_APP_API_URL + `/client/getClient/${clientId}`)
+        axios.get(process.env.REACT_APP_API_URL + `/customer/getClient/${clientId}`)
             .then(resp => {
                 if (!resp.data.client) dispatch(getClientFail());
                 dispatch(getClientSuccess(resp.data.client))
@@ -292,7 +292,7 @@ export const updatePassword = () => {
 export const updateClient = (client, id) => {
     return dispatch => {
         dispatch(updateClientInit());
-        axios.patch(process.env.REACT_APP_API_URL + `/client/updateClient/${id}`, client)
+        axios.patch(process.env.REACT_APP_API_URL + `/customer/updateClient/${id}`, client)
             .then(_ => dispatch(updateClientSuccess()))
             .catch(err => {
                 console.log(err);

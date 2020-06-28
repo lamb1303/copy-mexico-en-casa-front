@@ -12,6 +12,7 @@ import EditProduct from './EditProduct/EditProduct';
 import AddProduct from './AddProduct/AddProduct';
 import AlertComponent from '../../../UI/Alert/Alert';
 
+const noImage = 'https://firebasestorage.googleapis.com/v0/b/catalogocovid2020.appspot.com/o/no_image_food.svg?alt=media&token=ad03d09e-b410-477c-b687-84b40c1aca27';
 
 const Negocio = props => {
 
@@ -144,15 +145,16 @@ const Negocio = props => {
                             <>
                                 {negocioInfo}
                                 <Products />
+                                {props.editMode && (
+                                    <div className={classes.save}>
+                                        <Button clicked={() => handleSave()} btnType='Success' >GUARDAR</Button>
+                                        <Button btnType='Success' ><NavLink to='/addProduct'>+</NavLink></Button>
+                                        <Button clicked={() => cancel()} btnType='Success' >CANCELAR</Button>
+                                    </div>)}
                             </>
                         ) : <Spinner />}
                     </div>
-                    {props.editMode && (
-                        <div className={classes.save}>
-                            <Button clicked={() => handleSave()} btnType='Success' >GUARDAR</Button>
-                            <Button btnType='Success' ><NavLink to='/addProduct'>+</NavLink></Button>
-                            <Button clicked={() => cancel()} btnType='Success' >CANCELAR</Button>
-                        </div>)}
+
 
                     {props.addProductClicked && (<AddProduct />)}
                     <div>

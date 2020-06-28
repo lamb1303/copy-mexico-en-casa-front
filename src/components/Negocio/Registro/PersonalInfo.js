@@ -70,7 +70,7 @@ const PersonalInfo = props => {
 
     let emailError = false;
     if (touched) {
-        emailError = /^\S+@\S+\.\S+$/.test(email);
+        emailError = /^(([^<>()[\].,;:\s@"]+(.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+.)+[^<>()[\].,;:\s@"]{2,})$/i.test(email);
     }
 
     let phoneError = false;
@@ -188,7 +188,7 @@ const PersonalInfo = props => {
     let formIsValid = false;
     if (nombre.length > 2
         && apellidos
-        && /^\S+@\S+\.\S+$/.test(email)
+        && /^(([^<>()[\].,;:\s@"]+(.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+.)+[^<>()[\].,;:\s@"]{2,})$/i.test(email)
         && (confirm === contra)
         && contra.length > 0
         && telefono.length >= 10) {

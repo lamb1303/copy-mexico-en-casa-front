@@ -33,25 +33,10 @@ const Products = props => {
                     id={prod.name}
                     name={prod.name}
                     img={prod.url}
-                    desc={prod.description}
+                    desc={prod.desc}
                     price={prod.price}
                 />
             }))
-
-                    return <Product
-                        key={prod.name}
-                        id={prod.name}
-                        name={prod.name}
-                        img={prod.url}
-                        desc={prod.desc}
-                        price={prod.price}
-                    />
-                }));
-    } else {
-        if (!props.products) products = productsEmpty
-        if (props.products.length < 1) products = productsEmpty
-    }
-
     return (
         <div className={classes.products}>
             {products}

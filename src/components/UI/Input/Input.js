@@ -7,7 +7,7 @@ const Input = props => {
         switch (type) {
             case 'text': return value.length > 5;
             case 'password': return value.length >= 8;
-            case 'email': return /^\S+@\S+\.\S+$/.test(value);
+            case 'email': return /^(([^<>()[\].,;:\s@"]+(.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+.)+[^<>()[\].,;:\s@"]{2,})$/i.test(value);
             case 'number': return value.length >= 10;
             default: return false;
         }

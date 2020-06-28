@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { ReactComponent as Lupa } from './lupa.svg';
 import classes from './Search.module.css';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import PlaceCard from '../PlaceCards/PlaceCard/PlaceCard';
-import Pagination from './Pagination/Pagination'
+// import Pagination from './Pagination/Pagination'
 import * as action from '../../../store/actions'
 import { NavLink } from 'react-router-dom';
 const Search = (props) => {
@@ -48,15 +48,17 @@ const Search = (props) => {
                         horaCerrado={business.schedule.horaCerrado}
                     />
                 </NavLink>
+            }else{
+                return <h4 style={{textAlign: "center"}}>Negocios fuera de tu locación</h4>
             }
         }
     )
     // const paginate = (pageNumber) => {
     //     setCurrentPage(pageNumber)
     // }
-    if (businesses.length === 0) {
-        businesses = <h4 style={{textAlign: "center"}}>Negocios fuera de tu locación</h4>
-    }
+    // if (businesses.length === 0) {
+    //     businesses = <h4 style={{textAlign: "center"}}>Negocios fuera de tu locación</h4>
+    // }
     return (
         <>
             <div className={classes.Search_section} >

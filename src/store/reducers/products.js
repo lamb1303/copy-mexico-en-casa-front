@@ -39,30 +39,46 @@ const addProduct = (state, action) => {
 }
 
 const updateProduct = (state, action) => {
-    return updateObject(state, {
-        message: action.message,
-        isEditAlert: action.isEditAlert,
-        alertType: action.alertType,
-        loading: action.loading,
-        editProductMode: false,
+    if (action.name !== null || action.name !== undefined) {
 
-    })
+        const productsToUpdate = state.products.filter(prod => prod.name !== action.name);
+
+        return updateObject(state, {
+            message: action.message,
+            isEditAlert: action.isEditAlert,
+            alertType: action.alertType,
+            loading: action.loading,
+            editProductMode: false,
+            products: productsToUpdate,
+        })
+        //Delete the product
+    } else {
+        //Update the product
+        return updateObject(state, {
+            message: action.message,
+            isEditAlert: action.isEditAlert,
+            alertType: action.alertType,
+            loading: action.loading,
+            editProductMode: false,
+        })
+    }
+
 }
 
 
 const updateAddProductAlert = (state, action) => {
-    return  updateObject(state, {
+    return updateObject(state, {
         isAlert: false,
     });
 }
 
 const closeEditProductAlert = (state, action) => {
-    return  updateObject(state, {
+    return updateObject(state, {
         isEditAlert: false,
     });
 }
 
-const errorMessageEditProductAlert= (state, action) => {
+const errorMessageEditProductAlert = (state, action) => {
     return updateObject(state, {
         message: action.message,
         isEditAlert: action.isEditAlert,
@@ -114,7 +130,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.CLOSE_EDIT_PRODUCT: return closeEditProduct(state, action);
         case actionTypes.CLOSE_EDIT_PRODUCT_ALERT: return closeEditProductAlert(state, action);
         case actionTypes.ERROR_MESSAGE_EDIT_PRODUCT_ALERT: return errorMessageEditProductAlert(state, action);
-        
+
         default: return state;
     }
 }

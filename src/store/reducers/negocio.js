@@ -396,8 +396,8 @@ const getNegocioDetailsSuccess = (state, action) => {
 
     return updateObject(state, {
         loading: false,
-        selectedNegocio: action.negocio.details,
-        products: action.negocio.products,
+        selectedNegocio: action.details,
+        products: action.products,
         updated: false
     })
 }

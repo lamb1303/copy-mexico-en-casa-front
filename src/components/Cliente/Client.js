@@ -41,7 +41,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getBusinesses: (lat, lng) => dispatch(action.getBusinesses(lat, lng))
+        getBusinesses: (lat, lng) => dispatch(action.getBusinesses(lat, lng)),
         getClient: (id) => dispatch(action.getClient(id))
     }
 }

@@ -114,7 +114,6 @@ export const empezarPedido = (checkedOrders) => {
             Object.keys(checkedOrders).forEach(order => {
                 orderIds.push(checkedOrders[order].orderId)
             })
-            console.log(orderIds);
             const orderId = {
                 orders: orderIds,
                 stage: 'prepareOrders'
@@ -286,7 +285,6 @@ export const getNegocioDetails = (id) => {
                     dispatch(getNegocioDetailsSuccess({ ...resp.data }))
                 })
                 .catch(err => {
-                    console.log(err)
                     dispatch(getNegocioDetailsFail())
                 })
         }
@@ -329,7 +327,6 @@ export const EditBusinessWithPhoto = (business, id) => {
             })
             .catch(err => {
                 dispatch(updateEnd(business))
-                console.log(err)
             })
     }
 }

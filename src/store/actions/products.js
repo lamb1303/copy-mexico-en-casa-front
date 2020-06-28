@@ -100,7 +100,7 @@ export const deleteProduct = (prodToDelete) => {
                 .then(response => {
                     const data = response.data;
                     if (response.status === 201) {
-                        dispatch(openAlert(data.message));
+                        dispatch(openAlert(data.message, prodToDelete.name));
                     }
 
                 })
@@ -163,13 +163,14 @@ const productAdded = (message) => {
     }
 }
 
-const openAlert = (message) => {
+const openAlert = (message, name) => {
     return {
         type: actionTypes.UPDATED_FOOD_PRODUCT,
         message: message,
         isEditAlert: true,
         alertType: alertTypes.success,
         loading: false,
+        name,
     }
 }
 

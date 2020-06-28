@@ -32,8 +32,6 @@ const Product = props => {
                 url: props.img,
             }
 
-            console.log(prodToDelete)
-
             props.deleteProduct(prodToDelete);
 
         }
