@@ -275,6 +275,13 @@ export const getNegocioDetailsFail = () => {
     }
 }
 
+const getProductsSuccess = (products) => {
+    return {
+        type: actionTypes.GET_ALL_PRODUCTS,
+        products: products
+    }
+}
+
 export const getNegocioDetails = (id) => {
     return dispatch => {
         dispatch(initGetNegocioDetails());
@@ -282,7 +289,9 @@ export const getNegocioDetails = (id) => {
         if (id !== null) {
             axios.get(process.env.REACT_APP_API_URL + `/business/getNegocio/${id}`)
                 .then(resp => {
+                    console.log(resp.data)
                     dispatch(getNegocioDetailsSuccess({ ...resp.data }))
+                    dispatch(getProductsSuccess(resp.data.products))
                 })
                 .catch(err => {
                     dispatch(getNegocioDetailsFail())
@@ -365,3 +374,4 @@ export const updateBusiness = (business, id) => {
             }).catch(err => dispatch(updateFail()))
     }
 }
+

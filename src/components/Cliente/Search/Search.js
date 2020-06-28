@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as Lupa } from './lupa.svg';
 import classes from './Search.module.css';
 import TextField from '@material-ui/core/TextField';
@@ -24,32 +24,31 @@ const Search = (props) => {
         business => {
 
             if (business.desc.includes(businessDesc)) {
-                return <NavLink
-
-                    onClick={() => selectedBusiness(business)}
-                    key={business.key}
-                    to={{
-                        pathname: "/VerNegocio",
-                        photoBusiness: business.photoBusiness
-                    }}>
-                    <PlaceCard
-                        key={business.key}
-                        businessId={business.key}
-                        name={business.name}
-                        isToGo={business.delivery.isToGo}
-                        isToTake={business.delivery.isToTake}
-                        cash={business.payment.cash}
-                        creditCard={business.payment.creditCard}
-                        rate={business.rate}
-                        photoBusiness={business.photoBusiness}
-                        desc={business.desc}
-                        distance={business.distance}
-                        horaAbierto={business.schedule.horaAbierto}
-                        horaCerrado={business.schedule.horaCerrado}
-                    />
-                </NavLink>
-            }else{
-                return <h4 style={{textAlign: "center"}}>Negocios fuera de tu locación</h4>
+                return <div key={business.key} className={classes.businessContainer} >
+                    <NavLink
+                        onClick={() => selectedBusiness(business)}
+                        to={{
+                            pathname: "/VerNegocio",
+                            photoBusiness: business.photoBusiness
+                        }}>
+                        <PlaceCard
+                            businessId={business.key}
+                            name={business.name}
+                            isToGo={business.delivery.isToGo}
+                            isToTake={business.delivery.isToTake}
+                            cash={business.payment.cash}
+                            creditCard={business.payment.creditCard}
+                            rate={business.rate}
+                            photoBusiness={business.photoBusiness}
+                            desc={business.desc}
+                            distance={business.distance}
+                            horaAbierto={business.schedule.horaAbierto}
+                            horaCerrado={business.schedule.horaCerrado}
+                        />
+                    </NavLink>
+                </div>
+            } else {
+                return <h4 style={{ textAlign: "center" }}>Negocios fuera de tu locación</h4>
             }
         }
     )

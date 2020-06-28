@@ -49,9 +49,17 @@
 .editIcon{
     max-width: 23px;
     max-height: 38px;
-    margin: auto 50px;
+    margin: 0;
+    // margin: auto 50px;
     //test
 
+}
+
+.icons{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 10px;
 }
 
 // .product_addToCar {

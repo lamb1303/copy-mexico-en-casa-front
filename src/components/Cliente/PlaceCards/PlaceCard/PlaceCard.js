@@ -36,7 +36,7 @@ const PlaceCard = (props) => {
                     <span className={classes.title} >{props.name.toUpperCase()}</span>
                     <p className={classes.description} >{props.desc}</p>
                     <div className={classes.stars} >{stars} </div>
-                    <span >A: {distance.toFixed(0)} mts.</span>
+                    <span className={classes.span} >A: {distance.toFixed(0)} mts.</span>
                     <span>
                         Horario: {horaAbierto} - {horaCerrado} hrs.
                         </span>

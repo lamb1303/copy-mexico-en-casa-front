@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
-import * as stageType from '../Util/enums/stageType';
+// import * as stageType from '../Util/enums/stageType';
 
 const initialState = {
     token: null,
@@ -19,159 +19,159 @@ const initialState = {
     updated: false,
     receivedOrders:
     {
-        cl1: {
-            stage: stageType.receivedOrders,
-            negocioId: 'ng1',
-            products: {
-                productId3: {
-                    name: 'Algo mas',
-                    amount: 2
-                },
-                productId1: {
-                    name: 'Amborguesa',
-                    amount: 2
-                },
-                productId2: {
-                    name: 'Taquitos',
-                    amount: 2
-                }
-            },
-            name: 'Shrek',
-            metodoEntrega: 'Local',
-            date: '2/5/2020 0:22:00',
-            clientId: 'cl1',
-            metodoPago: 'Efectivo',
-            orderId: '7f3bca28-3335-4176-92de-39139898b116',
-            checked: false
-        },
-        cl2: {
-            metodoPago: 'Efectivo',
-            stage: 'receivedOrders',
-            negocioId: 'ng1',
-            products: {
-                productId3: {
-                    amount: 2,
-                    name: 'Algo mas'
-                },
-                productId1: {
-                    name: 'Amborguesa',
-                    amount: 2
-                },
-                productId2: {
-                    name: 'Taquitos',
-                    amount: 2
-                }
-            },
-            name: 'Shrek',
-            metodoEntrega: 'Local',
-            date: '3/5/2020 14:54:17',
-            clientId: 'cl2',
-            orderId: '9c38168a-66e9-423c-bd08-d24801efb690',
-            checked: false
-        }
+        // cl1: {
+        //     stage: stageType.receivedOrders,
+        //     negocioId: 'ng1',
+        //     products: {
+        //         productId3: {
+        //             name: 'Algo mas',
+        //             amount: 2
+        //         },
+        //         productId1: {
+        //             name: 'Amborguesa',
+        //             amount: 2
+        //         },
+        //         productId2: {
+        //             name: 'Taquitos',
+        //             amount: 2
+        //         }
+        //     },
+        //     name: 'Shrek',
+        //     metodoEntrega: 'Local',
+        //     date: '2/5/2020 0:22:00',
+        //     clientId: 'cl1',
+        //     metodoPago: 'Efectivo',
+        //     orderId: '7f3bca28-3335-4176-92de-39139898b116',
+        //     checked: false
+        // },
+        // cl2: {
+        //     metodoPago: 'Efectivo',
+        //     stage: 'receivedOrders',
+        //     negocioId: 'ng1',
+        //     products: {
+        //         productId3: {
+        //             amount: 2,
+        //             name: 'Algo mas'
+        //         },
+        //         productId1: {
+        //             name: 'Amborguesa',
+        //             amount: 2
+        //         },
+        //         productId2: {
+        //             name: 'Taquitos',
+        //             amount: 2
+        //         }
+        //     },
+        //     name: 'Shrek',
+        //     metodoEntrega: 'Local',
+        //     date: '3/5/2020 14:54:17',
+        //     clientId: 'cl2',
+        //     orderId: '9c38168a-66e9-423c-bd08-d24801efb690',
+        //     checked: false
+        // }
     },
     prepareOrders: {},
     readyOrders: {
-        cl1: {
-            stage: 'readyOrders',
-            negocioId: 'ng1',
-            products: {
-                productId3: {
-                    name: 'Algo mas',
-                    amount: 2
-                },
-                productId1: {
-                    name: 'Amborguesa',
-                    amount: 2
-                },
-                productId2: {
-                    name: 'Taquitos',
-                    amount: 2
-                }
-            },
-            name: 'Shrek',
-            metodoEntrega: 'Local',
-            date: '2/5/2020 0:22:00',
-            clientId: 'cl1',
-            metodoPago: 'Efectivo',
-            orderId: '7f3bca28-3335-4176-92de-39139898b116',
-            checked: false
-        },
-        cl2: {
-            stage: 'readyOrders',
-            negocioId: 'ng1',
-            products: {
-                productId3: {
-                    name: 'Algo mas',
-                    amount: 2
-                },
-                productId1: {
-                    name: 'Amborguesa',
-                    amount: 2
-                },
-                productId2: {
-                    name: 'Taquitos',
-                    amount: 2
-                }
-            },
-            name: 'Shrek Tercero',
-            metodoEntrega: 'Local',
-            date: '2/5/2020 0:22:00',
-            clientId: 'cl2',
-            metodoPago: 'Efectivo',
-            orderId: '7f3bca28-3335-4176-92de-39139898b116',
-            checked: false
-        },
-        cl3: {
-            stage: 'readyOrders',
-            negocioId: 'ng1',
-            products: {
-                productId3: {
-                    name: 'Algo mas',
-                    amount: 2
-                },
-                productId1: {
-                    name: 'Amborguesa',
-                    amount: 2
-                },
-                productId2: {
-                    name: 'Taquitos',
-                    amount: 2
-                }
-            },
-            name: 'Shrek',
-            metodoEntrega: 'Local',
-            date: '2/5/2020 0:22:00',
-            clientId: 'cl1',
-            metodoPago: 'Efectivo',
-            orderId: '7f3bca28-3335-4176-92de-39139898b116',
-            checked: false
-        },
-        cl4: {
-            stage: 'readyOrders',
-            negocioId: 'ng1',
-            products: {
-                productId3: {
-                    name: 'Algo mas',
-                    amount: 2
-                },
-                productId1: {
-                    name: 'Amborguesa',
-                    amount: 2
-                },
-                productId2: {
-                    name: 'Taquitos',
-                    amount: 2
-                }
-            },
-            name: 'Shrek Tercero',
-            metodoEntrega: 'Local',
-            date: '2/5/2020 0:22:00',
-            clientId: 'cl2',
-            metodoPago: 'Efectivo',
-            orderId: '7f3bca28-3335-4176-92de-39139898b116',
-            checked: false
-        },
+        // cl1: {
+        //     stage: 'readyOrders',
+        //     negocioId: 'ng1',
+        //     products: {
+        //         productId3: {
+        //             name: 'Algo mas',
+        //             amount: 2
+        //         },
+        //         productId1: {
+        //             name: 'Amborguesa',
+        //             amount: 2
+        //         },
+        //         productId2: {
+        //             name: 'Taquitos',
+        //             amount: 2
+        //         }
+        //     },
+        //     name: 'Shrek',
+        //     metodoEntrega: 'Local',
+        //     date: '2/5/2020 0:22:00',
+        //     clientId: 'cl1',
+        //     metodoPago: 'Efectivo',
+        //     orderId: '7f3bca28-3335-4176-92de-39139898b116',
+        //     checked: false
+        // },
+        // cl2: {
+        //     stage: 'readyOrders',
+        //     negocioId: 'ng1',
+        //     products: {
+        //         productId3: {
+        //             name: 'Algo mas',
+        //             amount: 2
+        //         },
+        //         productId1: {
+        //             name: 'Amborguesa',
+        //             amount: 2
+        //         },
+        //         productId2: {
+        //             name: 'Taquitos',
+        //             amount: 2
+        //         }
+        //     },
+        //     name: 'Shrek Tercero',
+        //     metodoEntrega: 'Local',
+        //     date: '2/5/2020 0:22:00',
+        //     clientId: 'cl2',
+        //     metodoPago: 'Efectivo',
+        //     orderId: '7f3bca28-3335-4176-92de-39139898b116',
+        //     checked: false
+        // },
+        // cl3: {
+        //     stage: 'readyOrders',
+        //     negocioId: 'ng1',
+        //     products: {
+        //         productId3: {
+        //             name: 'Algo mas',
+        //             amount: 2
+        //         },
+        //         productId1: {
+        //             name: 'Amborguesa',
+        //             amount: 2
+        //         },
+        //         productId2: {
+        //             name: 'Taquitos',
+        //             amount: 2
+        //         }
+        //     },
+        //     name: 'Shrek',
+        //     metodoEntrega: 'Local',
+        //     date: '2/5/2020 0:22:00',
+        //     clientId: 'cl1',
+        //     metodoPago: 'Efectivo',
+        //     orderId: '7f3bca28-3335-4176-92de-39139898b116',
+        //     checked: false
+        // },
+        // cl4: {
+        //     stage: 'readyOrders',
+        //     negocioId: 'ng1',
+        //     products: {
+        //         productId3: {
+        //             name: 'Algo mas',
+        //             amount: 2
+        //         },
+        //         productId1: {
+        //             name: 'Amborguesa',
+        //             amount: 2
+        //         },
+        //         productId2: {
+        //             name: 'Taquitos',
+        //             amount: 2
+        //         }
+        //     },
+        //     name: 'Shrek Tercero',
+        //     metodoEntrega: 'Local',
+        //     date: '2/5/2020 0:22:00',
+        //     clientId: 'cl2',
+        //     metodoPago: 'Efectivo',
+        //     orderId: '7f3bca28-3335-4176-92de-39139898b116',
+        //     checked: false
+        // },
     },
     checkedOrders: {},
     checkedPrepare: {}
@@ -397,7 +397,7 @@ const getNegocioDetailsSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
         selectedNegocio: action.details,
-        products: action.products,
+        // products: action.products,
         updated: false
     })
 }
@@ -452,7 +452,6 @@ const updateFail = (state, action) => {
         loading: false,
     })
 }
-
 
 const updateComplete = (state, action) => {
     return updateObject(state, {

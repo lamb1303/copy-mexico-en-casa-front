@@ -14,18 +14,22 @@ const ClientButtons = props => {
 
     return (
         <div className={classes.Buttons}>
-            <Button btnType='Success' clicked={() => props.closeSidebar()} >
+            {/* <Button btnType='Success' clicked={() => props.closeSidebar()} >
                 {props.isClient ? <NavLink to='/client'>Ver Pedidos</NavLink> :
                     <NavLink to='/pedidos'>Ver Pedidos</NavLink>}
-            </Button>
-            <Button btnType='Success' clicked={() => editMode()} >
-                {props.isClient ? <NavLink to='/editClient' >Editar Perfil</NavLink> :
-                    <NavLink to='/negocio'>Editar Perfil</NavLink>}
-            </Button>
-            <Button btnType='Success' >Ayuda</Button>
-            <Button btnType='Success' clicked={() => props.logOut()} >
-                <NavLink to='/Home' >Salir</NavLink>
-            </Button>
+            </Button> */}
+            <NavLink to={props.isClient ? '/editClient' : '/negocio'}>
+                <Button btnType='Success' clicked={() => editMode()} >
+                    Editar Perfil
+                </Button>
+            </NavLink>
+            {/* <Button btnType='Success' >Ayuda</Button> */}
+            <NavLink to='/Home' >
+                <Button btnType='Success' clicked={() => props.logOut()} >
+                    Salir
+                </Button>
+            </NavLink>
+
         </div>
     )
 }

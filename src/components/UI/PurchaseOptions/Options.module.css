@@ -8,7 +8,7 @@
 
 .delivery, .pay{
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
 }
 
 .pay svg, .delivery svg{

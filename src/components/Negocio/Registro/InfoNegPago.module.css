@@ -77,12 +77,9 @@
 .aviso{
     display: flex;
     color: white;
-    left: 5%;
     padding-left: 5%;
     margin: 3% 0;
-    position: relative;
     width: 80vw;
-    top: -2%;
 }
 
 .privacidad{

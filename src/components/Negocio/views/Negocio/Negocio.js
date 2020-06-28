@@ -4,6 +4,7 @@ import Products from './Products/Products';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Settings } from '../../../../assets/settings.svg'
+import { ReactComponent as Add } from '../../../../assets/add.svg'
 import Button from '../../../UI/Button/Button';
 import Spinner from '../../../UI/Spinner/Spinner';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
@@ -148,7 +149,8 @@ const Negocio = props => {
                                 {props.editMode && (
                                     <div className={classes.save}>
                                         <Button clicked={() => handleSave()} btnType='Success' >GUARDAR</Button>
-                                        <Button btnType='Success' ><NavLink to='/addProduct'>+</NavLink></Button>
+                                        <NavLink to='/addProduct'><Add /></NavLink>
+                                        {/* <NavLink to='/addProduct'> <Button btnType='Success' >+</Button> </NavLink> */}
                                         <Button clicked={() => cancel()} btnType='Success' >CANCELAR</Button>
                                     </div>)}
                             </>

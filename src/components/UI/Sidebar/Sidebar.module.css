@@ -22,11 +22,11 @@
 }
 
 .slide_out {
-    transform: translateX(-360px);
+    transform: translateX(-1000px);
 }
 
-@media only screen and (min-width: 900px){
+/* @media only screen and (min-width: 900px){
     .slide_out {
         transform: translateX(-600px);
     }
-}
+} */

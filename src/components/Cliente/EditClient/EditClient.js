@@ -126,7 +126,8 @@ const EditClient = props => {
             .then(resp => resp)
             .catch(err => false);
 
-        if (!resp) {
+        if (Object.keys(resp.data).length > 100) {
+            console.log('Search by browser');
             const coords = await getLocationByBrowser();
             return coords;
         }
@@ -156,7 +157,7 @@ const EditClient = props => {
         }
 
         const location = await getLocation();
-
+        console.log(location);
         const client = {
             name: form['name'].value,
             apellidos: form['lastName'].value,

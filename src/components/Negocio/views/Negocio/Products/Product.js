@@ -50,7 +50,7 @@ const Product = props => {
                         </div>
                     </div>
                     {props.editMode &&
-                        <div>
+                        <div className={classes.icons} >
                             <Edit onClick={() => editProduct()} className={classes.editIcon} />
                             <Delete onClick={() => deleteProduct()} className={classes.editIcon} />
                         </div>

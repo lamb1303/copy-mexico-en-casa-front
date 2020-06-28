@@ -35,7 +35,7 @@ class Client2 extends Component {
 const mapStateToProps = state => {
     return {
         businesses: state.cliente.businesses,
-        id: state.home.id
+        id: state.home.id,
     }
 }
 

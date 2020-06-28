@@ -27,7 +27,6 @@ const Product = props => {
 
     return (
         <Fragment>
-            <hr />
             <div className={classes.product} >
                 <div className={[classes.showedOptions, classes[showed_Prod]].join(' ')} >
                     <img className={classes.product_image} src={props.img} alt={`imagen de ${props.name}`} />
