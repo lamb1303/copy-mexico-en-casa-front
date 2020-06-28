@@ -6,9 +6,12 @@ const initialState = {
     loading: false,
     isProductAdded: false,
     isAlert: false,
+    isEditAlert: false,
     alertType: '',
     message: "",
-    products: []
+    editProductMode: false,
+    selectedProduct: null,
+    products: [],
 }
 
 
@@ -35,10 +38,50 @@ const addProduct = (state, action) => {
     })
 }
 
+const updateProduct = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isEditAlert: action.isEditAlert,
+        alertType: action.alertType,
+        loading: action.loading,
+        editProductMode: false,
+
+    })
+}
+
+
 const updateAddProductAlert = (state, action) => {
     return  updateObject(state, {
         isAlert: false,
     });
+}
+
+const closeEditProductAlert = (state, action) => {
+    return  updateObject(state, {
+        isEditAlert: false,
+    });
+}
+
+const errorMessageEditProductAlert= (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isEditAlert: action.isEditAlert,
+        alertType: alertTypes.error,
+        loading: false,
+    });
+}
+
+const closeEditProduct = (state, action) => {
+    return updateObject(state, {
+        editProductMode: false
+    })
+}
+
+const openEditProduct = (state, action) => {
+    return updateObject(state, {
+        editProductMode: true,
+        selectedProduct: action.prodToEdit
+    })
 }
 
 const message = (state, action) => {
@@ -66,6 +109,12 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_ALL_PRODUCTS: return getProductsSuccess(state, action);
         case actionTypes.ADD_PRODUCT_SHOW_MESSAGE: return message(state, action);
         case actionTypes.CHANGE_IS_PRODUCT_ADDED: return changeIsProductAdded(state, action);
+        case actionTypes.UPDATED_FOOD_PRODUCT: return updateProduct(state, action);
+        case actionTypes.OPEN_EDIT_PRODUCT: return openEditProduct(state, action);
+        case actionTypes.CLOSE_EDIT_PRODUCT: return closeEditProduct(state, action);
+        case actionTypes.CLOSE_EDIT_PRODUCT_ALERT: return closeEditProductAlert(state, action);
+        case actionTypes.ERROR_MESSAGE_EDIT_PRODUCT_ALERT: return errorMessageEditProductAlert(state, action);
+        
         default: return state;
     }
 }

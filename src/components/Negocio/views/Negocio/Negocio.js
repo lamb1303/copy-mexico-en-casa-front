@@ -10,8 +10,8 @@ import Backdrop from '../../../UI/Backdrop/Backdrop';
 import * as actions from '../../../../store/actions';
 import EditProduct from './EditProduct/EditProduct';
 import AddProduct from './AddProduct/AddProduct';
+import AlertComponent from '../../../UI/Alert/Alert';
 
-const noImage = 'https://firebasestorage.googleapis.com/v0/b/catalogocovid2020.appspot.com/o/no_image_food.svg?alt=media&token=ad03d09e-b410-477c-b687-84b40c1aca27';
 
 const Negocio = props => {
 
@@ -55,7 +55,7 @@ const Negocio = props => {
     }
 
     const getNegocio = useCallback(() => {
-        getNegocioDetails(id)
+        getNegocioDetails(id);
     }, [getNegocioDetails, id])
 
     useEffect(() => {
@@ -155,6 +155,15 @@ const Negocio = props => {
                         </div>)}
 
                     {props.addProductClicked && (<AddProduct />)}
+                    <div>
+                        {props.isAlert &&
+                            <AlertComponent
+                                title={props.alertType}
+                                isActive={props.isAlert}
+                                closeAlert={() => props.closeEditProductAlert()}>
+                                {props.message}
+                            </AlertComponent>}
+                    </div>
                 </Fragment>
             )}
         </Fragment>
@@ -165,11 +174,14 @@ const mapStateToProps = state => {
     return {
         editMode: state.negocio.editMode,
         selectedNegocio: state.negocio.selectedNegocio,
-        editProductMode: state.negocio.editProduct,
+        editProductMode: state.products.editProductMode,
         addProductClicked: state.negocio.addProductClicked,
         id: state.home.id,
+        customer: state.home.isCustomer,
         loading: state.negocio.loading,
-        customer: state.home.isCustomer
+        isAlert: state.products.isEditAlert,
+        alertType: state.products.alertType,
+        message: state.products.message,
     }
 }
 
@@ -177,9 +189,11 @@ const mapDispatchToProps = {
     closeEditMode: actions.closeEditMode,
     clickAddProduct: actions.clickAddProduct,
     getNegocioDetails: actions.getNegocioDetails,
-    cancelEdit: actions.cancelEdit,
+    getProducts: actions.getProducts,
+    closeEditProductAlert: actions.closeEditProductAlert,
     editBusinessWithoutPhoto: actions.EditBusinessWithoutPhoto,
     editBusinessWithPhoto: actions.EditBusinessWithPhoto,
+    cancelEdit: actions.cancelEdit,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Negocio); 
