@@ -11,6 +11,11 @@ const PlaceCard = (props) => {
     const creditCard = props.creditCard
     const rate = props.rate
     const imageUrl = props.photoBusiness
+    const distance = props.distance
+    const horaAbierto = props.horaAbierto
+    const horaCerrado = props.horaCerrado
+
+
 
     var tmpStar = [];
     for (var i = 0; i < rate; i++) {
@@ -31,6 +36,11 @@ const PlaceCard = (props) => {
                     <span className={classes.title} >{props.name.toUpperCase()}</span>
                     <p className={classes.description} >{props.desc}</p>
                     <div className={classes.stars} >{stars} </div>
+                    <span >A: {distance.toFixed(0)} mts.</span>
+                    <span>
+                        Horario: {horaAbierto} - {horaCerrado} hrs.
+                        </span>
+                    
                 </div>
                 <Options envio={isToGo, isToTake} cash={cash} creditCard={creditCard}/>
             </div>

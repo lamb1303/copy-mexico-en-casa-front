@@ -1,14 +1,15 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
 
-export const getBusinesses = () => {
+export const getBusinesses = (lat, lng) => {
+
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/business/businesses`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/business/businesses/${lat}/${lng}`).then(
             response => {
                 const businesses = response.data.businesses
-            
-                const Updatedbusinesses = businesses.map((business,id) => {
-                    
+
+                const Updatedbusinesses = businesses.map((business, id) => {
+
                     const idBusiness = response.data.businesses[id].id
                     return {
                         key: idBusiness,
@@ -22,13 +23,22 @@ export const getBusinesses = () => {
                             isToGo: business[idBusiness].delivery.isToGo,
                             isToTake: business[idBusiness].delivery.isToTake
                         },
+                        geolocation: {
+                            lat: business[idBusiness].geolocation.lat,
+                            lng: business[idBusiness].geolocation.lng
+                        },
                         rate: [business[idBusiness].rate],
-                        photoBusiness: business[idBusiness].photoBusiness
+                        photoBusiness: business[idBusiness].photoBusiness,
+                        distance: business[idBusiness].distance,
+                        schedule: {
+                            horaAbierto:  business[idBusiness].schedule.horaAbierto,
+                            horaCerrado:  business[idBusiness].schedule.horaCerrado
+                        }
                     }
                 }).reduce((arr, el) => {
                     return arr.concat(el)
-                }, []); 
-                dispatch(getBusinessesSuccess(Updatedbusinesses))
+                }, []);
+                dispatch(getBusinessesSuccess(Updatedbusinesses.sort((a, b) => a.distance - b.distance)))
             }
         ).catch(e => console.log(e))
     }

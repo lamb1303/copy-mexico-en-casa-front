@@ -9,6 +9,10 @@ import { connect } from 'react-redux';
 class Negocio extends Component {
 
     componentDidMount() {
+        
+        if (this.props.location.photoBusiness) {
+            localStorage.setItem("img", this.props.location.photoBusiness)
+        }
         if (localStorage.getItem("businessId")) {
             this.props.getProducts(localStorage.getItem("businessId"))
         }
@@ -20,10 +24,12 @@ class Negocio extends Component {
 
     componentWillUnmount() {
         localStorage.removeItem("businessId")
+        localStorage.removeItem("img")
     }
 
     render() {
-        const imageUrl = this.props.location.photoBusiness
+        const imageUrl = localStorage.getItem("img")
+       
         const products = Object.values(this.props.products)
             .map(prod => {
                 let selected = false
