@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import classes from './Product.module.scss';
 import { ReactComponent as Edit } from '../../../assets/edit.svg';
+import { ReactComponent as Delete } from '../../../assets/trash.svg'
 import { connect } from 'react-redux';
 import * as actions from '../../../../../store/actions';
 
@@ -22,6 +23,22 @@ const Product = props => {
         }
     }
 
+    const deleteProduct = () => {
+        if (window.confirm('¿Deseas eliminar este producto?')) {
+
+            const prodToDelete = {
+                idBusiness: props.idBusiness,
+                name: props.name,
+                url: props.img,
+            }
+
+            console.log(prodToDelete)
+
+            props.deleteProduct(prodToDelete);
+
+        }
+    }
+
     return (
         <Fragment>
             <hr />
@@ -34,7 +51,12 @@ const Product = props => {
                             ${props.price}
                         </div>
                     </div>
-                    {props.editMode && <Edit onClick={() => editProduct()} className={classes.editIcon} />}
+                    {props.editMode &&
+                        <div>
+                            <Edit onClick={() => editProduct()} className={classes.editIcon} />
+                            <Delete onClick={() => deleteProduct()} className={classes.editIcon} />
+                        </div>
+                    }
                 </div>
             </div>
         </Fragment>
@@ -44,13 +66,14 @@ const Product = props => {
 const mapStateToProps = state => {
     return {
         editMode: state.negocio.editMode,
+        idBusiness: state.home.id,
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        openEditProduct: (prodToEdit) => dispatch(actions.openEditProduct(prodToEdit))
-    }
+const mapDispatchToProps = {
+    openEditProduct: actions.openEditProduct,
+    deleteProduct: actions.deleteProduct,
+
 }
 
 

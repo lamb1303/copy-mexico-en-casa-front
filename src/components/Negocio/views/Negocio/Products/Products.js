@@ -1,38 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
+import * as actions from '../../../../../store/actions';
+
 import Product from './Product';
-import Button from '../../../../UI/Button/Button';
-import { NavLink } from 'react-router-dom';
 
 import classes from './Products.module.css';
 
 const Products = props => {
 
+    const { id, getProducts, editProductMode, isEditAlert } = props;
+
+    useEffect(() => {
+        if (id && !editProductMode && !isEditAlert) {
+            getProducts(id);
+        }
+    }, [id, getProducts, editProductMode, isEditAlert]);
+
     let products;
     const productsEmpty = (
         <div className={classes.emptyList} >
-            <span>AGREGAR NUEVO PLATILLO</span>
-            <Button btnType='Success' >
-                <NavLink to='/addProduct'>AGREGAR COMIDA</NavLink>
-            </Button>
+            <p>No hay platillos agregados</p>
         </div>
     )
 
-    if (!props.products) products = productsEmpty
-    if (props.products.length < 1) products = productsEmpty
-    else products = (
-        props.products && props.products
-            .map(prod => {
 
-                return <Product
-                    key={prod.name}
-                    id={prod.name}
-                    name={prod.name}
-                    img={prod.img}
-                    desc={prod.description}
-                    price={prod.price}
-                />
-            }))
+    if (props.products) {
+        products = (
+            props.products && props.products
+                .map(prod => {
+
+                    return <Product
+                        key={prod.name}
+                        id={prod.name}
+                        name={prod.name}
+                        img={prod.url}
+                        desc={prod.desc}
+                        price={prod.price}
+                    />
+                }));
+    } else {
+        if (!props.products) products = productsEmpty
+        if (props.products.length < 1) products = productsEmpty
+    }
 
     return (
         <div className={classes.products}>
@@ -43,8 +52,16 @@ const Products = props => {
 
 const mapStateToProps = state => {
     return {
-        products: state.products.products
+        products: state.products.products,
+        id: state.home.id,
+        editProductMode: state.products.editProductMode,
+        isEditAlert: state.products.isEditAlert,
+
     }
 }
 
-export default connect(mapStateToProps)(Products);
+const mapDispatchToProps = {
+    getProducts: actions.getProducts,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

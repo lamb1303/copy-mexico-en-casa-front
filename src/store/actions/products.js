@@ -5,7 +5,7 @@ import * as alertTypes from '../Util/enums/alertTypes';
 
 export const getProducts = (id) => {
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts/${id}`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/product/getProducts/${id}`).then(
             response => {
                 const products = response.data.products
                 const updatedProducts = Object.keys(products).map(
@@ -15,7 +15,7 @@ export const getProducts = (id) => {
                                 key: igKey,
                                 name: field.name,
                                 price: field.price,
-                                description: field.description,
+                                desc: field.desc,
                                 url: field.url
                             }
                         })
@@ -41,7 +41,7 @@ export const addProduct = (formData) => {
         dispatch(initializeRequest());
         if (formData) {
 
-            axios.post(`${process.env.REACT_APP_API_URL}/products/addProduct`, formData, createHeaders({
+            axios.post(`${process.env.REACT_APP_API_URL}/product/addProduct`, formData, createHeaders({
                 'content-type': `multipart/form-data  boundary=${formData._boundary}`
             }))
                 .then(response => {
@@ -61,6 +61,61 @@ export const addProduct = (formData) => {
         }
 
     }
+}
+
+export const updateProduct = (id, formData) => {
+    return dispatch => {
+        if (formData) {
+            dispatch(initializeRequest());
+            axios.patch(`${process.env.REACT_APP_API_URL}/product/updateProduct/${id}`, formData,
+                createHeaders({
+                    'content-type': `multipart/form-data  boundary=${formData._boundary}`
+                }
+                ))
+                .then(response => {
+                    const data = response.data;
+                    if (response.status === 201) {
+                        dispatch(openAlert(data.message));
+                    }
+                })
+                .catch(error => {
+                    if (error.response) {
+                        dispatch(errorMessageEditProductAlert(error.response.data.message));
+                        if (error.response.status === 403) {
+                            setTimeout(
+                                () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
+                        }
+                    }
+                });
+        }
+
+    }
+}
+
+export const deleteProduct = (prodToDelete) => {
+    return dispatch => {
+        if (prodToDelete) {
+            axios.delete(`${process.env.REACT_APP_API_URL}/product/deleteProduct/`,
+                { data: { ...prodToDelete } }, createHeaders())
+                .then(response => {
+                    const data = response.data;
+                    if (response.status === 201) {
+                        dispatch(openAlert(data.message));
+                    }
+
+                })
+                .catch(error => {
+                    if (error.response) {
+                        dispatch(errorMessageEditProductAlert(error.response.data.message));
+                        if (error.response.status === 403) {
+                            setTimeout(
+                                () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
+                        }
+                    }
+                })
+        }
+    }
+
 }
 
 export const accessDeny = (message) => {
@@ -104,6 +159,32 @@ const productAdded = (message) => {
         isAlert: true,
         alertType: alertTypes.success,
         isProductAdded: true,
+        loading: false,
+    }
+}
+
+const openAlert = (message) => {
+    return {
+        type: actionTypes.UPDATED_FOOD_PRODUCT,
+        message: message,
+        isEditAlert: true,
+        alertType: alertTypes.success,
+        loading: false,
+    }
+}
+
+export const closeEditProductAlert = () => {
+    return {
+        type: actionTypes.CLOSE_EDIT_PRODUCT_ALERT,
+    }
+}
+
+export const errorMessageEditProductAlert = (message) => {
+    return {
+        type: actionTypes.ERROR_MESSAGE_EDIT_PRODUCT_ALERT,
+        message: message,
+        alertType: alertTypes.warning,
+        isEditAlert: true,
         loading: false,
     }
 }

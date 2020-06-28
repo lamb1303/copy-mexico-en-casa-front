@@ -24,7 +24,7 @@ const Home = props => {
         if (email && password) {
             setEmailRequired("");
             setPasswordRequired("");
-            if (email.includes("@")) {
+            if (/^\S+@\S+\.\S+$/.test(email)) {
                 credentials = {
                     email: email,
                     password: password

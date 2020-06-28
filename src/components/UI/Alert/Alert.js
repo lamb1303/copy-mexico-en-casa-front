@@ -16,7 +16,6 @@ const AlertComponent = props => {
     const { closeAlert, isActive } = props
 
     useEffect(() => {
-        console.log("alert in alert"+isActive);
         if (isActive) {
             setTimeout(() => closeAlert(), 3000)
         }

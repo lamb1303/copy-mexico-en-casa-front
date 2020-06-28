@@ -61,6 +61,10 @@ export {
     updateAddProductAlert,
     accessDeny,
     changeIsProductAdded,
+    updateProduct,
+    closeEditProductAlert,
+    errorMessageEditProductAlert,
+    deleteProduct,
 } from './products'
 
 export {

@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from 'react';
-import Backdrop from '../../../../UI/Backdrop/Backdrop';
 import { connect } from 'react-redux';
 import * as actions from '../../../../../store/actions';
+
+import { loadForm } from '../../../../../store/utility'
+import { TextField, InputAdornment } from '@material-ui/core';
+import Spinner from '../../../../UI/Spinner/Spinner';
+import Backdrop from '../../../../UI/Backdrop/Backdrop';
 import Button from '../../../../UI/Button/Button';
 import ImageUpload from '../../../../UI/ImageUpload/ImageUpload';
 
@@ -9,19 +13,25 @@ import classes from './EditProduct.module.scss';
 
 const EditProduct = props => {
 
-    const [title, setTitle] = useState(props.selectedProduct.name)
+    const [foodName, setFoodName] = useState(props.selectedProduct.name)
     const [selectedImage, setSelectedImage] = useState(props.selectedProduct.img)
-    const [description, setDescription] = useState(props.selectedProduct.desc)
+    const [desc, setDesc] = useState(props.selectedProduct.desc)
     const [price, setPrice] = useState(props.selectedProduct.price)
     const [changed, setChanged] = useState(false);
 
+    const [foodNameError, setFoodNameError] = useState();
+    const [priceError, setPriceError] = useState();
+    const [descError, setDescError] = useState();
+
+    const originalNameProduct = props.selectedProduct.name;
+
     let header = (
         <Fragment>
-            <span className={classes.prodName} >{title}</span>
-            <div className={classes.imgProd}>
+            <div className={classes.viewImg}>
                 <img
+                    className={classes.viewImg}
                     src={selectedImage}
-                    alt={title}
+                    alt={foodName}
                 />
             </div>
         </Fragment>
@@ -29,8 +39,13 @@ const EditProduct = props => {
 
     let body = (
         <Fragment>
-            <p>{description}</p>
-            <span>${price}</span>
+            <div className={classes.prodInfo}>
+                <h1>{foodName}</h1>
+                <p>{desc}</p>
+                <div className={classes.priceFormat}>
+                    <span>${price}</span>
+                </div>
+            </div>
         </Fragment>
     );
 
@@ -41,47 +56,55 @@ const EditProduct = props => {
         }
     }
 
-    const handleTitle = (event) => {
-        setTitle(event.target.value);
+    const handleInput = (id, value) => {
         setChanged(true);
-    }
-    const handleDesc = (event) => {
-        setDescription(event.target.value);
-        setChanged(true);
-    }
-    const handlePrice = (event) => {
-        // if (event.target.value < 1) {
-        //     return;
-        // }
-        setPrice(event.target.value);
-        setChanged(true);
+        switch (id) {
+            case 'foodName':
+                value === "" ? setFoodNameError("Campo requerido") : setFoodNameError("");
+                setFoodName(value)
+                break;
+            case 'price':
+                if (value === "") {
+                    setPriceError("Campo requerido")
+                } else if (isNaN(value)) {
+                    setPriceError("Solo números")
+                } else if (value <= 0) {
+                    setPriceError("precio debe de ser mayor o igual a 0")
+                } else {
+                    setPriceError("")
+                };
+                setPrice(value)
+                break;
+            case 'desc':
+                value === "" ? setDescError("Campo requerido") : setDescError("");
+                setDesc(value)
+                break;
+            default: break;
+
+        }
     }
 
     const handleUpdate = () => {
         if (changed) {
             //spinner de haciendo update
-            if (isNaN(price)) {
-                //Message that price is not numerical
-                console.log('Price is not numeric');
-                return;
-            }
-            if (title !== '' && description !== '' && price > 0) {
-                //update the product
-                const newProduct = {
-                    name: title,
-                    description: description,
-                    price: price,
-                    img: selectedImage
-                };
-                console.log('update product');
-                console.log(newProduct)
-                props.closeEdit()
 
-            } else {
-                console.log('revisa tus entradas');
+            if (!foodNameError && !priceError && !descError) {
+                //update the product
+                const product = {
+                    idBusiness: props.id,
+                    originalNameProduct: originalNameProduct,
+                    name: foodName,
+                    desc: desc,
+                    price: price,
+                    file: selectedImage,
+                };
+
+                const formData = loadForm(product);
+                props.updateProduct(props.id, formData);
+                // props.closeEdit();
+
             }
         } else {
-            console.log('No changes detected');
             props.closeEdit()
         }
     }
@@ -89,31 +112,23 @@ const EditProduct = props => {
     const handleCloseEdit = () => {
         if (changed) {
             if (window.confirm('Guardar cambios antes de salir?')) {
-                console.log('handle update');
                 handleUpdate()
             } else {
-                console.log('Saliendo sin guardar');
                 props.closeEdit()
             }
         } else {
-            console.log('No changes detected');
             props.closeEdit()
         }
     }
 
     if (props.editMode) {
         header = (<Fragment>
-            <input
-                className={classes.editTitle}
-                value={title}
-                onChange={(event) => handleTitle(event)}
-            />
             <div className={classes.imgProd}>
                 <ImageUpload
-                    from='editProd'
+                    from={classes.imgProd}
                     center
                     id='image'
-                    btnType='Danger'
+                    btnType='Success'
                     onInput={(_, pickedFile, fileIsValid) => handleImage(pickedFile, fileIsValid)}
                     message='CAMBIAR IMAGEN'
                     img={selectedImage}
@@ -123,20 +138,50 @@ const EditProduct = props => {
 
         body = (
             <Fragment>
-                <textarea
-                    value={description}
-                    onChange={(event) => handleDesc(event)}
-                />
-                <div className={classes.changePrice}>
-                    <span>$</span>
-                    <input
-                        min='1'
-                        pattern="\d*"
-                        type='number'
+                <div className={classes.flexItems}>
+                    <TextField
+                        required
+                        name='nameFood'
+                        className={classes.editTitle}
+                        error={foodNameError ? true : false}
+                        value={foodName}
+                        onChange={(event) => handleInput("foodName", event.target.value)}
+                        label="Nombre"
+                        variant="outlined"
+                        helperText={foodNameError}
+                    />
+
+                    <TextField
+                        required
+                        name='price'
+                        className={classes.changePrice}
                         value={price}
-                        onChange={(event) => handlePrice(event)}
+                        error={priceError ? true : false}
+                        type='number'
+                        pattern="\d*"
+                        min='1'
+                        onChange={(event) => handleInput("price", event.target.value)}
+                        label="Precio"
+                        variant="outlined"
+                        helperText={priceError}
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                        }}
                     />
                 </div>
+                <TextField
+                    required
+                    name='desc'
+                    className={classes.textarea}
+                    multiline
+                    value={desc}
+                    error={descError ? true : false}
+                    onChange={(event) => handleInput("desc", event.target.value)}
+                    label="Descripción del platillo"
+                    rows={4}
+                    variant="outlined"
+                    helperText={descError}
+                />
             </Fragment>
         )
     }
@@ -145,6 +190,11 @@ const EditProduct = props => {
         <Fragment>
             <Backdrop show clicked={() => handleCloseEdit()} />
             <div className={classes.modal}>
+            {props.loading && (
+                <Fragment>
+                    <Backdrop show={true} />
+                    <Spinner />
+                </Fragment>)}
 
                 <div className={classes.header}>
                     {header}
@@ -166,15 +216,17 @@ const EditProduct = props => {
 const mapStateToProps = state => {
     return {
         editMode: state.negocio.editMode,
-        selectedProduct: state.negocio.selectedProduct,
-        showSidebar: state.negocio.showSidebar
+        selectedProduct: state.products.selectedProduct,
+        showSidebar: state.negocio.showSidebar,
+        id: state.home.id,
+        loading: state.products.loading,
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        closeEdit: () => dispatch(actions.closeEditProduct())
-    }
+const mapDispatchToProps = {
+    closeEdit: actions.closeEditProduct,
+    updateProduct: actions.updateProduct,
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProduct);

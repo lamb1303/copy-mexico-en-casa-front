@@ -9,13 +9,15 @@ import Spinner from '../../../UI/Spinner/Spinner';
 import * as actions from '../../../../store/actions';
 import EditProduct from './EditProduct/EditProduct';
 import AddProduct from './AddProduct/AddProduct';
+import AlertComponent from '../../../UI/Alert/Alert';
+
 
 const Negocio = props => {
 
     const { getNegocioDetails, id, customer } = props;
 
     const getNegocio = useCallback(() => {
-        getNegocioDetails(id)
+        getNegocioDetails(id);
     }, [getNegocioDetails, id])
 
     useEffect(() => {
@@ -65,6 +67,15 @@ const Negocio = props => {
                         </div>)}
 
                     {props.addProductClicked && (<AddProduct />)}
+                    <div>
+                        {props.isAlert &&
+                            <AlertComponent
+                                title={props.alertType}
+                                isActive={props.isAlert}
+                                closeAlert={() => props.closeEditProductAlert()}>
+                                {props.message}
+                            </AlertComponent>}
+                    </div>
                 </Fragment>
             )}
         </Fragment>
@@ -75,11 +86,14 @@ const mapStateToProps = state => {
     return {
         editMode: state.negocio.editMode,
         selectedNegocio: state.negocio.selectedNegocio,
-        editProductMode: state.negocio.editProduct,
+        editProductMode: state.products.editProductMode,
         addProductClicked: state.negocio.addProductClicked,
-        id: state.negocio.id,
+        id: state.home.id,
+        customer: state.home.isCustomer,
         loading: state.negocio.loading,
-        customer: state.home.isCustomer
+        isAlert: state.products.isEditAlert,
+        alertType: state.products.alertType,
+        message: state.products.message,
     }
 }
 
@@ -87,7 +101,9 @@ const mapDispatchToProps = {
     saveChanges: actions.saveChanges,
     closeEditMode: actions.closeEditMode,
     clickAddProduct: actions.clickAddProduct,
-    getNegocioDetails: actions.getNegocioDetails
+    getNegocioDetails: actions.getNegocioDetails,
+    getProducts: actions.getProducts,
+    closeEditProductAlert: actions.closeEditProductAlert,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Negocio); 

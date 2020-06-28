@@ -10,9 +10,7 @@ const initialState = {
     editMode: false,
     getPedidosloading: false,
     selectedNegocio: {},
-    editProduct: false,
     prodToEdit: null,
-    selectedProduct: null,
     orders: true,
     preparing: false,
     ready: false,
@@ -208,19 +206,6 @@ const openEditNegocio = (state, action) => {
 const closeEditNegocio = (state, action) => {
     return updateObject(state, {
         editMode: false
-    })
-}
-
-const closeEditProduct = (state, action) => {
-    return updateObject(state, {
-        editProduct: false
-    })
-}
-
-const openEditProduct = (state, action) => {
-    return updateObject(state, {
-        editProduct: true,
-        selectedProduct: action.prodToEdit
     })
 }
 
@@ -427,8 +412,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.CLOSE_EDIT_NEGOCIO: return closeEditNegocio(state, action);
         case actionTypes.EDIT_MODE: return changeEditMode(state, action);
         case actionTypes.SAVE_CHANGES: return saveChanges(state, action);
-        case actionTypes.OPEN_EDIT_PRODUCT: return openEditProduct(state, action);
-        case actionTypes.CLOSE_EDIT_PRODUCT: return closeEditProduct(state, action);
         case actionTypes.CLOSE_EDIT_MODE: return closeEditMode(state, action);
         case actionTypes.ORDERS_BUTTON_SELECTED: return orderButtonSelected(state, action);
         case actionTypes.PREPARE_BUTTON_SELECTED: return prepareButtonSelected(state, action);
