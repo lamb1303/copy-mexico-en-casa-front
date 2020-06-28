@@ -52,7 +52,11 @@ export {
     BackToPayment,
     getBusinesses,
     clienteSelectedBusiness,
-    getSelectedBusiness
+    getSelectedBusiness,
+    getClient,
+    updateClient,
+    updateClientPassword,
+    setClientError
 } from './cliente'
 
 export {
@@ -83,5 +87,9 @@ export {
     getPedidoPreparing,
     getPedidoReady,
     loadNegocio,
-    getNegocioDetails
+    getNegocioDetails,
+    cancelEdit,
+    EditBusinessWithPhoto,
+    EditBusinessWithoutPhoto,
+    updateBusiness,
 } from './negocio'

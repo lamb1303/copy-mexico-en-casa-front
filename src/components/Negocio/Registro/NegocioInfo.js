@@ -4,7 +4,7 @@ import Table from '../../UI/Table/Table';
 import Button from '../../UI/Button/Button';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 // import Map from '../../UI/Map/Map';
-import ShowMap from  '../../UI/ShowMap/ShowMap';
+import ShowMap from '../../UI/ShowMap/ShowMap';
 import Alert from '../../UI/Alert/Alert';
 import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
@@ -127,7 +127,7 @@ const NegocioInfo = props => {
         if (props.geolocation) { setShowBackdrop(true); return }
         if (direccion.length > 5) {
             const street = direccion.trim().replace(/ /g, '+');
-            console.log(street);
+            street.replace('#', '');
             axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
                 .then(resp => {
                     console.log(resp.data.length)

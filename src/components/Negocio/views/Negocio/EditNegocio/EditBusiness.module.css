@@ -1,0 +1,18 @@
+.editBusiness{
+    display: flex;
+    flex-direction: column;
+    top: 55px;
+    height: calc(100vh - 55px);
+    position: relative;
+    overflow-y: scroll;
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 15px;
+}
+
+.buttons button{
+    margin: 10% 5%;
+}

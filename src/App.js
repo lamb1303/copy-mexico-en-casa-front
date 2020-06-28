@@ -8,6 +8,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './components/UI/Header/Header';
 import Sidebar from './components/UI/Sidebar/Sidebar';
 import Client from './components/Cliente/Client';
+import EditClient from './components/Cliente/EditClient/EditClient';
 import Home from './components/Home/Home';
 import RegistroCliente from './components/Cliente/RegistroCliente/RegistroCliente'
 import ClientNegocio from './components/Cliente/Negocio/Negocio';
@@ -17,7 +18,7 @@ import Pedidos from './components/Negocio/views/Pedidos/Pedidos';
 import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct';
 import Spinner from './components/UI/Spinner/Spinner';
 import Backdrop from './components/UI/Backdrop/Backdrop';
-
+import EditBusiness from './components/Negocio/views/Negocio/EditNegocio/EditBusiness';
 
 let logoutTimer;
 
@@ -88,6 +89,7 @@ const App = (props) => {
             <Switch >
               <Route path='/Client' component={Client} />
               <Route path='/VerNegocio' component={ClientNegocio} />
+              <Route path='/editClient' component={EditClient} />
               <Route path='/Pedido' component={Pedido} />
               <Redirect to='/Client' />
             </Switch>
@@ -100,6 +102,7 @@ const App = (props) => {
               <Route path='/pedidos' component={Pedidos} />
               <Route path='/Negocio' component={Negocio} />
               <Route path='/addProduct' component={AddProduct} />
+              <Route path='/editBusiness' component={EditBusiness} />
               <Redirect to='/Negocio' />
 
             </Switch>

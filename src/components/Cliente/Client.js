@@ -20,6 +20,7 @@ class Client2 extends Component {
         }
        
 
+        this.props.getClient(this.props.id);
     }
 
     render() {
@@ -34,12 +35,14 @@ class Client2 extends Component {
 const mapStateToProps = state => {
     return {
         businesses: state.cliente.businesses,
+        id: state.home.id
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         getBusinesses: (lat, lng) => dispatch(action.getBusinesses(lat, lng))
+        getClient: (id) => dispatch(action.getClient(id))
     }
 }
 

@@ -225,3 +225,99 @@ export const checkout = (orderToSend) => {
             })
     }
 }
+
+export const getClientInit = () => {
+    return {
+        type: actionTypes.GET_CLIENT_INIT
+    }
+}
+
+export const getClientSuccess = (clientData) => {
+    return {
+        type: actionTypes.GET_CLIENT_SUCCESS,
+        client: clientData
+    }
+}
+
+export const getClientFail = () => {
+    return {
+        type: actionTypes.GET_CLIENT_FAIL
+    }
+}
+
+export const getClient = (clientId) => {
+    return dispatch => {
+        if (!clientId) return;
+        dispatch(getClientInit());
+
+        axios.get(process.env.REACT_APP_API_URL + `/client/getClient/${clientId}`)
+            .then(resp => {
+                if (!resp.data.client) dispatch(getClientFail());
+                dispatch(getClientSuccess(resp.data.client))
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(getClientFail());
+            })
+    }
+
+}
+
+
+export const updateClientInit = () => {
+    return {
+        type: actionTypes.UPDATE_CLIENT_INIT
+    }
+}
+
+export const updateClientFail = () => {
+    return {
+        type: actionTypes.UPDATE_CLIENT_FAIL
+    }
+}
+
+export const updateClientSuccess = () => {
+    return {
+        type: actionTypes.UPDATE_CLIENT_SUCCESS
+    }
+}
+
+export const updatePassword = () => {
+    return {
+        type: actionTypes.UPDATE_CLIENT_PASSWORD
+    }
+}
+
+
+export const updateClient = (client, id) => {
+    return dispatch => {
+        dispatch(updateClientInit());
+        axios.patch(process.env.REACT_APP_API_URL + `/client/updateClient/${id}`, client)
+            .then(_ => dispatch(updateClientSuccess()))
+            .catch(err => {
+                console.log(err);
+                dispatch(updateClientFail());
+            })
+    }
+}
+
+export const updateClientPassword = (newCredentials, id) => {
+    return dispatch => {
+        dispatch(updateClientInit());
+        setTimeout(() => {
+            dispatch(updateClientFail());
+        }, 1500)
+        // axios.patch(process.env.REACT_APP_API_URL + `/client/updatePassword/${id}`, newCredentials)
+        //     .then(_ => dispatch(updatePassword()))
+        //     .catch(err => {
+        //         console.log(err);
+        //         dispatch(updateClientFail());
+        //     })
+    }
+}
+
+export const setClientError = () => {
+    return {
+        type: actionTypes.SET_CLIENT_ERROR
+    }
+}

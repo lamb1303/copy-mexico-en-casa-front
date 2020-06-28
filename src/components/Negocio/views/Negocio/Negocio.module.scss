@@ -5,7 +5,6 @@
     flex-direction: column;
     top: 55px;
     height: calc(100vh - 120px);
-    // min-height: calc(100vh - 120px);
     position: relative;
     overflow-y: scroll;
 }
@@ -17,26 +16,68 @@
 .header {
     display: flex;
     justify-content: space-evenly;
-    padding: 7% 3%;
+    padding: 0 3%;
+    align-items: center;
+    margin: 5% 0;
 }
 
 .header p {
     box-sizing: border-box;
     padding: 10px;
     margin: 0;
+    border-radius: 7px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .header textarea {
     resize: none;
     width: 60%;
+    border: none;
+    height: 100px;
+    padding: 7px;
+    box-sizing: border-box;
+}
+
+.businessName{
+    width: 100%;
+    text-align: center;
+    font-size: 2.2rem;
+    margin: 10px 0;
+    color: $contrast-color;
+}
+
+.editBusinessName{
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.editBusinessName input{
+    font-size: 1.5rem;
+    border-radius: 6px;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    width: 80%;
+    box-sizing: border-box;
+}
+
+.editBusinessName svg{
+    height: 20px;
+    width: 20px;
 }
 
 .fotoNegocio {
     max-width: 100px;
-    max-height: 80px;
+    max-height: 100px;
     border-radius: 150px;
     border: 1px solid $primary-color;
     margin-right: 3%;
+    min-width: 100px;
+    min-height: 100px;
 }
 
 .camera {
@@ -59,12 +100,25 @@
 }
 
 .save button {
-    width: 30%;
-    height: 5rem;
-    margin: 2rem auto;
+    width: 45%;
+    margin: 10% 2%;
 }
 
 button a {
     text-decoration: none;
     color: white;
+}
+
+.save button:nth-child(2){
+    border-radius: 50%;
+    width: 12%;
+    height: 12%;
+}
+
+.textArea{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    min-height: 50px;
+    padding: 5px;
+    box-sizing: border-box;
 }

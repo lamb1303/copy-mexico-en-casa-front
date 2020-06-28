@@ -5,7 +5,7 @@
     flex-direction: column;
     background-color: #fff;
     width: 70vw;
-    height: 60vh;
+    height: 66vh;
     min-height: 432px;
     position: fixed;
     z-index: 120;
@@ -21,7 +21,7 @@
 .header{
     display: flex;
     flex-direction: column;
-    height: 40%;
+    height: 44%;
     border-bottom: 1px solid #ccc;
     padding-bottom: 5%;
 }
@@ -77,12 +77,14 @@
     text-align: center;
     font-size: 1.2rem;
     border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: none;
 }
 
 .imgProd button {
     margin: 0;
-    padding: 0;
-    width: 27vw;
+    padding: 3px;
+    width: 35vw;
     font-size: 0.7rem;
 }
 
@@ -94,6 +96,8 @@
     font-size: 1.1rem;
     resize: none;
     border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: none;
 }
 
 .changePrice{
@@ -118,4 +122,7 @@
     text-align: center;
     border-radius: 5px;
     margin: 0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: none;
+
 }
