@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Alert } from 'react';
 import Search from './Search/Search';
 import classes from './Client.module.css';
 import { connect } from 'react-redux';
@@ -13,6 +13,9 @@ class Client2 extends Component {
                 this.lat = position.coords.latitude
                 this.lng = position.coords.longitude
                 this.props.getBusinesses(this.lat, this.lng)
+            },
+            error => {
+                window.confirm(error.message);
             })
 
         } else {

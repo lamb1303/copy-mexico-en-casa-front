@@ -64,7 +64,7 @@
     margin: 5% 0;
 }
 
-.buttons button{
+.buttons button, .buttons a{
     margin: 0 5%;
     max-width: 185px;
 }

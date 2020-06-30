@@ -8,6 +8,7 @@ import * as actions from '../../../store/actions';
 
 import classes from './PersonalInfo.module.css';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -215,9 +216,11 @@ const PersonalInfo = props => {
                     <Button btnType='Success' disabled={!formIsValid} clicked={() => handleSuccess()} >
                         CONTINUAR
             </Button>
-                    <Button btnType='Danger' clicked={() => props.goToWelcome()} >
-                        CANCELAR
-            </Button>
+                    <NavLink  to='/Home'>
+                        <Button btnType='Danger' >
+                            CANCELAR
+                    </Button>
+                    </NavLink>
                 </div>
             </div>
         </Fragment>
@@ -234,7 +237,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        goToWelcome: () => dispatch(actions.goToWelcome()),
+        // goToWelcome: () => dispatch(actions.goToWelcome()),
         verifyEmailExist: (data) => dispatch(actions.verifyEmailExist(data))
     }
 }
