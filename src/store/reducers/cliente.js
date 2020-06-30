@@ -11,8 +11,6 @@ const initialState = {
     checkoutInit: false,
     orderPrice: 0,
     openOrder: false,
-    deliver: null,
-    payment: null,
     checkoutError: null,
     businesses: {}
 }
@@ -23,51 +21,6 @@ const getBusinessesSuccess = (state, action) => {
     })
 }
 
-const cancelOrder = (state, action) => {
-    return updateObject(state, {
-        deliver: null,
-        payment: null,
-        productCount: [],
-        orderPrice: 0,
-        openOrder: false
-    })
-}
-
-const backToDeliver = (state, action) => {
-    return updateObject(state, {
-        deliver: null
-    })
-}
-
-const backToPayment = (state, action) => {
-    return updateObject(state, {
-        payment: null
-    })
-}
-const cashPayment = (state, action) => {
-    return updateObject(state, {
-        payment: 'Efectivo'
-    })
-}
-
-const creditCardPayment = (state, action) => {
-    return updateObject(state, {
-        payment: 'Tarjeta'
-    })
-
-}
-
-const orderToGo = (state, action) => {
-    return updateObject(state, {
-        deliver: true
-    })
-}
-
-const orderToPickUp = (state, action) => {
-    return updateObject(state, {
-        deliver: false
-    })
-}
 const openOrderModal = (state, action) => {
     return updateObject(state, {
         openOrder: true
@@ -118,23 +71,15 @@ const closeSelectedProduct = (state, action) => {
 const addOneToSelectedProduct = (state, action) => {
 
     const product = state.productCount.find(prod => prod.name === action.product);
-    const productImg = action.img
-  
+
 
     //if the product exist in the list
     if (product) {
-        console.log(product)
-        //get all items but the one selected
-        let copy = state.productCount.filter(x => x.name !== action.product)        
-        //add 1 to the selected product
-        // const newProduct = {
-        //     ...product,
-        //     count: product.count + 1
-        // };
+        let copy = state.productCount.filter(x => x.name !== action.product)
 
         const newProduct = updateObject(product, {
-            count: product.count + 1,
-            img: productImg
+            amount: product.amount + 1,
+
         })
 
         //add into the items the product + 1
@@ -149,7 +94,7 @@ const addOneToSelectedProduct = (state, action) => {
     } else {
         const newProduct = {
             name: action.product,
-            count: 1,
+            amount: 1,
             img: action.img
         }
         const newPrice = state.orderPrice + action.price
@@ -157,7 +102,9 @@ const addOneToSelectedProduct = (state, action) => {
             productCount: [...state.productCount, newProduct],
             orderPrice: newPrice,
         })
+
     }
+
 }
 
 const delOneToSelectedProduct = (state, action) => {
@@ -172,7 +119,7 @@ const delOneToSelectedProduct = (state, action) => {
         //del 1 to the selected product
         const newProduct = {
             ...product,
-            count: product.count - 1
+            amount: product.amount - 1
         };
 
         //add into the items the product - 1
@@ -217,16 +164,9 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.DEL_ONE_TO_SELECTED_PRODUCT: return delOneToSelectedProduct(state, action);
         case actionTypes.CLIENTE_MODAL_ORDEN_ABRIR: return openOrderModal(state, action);
         case actionTypes.CLIENTE_MODAL_ORDEN_CERRAR: return closeOrderModal(state, action);
-        case actionTypes.CLIENTE_PEDIDO_CASA: return orderToGo(state, action);
-        case actionTypes.CLIENTE_PEDIDO_RECOGER: return orderToPickUp(state, action);
-        case actionTypes.CLIENTE_PAGO_EFECTIVO: return cashPayment(state, action);
-        case actionTypes.CLIENTE_PAGO_TARJETA: return creditCardPayment(state, action);
-        case actionTypes.CLIENTE_REGRESAR_OPCION_PEDIDO: return backToDeliver(state, action);
-        case actionTypes.CLIENTE_PEDIDO_CANCELAR: return cancelOrder(state, action);
         case actionTypes.CHECKOUT_COMPLETE: return checkoutComplete(state, action);
         case actionTypes.CHECKOUT_FAIL: return checkoutFail(state, action);
         case actionTypes.CHECKOUT_INIT: return checkoutInit(state, action);
-        case actionTypes.CLIENTE_REGRESAR_OPCION_PAGO: return backToPayment(state, action);
         case actionTypes.CLIENTE_VER_NEGOCIOS: return getBusinessesSuccess(state, action);
         default: return state;
     }

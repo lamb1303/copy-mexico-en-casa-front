@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as Lupa } from './lupa.svg';
 import classes from './Search.module.css';
 import TextField from '@material-ui/core/TextField';
@@ -30,14 +30,17 @@ const Search = (props) => {
                     key={business.key}
                     to={{
                         pathname: "/VerNegocio",
-                        photoBusiness: business.photoBusiness
+                        photoBusiness: business.photoBusiness,
+                        isToGo: business.delivery.isToGo,
+                        isToTake: business.delivery.isToTake,
+                        cash: business.payment.cash,
+                        creditCard: business.payment.creditCard
                     }}>
                     <PlaceCard
                         key={business.key}
                         businessId={business.key}
                         name={business.name}
                         isToGo={business.delivery.isToGo}
-                        isToTake={business.delivery.isToTake}
                         cash={business.payment.cash}
                         creditCard={business.payment.creditCard}
                         rate={business.rate}

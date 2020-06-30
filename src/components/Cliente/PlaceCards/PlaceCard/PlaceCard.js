@@ -1,12 +1,10 @@
 import React, { Fragment, Component } from 'react';
 import classes from './PlaceCard.module.css';
 import Options from '../../../UI/PurchaseOptions/Options';
-import { ReactComponent as Star } from '../../assets/star.svg';
-import { ReactComponent as EmptyStar } from '../../assets/emptyStar.svg';
+import { ReactComponent as Star } from '../../../../assets/cliente/star.svg';
 
 const PlaceCard = (props) => {
     const isToGo = props.isToGo
-    const isToTake = props.isToTake
     const cash = props.cash
     const creditCard = props.creditCard
     const rate = props.rate
@@ -14,8 +12,6 @@ const PlaceCard = (props) => {
     const distance = props.distance
     const horaAbierto = props.horaAbierto
     const horaCerrado = props.horaCerrado
-
-
 
     var tmpStar = [];
     for (var i = 0; i < rate; i++) {
@@ -42,7 +38,7 @@ const PlaceCard = (props) => {
                         </span>
                     
                 </div>
-                <Options envio={isToGo, isToTake} cash={cash} creditCard={creditCard}/>
+                <Options isToGo={isToGo} cash={cash} creditCard={creditCard}/>
             </div>
 
         </div >

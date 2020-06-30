@@ -12,7 +12,7 @@ const purchaseOptions = props => {
 
     return (<div className={classes.options} >
         <div className={classes.delivery} >
-            {props.envio ? <Domicilio />
+            {props.isToGo ? <Domicilio />
                 : <Local />}
         </div>
         <div className={classes.pay} >

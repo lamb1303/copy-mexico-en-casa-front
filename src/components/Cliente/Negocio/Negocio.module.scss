@@ -5,6 +5,9 @@
     height: calc(100vh - 127px);
     overflow-y: scroll;
     overflow-x: hidden;
+    animation-name: stretch;
+    animation-duration: .6s;
+    animation-timing-function: ease-out;
 }
 
 .negocio{
@@ -20,12 +23,16 @@
     width: 100%;
     max-height: 164px;
     object-fit: contain;
+    animation-name: stretch;
+    animation-duration: 2.1s;
+    animation-timing-function: ease-out;
 }
 
 .amount {
     color: $pink-color;
     margin: 3% auto;
     font-size: 2rem;
+    
 }
 
 .negocio hr {
@@ -38,4 +45,13 @@
     bottom: 16px;
     box-sizing: border-box;
     margin-left: 10%;
+}
+
+@keyframes stretch {
+    0% {
+        transform: scale(0.3);
+    }
+    39% {
+        transform: scale(1.00001);
+    }
 }

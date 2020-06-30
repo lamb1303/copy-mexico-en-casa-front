@@ -1,27 +1,43 @@
 @import "../../../../styles/Colors.scss";
+.margin {
+    margin-bottom: 0;
+}
+.left{
+    float: left;
+    width: 25%;
+    max-height: 100px;
+}
+.center{
+    float: left;
+    width: 50%;
+    max-height: 100px;
+    text-align: left;
+    margin-top: 5px;
+}
+.right{
+    float: right;
+    width: 25%;
+    max-height: 100px;
+
+}
 
 .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: auto;
     background-color: rgba(255, 255, 255, 0.883);
     justify-content: center;
     align-items: center;
     text-align: center;
-    z-index: 100;
+    z-index: 120;
     border-radius: 1.5rem;
-    width: 33em;
-    height: 33em;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden;
+    animation-name: stretch;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
 
     &_body {
-        position: relative;
-        display: flex;
-        width: 17em;
-        float: left;
-        padding: 3px;
     }
 
     &_price {
@@ -66,13 +82,6 @@
         border: 2px solid green;
     }
 }
-
-h4 {
-    margin-left: 1.5em;
-}
-h1 {
-    margin-left: -5.5em;
-}
 .centerInput input {
     height: 1.5em;
     width: 20em;
@@ -81,41 +90,57 @@ h1 {
 }
 
 @media only screen and (max-width: 1024px) {
-    .modal {
-        overflow-x: hidden;
-        overflow-y: scroll;
-        height: 27em;
+    // .modal {
+    //     overflow-x: hidden;
+    //     overflow-y: scroll;
+    //     height: 33em;
 
-        &_body {
-            position: relative;
-            display: flex;
-            width: 13em;
-            float: left;
-            padding: 3px;
-        }
+    //     &_body {
+    //         position: relative;
+    //         display: flex;
+    //         width: 13em;
+    //         float: left;
+    //         padding: 3px;
+    //     }
 
-        &_price {
-            position: relative;
-            display: flex;
-            width: 2em;
-            float: right;
-            padding: 3px;
-        }
-    }
+    //     &_price {
+    //         position: relative;
+    //         display: flex;
+    //         width: 2em;
+    //         float: right;
+    //         padding: 3px;
+    //     }
+    // }
 }
 
 @media (max-width: 500px) {
-    .modal {
-        width: 17em;
-        height: 33em;
-        &_deliver {
-            width: 7em;
-            float: left;
-        }
+    // .modal {
+    //     width: 18em;
 
-        &_noDeliver {
-            width: 7em;
-            float: right;
-        }
-    }
+    //     box-sizing: border-box;
+    //     padding: 15px;
+
+    //     &_deliver {
+    //         width: 7em;
+    //         float: left;
+    //     }
+    //     &_onlyDeliver {
+    //         width: 7em;
+    //         margin-left: 5em;
+    //     }
+
+    //     &_noDeliver {
+    //         width: 7em;
+    //         float: right;
+    //     }
+    // }
 }
+
+// @keyframes stretch {
+//     0% {
+//         transform: translate(-50%, -50%) scale(0.2);
+//     }
+//     100% {
+//         transform: translate(-50%, -50%) scale(2);
+//     }
+// }

@@ -8,21 +8,18 @@ export const getProducts = (id) => {
         axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts/${id}`).then(
             response => {
                 const products = response.data.products
-                const updatedProducts = Object.keys(products).map(
-                    igKey => {
-                        return [...Array(products[igKey])].map((field   , i) => {
-                            return {
-                                key: igKey,
-                                name: field.name,
-                                price: field.price,
-                                description: field.description,
-                                url: field.url
-                            }
-                        })
+                console.log(response)
+                const updatedProducts = (products.map(
+                    prod => {
+                        return {
+                            key: prod.name,
+                            name: prod.name,
+                            price: prod.price,
+                            desc: prod.desc,
+                            url: prod.url
+                        }
                     }
-                ).reduce((arr, el) => {
-                    return arr.concat(el)
-                }, []);
+                ))
                 dispatch(getProductsSuccess(updatedProducts))
             }
         ).catch(e => console.log(e))
@@ -47,7 +44,7 @@ export const addProduct = (foodProduct) => {
                     if (response.status === 201) {
                         dispatch(productAdded(data.message));
                     }
-                }).catch(error =>{
+                }).catch(error => {
                     error.response && (dispatch(message(error.response.data.message)));
                 });
         }
