@@ -1,5 +1,5 @@
 import React from 'react';
-import RegBienvenida from './RegBienvenida';
+// import RegBienvenida from './RegBienvenida';
 import { connect } from 'react-redux';
 import PersonalInfo from './PersonalInfo';
 import NegocioInfo from './NegocioInfo';
@@ -9,10 +9,8 @@ import classes from './RegistroNegocio.module.css';
 
 const RegistroNegocio = props => {
 
-    let stage = <RegBienvenida />;
-    if (props.personalInfo) {
-        stage = <PersonalInfo />
-    } else if (props.negocioInfo) {
+    let stage = <PersonalInfo />;
+    if (props.negocioInfo) {
         stage = <NegocioInfo />
     } else if (props.negocioFinal) {
         stage = <InfoNegPago />

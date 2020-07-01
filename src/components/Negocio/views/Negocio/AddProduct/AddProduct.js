@@ -74,7 +74,6 @@ const AddProduct = props => {
             }
 
             const formData = loadForm(foodProduct);
-
             props.addProduct(formData);
         }
     }

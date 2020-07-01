@@ -11,3 +11,12 @@
     color: white;
     display: flex;
 }
+
+@media only screen and (min-width: 550px) {
+    .Buttons{
+        margin-top: 0;
+        width: 60%;
+        height: 50%;
+        justify-content: center;
+    }   
+}

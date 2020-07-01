@@ -2,6 +2,8 @@ import React from 'react';
 import classes from './GeneralData.module.css';
 import { connect } from 'react-redux';
 
+const noImage = 'https://firebasestorage.googleapis.com/v0/b/catalogocovid2020.appspot.com/o/no_image_food.svg?alt=media&token=ad03d09e-b410-477c-b687-84b40c1aca27';
+
 const GeneralData = props => {
 
     const rules = (value, type) => {
@@ -38,7 +40,7 @@ const GeneralData = props => {
             <img
                 alt='Negocio'
                 className={classes.fotoNegocio}
-                src={props.selectedNegocio.photoBusiness}
+                src={props.selectedNegocio.photoBusiness !== 'empty' ? props.selectedNegocio.photoBusiness : noImage}
             />
             <div className={classes.form} >
                 <div className={classes.input} >

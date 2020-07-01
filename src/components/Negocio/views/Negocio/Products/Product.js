@@ -39,7 +39,7 @@ const Product = props => {
 
     return (
         <Fragment>
-            <hr />
+            {/* <hr /> */}
             <div className={classes.product} onClick={() => handleShowProduct()}>
                 <div className={classes.showedOptions} >
                     <img className={classes.product_image} src={props.img} alt={`imagen de ${props.name}`} />

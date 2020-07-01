@@ -1,5 +1,5 @@
 @import '../../../styles/Colors.scss';
- 
+
 .showMap button {
     z-index: 200;
     position: fixed;
@@ -26,6 +26,6 @@
     .showMap button {
         z-index: 121;
         margin: 5% auto;
-        background-color: $contrast-color;
+        background-color: $primary-color;
     }
 }

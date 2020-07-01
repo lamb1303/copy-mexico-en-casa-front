@@ -304,7 +304,7 @@ export const updateClient = (client, id) => {
 export const updateClientPassword = (newCredentials, id) => {
     return dispatch => {
         dispatch(updateClientInit());
-        axios.patch(process.env.REACT_APP_API_URL + `/client/updatePassword/${id}`, newCredentials)
+        axios.patch(process.env.REACT_APP_API_URL + `/customer/updatePassword/${id}`, newCredentials)
             .then(_ => dispatch(updatePassword()))
             .catch(err => {
                 console.log(err);

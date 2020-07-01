@@ -61,3 +61,11 @@
     transform: scale(1.0); 
   } 
 }
+
+@media only screen and (min-width: 550px) {
+  .spinner{
+    top: 40vh;
+    left: 40vw;
+    position: absolute;
+  }
+}

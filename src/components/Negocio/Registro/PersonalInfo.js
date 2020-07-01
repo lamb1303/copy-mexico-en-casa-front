@@ -8,6 +8,7 @@ import * as actions from '../../../store/actions';
 
 import classes from './PersonalInfo.module.css';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -27,6 +28,8 @@ const PersonalInfo = props => {
     const [nameTouched, setNameTouched] = useState(false);
     const [apellidoTouched, setApellidoTouched] = useState(false);
     const [contraTouched, setContraTouchedTouched] = useState(false);
+
+    const [cancel, setCancel] = useState(false);
 
     useEffect(() => {
         if (Object.keys(data).length !== 0) {
@@ -197,6 +200,7 @@ const PersonalInfo = props => {
 
     return (
         <Fragment>
+            {cancel && <Redirect to='/' />}
             {props.loading && <Backdrop show={props.loading} />}
             {props.loading && <Spinner />}
             {props.errorMessage.length > 0 && <Alert title='Error' clase={'personalInfo'} > {props.errorMessage} </Alert>}
@@ -214,10 +218,10 @@ const PersonalInfo = props => {
                 <div className={classes.buttons} >
                     <Button btnType='Success' disabled={!formIsValid} clicked={() => handleSuccess()} >
                         CONTINUAR
-            </Button>
-                    <Button btnType='Danger' clicked={() => props.goToWelcome()} >
+                    </Button>
+                    <Button btnType='Danger' clicked={() => setCancel(true)} >
                         CANCELAR
-            </Button>
+                    </Button>
                 </div>
             </div>
         </Fragment>
@@ -234,7 +238,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        goToWelcome: () => dispatch(actions.goToWelcome()),
+        // goToWelcome: () => dispatch(actions.goToWelcome()),
         verifyEmailExist: (data) => dispatch(actions.verifyEmailExist(data))
     }
 }
