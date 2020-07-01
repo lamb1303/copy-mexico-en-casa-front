@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 import './Alert.scss';
@@ -13,14 +13,23 @@ import './Alert.scss';
 
 
 const AlertComponent = props => {
-    const { closeAlert, isActive } = props
+    const { isActive, closeAlert } = props
+    const [isActived, setIsActived] = useState(isActive);
+
 
     useEffect(() => {
         if (isActive) {
-            setTimeout(() => closeAlert(), 3000)
+            setTimeout(() => {
+                if (isActived) {
+                    closeAlert();
+                }
+            }, 3000);
+            setIsActived(false);
         }
 
-    }, [closeAlert, isActive])
+
+    }, [setIsActived, isActived, isActive, closeAlert])
+
 
     return (
         < Alert className={`alert ${props.clase}`
