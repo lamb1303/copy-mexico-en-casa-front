@@ -1,173 +1,320 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '../../../UI/Button/Button';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
 import classes from './Pedido.module.scss'
 import * as actions from '../../../../store/actions';
-import { ReactComponent as Deliver } from './home.svg';
-import { ReactComponent as NoDeliver } from './noDeliver.svg';
-import { ReactComponent as Cash } from './commerce-and-shopping.svg';
-import { ReactComponent as CreditCard } from './business-and-finance.svg';
+import { ReactComponent as Deliver } from '../../../../assets/pedido/delivery.svg';
+import { ReactComponent as ToTake } from '../../../../assets/pedido/toTake.svg';
+import { ReactComponent as Cash } from '../../../../assets/pedido/commerce-and-shopping.svg';
+import { ReactComponent as CreditCard } from '../../../../assets/pedido/business-and-finance.svg';
 import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+
 
 const Pedido = props => {
-    const head = (
-        <>
-            <div >
-                <h2>VERIFICA TU ORDEN</h2>
-                <hr />
-                <h3>SUBTOTAL: ${props.total} </h3>
-                <hr />
-            </div>
-        </>
-    )
 
-    const enviarOrden = {
-        ...props.productCount,
-        deliver: props.deliver,
-        payment: props.payment,
-        total: props.total
+    useEffect(() => {
+        const geo = navigator.geolocation
+        if (!geo) {
+            setError('Geolocation is not supported')
+            return
+        }
+        const watcher = geo.getCurrentPosition(onChangePosition, onError)
+        return () => geo.clearWatch(watcher)
+
+    }, [])
+
+    const [envio, enviarPedido] = useState(null);
+    const [pagoEfectivo, pagoPedido] = useState(null);
+    const [iva, pagoEnvio] = useState(0);
+    const [coment, verComent] = useState(null);
+    const [ref, insrtRef] = useState("");
+    const [nota, insrtNota] = useState("");
+    const [position, setPosition] = useState({});
+    const [error, setError] = useState(null);
+    const date = new Date();
+
+    const onChangePosition = ({ coords }) => {
+        setPosition({
+            latitude: coords.latitude,
+            longitude: coords.longitude
+        })
     }
 
+    const onError = (error) => {
+        setError(error.message)
+    }
 
     const mostrarOrden = props.productCount.map(
         orden => {
+            if (orden.amount === 0) {
+                return null
+            }
             return (
+                <div key={orden.name} className={classes.row}>
+                    <div className={classes.column}>
+                        <img
+                            className={classes.pedidos_image}
+                            src={orden.img} alt={orden.name} />
+                    </div>
 
-                <div key={orden.name} >
-                    <div key={orden.name} className={classes.modal_body}>
-
-                        {/* <img className={classes.pedidos_image} src={imageUrl} alt={orden.name} /> */}
+                    <div className={classes.name}>
                         <h4>{orden.name} </h4>
-
                     </div>
-                    <div className={classes.modal_price} >
 
+                    <div className={classes.amount} >
                         <h4>
-                            {orden.count}
+                            {orden.amount}
                         </h4>
-
                     </div>
-                    <hr />
+
                 </div>
             )
         }
     )
 
-    const deliver = (
+    const metodoEntrega = (
+        <div style={{marginTop: "16px"}}>
+            {
+                (props.selectedNegocio.delivery.isToGo && props.selectedNegocio.delivery.isToTake) &&
+                <>
+                    <div className={classes.modal_deliver}>
+                        <Deliver
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                enviarPedido(true);
+                                pagoEnvio(35)
+                            }} />
+                        <h3>
+                            Pedido para Entregar
+                        </h3>
+                    </div>
+                    <div className={classes.modal_noDeliver}>
+                        <ToTake
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                enviarPedido(false);
+                                pagoEnvio(0)
+                            }} />
+                        <h3>
+                            Pedido para Recoger
+                        </h3>
+                    </div>
+                </>
+            }
+            {
+                (props.selectedNegocio.delivery.isToGo && !props.selectedNegocio.delivery.isToTake) &&
+                <div className={classes.modal_onlyDeliver}>
+                    <Deliver
+                        className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                        onClick={() => {
+                            enviarPedido(true);
+                            pagoEnvio(35)
+                        }} />
+                    <h3>
+                        Pedido para Entregar
+                        </h3>
+                </div>
+
+            }
+            {
+                (props.selectedNegocio.delivery.isToTake && !props.selectedNegocio.delivery.isToGo) &&
+                <div className={classes.modal_onlyDeliver}>
+                    <ToTake
+                        className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                        onClick={() => enviarPedido(false)} />
+                    <h3>
+                        Pedido para Recoger
+                        </h3>
+                </div>
+            }
+
+        </div>
+    )
+
+    const payment = (
         <>
-            <div>
-                <div>
-                    <h2>METODO DE ENTREGA</h2>
-                </div>
-                <div className={classes.modal_noDeliver}>
-                    <Deliver className={[classes.pedidos_image, classes.pedidos_image_deliver].join(' ')} onClick={() => props.orderToGo()} />Pedido Entregar
-                </div>
-                <div className={classes.modal_deliver}>
-                    <NoDeliver className={[classes.pedidos_image, classes.pedidos_image_noDeliver].join(' ')} onClick={() => props.orderToPickUp()} />Pedido Recoger
-                </div>
+            <div style={{marginTop: "16px"}}>
+                {
+                    (props.selectedNegocio.payment.cash && props.selectedNegocio.payment.creditCard) &&
+                    <>
+                        <div className={classes.modal_noDeliver}>
+                            <Cash
+                                className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                                onClick={() => {
+                                    pagoPedido(true);
+                                    verComent(false);
+                                }} />
+                            <h3>
+                                Efectivo
+                        </h3>
+                        </div>
+                        <div className={classes.modal_deliver}>
+                            <CreditCard
+                                className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                                onClick={() => {
+                                    pagoPedido(false);
+                                    verComent(false);
+                                }
+                                } />
+                            <h3>
+                                Tarjeta
+                        </h3>
+                        </div>
+                    </>
+                }
+
+                {
+                    (props.selectedNegocio.payment.cash && !props.selectedNegocio.payment.creditCard) &&
+                    <div className={classes.modal_onlyDeliver}>
+                        <Cash
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                verComent(false);
+                                pagoPedido(true);
+                            }
+                            } />
+                        <h3>
+                            Efectivo
+                        </h3>
+                    </div>
+                }
+
+                {
+                    (!props.selectedNegocio.payment.cash && props.selectedNegocio.payment.creditCard) &&
+                    <div className={classes.modal_onlyDeliver}>
+                        <CreditCard
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                verComent(false);
+                                pagoPedido(false);
+                            }
+                            } />
+                        <h3>
+                            Tarjeta
+                        </h3>
+                    </div>
+                }
+                <Button
+                    clicked={() => enviarPedido(null)}>Regresar</Button>
             </div>
 
         </>
     )
 
     const acceptCancel = (
-        <>
-            <div>
-                <div className={classes.modal_deliver} >
-                    <Button clicked={() => { console.log(enviarOrden)}}>ACEPTAR</Button>
-                </div>
-                <div className={classes.modal_noDeliver}>
-                    <Button clicked={() => props.cancelOrder()}>CANCELAR</Button>
-                </div>
-
+        <div style={{ marginTop: "3em" }}>
+            <div className={classes.modal_deliver} >
+                <Button
+                    clicked={() => {
+                        props.sendOrder(orderToSend);
+                        props.cerrarModal()
+                    }}>Enviar</Button>
             </div>
-        </>
-    )
-
-    const payment = (
-        <>
-            <div>
-                <div>
-                    <h2>METODO DE PAGO</h2>
-                </div>
-                <div className={classes.modal_noDeliver}>
-                    <Cash className={[classes.pedidos_image, classes.pedidos_image_deliver].join(' ')} onClick={() => props.cashPayment()} />Efectivo
-                </div>
-                <div className={classes.modal_deliver}>
-                    <CreditCard className={[classes.pedidos_image, classes.pedidos_image_deliver].join(' ')} onClick={() => props.creditCardPayment()} />Tarjeta
-                </div>
-                <Button clicked={() => props.backToDelilver()} >Regresar</Button>
+            <div className={classes.modal_noDeliver}>
+                <Button >Cancelar</Button>
             </div>
 
-        </>
+        </div>
     )
 
-    const location = (
-        <>
-            <div>
-                <div>
-                    <h2>DIRECCION DE ENVIO</h2>
-                </div>
-                <div className={classes.centerInput} >
-                    <input type="text" value={props.calle}></input>
-                </div>
-                <Button clicked={() => props.backToPayment()} >Regresar</Button>
-                {
-                    acceptCancel
-                }
+    const comentarios = (
+            <div className={classes.centerInput} >
+                <TextField
+                    type='text'
+                    label="Ingredientes extra, condimentos, etc:"
+                    value={nota}
+                    onChange={(event) => {
+                        insrtNota(event.target.value)
+                    }} />
             </div>
-
-        </>
+     
 
     )
+    const options = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    }
+    const orderDate = (new Intl.DateTimeFormat('en-US', options).format(date));
+
+    const dishes = (props.productCount.map(dishes => {
+        return {
+            name: dishes.name,
+            amount: dishes.amount,
+            comment: nota
+        }
+    }))
+    //idCustomer
+    const user = JSON.parse(localStorage.getItem("user"))
+    const idClient = (user.id)
+    const total = props.orderPrice + iva
+
+    const orderToSend = {
+        location: position,
+        orderDate: orderDate,
+        dishes: dishes,
+        idBusiness: localStorage.getItem("businessId"),
+        idClient: idClient,
+        creditCard: props.creditCard,
+        stage: "receivedOrders",
+        total: total
+    }
 
     return (
         <>
-            <Backdrop show={props.openOrder} clicked={() => props.cerrarModal()} />
+            <Backdrop
+                show={props.openOrder}
+                clicked={() => props.cerrarModal()} />
 
             <div className={classes.modal}>
-                {head}
-                {mostrarOrden}
+                <h2 style={{
+
+                    margin: "0"
+                }}>MI ORDEN</h2>
+
                 {
-                    props.deliver === null &&
-                    deliver
+                    mostrarOrden &&
+                    mostrarOrden
+                }
+                <h2 style={{
+                    color: "#482856",
+                    color: "rgb(72, 40, 86)",
+                    border: "1px solid #ccc",
+                    margin: "0 auto"
+                }}>TOTAL: ${total} </h2>
+
+
+                {
+                    (pagoEfectivo == null && envio == null) &&
+                    metodoEntrega
                 }
                 {
-                    (props.deliver !== null && props.payment === null) &&
+                    (envio != null && pagoEfectivo == null) &&
                     payment
                 }
-                {
-                   (props.payment != null && props.payment !== null) &&
-                    location
-                }
-
-
             </div>
         </>
 
 
     )
+
 }
+
 
 const mapStateToProps = state => {
     return {
         productCount: state.cliente.productCount,
         openOrder: state.cliente.openOrder,
-        deliver: state.cliente.deliver,
-        payment: state.cliente.payment
+        selectedNegocio: state.negocio.selectedNegocio
     }
 }
 const mapDispatchToProps = {
-
     cerrarModal: actions.CloseOrderModal,
-    orderToGo: actions.OrderIsToGo,
-    orderToPickUp: actions.OrderToPickUp,
-    cashPayment: actions.CashPayment,
-    creditCardPayment: actions.CreditCardPayment,
-    backToDelilver: actions.BackToDeliverOption,
-    backToPayment: actions.BackToPayment,
-    cancelOrder: actions.CancelOrder
-
+    sendOrder: actions.checkout
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Pedido);

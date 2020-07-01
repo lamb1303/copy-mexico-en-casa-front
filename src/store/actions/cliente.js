@@ -61,43 +61,10 @@ export const getBusinessesSuccess = (businesses) => {
         businesses: businesses
     }
 }
-
 export const clienteSelectedBusiness = (business) => {
     return {
         type: actionTypes.CLIENTE_SET_SELECTED_BUSINESS,
         business: business
-    }
-}
-
-export const BackToPayment = () => {
-    return {
-        type: actionTypes.CLIENTE_REGRESAR_OPCION_PAGO
-    }
-}
-
-export const CancelOrder = () => {
-    return {
-        type: actionTypes.CLIENTE_PEDIDO_CANCELAR
-    }
-}
-export const AcceptOrder = () => {
-    return {
-        type: actionTypes.CLIENTE_PEDIDO_ACEPTAR
-    }
-}
-export const BackToDeliverOption = () => {
-    return {
-        type: actionTypes.CLIENTE_REGRESAR_OPCION_PEDIDO
-    }
-}
-export const CashPayment = () => {
-    return {
-        type: actionTypes.CLIENTE_PAGO_EFECTIVO
-    }
-}
-export const CreditCardPayment = () => {
-    return {
-        type: actionTypes.CLIENTE_PAGO_TARJETA
     }
 }
 
@@ -111,27 +78,6 @@ export const CloseOrderModal = () => {
     return {
         type: actionTypes.CLIENTE_MODAL_ORDEN_CERRAR
 
-    }
-}
-
-export const OrderIsToGo = (location) => {
-    return {
-        type: actionTypes.CLIENTE_PEDIDO_CASA,
-        location: 'location'
-    }
-}
-
-export const OrderLocation = () => {
-    return {
-        type: actionTypes.CLIENTE_PEDIDO_CASA,
-        location: 'location'
-    }
-}
-
-export const OrderToPickUp = () => {
-    return {
-        type: actionTypes.CLIENTE_PEDIDO_RECOGER,
-        location: 'location'
     }
 }
 
@@ -188,31 +134,7 @@ export const checkout = (orderToSend) => {
     return dispatch => {
         dispatch(checkoutInit());
         console.log('CHECKOUT INICIADO...')
-        const order = {
-            clientId: "cl2",
-            negocioId: "ng1",
-            name: "Shrek",
-            products: {
-                productId1: {
-                    name: "Amborguesa",
-                    amount: 2
-                },
-                productId2: {
-                    name: "Taquitos",
-                    amount: 2
-                },
-                productId3: {
-                    name: "Algo mas",
-                    amount: 2
-                }
-            },
-            date: new Date().toLocaleString(),
-            metodoPago: "Efectivo",
-            metodoEntrega: "Local",
-            stage: "receivedOrders"
-        }
-
-        axios.post(`${process.env.REACT_APP_API_URL}/customer/checkout`, order)
+        axios.post(`${process.env.REACT_APP_API_URL}/client/checkout`, orderToSend)
             .then(resp => {
                 if (resp.data.message === 'Order received by Business') {
                     dispatch(checkoutComplete())

@@ -8,27 +8,32 @@ export const getProducts = (id) => {
         axios.get(`${process.env.REACT_APP_API_URL}/product/getProducts/${id}`).then(
             response => {
                 const products = response.data.products
-                const updatedProducts = Object.keys(products).map(
-                    igKey => {
-                        return [...Array(products[igKey])].map((field, i) => {
-                            return {
-                                key: igKey,
-                                name: field.name,
-                                price: field.price,
-                                desc: field.desc,
-                                url: field.url
-                            }
-                        })
+                const selectedBusiness = response.data.businessData
+
+                const updatedProducts = (products.map(
+                    prod => {
+                        return {
+                            key: prod.name,
+                            name: prod.name,
+                            price: prod.price,
+                            desc: prod.desc,
+                            url: prod.url
+                        }
                     }
-                ).reduce((arr, el) => {
-                    return arr.concat(el)
-                }, []);
+                ))
                 dispatch(getProductsSuccess(updatedProducts))
+                dispatch(getBusinessInfo(selectedBusiness))
             }
         ).catch(e => console.log(e))
     }
 }
 
+ const getBusinessInfo = (business) => {
+    return {
+        type: actionTypes.CLIENTE_SET_SELECTED_BUSINESS,
+        business: business
+    }
+}
 export const getProductsSuccess = (products) => {
     return {
         type: actionTypes.GET_ALL_PRODUCTS,

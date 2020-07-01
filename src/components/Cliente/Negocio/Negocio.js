@@ -7,9 +7,13 @@ import * as actions from '../../../store/actions'
 import { connect } from 'react-redux';
 
 class Negocio extends Component {
-
     componentDidMount() {
-        
+        this.isToGo = this.props.location.isToGo
+        this.isToTake = this.props.location.isToTake
+        this.cash = this.props.location.cash
+        this.creditCard = this.props.location.creditCard
+
+
         if (this.props.location.photoBusiness) {
             localStorage.setItem("img", this.props.location.photoBusiness)
         }
@@ -27,9 +31,22 @@ class Negocio extends Component {
         localStorage.removeItem("img")
     }
 
+    handleOptions = () => {
+        if (this.props.isOpen) {
+            if (this.props.name === this.props.selectedProd) {
+                this.props.onCloseOptions()
+            } else {
+                this.props.onCloseOptions()
+                this.props.onOpenOptions(this.props.name)
+            }
+        } else {
+            this.props.onOpenOptions(this.props.name)
+        }
+    }
+
     render() {
+        let initialCount = 0;
         const imageUrl = localStorage.getItem("img")
-       
         const products = Object.values(this.props.products)
             .map(prod => {
                 let selected = false
@@ -37,38 +54,57 @@ class Negocio extends Component {
                     selected = true
                 }
                 const productCount = this.props.productCount.find(p => p.name === prod.name);
-                let count = 0;
+                let amount = 0;
+
                 if (productCount) {
-                    count = productCount.count
+                    amount = productCount.amount
+                    initialCount = amount
                 }
 
                 return <Product
                     key={prod.key}
                     name={prod.name}
                     img={prod.url}
-                    desc={prod.description}
+                    desc={prod.desc}
                     selected={selected}
-                    count={count}
+                    amount={amount}
                     price={prod.price}
                 />
             })
-        
+
         return (
             <>
                 <div className={classes.negocio} >
-                    <img className={classes.negocio_imagen} src={imageUrl} alt='Foto del negocio' />
+                    <img className={classes.negocio_imagen} src={imageUrl} alt='' />
                     <div className={classes.amount} >${this.props.orderPrice}</div>
                     <div className={classes.products} >
                         {products}
                     </div>
 
-                    <Button btnType='Success' clicked={() => this.props.openModal()} >Ver pedido</Button>
+                    <Button
+                        disabled={
+                            initialCount > 0 ? false : true
+                        }
+                        btnType={
+                            initialCount > 0 ? "Success" : "Danger"
+                        } clicked={() => {
+                            this.props.openModal();
+                            this.handleOptions()
+                        }} >Ver pedido</Button>
+
                     {
-                        this.props.openOrder &&
+                        (this.props.openOrder) &&
                         <Pedido
-                            total={this.props.orderPrice}
+                            businessId={localStorage.getItem("businessId")}
+                            orderPrice={this.props.orderPrice}
+                            isToGo={this.isToGo}
+                            isToTake={this.isToTake}
+                            creditCard={this.creditCard}
+                            cash={this.cash}
+                            productCount={this.props.productCount}
                         />
                     }
+
                 </div>
             </>
 
@@ -84,7 +120,8 @@ const mapStateToProps = state => {
         products: state.products.products,
         selectedProd: state.cliente.selectedProduct,
         productCount: state.cliente.productCount,
-        selectedNegocio: state.negocio.selectedNegocio
+        selectedNegocio: state.negocio.selectedNegocio,
+        isOpen: state.cliente.openProduct,
     }
 }
 
@@ -92,7 +129,9 @@ const mapDispatchToProps = dispatch => {
     return {
         getProducts: (id) => dispatch(actions.getProducts(id)),
         openModal: () => dispatch(actions.OpenOrderModal()),
-        getSelectedBusiness: (idBusiness) => dispatch(actions.getSelectedBusiness(idBusiness))
+        getSelectedBusiness: (idBusiness) => dispatch(actions.getSelectedBusiness(idBusiness)),
+        onCloseOptions: () => dispatch(actions.CloseSelectedProduct()),
+        onOpenOptions: (name) => dispatch(actions.OpenSelectedProduct(name))
 
     }
 }

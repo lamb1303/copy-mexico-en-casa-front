@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
-import addToCar from '../../../assets/addtocar.PNG';
+import addToCar from '../../../../../assets/cliente/addtocar.PNG';
 import classes from './Product.module.scss';
 import Hidden from './HiddenOptions';
 import * as actions from '../../../../../store/actions';
 import { connect } from 'react-redux';
 
 const Product = props => {
-
+    
     let showed_Prod = 'slide';
     if (props.selected) {
         showed_Prod = 'slide_out'
@@ -43,7 +43,12 @@ const Product = props => {
                         onClick={() => handleOptions()}
                     />
                 </div>
-                <Hidden selected={props.selected} product={props.name} count={props.count} price={props.price} img={props.img} />
+                <Hidden
+                    selected={props.selected}
+                    product={props.name}
+                    amount={props.amount}
+                    price={props.price}
+                    img={props.img} />
             </div>
         </Fragment>
     )
