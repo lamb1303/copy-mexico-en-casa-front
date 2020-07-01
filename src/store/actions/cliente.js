@@ -134,7 +134,7 @@ export const checkout = (orderToSend) => {
     return dispatch => {
         dispatch(checkoutInit());
         console.log('CHECKOUT INICIADO...')
-        axios.post(`${process.env.REACT_APP_API_URL}/client/checkout`, orderToSend)
+        axios.post(`${process.env.REACT_APP_API_URL}/customer/checkout`, orderToSend)
             .then(resp => {
                 if (resp.data.message === 'Order received by Business') {
                     dispatch(checkoutComplete())
