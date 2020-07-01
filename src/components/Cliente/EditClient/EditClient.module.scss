@@ -69,3 +69,26 @@
         margin: 10px auto;
     }
 }
+
+@media only screen and (min-width: 550px) {
+    .editClient{
+        width: 40%;
+        margin: 10px auto;
+        height: 90vh;
+        min-height: 90vh;
+        justify-content: center;
+    }
+
+    .clientDetails{
+        width: 100%;
+        position: relative;
+    }
+    
+    .avatar{
+        width: 100px;
+    }
+
+    .editClient form{
+        width: 100%;
+    }
+}

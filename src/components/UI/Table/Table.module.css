@@ -34,3 +34,9 @@
 .box select option {
     padding: 30px;
 }
+
+@media only screen and (min-width: 550px) {
+    .table div:first-child{
+        text-align: center;
+    }
+}

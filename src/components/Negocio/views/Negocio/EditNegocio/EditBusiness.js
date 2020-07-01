@@ -32,16 +32,17 @@ const EditBusiness = props => {
     let init;
     if (Object.keys(props.selectedNegocio).length < 1) init = <Redirect to='/Negocio' />
 
-    // const cancel = () => {
-    //     setName(baseObject)
-    //     setDesciption(baseObject)
-    //     setAddress(baseObject)
-    //     setPhone(baseObject)
-    //     setDays(props.selectedNegocio.schedule)
-    //     setDelivery(props.selectedNegocio.delivery)
-    //     setPayment(props.selectedNegocio.payment)
-    //     setError({ message: '', visible: false })
-    // }
+    const cancelHandler = () => {
+        setName(baseObject)
+        setDesciption(baseObject)
+        setAddress(baseObject)
+        setPhone(baseObject)
+        setDays(props.selectedNegocio.schedule)
+        setDelivery(props.selectedNegocio.delivery)
+        setPayment(props.selectedNegocio.payment)
+        setError({ message: '', visible: false })
+        setCancel(true);
+    }
 
     const saveAll = () => {
 
@@ -171,7 +172,7 @@ const EditBusiness = props => {
                 />
                 <div className={classes.buttons} >
                     <Button btnType='Success' clicked={() => saveAll()} >GUARDAR</Button>
-                    <Button btnType='Danger' clicked={() => setCancel(true)} >CANCELAR</Button>
+                    <Button btnType='Danger' clicked={() => cancelHandler()} >CANCELAR</Button>
                 </div>
             </div>
         </>

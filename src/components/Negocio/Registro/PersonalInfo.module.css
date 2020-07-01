@@ -64,7 +64,41 @@
     margin: 5% 0;
 }
 
-.buttons button, .buttons a{
+.buttons button{
     margin: 0 5%;
     max-width: 185px;
+}
+
+@media only screen and (min-width: 550px) {
+    .header{
+        margin-top: 0;
+        margin: 2% auto;
+        max-width: 40%;
+        min-width: 40%;
+        text-align: center;
+    }
+    .card{
+        margin: 5px auto;
+        max-width: 40%;
+        min-width: 40%;
+    }
+
+    .card > div{
+        width: 100%;
+        box-sizing: border-box;
+        overflow-y: hidden;
+    }
+
+    .data{
+        height: 100%;
+    }
+
+    .buttons{
+        margin: 5% auto;
+        width: 60%;
+    }
+
+    .input{
+        margin: 2% auto;
+    }
 }

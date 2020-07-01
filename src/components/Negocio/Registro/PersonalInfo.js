@@ -8,7 +8,7 @@ import * as actions from '../../../store/actions';
 
 import classes from './PersonalInfo.module.css';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -28,6 +28,8 @@ const PersonalInfo = props => {
     const [nameTouched, setNameTouched] = useState(false);
     const [apellidoTouched, setApellidoTouched] = useState(false);
     const [contraTouched, setContraTouchedTouched] = useState(false);
+
+    const [cancel, setCancel] = useState(false);
 
     useEffect(() => {
         if (Object.keys(data).length !== 0) {
@@ -198,6 +200,7 @@ const PersonalInfo = props => {
 
     return (
         <Fragment>
+            {cancel && <Redirect to='/' />}
             {props.loading && <Backdrop show={props.loading} />}
             {props.loading && <Spinner />}
             {props.errorMessage.length > 0 && <Alert title='Error' clase={'personalInfo'} > {props.errorMessage} </Alert>}
@@ -215,12 +218,10 @@ const PersonalInfo = props => {
                 <div className={classes.buttons} >
                     <Button btnType='Success' disabled={!formIsValid} clicked={() => handleSuccess()} >
                         CONTINUAR
-            </Button>
-                    <NavLink  to='/Home'>
-                        <Button btnType='Danger' >
-                            CANCELAR
                     </Button>
-                    </NavLink>
+                    <Button btnType='Danger' clicked={() => setCancel(true)} >
+                        CANCELAR
+                    </Button>
                 </div>
             </div>
         </Fragment>

@@ -87,3 +87,44 @@
     margin: 0 5%;
     max-width: 185px;
 }
+
+
+@media only screen and (min-width: 550px) {
+    
+    .header{
+        margin-top: 0;
+        margin: 2% auto;
+        max-width: 50%;
+        min-width: 50%;
+        text-align: center;
+    }
+
+    .card{
+        margin: 0 auto;
+        max-width: 50%;
+        min-width: 50%;
+        height: 65vh;
+    }
+
+    .card > div{
+        width: 100%;
+        box-sizing: border-box;
+        height: 100%;
+        max-height: fit-content;
+    }
+
+    .card > div::-webkit-scrollbar{
+        display: none;  
+    }
+
+    .input{
+        margin: 1.5% auto;
+    }
+
+    .buttons{
+        margin: 3% auto;
+        width: 50%; 
+        margin-bottom: 0;
+    }
+
+}

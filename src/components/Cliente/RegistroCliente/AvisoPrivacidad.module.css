@@ -35,17 +35,32 @@
     max-width: 185px;
 }
 
-@media only screen and (min-width: 866px) {
+@media only screen and (min-width: 550px) {
+
+    .aviso{
+        width: 30%;
+        height: 60%;
+        position: absolute;
+        left: 30%;
+        top: 10%;
+    }
 
     .header{
+        width: auto;
+        min-width: auto;
         margin-top: 0;
-        min-width: 75vw;
-        width: 75vw;
+    }
+
+    .message{
+        height: 100%;
     }
 
     .message div{
-        min-height: 60vh;
-        height: 60vh;
-        max-height: 60vh;
+        width: 100%;
+        max-height: inherit;
     }
+    .message div::-webkit-scrollbar{
+        display: none;
+    }
+
 }

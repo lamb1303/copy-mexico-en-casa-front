@@ -129,6 +129,10 @@
         margin: 2% auto;
         min-height: 65vh;
     }
+
+    .input{
+        margin: 3% auto;
+    }
  
     .card > div{
      width: 100%;
@@ -143,6 +147,11 @@
      height: 100%;
      min-height: 65vh;
      box-sizing: border-box;
+     justify-content: center;
+    }
+
+    .card div::-webkit-scrollbar{
+        display: none;
     }
 
     .form{
