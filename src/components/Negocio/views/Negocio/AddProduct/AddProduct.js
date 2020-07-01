@@ -80,7 +80,7 @@ const AddProduct = props => {
     }
 
     const clearField = useCallback(() => {
-        if (isProductAdded && !isAlert) {
+        if (isProductAdded) {
             setFoodName("");
             setFoodNameError("");
             setPrice("");
@@ -91,7 +91,7 @@ const AddProduct = props => {
             changeIsProductAdded();
         }
 
-    }, [isProductAdded, changeIsProductAdded, isAlert]);
+    }, [isProductAdded, changeIsProductAdded]);
 
     useEffect(() => {
         clearField()
