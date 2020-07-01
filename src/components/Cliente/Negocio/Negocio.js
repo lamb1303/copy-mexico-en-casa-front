@@ -7,7 +7,6 @@ import * as actions from '../../../store/actions'
 import { connect } from 'react-redux';
 
 class Negocio extends Component {
-
     componentDidMount() {
         this.isToGo = this.props.location.isToGo
         this.isToTake = this.props.location.isToTake
@@ -32,9 +31,20 @@ class Negocio extends Component {
         localStorage.removeItem("img")
     }
 
+    handleOptions = () => {
+        if (this.props.isOpen) {
+            if (this.props.name === this.props.selectedProd) {
+                this.props.onCloseOptions()
+            } else {
+                this.props.onCloseOptions()
+                this.props.onOpenOptions(this.props.name)
+            }
+        } else {
+            this.props.onOpenOptions(this.props.name)
+        }
+    }
 
     render() {
-
         let initialCount = 0;
         const imageUrl = localStorage.getItem("img")
         const products = Object.values(this.props.products)
@@ -77,7 +87,10 @@ class Negocio extends Component {
                         }
                         btnType={
                             initialCount > 0 ? "Success" : "Danger"
-                        } clicked={() => this.props.openModal()} >Ver pedido</Button>
+                        } clicked={() => {
+                            this.props.openModal();
+                            this.handleOptions()
+                        }} >Ver pedido</Button>
 
                     {
                         (this.props.openOrder) &&
@@ -116,7 +129,9 @@ const mapDispatchToProps = dispatch => {
     return {
         getProducts: (id) => dispatch(actions.getProducts(id)),
         openModal: () => dispatch(actions.OpenOrderModal()),
-        getSelectedBusiness: (idBusiness) => dispatch(actions.getSelectedBusiness(idBusiness))
+        getSelectedBusiness: (idBusiness) => dispatch(actions.getSelectedBusiness(idBusiness)),
+        onCloseOptions: () => dispatch(actions.CloseSelectedProduct()),
+        onOpenOptions: (name) => dispatch(actions.OpenSelectedProduct(name))
 
     }
 }
