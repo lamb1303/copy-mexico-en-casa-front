@@ -4,16 +4,11 @@ import classes from './Search.module.css';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import PlaceCard from '../PlaceCards/PlaceCard/PlaceCard';
-import Pagination from './Pagination/Pagination'
 import * as action from '../../../store/actions'
 import { NavLink } from 'react-router-dom';
 const Search = (props) => {
 
     const [businessDesc, typeBusiness] = useState("");
-    // const [currentPage, setCurrentPage] = useState(1)
-    // const [postsPerPage] = useState(6)
-    // const indexOfLastPost = currentPage * postsPerPage
-    // const indexOfFirstPost = indexOfLastPost - postsPerPage
 
     const selectedBusiness = (business) => {
         localStorage.setItem("businessId", business.key)
@@ -54,9 +49,7 @@ const Search = (props) => {
             }
         }
     )
-    // const paginate = (pageNumber) => {
-    //     setCurrentPage(pageNumber)
-    // }
+   
     if (businesses.length === 0) {
         businesses = <h4 style={{textAlign: "center"}}>Negocios fuera de tu locación</h4>
     }
@@ -79,11 +72,6 @@ const Search = (props) => {
                 {businesses &&
                     businesses}
             </div>
-            {/* <Pagination
-                postPerPage={postsPerPage}
-                paginate={paginate}
-                totalPosts={props.businesses.length} /> */}
-
         </>
     )
 }

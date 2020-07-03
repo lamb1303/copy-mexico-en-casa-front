@@ -13,17 +13,6 @@ const PlaceCard = (props) => {
     const horaAbierto = props.horaAbierto
     const horaCerrado = props.horaCerrado
 
-    var tmpStar = [];
-    for (var i = 0; i < rate; i++) {
-        tmpStar.push(i);
-    }
-    var stars = tmpStar.map(() => {
-        return (
-            <Star
-                key={Math.random()} />
-        );
-    });
-
     return (
         <div className={classes.PlaceCard}>
             <img className={classes.PlaceCard_image} src={imageUrl} alt='Imagen Negocio' />
@@ -31,8 +20,7 @@ const PlaceCard = (props) => {
                 <div className={classes.PlaceCard_details_place} >
                     <span className={classes.title} >{props.name.toUpperCase()}</span>
                     <p className={classes.description} >{props.desc}</p>
-                    <div className={classes.stars} >{stars} </div>
-                    <span >A: {distance.toFixed(0)} mts.</span>
+                    <span >Distancia: {distance.toFixed(0)} km.</span>
                     <span>
                         Horario: {horaAbierto} - {horaCerrado} hrs.
                         </span>

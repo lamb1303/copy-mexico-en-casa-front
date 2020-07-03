@@ -119,7 +119,7 @@ export const checkoutInit = () => {
 
 export const checkoutComplete = () => {
     return {
-        type: actionTypes.CHECKOUT_COMPLETE
+        type: actionTypes.CHECKOUT_COMPLETE,
     }
 }
 
@@ -129,11 +129,15 @@ export const checkoutFail = (error) => {
         error: error
     }
 }
+export const checkoutCancel = () => {
+    return {
+        type: actionTypes.CLIENTE_PEDIDO_CANCELAR,
+    }
+}
 
 export const checkout = (orderToSend) => {
     return dispatch => {
         dispatch(checkoutInit());
-        console.log('CHECKOUT INICIADO...')
         axios.post(`${process.env.REACT_APP_API_URL}/client/checkout`, orderToSend)
             .then(resp => {
                 if (resp.data.message === 'Order received by Business') {

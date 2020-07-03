@@ -5,6 +5,7 @@ import Product from './Products/Product/Product';
 import Pedido from './Pedido/Pedido';
 import * as actions from '../../../store/actions'
 import { connect } from 'react-redux';
+import EditProduct from '../../Negocio/views/Negocio/EditProduct/EditProduct'
 
 class Negocio extends Component {
     componentDidMount() {
@@ -75,6 +76,7 @@ class Negocio extends Component {
         return (
             <>
                 <div className={classes.negocio} >
+                    {this.props.editProductMode && <EditProduct />}
                     <img className={classes.negocio_imagen} src={imageUrl} alt='' />
                     <div className={classes.amount} >${this.props.orderPrice}</div>
                     <div className={classes.products} >
@@ -95,13 +97,7 @@ class Negocio extends Component {
                     {
                         (this.props.openOrder) &&
                         <Pedido
-                            businessId={localStorage.getItem("businessId")}
                             orderPrice={this.props.orderPrice}
-                            isToGo={this.isToGo}
-                            isToTake={this.isToTake}
-                            creditCard={this.creditCard}
-                            cash={this.cash}
-                            productCount={this.props.productCount}
                         />
                     }
 
@@ -122,6 +118,8 @@ const mapStateToProps = state => {
         productCount: state.cliente.productCount,
         selectedNegocio: state.negocio.selectedNegocio,
         isOpen: state.cliente.openProduct,
+        editMode: state.negocio.editMode,
+        editProductMode: state.negocio.editProduct
     }
 }
 
@@ -131,7 +129,8 @@ const mapDispatchToProps = dispatch => {
         openModal: () => dispatch(actions.OpenOrderModal()),
         getSelectedBusiness: (idBusiness) => dispatch(actions.getSelectedBusiness(idBusiness)),
         onCloseOptions: () => dispatch(actions.CloseSelectedProduct()),
-        onOpenOptions: (name) => dispatch(actions.OpenSelectedProduct(name))
+        onOpenOptions: (name) => dispatch(actions.OpenSelectedProduct(name)),
+
 
     }
 }

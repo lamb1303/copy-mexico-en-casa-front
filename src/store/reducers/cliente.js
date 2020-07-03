@@ -1,7 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
+import * as alertTypes from '../Util/enums/alertTypes';
 
 const initialState = {
+    isAlert: false,
+    alertType: '',
+    message: "",
     error: false,
     loading: false,
     cliente: false,
@@ -136,13 +140,26 @@ const delOneToSelectedProduct = (state, action) => {
 
 export const checkoutInit = (state, action) => {
     return updateObject(state, {
-        checkoutInit: true
+        checkoutInit: true,
+        isAlert: !state.isAlert,
+        message: "La orden ha sido enviada exitosamente.",
+        alertType: alertTypes.success
     })
 }
 
 export const checkoutComplete = (state, action) => {
     return updateObject(state, {
-        checkoutInit: false
+        checkoutInit: false,
+        productCount: [],
+        orderPrice: 0
+    })
+}
+
+export const checkoutCancel = (state, action) => {
+    return updateObject(state, {
+        checkoutInit: false,
+        productCount: [],
+        orderPrice: 0
     })
 }
 
@@ -155,6 +172,7 @@ export const checkoutFail = (state, action) => {
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.CLIENTE_PEDIDO_CANCELAR: return checkoutCancel(state, action);
         case actionTypes.CLIENTE_CREAR_CUENTA: return crearCuenta(state, action);
         case actionTypes.CLIENTE_FALLO_CREACION_CUENTA: return falloCreacionCuenta(state, action);
         case actionTypes.CLIENTE_INICIAR_CREACION: return iniciarCreacion(state, action);

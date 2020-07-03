@@ -5,10 +5,12 @@ import classes from './Pedido.module.scss'
 import * as actions from '../../../../store/actions';
 import { ReactComponent as Deliver } from '../../../../assets/pedido/delivery.svg';
 import { ReactComponent as ToTake } from '../../../../assets/pedido/toTake.svg';
+import { ReactComponent as Send } from '../../../../assets/pedido/send.svg';
 import { ReactComponent as Cash } from '../../../../assets/pedido/commerce-and-shopping.svg';
 import { ReactComponent as CreditCard } from '../../../../assets/pedido/business-and-finance.svg';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
+import AlertComponent from '../../../UI/Alert/Alert';
 
 
 const Pedido = props => {
@@ -23,16 +25,33 @@ const Pedido = props => {
         return () => geo.clearWatch(watcher)
 
     }, [])
-
     const [envio, enviarPedido] = useState(null);
     const [pagoEfectivo, pagoPedido] = useState(null);
     const [iva, pagoEnvio] = useState(0);
-    const [coment, verComent] = useState(null);
-    const [ref, insrtRef] = useState("");
-    const [nota, insrtNota] = useState("");
     const [position, setPosition] = useState({});
     const [error, setError] = useState(null);
     const date = new Date();
+    const [dishes, setDishes] = useState(props.productCount);
+    
+
+    const insrtNota = (event, orden) => {
+        
+        orden.comment = event.target.value;
+
+        //Get the index of the selected order 
+        const index = dishes.findIndex(ord => ord.name == orden.name);
+
+        //Get all dishes that are not the selected order
+        let listOfDishes = dishes.filter(ord => ord.name != orden.name);
+        
+        //Insert modified order in the list of dishes
+        listOfDishes.splice(index, 0, orden);
+
+        //Update dishes with List of dishes 
+        setDishes(listOfDishes);
+        
+    }
+
 
     const onChangePosition = ({ coords }) => {
         setPosition({
@@ -45,8 +64,8 @@ const Pedido = props => {
         setError(error.message)
     }
 
-    const mostrarOrden = props.productCount.map(
-        orden => {
+    const mostrarOrden = dishes.map(
+        (orden, id) => {
             if (orden.amount === 0) {
                 return null
             }
@@ -59,7 +78,15 @@ const Pedido = props => {
                     </div>
 
                     <div className={classes.name}>
-                        <h4>{orden.name} </h4>
+                        <h4 >{orden.name} </h4>
+                        <TextField
+                            key={orden.name}
+                            type='text'
+                            label="Notas:"
+                            value= {orden.comment ? orden.comment : ''}
+                            onChange={(event) => {
+                                insrtNota(event, orden)
+                            }} />
                     </div>
 
                     <div className={classes.amount} >
@@ -74,7 +101,7 @@ const Pedido = props => {
     )
 
     const metodoEntrega = (
-        <div style={{marginTop: "16px"}}>
+        <div style={{ marginTop: "16px" }}>
             {
                 (props.selectedNegocio.delivery.isToGo && props.selectedNegocio.delivery.isToTake) &&
                 <>
@@ -134,7 +161,7 @@ const Pedido = props => {
 
     const payment = (
         <>
-            <div style={{marginTop: "16px"}}>
+            <div style={{ marginTop: "16px" }}>
                 {
                     (props.selectedNegocio.payment.cash && props.selectedNegocio.payment.creditCard) &&
                     <>
@@ -143,7 +170,7 @@ const Pedido = props => {
                                 className={[classes.pedidos_image, classes.centerItems].join(' ')}
                                 onClick={() => {
                                     pagoPedido(true);
-                                    verComent(false);
+
                                 }} />
                             <h3>
                                 Efectivo
@@ -154,7 +181,7 @@ const Pedido = props => {
                                 className={[classes.pedidos_image, classes.centerItems].join(' ')}
                                 onClick={() => {
                                     pagoPedido(false);
-                                    verComent(false);
+
                                 }
                                 } />
                             <h3>
@@ -170,7 +197,6 @@ const Pedido = props => {
                         <Cash
                             className={[classes.pedidos_image, classes.centerItems].join(' ')}
                             onClick={() => {
-                                verComent(false);
                                 pagoPedido(true);
                             }
                             } />
@@ -186,7 +212,6 @@ const Pedido = props => {
                         <CreditCard
                             className={[classes.pedidos_image, classes.centerItems].join(' ')}
                             onClick={() => {
-                                verComent(false);
                                 pagoPedido(false);
                             }
                             } />
@@ -203,33 +228,25 @@ const Pedido = props => {
     )
 
     const acceptCancel = (
-        <div style={{ marginTop: "3em" }}>
-            <div className={classes.modal_deliver} >
-                <Button
-                    clicked={() => {
+        <>
+            <div style={{ marginTop: "16px" }} className={classes.modal_onlyDeliver} >
+                <Send
+                    className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                    onClick={() => {
                         props.sendOrder(orderToSend);
-                        props.cerrarModal()
-                    }}>Enviar</Button>
-            </div>
-            <div className={classes.modal_noDeliver}>
-                <Button >Cancelar</Button>
-            </div>
-
-        </div>
-    )
-
-    const comentarios = (
-            <div className={classes.centerInput} >
-                <TextField
-                    type='text'
-                    label="Ingredientes extra, condimentos, etc:"
-                    value={nota}
-                    onChange={(event) => {
-                        insrtNota(event.target.value)
+                        props.cerrarModal();
                     }} />
+                <h3>
+                    Enviar
+                </h3>
             </div>
-     
+            <Button clicked={() => {
+                props.cerrarModal();
+                props.cancelOrder();
+            }
+            }>Cancelar</Button>
 
+        </>
     )
     const options = {
         day: '2-digit',
@@ -240,17 +257,6 @@ const Pedido = props => {
         second: '2-digit'
     }
     const orderDate = (new Intl.DateTimeFormat('en-US', options).format(date));
-
-    const dishes = (props.productCount.map(dishes => {
-        return {
-            name: dishes.name,
-            amount: dishes.amount,
-            comment: nota
-        }
-    }))
-    //idCustomer
-    const user = JSON.parse(localStorage.getItem("user"))
-    const idClient = (user.id)
     const total = props.orderPrice + iva
 
     const orderToSend = {
@@ -258,9 +264,10 @@ const Pedido = props => {
         orderDate: orderDate,
         dishes: dishes,
         idBusiness: localStorage.getItem("businessId"),
-        idClient: idClient,
-        creditCard: props.creditCard,
+        idCustomer: props.idCustomer,
         stage: "receivedOrders",
+        isToTake: props.selectedNegocio.delivery.isToTake,      
+        isCash: props.selectedNegocio.payment.cash,    
         total: total
     }
 
@@ -296,6 +303,8 @@ const Pedido = props => {
                     (envio != null && pagoEfectivo == null) &&
                     payment
                 }
+                {pagoEfectivo != null &&
+                    acceptCancel}
             </div>
         </>
 
@@ -305,15 +314,26 @@ const Pedido = props => {
 }
 
 
+
+
 const mapStateToProps = state => {
     return {
         productCount: state.cliente.productCount,
         openOrder: state.cliente.openOrder,
-        selectedNegocio: state.negocio.selectedNegocio
+        selectedNegocio: state.negocio.selectedNegocio,
+        idCustomer: state.home.id,
+        isAlert: state.cliente.isAlert,
+        alertType: state.cliente.alertType,
+        message: state.cliente.message,
+        selectedProd: state.cliente.selectedProduct
     }
 }
 const mapDispatchToProps = {
     cerrarModal: actions.CloseOrderModal,
+    checkout: actions.checkout,
+    onOpenOptions: (name) => (actions.OpenSelectedProduct(name)),
+    cancelOrder: actions.checkoutCancel,
+    onCloseOptions: () => (actions.CloseSelectedProduct()),
     sendOrder: actions.checkout
 
 }
