@@ -16,7 +16,7 @@ const Pedido = props => {
     useEffect(() => {
         const geo = navigator.geolocation
         if (!geo) {
-            setError('Geolocation is not supported')
+            window.alert('Geolocation is not supported')
             return
         }
         const watcher = geo.getCurrentPosition(onChangePosition, onError)
@@ -27,7 +27,7 @@ const Pedido = props => {
     const [pagoEfectivo, pagoPedido] = useState(null);
     const [iva, pagoEnvio] = useState(0);
     const [position, setPosition] = useState({});
-    const [error, setError] = useState(null);
+    // const [error, setError] = useState(null);
     const date = new Date();
     const [dishes, setDishes] = useState(props.productCount);
 
@@ -54,7 +54,7 @@ const Pedido = props => {
     }
 
     const onError = (error) => {
-        setError(error.message)
+        window.alert('Ubicacion no obtenida. Por favor, intentalo mas tarde.')
     }
 
     const mostrarOrden = dishes.map(
@@ -278,18 +278,18 @@ const Pedido = props => {
                 }
                 <h2>TOTAL: ${total} </h2>
                 {
-                    envio == false && <h3 style={{justifyContent: "center"}}
+                    envio === false && <h3 style={{ justifyContent: "center" }}
                     >Se realizará un cargo extra por servicio a domicilio.</h3>
                 }
                 {
-                    (pagoEfectivo == null && envio == null) &&
+                    (pagoEfectivo === null && envio === null) &&
                     metodoEntrega
                 }
                 {
-                    (envio != null && pagoEfectivo == null) &&
+                    (envio !== null && pagoEfectivo === null) &&
                     payment
                 }
-                {pagoEfectivo != null &&
+                {pagoEfectivo !== null &&
                     acceptCancel}
             </div>
         </>

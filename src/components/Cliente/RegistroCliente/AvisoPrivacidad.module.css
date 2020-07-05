@@ -25,6 +25,11 @@
     margin: 5% auto;
 }
 
+.message p{
+    text-align: justify;
+    padding: 10px;
+}
+
 .buttons{
     display: flex;
     justify-content: space-evenly;

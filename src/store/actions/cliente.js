@@ -6,7 +6,7 @@ import createHeaders from '../Util/headers/createHeaders';
 export const getBusinesses = (lat, lng) => {
 
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/business/businesses/${lat}/${lng}`,createHeaders()).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/customer/businesses/${lat}/${lng}`, createHeaders()).then(
             response => {
                 const businesses = response.data.businesses
 
@@ -47,7 +47,7 @@ export const getBusinesses = (lat, lng) => {
 }
 export const getSelectedBusiness = (idBusiness) => {
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/business/getBusiness/${idBusiness}`,createHeaders()).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/customer/getBusiness/${idBusiness}`, createHeaders()).then(
             res => {
                 const data = {
                     ...res.data
@@ -143,7 +143,7 @@ export const checkoutCancel = () => {
 export const checkout = (orderToSend) => {
     return dispatch => {
         dispatch(checkoutInit());
-        axios.post(`${process.env.REACT_APP_API_URL}/customer/checkout`, orderToSend)
+        axios.post(`${process.env.REACT_APP_API_URL}/customer/checkout`, orderToSend, createHeaders())
             .then(resp => {
                 if (resp.data.message === 'Order received by Business') {
 
@@ -255,7 +255,7 @@ export const updateClient = (client, id) => {
 export const updateClientPassword = (newCredentials, id) => {
     return dispatch => {
         dispatch(updateClientInit());
-        axios.patch(process.env.REACT_APP_API_URL + `/customer/updatePassword/${id}`, newCredentials)
+        axios.patch(process.env.REACT_APP_API_URL + `/customer/updatePassword/${id}`, newCredentials, createHeaders())
             .then(_ => dispatch(updatePassword()))
             .catch(err => {
                 console.log(err);
@@ -267,5 +267,11 @@ export const updateClientPassword = (newCredentials, id) => {
 export const setClientError = () => {
     return {
         type: actionTypes.SET_CLIENT_ERROR
+    }
+}
+
+export const closeAlertClient = () => {
+    return {
+        type: actionTypes.CLOSE_ALERT_CLIENT
     }
 }

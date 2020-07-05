@@ -5,7 +5,7 @@
     flex-direction: column;
     background-color: #fff;
     width: 45vw;
-    height: 85vh;
+    height: 70vh;
     min-height: 432px;
     position: absolute;
     z-index: 121;
@@ -21,6 +21,7 @@
 
 .header {
     max-height: 60%;
+    min-height: 40%;
     border-bottom: 1px solid #ccc;
 }
 

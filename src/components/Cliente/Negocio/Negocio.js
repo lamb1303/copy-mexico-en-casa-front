@@ -46,7 +46,6 @@ class Negocio extends Component {
     }
 
     render() {
-        let initialCount = 0;
         const imageUrl = localStorage.getItem("img")
         const products = Object.values(this.props.products)
             .map(prod => {
@@ -59,7 +58,6 @@ class Negocio extends Component {
 
                 if (productCount) {
                     amount = productCount.amount
-                    initialCount = amount
                 }
 
                 return <Product
@@ -119,7 +117,7 @@ const mapStateToProps = state => {
         selectedNegocio: state.negocio.selectedNegocio,
         isOpen: state.cliente.openProduct,
         editMode: state.negocio.editMode,
-        editProductMode: state.negocio.editProduct,
+        editProductMode: state.products.editProductMode,
         totalAmount: state.cliente.totalAmount,
     }
 }

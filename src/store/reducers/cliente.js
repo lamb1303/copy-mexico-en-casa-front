@@ -78,12 +78,10 @@ const closeSelectedProduct = (state, action) => {
 const addOneToSelectedProduct = (state, action) => {
 
     const product = state.productCount.find(prod => prod.name === action.product);
-    const productImg = action.img
 
 
     //if the product exist in the list
     if (product) {
-        console.log(product)
         //get all items but the one selected
         let copy = state.productCount.filter(x => x.name !== action.product)
         //add 1 to the selected product
@@ -189,17 +187,19 @@ export const checkoutFail = (state, action) => {
 
 export const getClientInit = (state, action) => {
     return updateObject(state, {
-        loading: true
+        loading: true,
+        updated: false,
+        updatedPsw: false,
     })
 }
 
 export const getClientSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
-        updated: false,
         cliente: action.client,
-        updatedPsw: false,
         error: false,
+        updated: false,
+        updatedPsw: false,
     })
 }
 
@@ -241,6 +241,19 @@ export const setClientError = (state, action) => {
     })
 }
 
+export const loginNewClient = (state, action) => {
+    return updateObject(state, {
+        cliente: action.client
+    })
+}
+
+export const closeAlertClient = (state, action) => {
+    return updateObject(state, {
+        isAlert: false
+    })
+}
+
+
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.CLIENTE_PEDIDO_CANCELAR: return checkoutCancel(state, action);
@@ -265,6 +278,8 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.UPDATE_CLIENT_FAIL: return updateClientFail(state, action);
         case actionTypes.UPDATE_CLIENT_PASSWORD: return updatePassword(state, action);
         case actionTypes.SET_CLIENT_ERROR: return setClientError(state, action);
+        case actionTypes.LOGIN_NEW_CLIENT: return loginNewClient(state, action);
+        case actionTypes.CLOSE_ALERT_CLIENT: return closeAlertClient(state, action);
         default: return state;
     }
 };

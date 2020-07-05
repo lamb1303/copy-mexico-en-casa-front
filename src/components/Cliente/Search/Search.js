@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { ReactComponent as Lupa } from './lupa.svg';
 import classes from './Search.module.css';
 import TextField from '@material-ui/core/TextField';
@@ -18,11 +18,10 @@ const Search = (props) => {
     let businesses = Object.values(props.businesses).map(
         business => {
 
-            if (business.desc.includes(businessDesc)) {
+            if (business.desc.toUpperCase().includes(businessDesc.toUpperCase())) {
                 return <NavLink
-
                     onClick={() => selectedBusiness(business)}
-                    key={business.key}
+                    key={business.key[0]}
                     to={{
                         pathname: "/VerNegocio",
                         photoBusiness: business.photoBusiness,
@@ -32,8 +31,7 @@ const Search = (props) => {
                         creditCard: business.payment.creditCard
                     }}>
                     <PlaceCard
-                        key={business.key}
-                        businessId={business.key}
+                        businessId={business.key[0]}
                         name={business.name}
                         isToGo={business.delivery.isToGo}
                         cash={business.payment.cash}
@@ -46,7 +44,7 @@ const Search = (props) => {
                         horaCerrado={business.schedule.horaCerrado}
                     />
                 </NavLink>
-            }
+            }else return <Fragment key={business.key[0]} ></Fragment> ;
         }
     )
    

@@ -32,7 +32,6 @@ const Negocio = props => {
     }
 
     const handleSave = () => {
-
         if (businessImage) {
             const updates = {
                 file: businessImage,
@@ -41,9 +40,11 @@ const Negocio = props => {
             }
             props.editBusinessWithPhoto(updates, id)
         } else {
-
-            if (name === '' || desc === '') return;
-
+            if (name === '' || desc === '' || (name === null || desc === null )) {
+                cancel();
+                return;
+            }
+            
             const updates = {
                 businessDesc: desc !== null ? desc : props.selectedNegocio.businessDesc,
                 businessName: name !== null ? name : props.selectedNegocio.businessName

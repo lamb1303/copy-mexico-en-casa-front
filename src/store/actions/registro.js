@@ -206,6 +206,13 @@ export const nuevoCliente = (client) => {
     }
 }
 
+const loginToNewClient = (client) => {
+    return {
+        type: actionTypes.LOGIN_NEW_CLIENT,
+        client: client
+    }
+}
+
 export const registrarNuevoCliente = (client) => {
     return dispatch => {
         dispatch(verifyEmailExistInit());
@@ -217,6 +224,7 @@ export const registrarNuevoCliente = (client) => {
                 } else {
                     console.log(resp.data)
                     dispatch(nuevoCliente(resp.data.client))
+                    dispatch(loginToNewClient(resp.data.client))
                     const tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);
                     localStorage.setItem(
                         'user',

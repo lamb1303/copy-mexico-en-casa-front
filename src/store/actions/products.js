@@ -5,7 +5,7 @@ import * as alertTypes from '../Util/enums/alertTypes';
 
 export const getProducts = (id) => {
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/products/getProducts/${id}`, createHeaders()).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/product/getProducts/${id}`, createHeaders()).then(
             response => {
                 const products = response.data.products
                 const selectedBusiness = response.data.businessData
@@ -85,6 +85,7 @@ export const updateProduct = (id, formData) => {
                             desc: JSON.parse(formData.get('desc')),
                             price: JSON.parse(formData.get('price')),
                             url: data.url,
+                            originalNameProduct: JSON.parse(formData.get('originalNameProduct'))
                         }
                         dispatch(updatedProducts(udatedProduct));
                         dispatch(openAlert(data.message));

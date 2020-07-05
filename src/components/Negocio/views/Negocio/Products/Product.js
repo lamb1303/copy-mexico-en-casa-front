@@ -44,7 +44,7 @@ const Product = props => {
                 <div className={classes.showedOptions} >
                     <img className={classes.product_image} src={props.img} alt={`imagen de ${props.name}`} />
                     <div className={classes.product_desc} >
-                        {props.desc}
+                        <p>{props.desc}</p>
                         <div>
                             ${props.price}
                         </div>

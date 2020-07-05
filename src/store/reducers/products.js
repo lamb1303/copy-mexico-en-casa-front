@@ -52,7 +52,7 @@ const openAlert = (state, action) => {
 const updatedProducts = (state, action) => {
     const products = [...state.products];
     const productToUpdate = action.productToUpdate;
-    const index = products.findIndex(prod => prod.name === productToUpdate.name);
+    const index = products.findIndex(prod => prod.name === productToUpdate.originalNameProduct);
     products[index] = productToUpdate;
 
     return updateObject(state, {

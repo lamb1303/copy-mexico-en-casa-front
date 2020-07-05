@@ -9,7 +9,7 @@ import AlertComponent from '../../../../UI/Alert/Alert';
 const Product = props => {
 
     const { isAlert, alertType, message } = props
-    
+
     let showed_Prod = 'slide';
     if (props.selected) {
         showed_Prod = 'slide_out'
@@ -71,12 +71,12 @@ const Product = props => {
                     price={props.price}
                     img={props.img} />
             </div>
-            <div style={{zIndex: "100"}}>
+            <div style={{ zIndex: "100" }}>
                 {isAlert &&
-                    <AlertComponent 
+                    <AlertComponent
                         title={alertType}
                         isActive={isAlert}
-                        closeAlert={() => props.updateAddProductAlert()}>
+                        closeAlert={() => props.closeAlertClient()}>
                         {message}
                     </AlertComponent>
                 }
@@ -95,13 +95,11 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onOpenOptions: (name) => dispatch(actions.OpenSelectedProduct(name)),
-        onCloseOptions: () => dispatch(actions.CloseSelectedProduct()),
-        openEditProduct: (prodToEdit) => dispatch(actions.openEditProduct(prodToEdit)),
-        updateAddProductAlert: actions.updateAddProductAlert
-    }
+const mapDispatchToProps = {
+        onOpenOptions: actions.OpenSelectedProduct,
+        onCloseOptions: actions.CloseSelectedProduct,
+        openEditProduct: actions.openEditProduct,
+        closeAlertClient: actions.closeAlertClient
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

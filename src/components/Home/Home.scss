@@ -16,7 +16,6 @@
     align-items: center;
     min-width: 100%;
     height: 100vh;
-    overflow: scroll;
     background-color: $contrast-color;
 
     &-container {
@@ -73,20 +72,22 @@
 
 @media only screen and (max-width: 866px) {
     .home {
+        overflow: scroll;
         background: $primary-color;
-        &-container {
-            min-width: 100vw;
-            border-radius: 0;
-            border: 0;
-        }
+            &-container {
+                min-width: 100vw;
+                border-radius: 0;
+                border: 0;
+            }
     }
 }
 
 @media only screen and (min-width: 867px) and (max-width: 1024px) {
     .home {
+        overflow: scroll;
         &-container {
-            width: 50vw;
-        }
+                width: 50vw;
+            }
     }
 }
 
