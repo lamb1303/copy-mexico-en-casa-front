@@ -35,18 +35,17 @@ const BotonesPedidos = props => {
 
 const mapStateToProps = state => {
     return {
-        orders: state.negocio.orders,
-        preparing: state.negocio.preparing,
-        ready: state.negocio.ready
+        orders: state.orders.orders,
+        preparing: state.orders.preparing,
+        ready: state.orders.ready
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onOrdenes: () => dispatch(actions.ordersButtonSelected()),
-        onPrepare: () => dispatch(actions.prepareButtonSelected()),
-        onReady: () => dispatch(actions.readyButtonSelected())
-    }
+const mapDispatchToProps =  {
+        onOrdenes: actions.ordersButtonSelected,
+        onPrepare: actions.prepareButtonSelected,
+        onReady: actions.readyButtonSelected,
+    
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BotonesPedidos);

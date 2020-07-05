@@ -56,7 +56,8 @@ export {
     getClient,
     updateClient,
     updateClientPassword,
-    setClientError
+    setClientError,
+    getClientNamePhone,
 } from './cliente'
 
 export {
@@ -80,16 +81,6 @@ export {
     openEditProduct,
     clickAddProduct,
     closeEditProduct,
-    readyButtonSelected,
-    ordersButtonSelected,
-    prepareButtonSelected,
-    checkPreparingOrder,
-    checkReceivedOrder,
-    empezarPedido,
-    terminarPedido,
-    getPedidoNegocioId,
-    getPedidoPreparing,
-    getPedidoReady,
     loadNegocio,
     getNegocioDetails,
     cancelEdit,
@@ -97,3 +88,21 @@ export {
     EditBusinessWithoutPhoto,
     updateBusiness,
 } from './negocio'
+
+export {
+    readyButtonSelected,
+    ordersButtonSelected,
+    prepareButtonSelected,
+    checkPreparingOrder,
+    checkDeliveringOrder,
+    checkReceivedOrder,
+    empezarPedido,
+    terminarPedido,
+    entregarPedido,
+    getPedidoNegocioId,
+    getPedidoPreparing,
+    getPedidoReady,
+    openViewComments,
+    closeViewComments,
+    closeAlert,
+} from './orders'

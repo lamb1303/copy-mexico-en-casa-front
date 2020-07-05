@@ -75,6 +75,13 @@ export const updateProduct = (id, formData) => {
                 .then(response => {
                     const data = response.data;
                     if (response.status === 201) {
+                        const udatedProduct = {
+                            name: JSON.parse(formData.get('name')),
+                            desc: JSON.parse(formData.get('desc')),
+                            price: JSON.parse(formData.get('price')),
+                            url: data.url,
+                        }
+                        dispatch(updatedProducts(udatedProduct));
                         dispatch(openAlert(data.message));
                     }
                 })
@@ -95,12 +102,16 @@ export const updateProduct = (id, formData) => {
 export const deleteProduct = (prodToDelete) => {
     return dispatch => {
         if (prodToDelete) {
+            const data = {
+                ...prodToDelete
+            }
             axios.delete(`${process.env.REACT_APP_API_URL}/product/deleteProduct/`,
-                { data: { ...prodToDelete } }, createHeaders())
+                createHeaders(null, data))
                 .then(response => {
                     const data = response.data;
                     if (response.status === 201) {
-                        dispatch(openAlert(data.message, prodToDelete.name));
+                        dispatch(deletedProducts(prodToDelete.name));
+                        dispatch(openAlert(data.message));
                     }
 
                 })
@@ -118,7 +129,22 @@ export const deleteProduct = (prodToDelete) => {
 
 }
 
-export const accessDeny = (message) => {
+const updatedProducts = (prodToUpdate) => {
+    return {
+        type: actionTypes.UPDATED_FOOD_PRODUCT,
+        productToUpdate: prodToUpdate,
+    }
+
+}
+
+const deletedProducts = (prodName) => {
+    return {
+        type: actionTypes.DELETED_FOOD_PRODUCT,
+        name: prodName,
+    }
+}
+
+export const accessDeny = () => {
     return {
         type: actionTypes.HOME_LOGOUT,
     }
@@ -163,14 +189,14 @@ const productAdded = (message) => {
     }
 }
 
-const openAlert = (message, name) => {
+const openAlert = (message, value) => {
     return {
-        type: actionTypes.UPDATED_FOOD_PRODUCT,
+        type: actionTypes.PRODUCT_OPEN_ALERT,
         message: message,
         isEditAlert: true,
         alertType: alertTypes.success,
         loading: false,
-        name,
+        value,
     }
 }
 

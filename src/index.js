@@ -10,6 +10,7 @@ import headerReducer from './store/reducers/header';
 import productsReducer from './store/reducers/products';
 import negocioReducer from './store/reducers/negocio';
 import homeReducer from './store/reducers/Home';
+import ordersReducer from './store/reducers/orders';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -22,7 +23,8 @@ const appReducer = combineReducers({
   header: headerReducer,
   home: homeReducer,
   products: productsReducer,
-  negocio: negocioReducer
+  negocio: negocioReducer,
+  orders: ordersReducer,
 
 });
 

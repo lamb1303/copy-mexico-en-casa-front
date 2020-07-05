@@ -1,10 +1,11 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
+import createHeaders from '../Util/headers/createHeaders';
 
 export const getBusinesses = (lat, lng) => {
 
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/customer/businesses/${lat}/${lng}`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/customer/businesses/${lat}/${lng}`, createHeaders()).then(
             response => {
                 const businesses = response.data.businesses
 
@@ -45,7 +46,7 @@ export const getBusinesses = (lat, lng) => {
 }
 export const getSelectedBusiness = (idBusiness) => {
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/business/getBusiness/${idBusiness}`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/business/getBusiness/${idBusiness}`, createHeaders()).then(
             res => {
                 const data = {
                     ...res.data
@@ -212,7 +213,7 @@ export const checkout = (orderToSend) => {
             stage: "receivedOrders"
         }
 
-        axios.post(`${process.env.REACT_APP_API_URL}/customer/checkout`, order)
+        axios.post(`${process.env.REACT_APP_API_URL}/customer/checkout`, order, createHeaders())
             .then(resp => {
                 if (resp.data.message === 'Order received by Business') {
                     dispatch(checkoutComplete())
@@ -250,7 +251,7 @@ export const getClient = (clientId) => {
         if (!clientId) return;
         dispatch(getClientInit());
 
-        axios.get(process.env.REACT_APP_API_URL + `/customer/getClient/${clientId}`)
+        axios.get(process.env.REACT_APP_API_URL + `/customer/getClient/${clientId}`, createHeaders())
             .then(resp => {
                 if (!resp.data.client) dispatch(getClientFail());
                 dispatch(getClientSuccess(resp.data.client))
@@ -261,6 +262,23 @@ export const getClient = (clientId) => {
             })
     }
 
+}
+
+export const getClientNamePhone = (clientId) => {
+    return dispatch => {
+        if (!clientId) return;
+        dispatch(getClientInit());
+
+        axios.get(process.env.REACT_APP_API_URL + `/customer/getClientNamePhone/${clientId}`, createHeaders())
+            .then(resp => {
+                if (!resp.data.client) dispatch(getClientFail());
+                dispatch(getClientSuccess(resp.data.client))
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(getClientFail());
+            })
+    }
 }
 
 
@@ -292,7 +310,7 @@ export const updatePassword = () => {
 export const updateClient = (client, id) => {
     return dispatch => {
         dispatch(updateClientInit());
-        axios.patch(process.env.REACT_APP_API_URL + `/customer/updateClient/${id}`, client)
+        axios.patch(process.env.REACT_APP_API_URL + `/customer/updateClient/${id}`, client, createHeaders())
             .then(_ => dispatch(updateClientSuccess()))
             .catch(err => {
                 console.log(err);
@@ -304,7 +322,7 @@ export const updateClient = (client, id) => {
 export const updateClientPassword = (newCredentials, id) => {
     return dispatch => {
         dispatch(updateClientInit());
-        axios.patch(process.env.REACT_APP_API_URL + `/client/updatePassword/${id}`, newCredentials)
+        axios.patch(process.env.REACT_APP_API_URL + `/client/updatePassword/${id}`, newCredentials, createHeaders())
             .then(_ => dispatch(updatePassword()))
             .catch(err => {
                 console.log(err);

@@ -38,33 +38,38 @@ const addProduct = (state, action) => {
     })
 }
 
-const updateProduct = (state, action) => {
-    if (action.name !== null || action.name !== undefined) {
-
-        const productsToUpdate = state.products.filter(prod => prod.name !== action.name);
-
-        return updateObject(state, {
-            message: action.message,
-            isEditAlert: action.isEditAlert,
-            alertType: action.alertType,
-            loading: action.loading,
-            editProductMode: false,
-            products: productsToUpdate,
-        })
-        //Delete the product
-    } else {
-        //Update the product
-        return updateObject(state, {
-            message: action.message,
-            isEditAlert: action.isEditAlert,
-            alertType: action.alertType,
-            loading: action.loading,
-            editProductMode: false,
-        })
-    }
+const openAlert = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isEditAlert: action.isEditAlert,
+        alertType: action.alertType,
+        loading: action.loading,
+        editProductMode: false,
+    });
 
 }
 
+const updatedProducts = (state, action) => {
+    const products = [...state.products];
+    const productToUpdate = action.productToUpdate;
+    const index = products.findIndex(prod => prod.name === productToUpdate.name);
+    products[index] = productToUpdate;
+
+    return updateObject(state, {
+        products: products,
+    })
+
+}
+
+const deletedProducts = (state, action) => {
+    const productsToUpdate = state.products.filter(prod => prod.name !== action.name);
+
+    return updateObject(state, {
+        products: productsToUpdate,
+    })
+
+
+}
 
 const updateAddProductAlert = (state, action) => {
     return updateObject(state, {
@@ -125,11 +130,13 @@ const reducer = (state = initialState, action) => {
         case actionTypes.GET_ALL_PRODUCTS: return getProductsSuccess(state, action);
         case actionTypes.ADD_PRODUCT_SHOW_MESSAGE: return message(state, action);
         case actionTypes.CHANGE_IS_PRODUCT_ADDED: return changeIsProductAdded(state, action);
-        case actionTypes.UPDATED_FOOD_PRODUCT: return updateProduct(state, action);
+        case actionTypes.PRODUCT_OPEN_ALERT: return openAlert(state, action);
         case actionTypes.OPEN_EDIT_PRODUCT: return openEditProduct(state, action);
         case actionTypes.CLOSE_EDIT_PRODUCT: return closeEditProduct(state, action);
         case actionTypes.CLOSE_EDIT_PRODUCT_ALERT: return closeEditProductAlert(state, action);
         case actionTypes.ERROR_MESSAGE_EDIT_PRODUCT_ALERT: return errorMessageEditProductAlert(state, action);
+        case actionTypes.UPDATED_FOOD_PRODUCT: return updatedProducts(state, action);
+        case actionTypes.DELETED_FOOD_PRODUCT: return deletedProducts(state, action);
 
         default: return state;
     }
