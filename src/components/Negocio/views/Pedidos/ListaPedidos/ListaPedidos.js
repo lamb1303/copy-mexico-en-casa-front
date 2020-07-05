@@ -7,15 +7,20 @@ const ListaPedidos = props => {
 
     let pedidos = (
         <Fragment>
-            {Object.keys(props.receivedOrders).map(clientId => {
+            {Object.keys(props.receivedOrders).sort().map(idOrder => {
                 return <Pedido
-                    key={clientId}
-                    clientId={clientId}
-                    clientName={props.receivedOrders[clientId].name}
-                    orderList={props.receivedOrders[clientId].products}
-                    envio={props.receivedOrders[clientId].metodoEntrega}
-                    pago={props.receivedOrders[clientId].metodoPago}
-                    checked={props.receivedOrders[clientId].checked}
+                    key={idOrder}
+                    idOrder={idOrder}
+                    idCustomer={props.receivedOrders[idOrder].idCustomer}
+                    orderList={props.receivedOrders[idOrder].dishes}
+                    isToTake={props.receivedOrders[idOrder].isToTake}
+                    isCash={props.receivedOrders[idOrder].isCash}
+                    checked={props.receivedOrders[idOrder].checked}
+                    orderDate={props.receivedOrders[idOrder].orderDate}
+                    location={props.receivedOrders[idOrder].location}
+                    total={props.receivedOrders[idOrder].total}
+
+
                 />
             })}
         </Fragment>
@@ -24,55 +29,42 @@ const ListaPedidos = props => {
     if (props.preparing) {
         pedidos = (
             <Fragment>
-                {Object.keys(props.prepareOrders).map(clientId => {
+                {Object.keys(props.prepareOrders).sort().map(idOrder => {
                     return <Pedido
-                        key={clientId}
-                        clientId={clientId}
-                        clientName={props.prepareOrders[clientId].name}
-                        orderList={props.prepareOrders[clientId].products}
-                        envio={props.prepareOrders[clientId].metodoEntrega}
-                        pago={props.prepareOrders[clientId].metodoPago}
-                        checked={props.prepareOrders[clientId].checked}
-                    />
-                })}
-            </Fragment>
-        )
-    }
-    let pedidoReady = '';
-    if (props.ready) {
-        pedidoReady = 'readyList';
-        pedidos = (
-            <Fragment>
-                {Object.keys(props.readyOrders).map(clientId => {
-                    return <Pedido
-                        key={clientId}
-                        clientId={clientId}
-                        clientName={props.readyOrders[clientId].name}
-                        orderList={props.readyOrders[clientId].products}
-                        check={props.readyOrders[clientId].checked}
-                        envio={props.readyOrders[clientId].metodoEntrega}
-                        pago={props.readyOrders[clientId].metodoPago}
-                        checked={props.readyOrders[clientId].checked}
-                    />
-                })}
-            </Fragment>
-        )
-    }
+                        key={idOrder}
+                        idOrder={idOrder}
+                        idCustomer={props.prepareOrders[idOrder].idCustomer}
+                        orderList={props.prepareOrders[idOrder].dishes}
+                        isToTake={props.prepareOrders[idOrder].isToTake}
+                        isCash={props.prepareOrders[idOrder].isCash}
+                        checked={props.prepareOrders[idOrder].checked}
+                        orderDate={props.prepareOrders[idOrder].orderDate}
+                        location={props.prepareOrders[idOrder].location}
+                        total={props.prepareOrders[idOrder].total}
 
-    if (props.entregado) {
-        //change props.readyOrders por los que ya fueron entregados, (calificados)
+
+                    />
+                })}
+            </Fragment>
+        )
+    }
+    if (props.ready) {
         pedidos = (
             <Fragment>
-                {Object.keys(props.readyOrders).map(clientId => {
+                {Object.keys(props.readyOrders).sort().map(idOrder => {
                     return <Pedido
-                        key={clientId}
-                        clientId={clientId}
-                        clientName={props.readyOrders[clientId].name}
-                        orderList={props.readyOrders[clientId].products}
-                        check={props.readyOrders[clientId].checked}
-                        envio={props.readyOrders[clientId].metodoEntrega}
-                        pago={props.readyOrders[clientId].metodoPago}
-                        checked={props.readyOrders[clientId].checked}
+                        key={idOrder}
+                        idOrder={idOrder}
+                        idCustomer={props.readyOrders[idOrder].idCustomer}
+                        orderList={props.readyOrders[idOrder].dishes}
+                        check={props.readyOrders[idOrder].checked}
+                        isToTake={props.readyOrders[idOrder].isToTake}
+                        isCash={props.readyOrders[idOrder].isCash}
+                        checked={props.readyOrders[idOrder].checked}
+                        orderDate={props.readyOrders[idOrder].orderDate}
+                        location={props.readyOrders[idOrder].location}
+                        total={props.readyOrders[idOrder].total}
+
                     />
                 })}
             </Fragment>
@@ -80,7 +72,7 @@ const ListaPedidos = props => {
     }
 
     return (
-        <div className={[classes.listaPedidos, classes[pedidoReady]].join(' ')} >
+        <div className={classes.listaPedidos} >
             {pedidos}
         </div>
     )
@@ -88,11 +80,11 @@ const ListaPedidos = props => {
 
 const mapStateToProps = state => {
     return {
-        preparing: state.negocio.preparing,
-        ready: state.negocio.ready,
-        receivedOrders: state.negocio.receivedOrders,
-        prepareOrders: state.negocio.prepareOrders,
-        readyOrders: state.negocio.readyOrders
+        preparing: state.orders.preparing,
+        ready: state.orders.ready,
+        receivedOrders: state.orders.receivedOrders,
+        prepareOrders: state.orders.prepareOrders,
+        readyOrders: state.orders.readyOrders
     }
 }
 

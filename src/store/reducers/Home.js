@@ -65,7 +65,7 @@ const message = (state, action) => {
 
 const updateHomeAlert = (state, action) => {
     return  updateObject(state, {
-        isAlert: !state.isAlert,
+        isAlert: false,
     });
 }
 

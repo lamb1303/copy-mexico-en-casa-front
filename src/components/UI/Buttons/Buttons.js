@@ -14,10 +14,11 @@ const ClientButtons = props => {
 
     return (
         <div className={classes.Buttons}>
-            {/* <Button btnType='Success' clicked={() => props.closeSidebar()} >
-                {props.isClient ? <NavLink to='/client'>Ver Pedidos</NavLink> :
-                    <NavLink to='/pedidos'>Ver Pedidos</NavLink>}
-            </Button> */}
+            {!props.isClient && <NavLink to='/pedidos'>
+                <Button btnType='Success' clicked={() => props.closeSidebar()} >
+                    Ver Pedidos
+            </Button>
+            </NavLink>}
             <NavLink to={props.isClient ? '/editClient' : '/negocio'}>
                 <Button btnType='Success' clicked={() => editMode()} >
                     Editar Perfil
