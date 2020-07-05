@@ -1,13 +1,11 @@
-import React, { Fragment, Component } from 'react';
+import React from 'react';
 import classes from './PlaceCard.module.css';
 import Options from '../../../UI/PurchaseOptions/Options';
-import { ReactComponent as Star } from '../../../../assets/cliente/star.svg';
 
 const PlaceCard = (props) => {
     const isToGo = props.isToGo
     const cash = props.cash
     const creditCard = props.creditCard
-    const rate = props.rate
     const imageUrl = props.photoBusiness
     const distance = props.distance
     const horaAbierto = props.horaAbierto

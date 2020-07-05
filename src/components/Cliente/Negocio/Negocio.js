@@ -85,10 +85,10 @@ class Negocio extends Component {
 
                     <Button
                         disabled={
-                            initialCount > 0 ? false : true
+                            this.props.totalAmount > 0 ? false : true
                         }
                         btnType={
-                            initialCount > 0 ? "Success" : "Danger"
+                            this.props.totalAmount > 0 ? "Success" : "Danger"
                         } clicked={() => {
                             this.props.openModal();
                             this.handleOptions()
@@ -119,7 +119,8 @@ const mapStateToProps = state => {
         selectedNegocio: state.negocio.selectedNegocio,
         isOpen: state.cliente.openProduct,
         editMode: state.negocio.editMode,
-        editProductMode: state.negocio.editProduct
+        editProductMode: state.negocio.editProduct,
+        totalAmount: state.cliente.totalAmount,
     }
 }
 

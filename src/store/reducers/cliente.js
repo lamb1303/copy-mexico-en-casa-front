@@ -16,7 +16,8 @@ const initialState = {
     orderPrice: 0,
     openOrder: false,
     checkoutError: null,
-    businesses: {}
+    businesses: {},
+    totalAmount: 0,
 }
 
 const getBusinessesSuccess = (state, action) => {
@@ -85,7 +86,7 @@ const addOneToSelectedProduct = (state, action) => {
             amount: product.amount + 1,
 
         })
-
+        
         //add into the items the product + 1
         copy.push(newProduct)
 
@@ -93,7 +94,8 @@ const addOneToSelectedProduct = (state, action) => {
         const newPrice = state.orderPrice + action.price
         return updateObject(state, {
             productCount: copy,
-            orderPrice: newPrice
+            orderPrice: newPrice,
+            totalAmount: state.totalAmount + 1,
         })
     } else {
         const newProduct = {
@@ -105,6 +107,7 @@ const addOneToSelectedProduct = (state, action) => {
         return updateObject(state, {
             productCount: [...state.productCount, newProduct],
             orderPrice: newPrice,
+            totalAmount: state.totalAmount + 1,
         })
 
     }
@@ -126,6 +129,7 @@ const delOneToSelectedProduct = (state, action) => {
             amount: product.amount - 1
         };
 
+
         //add into the items the product - 1
         copy.push(newProduct)
 
@@ -133,7 +137,8 @@ const delOneToSelectedProduct = (state, action) => {
         const newPrice = state.orderPrice - action.price;
         return updateObject(state, {
             productCount: copy,
-            orderPrice: newPrice
+            orderPrice: newPrice,
+            totalAmount: state.totalAmount - 1,
         })
     }
 }
@@ -151,7 +156,8 @@ export const checkoutComplete = (state, action) => {
     return updateObject(state, {
         checkoutInit: false,
         productCount: [],
-        orderPrice: 0
+        orderPrice: 0,
+        totalAmount: 0
     })
 }
 
@@ -159,7 +165,8 @@ export const checkoutCancel = (state, action) => {
     return updateObject(state, {
         checkoutInit: false,
         productCount: [],
-        orderPrice: 0
+        orderPrice: 0,
+        totalAmount: 0
     })
 }
 

@@ -1,10 +1,12 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
+import * as alertTypes from '../../store/Util/enums/alertTypes';
+import createHeaders from '../Util/headers/createHeaders';
 
 export const getBusinesses = (lat, lng) => {
 
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/business/businesses/${lat}/${lng}`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/business/businesses/${lat}/${lng}`,createHeaders()).then(
             response => {
                 const businesses = response.data.businesses
 
@@ -31,8 +33,8 @@ export const getBusinesses = (lat, lng) => {
                         photoBusiness: business[idBusiness].photoBusiness,
                         distance: business[idBusiness].distance,
                         schedule: {
-                            horaAbierto:  business[idBusiness].schedule.horaAbierto,
-                            horaCerrado:  business[idBusiness].schedule.horaCerrado
+                            horaAbierto: business[idBusiness].schedule.horaAbierto,
+                            horaCerrado: business[idBusiness].schedule.horaCerrado
                         }
                     }
                 }).reduce((arr, el) => {
@@ -45,7 +47,7 @@ export const getBusinesses = (lat, lng) => {
 }
 export const getSelectedBusiness = (idBusiness) => {
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/business/getBusiness/${idBusiness}`).then(
+        axios.get(`${process.env.REACT_APP_API_URL}/business/getBusiness/${idBusiness}`,createHeaders()).then(
             res => {
                 const data = {
                     ...res.data
@@ -117,9 +119,12 @@ export const checkoutInit = () => {
     }
 }
 
-export const checkoutComplete = () => {
+export const checkoutComplete = (message) => {
     return {
         type: actionTypes.CHECKOUT_COMPLETE,
+        message: message,
+        isAlert: true,
+        alertType: alertTypes.success
     }
 }
 
@@ -138,10 +143,13 @@ export const checkoutCancel = () => {
 export const checkout = (orderToSend) => {
     return dispatch => {
         dispatch(checkoutInit());
-        axios.post(`${process.env.REACT_APP_API_URL}/client/checkout`, orderToSend)
+        axios.post(`${process.env.REACT_APP_API_URL}/client/checkout`, orderToSend,createHeaders())
             .then(resp => {
                 if (resp.data.message === 'Order received by Business') {
-                    dispatch(checkoutComplete())
+
+                    dispatch(checkoutComplete(resp.data.message))
+
+
                 } else {
                     dispatch(checkoutFail('CHECKOUT FALLO'))
                 }

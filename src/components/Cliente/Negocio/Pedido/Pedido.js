@@ -10,8 +10,6 @@ import { ReactComponent as Cash } from '../../../../assets/pedido/commerce-and-s
 import { ReactComponent as CreditCard } from '../../../../assets/pedido/business-and-finance.svg';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
-import AlertComponent from '../../../UI/Alert/Alert';
-
 
 const Pedido = props => {
 
@@ -32,24 +30,19 @@ const Pedido = props => {
     const [error, setError] = useState(null);
     const date = new Date();
     const [dishes, setDishes] = useState(props.productCount);
-    
 
     const insrtNota = (event, orden) => {
-        
+
         orden.comment = event.target.value;
-
         //Get the index of the selected order 
-        const index = dishes.findIndex(ord => ord.name == orden.name);
-
+        const index = dishes.findIndex(ord => ord.name === orden.name);
         //Get all dishes that are not the selected order
-        let listOfDishes = dishes.filter(ord => ord.name != orden.name);
-        
+        let listOfDishes = dishes.filter(ord => ord.name !== orden.name);
         //Insert modified order in the list of dishes
         listOfDishes.splice(index, 0, orden);
-
         //Update dishes with List of dishes 
         setDishes(listOfDishes);
-        
+
     }
 
 
@@ -83,7 +76,7 @@ const Pedido = props => {
                             key={orden.name}
                             type='text'
                             label="Notas:"
-                            value= {orden.comment ? orden.comment : ''}
+                            value={orden.comment ? orden.comment : ''}
                             onChange={(event) => {
                                 insrtNota(event, orden)
                             }} />
@@ -101,7 +94,7 @@ const Pedido = props => {
     )
 
     const metodoEntrega = (
-        <div style={{ marginTop: "16px" }}>
+        <div className={classes.sectionSize}>
             {
                 (props.selectedNegocio.delivery.isToGo && props.selectedNegocio.delivery.isToTake) &&
                 <>
@@ -109,18 +102,18 @@ const Pedido = props => {
                         <Deliver
                             className={[classes.pedidos_image, classes.centerItems].join(' ')}
                             onClick={() => {
-                                enviarPedido(true);
-                                pagoEnvio(35)
+                                enviarPedido(false);
+                                pagoEnvio(0)
                             }} />
                         <h3>
-                            Pedido para Entregar
+                            Servicio a Domicilio
                         </h3>
                     </div>
                     <div className={classes.modal_noDeliver}>
                         <ToTake
                             className={[classes.pedidos_image, classes.centerItems].join(' ')}
                             onClick={() => {
-                                enviarPedido(false);
+                                enviarPedido(true);
                                 pagoEnvio(0)
                             }} />
                         <h3>
@@ -135,11 +128,11 @@ const Pedido = props => {
                     <Deliver
                         className={[classes.pedidos_image, classes.centerItems].join(' ')}
                         onClick={() => {
-                            enviarPedido(true);
-                            pagoEnvio(35)
+                            enviarPedido(false);
+                            pagoEnvio(0)
                         }} />
                     <h3>
-                        Pedido para Entregar
+                        Servicio a Domicilio
                         </h3>
                 </div>
 
@@ -149,7 +142,7 @@ const Pedido = props => {
                 <div className={classes.modal_onlyDeliver}>
                     <ToTake
                         className={[classes.pedidos_image, classes.centerItems].join(' ')}
-                        onClick={() => enviarPedido(false)} />
+                        onClick={() => enviarPedido(true)} />
                     <h3>
                         Pedido para Recoger
                         </h3>
@@ -161,7 +154,7 @@ const Pedido = props => {
 
     const payment = (
         <>
-            <div style={{ marginTop: "16px" }}>
+            <div className={classes.sectionSize}>
                 {
                     (props.selectedNegocio.payment.cash && props.selectedNegocio.payment.creditCard) &&
                     <>
@@ -229,7 +222,7 @@ const Pedido = props => {
 
     const acceptCancel = (
         <>
-            <div style={{ marginTop: "16px" }} className={classes.modal_onlyDeliver} >
+            <div className={[classes.modal_onlyDeliver, classes.sectionSize].join(' ')} >
                 <Send
                     className={[classes.pedidos_image, classes.centerItems].join(' ')}
                     onClick={() => {
@@ -266,8 +259,8 @@ const Pedido = props => {
         idBusiness: localStorage.getItem("businessId"),
         idCustomer: props.idCustomer,
         stage: "receivedOrders",
-        isToTake: props.selectedNegocio.delivery.isToTake,      
-        isCash: props.selectedNegocio.payment.cash,    
+        isToTake: envio,
+        isCash: pagoEfectivo,
         total: total
     }
 
@@ -278,23 +271,16 @@ const Pedido = props => {
                 clicked={() => props.cerrarModal()} />
 
             <div className={classes.modal}>
-                <h2 style={{
-
-                    margin: "0"
-                }}>MI ORDEN</h2>
-
+                <h2>MI ORDEN</h2>
                 {
                     mostrarOrden &&
                     mostrarOrden
                 }
-                <h2 style={{
-                    color: "#482856",
-                    color: "rgb(72, 40, 86)",
-                    border: "1px solid #ccc",
-                    margin: "0 auto"
-                }}>TOTAL: ${total} </h2>
-
-
+                <h2>TOTAL: ${total} </h2>
+                {
+                    envio == false && <h3 style={{justifyContent: "center"}}
+                    >Se realizará un cargo extra por servicio a domicilio.</h3>
+                }
                 {
                     (pagoEfectivo == null && envio == null) &&
                     metodoEntrega
@@ -307,14 +293,9 @@ const Pedido = props => {
                     acceptCancel}
             </div>
         </>
-
-
     )
 
 }
-
-
-
 
 const mapStateToProps = state => {
     return {
@@ -322,19 +303,15 @@ const mapStateToProps = state => {
         openOrder: state.cliente.openOrder,
         selectedNegocio: state.negocio.selectedNegocio,
         idCustomer: state.home.id,
-        isAlert: state.cliente.isAlert,
-        alertType: state.cliente.alertType,
-        message: state.cliente.message,
         selectedProd: state.cliente.selectedProduct
     }
 }
 const mapDispatchToProps = {
     cerrarModal: actions.CloseOrderModal,
-    checkout: actions.checkout,
     onOpenOptions: (name) => (actions.OpenSelectedProduct(name)),
     cancelOrder: actions.checkoutCancel,
     onCloseOptions: () => (actions.CloseSelectedProduct()),
-    sendOrder: actions.checkout
+    sendOrder: actions.checkout,
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Pedido);

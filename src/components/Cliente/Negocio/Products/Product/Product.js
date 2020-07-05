@@ -4,9 +4,12 @@ import classes from './Product.module.scss';
 import Hidden from './HiddenOptions';
 import * as actions from '../../../../../store/actions';
 import { connect } from 'react-redux';
+import AlertComponent from '../../../../UI/Alert/Alert';
 
 const Product = props => {
 
+    const { isAlert, alertType, message } = props
+    
     let showed_Prod = 'slide';
     if (props.selected) {
         showed_Prod = 'slide_out'
@@ -69,6 +72,16 @@ const Product = props => {
                     price={props.price}
                     img={props.img} />
             </div>
+            <div style={{zIndex: "100"}}>
+                {isAlert &&
+                    <AlertComponent 
+                        title={alertType}
+                        isActive={isAlert}
+                        closeAlert={() => props.updateAddProductAlert()}>
+                        {message}
+                    </AlertComponent>
+                }
+            </div>
         </Fragment>
     )
 }
@@ -76,7 +89,10 @@ const Product = props => {
 const mapStateToProps = state => {
     return {
         isOpen: state.cliente.openProduct,
-        selectedProd: state.cliente.selectedProduct
+        selectedProd: state.cliente.selectedProduct,
+        isAlert: state.cliente.isAlert,
+        alertType: state.cliente.alertType,
+        message: state.cliente.message,
     }
 }
 
@@ -84,7 +100,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onOpenOptions: (name) => dispatch(actions.OpenSelectedProduct(name)),
         onCloseOptions: () => dispatch(actions.CloseSelectedProduct()),
-        openEditProduct: (prodToEdit) => dispatch(actions.openEditProduct(prodToEdit))
+        openEditProduct: (prodToEdit) => dispatch(actions.openEditProduct(prodToEdit)),
+        updateAddProductAlert: actions.updateAddProductAlert
     }
 }
 
