@@ -14,7 +14,7 @@
     display: flex;
     transition: transform 400ms ease-in-out;
     align-items: center;
-    left: -41px;
+    left: -63px;
     position: relative;
     width: 100%;
 }
@@ -29,7 +29,7 @@
 }
 
 .showIt {
-    transform: translateX(-110px);
+    transform: translateX(-100px);
 }
 
 .addOne, .delOne{

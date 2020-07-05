@@ -42,6 +42,7 @@ export {
     OpenOrderModal,
     CloseOrderModal,
     checkout,
+    checkoutCancel,
     DelOneToSelectedProduct,
     getBusinesses,
     clienteSelectedBusiness,

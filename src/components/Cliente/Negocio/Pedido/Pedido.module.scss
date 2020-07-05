@@ -45,8 +45,8 @@
 .amount {
     width: 30%;
 }
-.modal::-webkit-scrollbar{ 
-    display: none; 
+.modal::-webkit-scrollbar {
+    display: none;
 }
 .modal {
     position: absolute;
@@ -91,9 +91,18 @@
         margin: 0;
         width: 90%;
     }
-    & h3{
+    & h3 {
         justify-content: center;
     }
+    & h2 {
+        color: #482856;
+        border: 1px solid #ccc;
+        margin: 0 auto;
+    }
+}
+
+.sectionSize{
+    margin-top: 16px;
 }
 
 .pedidos_image {
@@ -101,7 +110,7 @@
     max-height: 100px;
     border-radius: 150px;
     padding: 5px;
-    border: 2px solid #F5A303;
+    border: 2px solid #f5a303;
 }
 .centerInput input {
     height: 1.5em;
@@ -109,7 +118,7 @@
     border-radius: 1em;
     margin: 1.3em;
 }
-.centerItems{
+.centerItems {
     border: 2px solid green;
     padding: 10px;
 }
@@ -120,40 +129,26 @@
         left: 0;
         bottom: 0;
         right: 0;
+        width: 100vw;
+        height: 80vh;
+    }
+}
+@media only screen and (min-width: 700px) {
+    .modal {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
         width: 60vw;
         height: 80vh;
     }
-
-}
-
-@media only screen and (min-width: 800px) {
-    // .modal {
-    //     width: 18em;
-
-    //     box-sizing: border-box;
-    //     padding: 15px;
-
-    //     &_deliver {
-    //         width: 7em;
-    //         float: left;
-    //     }
-    //     &_onlyDeliver {
-    //         width: 7em;
-    //         margin-left: 5em;
-    //     }
-
-    //     &_noDeliver {
-    //         width: 7em;
-    //         float: right;
-    //     }
-    // }
 }
 
 // @keyframes stretch {
 //     0% {
-//         transform: translate(-50%, -50%) scale(0.2);
+//         transform: translate(-50%, -50%) scale(0.02);
 //     }
 //     100% {
-//         transform: translate(-50%, -50%) scale(2);
+//         transform: translate(-50%, -50%) scale(.9);
 //     }
 // }

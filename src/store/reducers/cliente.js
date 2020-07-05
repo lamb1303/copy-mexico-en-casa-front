@@ -1,7 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
+import * as alertTypes from '../Util/enums/alertTypes';
 
 const initialState = {
+    isAlert: false,
+    alertType: '',
+    message: "",
     error: false,
     loading: false,
     cliente: false,
@@ -12,6 +16,7 @@ const initialState = {
     orderPrice: 0,
     openOrder: false,
     checkoutError: null,
+    totalAmount: 0,
     businesses: {},
     updated: false,
     updatedPsw: false,
@@ -91,7 +96,7 @@ const addOneToSelectedProduct = (state, action) => {
             amount: product.amount + 1,
 
         })
-
+        
         //add into the items the product + 1
         copy.push(newProduct)
 
@@ -99,7 +104,8 @@ const addOneToSelectedProduct = (state, action) => {
         const newPrice = state.orderPrice + action.price
         return updateObject(state, {
             productCount: copy,
-            orderPrice: newPrice
+            orderPrice: newPrice,
+            totalAmount: state.totalAmount + 1,
         })
     } else {
         const newProduct = {
@@ -111,6 +117,7 @@ const addOneToSelectedProduct = (state, action) => {
         return updateObject(state, {
             productCount: [...state.productCount, newProduct],
             orderPrice: newPrice,
+            totalAmount: state.totalAmount + 1,
         })
 
     }
@@ -132,6 +139,7 @@ const delOneToSelectedProduct = (state, action) => {
             amount: product.amount - 1
         };
 
+
         //add into the items the product - 1
         copy.push(newProduct)
 
@@ -139,20 +147,36 @@ const delOneToSelectedProduct = (state, action) => {
         const newPrice = state.orderPrice - action.price;
         return updateObject(state, {
             productCount: copy,
-            orderPrice: newPrice
+            orderPrice: newPrice,
+            totalAmount: state.totalAmount - 1,
         })
     }
 }
 
 export const checkoutInit = (state, action) => {
     return updateObject(state, {
-        checkoutInit: true
+        checkoutInit: true,
+        isAlert: !state.isAlert,
+        message: "La orden ha sido enviada exitosamente.",
+        alertType: alertTypes.success
     })
 }
 
 export const checkoutComplete = (state, action) => {
     return updateObject(state, {
-        checkoutInit: false
+        checkoutInit: false,
+        productCount: [],
+        orderPrice: 0,
+        totalAmount: 0
+    })
+}
+
+export const checkoutCancel = (state, action) => {
+    return updateObject(state, {
+        checkoutInit: false,
+        productCount: [],
+        orderPrice: 0,
+        totalAmount: 0
     })
 }
 
@@ -219,6 +243,7 @@ export const setClientError = (state, action) => {
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.CLIENTE_PEDIDO_CANCELAR: return checkoutCancel(state, action);
         case actionTypes.CLIENTE_CREAR_CUENTA: return crearCuenta(state, action);
         case actionTypes.CLIENTE_FALLO_CREACION_CUENTA: return falloCreacionCuenta(state, action);
         case actionTypes.CLIENTE_INICIAR_CREACION: return iniciarCreacion(state, action);
