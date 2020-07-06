@@ -30,15 +30,12 @@ export const registrarNuevoNegocio = (data) => {
 export const registroNuevoNegocio = (negocio) => {
     return dispatch => {
         dispatch(initRegister());
-        console.log('iniciando...')
         try {
             const formData = loadForm(negocio);
-            console.log(formData);
             axios.post(`${process.env.REACT_APP_API_URL}/registro/newBusiness`, formData, createHeaders({
                 'content-type': `multipart/form-data  boundary=${formData._boundary}`
             }))
                 .then(resp => {
-                    console.log(resp.data);
 
                     dispatch(registrarNuevoNegocio(resp.data))
                     const tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);
@@ -53,12 +50,9 @@ export const registroNuevoNegocio = (negocio) => {
                     dispatch(logging(resp.data))
                 })
                 .catch(err => {
-                    console.log(err);
                     dispatch(registerFailed());
                 })
         } catch (error) {
-            console.log(`algo salio mal`)
-            console.log(error)
             dispatch(registerFailed());
         }
     }
@@ -222,7 +216,6 @@ export const registrarNuevoCliente = (client) => {
                 if (resp.data.message !== 'Ok') {
                     error = resp.data.message
                 } else {
-                    console.log(resp.data)
                     dispatch(nuevoCliente(resp.data.client))
                     dispatch(loginToNewClient(resp.data.client))
                     const tokenExpirationDate = new Date(new Date().getTime() + 1000 * 60 * 60);

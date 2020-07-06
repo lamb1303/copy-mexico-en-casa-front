@@ -53,7 +53,7 @@ class Map extends React.Component {
           `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coords.lat}&lon=${coords.lng}`
         )
         .then((resp) => this.props.getAddress(resp.data.address))
-        .catch((err) => console.log(err));
+        .catch((err) => {});
     });
     // const point = L.point(-10, -20);
     marker.bindTooltip(name, { permanent: true }).openTooltip();

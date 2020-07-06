@@ -130,7 +130,6 @@ const NegocioInfo = props => {
             street.replace('#', '');
             axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
                 .then(resp => {
-                    console.log(resp.data.length)
                     if (Object.keys(resp.data).length > 0) {
                         setCoordinates({
                             lat: resp.data[0].lat,
@@ -141,7 +140,7 @@ const NegocioInfo = props => {
                         getLocationByBrowser();
                     }
                 })
-                .catch(err => console.log(err));
+                .catch(err => {});
         } else {
             getLocationByBrowser();
         }

@@ -24,7 +24,7 @@ export const getProducts = (id) => {
                 dispatch(getProductsSuccess(updatedProducts))
                 dispatch(getBusinessInfo(selectedBusiness))
             }
-        ).catch(e => console.log(e))
+        ).catch(e => {})
     }
 }
 

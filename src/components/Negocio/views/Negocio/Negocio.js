@@ -24,11 +24,15 @@ const Negocio = props => {
     const [previewUrl, setPreviewUrl] = useState();
 
     const cancel = () => {
+        setFieldsToNull();
+        props.cancelEdit();
+    }
+
+    const setFieldsToNull = () => {
         setPreviewUrl(null);
         setBusinessImage(null);
         setName(null);
         setDesc(null);
-        props.cancelEdit();
     }
 
     const handleSave = () => {
@@ -38,13 +42,15 @@ const Negocio = props => {
                 businessDesc: desc ? desc : props.selectedNegocio.businessDesc,
                 businessName: name ? name : props.selectedNegocio.businessName
             }
-            props.editBusinessWithPhoto(updates, id)
+            props.editBusinessWithPhoto(updates, id);
+            setFieldsToNull();
         } else {
-            if (name === '' || desc === '' || (name === null || desc === null )) {
+
+            if (name === '' || desc === '' || (name === null && desc === null)) {
                 cancel();
                 return;
             }
-            
+
             const updates = {
                 businessDesc: desc !== null ? desc : props.selectedNegocio.businessDesc,
                 businessName: name !== null ? name : props.selectedNegocio.businessName
@@ -54,6 +60,7 @@ const Negocio = props => {
                 updates.businessName === props.selectedNegocio.businessName) return;
 
             props.editBusinessWithoutPhoto(updates, id);
+            setFieldsToNull();
         }
     }
 
@@ -151,7 +158,6 @@ const Negocio = props => {
                                     <div className={classes.save}>
                                         <Button clicked={() => handleSave()} btnType='Success' >GUARDAR</Button>
                                         <NavLink to='/addProduct'><Add /></NavLink>
-                                        {/* <NavLink to='/addProduct'> <Button btnType='Success' >+</Button> </NavLink> */}
                                         <Button clicked={() => cancel()} btnType='Success' >CANCELAR</Button>
                                     </div>)}
                             </>

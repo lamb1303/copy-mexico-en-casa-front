@@ -42,7 +42,7 @@ export const getBusinesses = (lat, lng) => {
                 }, []);
                 dispatch(getBusinessesSuccess(Updatedbusinesses.sort((a, b) => a.distance - b.distance)))
             }
-        ).catch(e => console.log(e))
+        ).catch(e => {})
     }
 }
 export const getSelectedBusiness = (idBusiness) => {
@@ -54,7 +54,7 @@ export const getSelectedBusiness = (idBusiness) => {
                 }
                 dispatch(clienteSelectedBusiness(data))
             }
-        ).catch(e => console.log(e))
+        ).catch(e => {})
     }
 }
 export const getBusinessesSuccess = (businesses) => {
@@ -190,7 +190,6 @@ export const getClient = (clientId) => {
                 dispatch(getClientSuccess(resp.data.client))
             })
             .catch(err => {
-                console.log(err);
                 dispatch(getClientFail());
             })
     }
@@ -208,7 +207,7 @@ export const getClientNamePhone = (clientId) => {
                 dispatch(getClientSuccess(resp.data.client))
             })
             .catch(err => {
-                console.log(err);
+                
                 dispatch(getClientFail());
             })
     }
@@ -246,7 +245,7 @@ export const updateClient = (client, id) => {
         axios.patch(process.env.REACT_APP_API_URL + `/customer/updateClient/${id}`, client, createHeaders())
             .then(_ => dispatch(updateClientSuccess()))
             .catch(err => {
-                console.log(err);
+                
                 dispatch(updateClientFail());
             })
     }
@@ -258,7 +257,7 @@ export const updateClientPassword = (newCredentials, id) => {
         axios.patch(process.env.REACT_APP_API_URL + `/customer/updatePassword/${id}`, newCredentials, createHeaders())
             .then(_ => dispatch(updatePassword()))
             .catch(err => {
-                console.log(err);
+                
                 dispatch(updateClientFail());
             })
     }

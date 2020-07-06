@@ -70,7 +70,7 @@ const InfoNegPago = props => {
                     }
                     props.register(negocio);
                 } else {
-                    console.log('Foto del ID requerida')
+                    window.alert('Foto del ID requerida')
                 }
             }
         }

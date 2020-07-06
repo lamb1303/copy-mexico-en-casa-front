@@ -30,7 +30,9 @@ const ClientButtons = props => {
                     Salir
                 </Button>
             </NavLink>
-
+            <a href='fb.me/RussApp2020'>
+                <span>Created by <b>RUSSAPP</b></span>
+            </a>
         </div>
     )
 }

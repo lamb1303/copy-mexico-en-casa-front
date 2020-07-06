@@ -15,11 +15,11 @@ class Client2 extends Component {
                 this.props.getBusinesses(this.lat, this.lng)
             },
             error => {
-                window.confirm(error.message);
+                window.alert(error.message);
             })
 
         } else {
-            console.log(alert("Error: Sin acceso a localizacion"))
+            window.alert("Error: Sin acceso a localizacion");
         }
        
 

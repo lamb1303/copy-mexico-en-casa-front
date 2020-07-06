@@ -72,11 +72,10 @@ const RegistroCliente = props => {
                             client['geolocation'] = { lat: coords.coords.latitude, lng: coords.coords.longitude }
                             props.onClientExist(client);
                         }, (err) => {
-                            console.log('No se obtubo coordenadas');
                         }, options);
                     }
                 })
-                .catch(err => console.log(err));
+                .catch(err => {});
         }
     }
 
@@ -143,7 +142,6 @@ const RegistroCliente = props => {
             street.replace('#', '');
             axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
                 .then(resp => { //Tulipanes 342 Saltillo
-                    console.log(resp.data.length)
                     if (Object.keys(resp.data).length > 0) {
                         setCoordinates({
                             lat: resp.data[0].lat,
@@ -152,7 +150,7 @@ const RegistroCliente = props => {
                     } else getLocationByBrowser();
                     setShowBackdrop(true)
                 })
-                .catch(err => console.log(err));
+                .catch(err => {});
         } else {
             getLocationByBrowser();
             setShowBackdrop(true)
