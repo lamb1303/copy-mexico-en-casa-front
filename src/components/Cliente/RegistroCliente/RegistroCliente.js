@@ -81,7 +81,7 @@ const RegistroCliente = props => {
 
     const rules = (value, type) => {
         switch (type) {
-            case 'text': return value.length > 5;
+            case 'text': return value.length > 2;
             case 'password': return value.length >= 8;
             case 'email': return /^\S+@\S+\.\S+$/.test(value);
             case 'number': return value.length >= 10;
