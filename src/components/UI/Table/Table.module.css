@@ -1,0 +1,42 @@
+.table{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.days{
+    display: flex;
+    font-size: 1rem;
+    justify-content: space-between;
+    border: 1px solid #f1f1f1;
+    padding: 3px;
+}
+
+.day{
+    position: relative;
+    width: 30%;
+}
+
+.box select {
+    background-color: #f6a030;
+    color: #4760a9;
+    border: none;
+    -webkit-appearance: button;
+    appearance: button;
+    outline: none;
+}
+  
+.box:hover::before {
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+  
+.box select option {
+    padding: 30px;
+}
+
+@media only screen and (min-width: 550px) {
+    .table div:first-child{
+        text-align: center;
+    }
+}

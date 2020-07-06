@@ -1,0 +1,31 @@
+@import '../../../styles/Colors.scss';
+
+.showMap button {
+    z-index: 200;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.instructions{
+    position: fixed;
+    z-index: 200;
+    top: 4%;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.instructions > div{
+    border-radius: 10px;
+    width: fit-content;
+    font-size: 1rem;
+}
+
+@media only screen and (min-width: 866px) {
+    .showMap button {
+        z-index: 121;
+        margin: 5% auto;
+        background-color: $primary-color;
+    }
+}

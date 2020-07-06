@@ -1,0 +1,65 @@
+.PlaceCard {
+    display: flex;
+    animation-name: stretch;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    margin-bottom: 0px;
+}
+
+.PlaceCard_image {
+    border-radius: 20px;
+    object-fit: contain;
+    width: 20%;
+    max-width: 20%;
+    min-width: 20%;
+    max-height: 150px;
+}
+
+.PlaceCard_details {
+    display: flex;
+    width: 80%;
+    max-width: 80%;
+    min-width: 80%;
+    padding: 10px;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.PlaceCard_details_place {
+    width: 80%;
+}
+
+.title {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.description {
+    font-size: 0.7rem;
+    color: #646464;
+    display: block;     
+    display: -webkit-box;     
+    max-width: 200px;     
+    -webkit-line-clamp: 4;     
+    -webkit-box-orient: vertical;     
+    overflow: hidden;     
+    text-overflow: ellipsis;
+}
+
+.stars {
+    display: flex;
+}
+
+.span{
+    display: flex;
+    font-size: 13px;
+}
+
+@keyframes stretch {
+    0% {
+        transform: scale(0.3);
+    }
+    39% {
+        transform: scale(1.05);
+    }
+}

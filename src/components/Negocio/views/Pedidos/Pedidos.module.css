@@ -1,0 +1,20 @@
+.pedidos{
+    display: flex;
+    flex-direction: column;
+    top: 55px;
+    position: relative;
+    height: calc(100vh - 55px);
+}
+
+.pedidos button{
+    margin: auto;
+}
+
+.entregado {
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.entregado span{
+    color: #a2a2a2
+}

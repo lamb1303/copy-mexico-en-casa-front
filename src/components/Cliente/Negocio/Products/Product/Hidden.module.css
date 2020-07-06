@@ -1,0 +1,44 @@
+/* .product_desc {
+    margin: auto;
+    max-width: 50%;
+    max-height: 41px;
+}
+
+.product_addToCar {
+    max-width: 38px;
+    max-height: 41px;
+    margin: auto 0;
+} */
+
+.options{
+    display: flex;
+    transition: transform 400ms ease-in-out;
+    align-items: center;
+    left: -10px;
+    position: relative;
+    width: 100%;
+}
+
+.amount {
+    margin: 0 30px;
+    font-size: 2rem;
+}
+
+.hidden{
+    transform: translateX(80px);
+}
+
+.showIt {
+    transform: translateX(-100px);
+}
+
+.addOne, .delOne{
+    max-width: 38px;
+    max-height: 41px;
+}
+
+@media only screen and (max-width: 866px) {
+    .showIt {
+        transform: translateX(-140px);
+    }
+}

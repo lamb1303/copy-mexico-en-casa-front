@@ -1,0 +1,93 @@
+@import "../../styles/Colors.scss";
+
+.header{
+    display: none;
+}
+
+.MuiFormControl-marginNormal {
+    background-color: white !important;
+    border-radius: 8px 8px 0px 0px !important;
+    width: 70% !important;
+}
+
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    height: 100vh;
+    background-color: $contrast-color;
+
+    &-container {
+        width: 60vw;
+        height: 36rem;
+        max-width: 80vh;
+        overflow: visible;
+        border-radius: 5em;
+        border: solid $primary-color;
+        background: $primary-color;
+
+        &__logo {
+            margin-top: 2em;
+            height: 10em;
+            width: 100%;
+            text-align: center;
+            overflow: hidden;
+
+            
+            & svg {
+                height: 100%;
+                width: 100%;
+            }
+        }
+        
+        &__login {
+            margin-top: 1em;
+            align-items: center;
+            text-align: center;
+            
+            &_txt {
+                max-width: 100% !important;
+            }
+            > div {
+                max-height: 80vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            & h3 {
+                color: $contrast-color;
+            }
+
+            & Button {
+                margin: 5px 0px;
+                width: 70%;
+                border: 1px solid $contrast-color !important;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 866px) {
+    .home {
+        overflow: scroll;
+        background: $primary-color;
+            &-container {
+                min-width: 100vw;
+                border-radius: 0;
+                border: 0;
+            }
+    }
+}
+
+@media only screen and (min-width: 867px) and (max-width: 1024px) {
+    .home {
+        overflow: scroll;
+        &-container {
+                width: 50vw;
+            }
+    }
+}
+

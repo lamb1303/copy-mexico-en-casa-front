@@ -1,0 +1,32 @@
+.alert {
+    position: fixed;
+    z-index: 150;
+    padding: 50px;
+    width: 35%;
+    top: 0;
+    right: 0;
+    -webkit-transform: 0.5s ease-in-out 2.5s;
+    -ms-transform: 0.5s ease-in-out 2.5s;
+    transition: 0.5s ease-in-out 2.5s;
+
+    & button {
+        position: absolute;
+        right: 0px;
+        margin: 0 10px;
+        border: 0px;
+    }
+}
+
+
+
+@media only screen and (max-width: 800px) {
+    .alert {
+        width:auto
+    }
+    .personalInfo{
+        z-index: 20;
+        opacity: 0.8;
+        padding: 0 !important;
+        width: 100%;
+    }
+}

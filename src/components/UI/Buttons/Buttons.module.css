@@ -1,0 +1,36 @@
+.Buttons {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 80%;
+}
+
+.Buttons span{
+    position: absolute;
+    bottom: 15px;
+    right: 0px;
+    left: 0px;
+    text-align: center;
+    color: white;
+}
+
+.Buttons span b{
+    color: gold;
+}
+
+.Buttons a{
+    text-decoration: none;
+    color: white;
+    display: flex;
+}
+
+@media only screen and (min-width: 550px) {
+    .Buttons{
+        margin-top: 0;
+        width: 60%;
+        height: 100vh;
+        justify-content: center;
+    }   
+}

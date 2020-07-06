@@ -1,0 +1,29 @@
+@import "../../../styles/Colors.scss";
+
+.modal-container {
+    position: fixed;
+    width: 50vw;
+    background-color: $pink-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1000;
+    max-height: 35em;
+    border-radius: 1.5rem;
+
+    &__button {
+        width: 100%;
+
+        & Button {
+            height: 3rem;
+            font-size: 1.5em;
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .modal-container {
+        width: 80vw;
+    }
+}

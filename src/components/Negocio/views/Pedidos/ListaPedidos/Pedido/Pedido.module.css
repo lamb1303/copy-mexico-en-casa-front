@@ -1,0 +1,83 @@
+.pedidoContainer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    justify-content: space-between;
+    margin: 1% 0;
+    box-shadow: 5px 5px #665;
+}
+
+.viewComments{
+    margin: auto;
+    padding: 20px;
+}
+.viewComments button {
+    width: 100%;
+}
+
+.detailsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+.pedidoDetails {
+    width: 100%;
+    padding: 15px 0;
+}
+
+.pedidoContainer .orderDate {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    text-align: center;
+    color: #482856;
+    font-weight: bold;
+}
+
+.pedidoDesc {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.pedidoDesc h4{
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
+    margin: auto;
+    text-align: center;
+}
+
+.pedidoDesc p{
+    width: 80%;
+    min-width: 80%;
+    max-width: 80%;
+    margin: auto;
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+}
+
+.checked {
+    background-color: #f6a030;
+}
+
+@media only screen and (max-width: 866px){
+    .pedidoContainer {
+        margin: 2% 0;
+    }
+}

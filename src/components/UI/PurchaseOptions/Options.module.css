@@ -1,0 +1,18 @@
+.options{
+    display: flex;
+    flex-direction: column;
+}
+.pay svg:hover, .delivery svg:hover {
+    transform: scale(1.7);
+}
+
+.delivery, .pay{
+    display: flex;
+    flex-direction: column;
+}
+
+.pay svg, .delivery svg{
+    width: 25px;
+    height: auto;
+    margin: 2px;
+}
