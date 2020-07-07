@@ -62,7 +62,7 @@ const NegocioInfo = props => {
             });
             setCoordinates({ lat: geolocation.lat, lng: geolocation.lng })
         }
-    }, [form, negocioData, geolocation]);
+    }, []);
 
     const handleContinue = () => {
 
