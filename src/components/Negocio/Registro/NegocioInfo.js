@@ -14,7 +14,7 @@ import classes from './NegocioInfo.module.css';
 
 const NegocioInfo = props => {
 
-    const { negocioData, geolocation } = props;
+    const { negocioData} = props;
     const [form, setForm] = useState({
         name: {
             element: 'input',
