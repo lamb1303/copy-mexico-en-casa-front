@@ -60,7 +60,7 @@ const NegocioInfo = props => {
                 street: { ...form['street'], value: negocioData.direccion, isValid: true },
                 description: { ...form['description'], value: negocioData.descripcion, isValid: true },
             });
-            setCoordinates({ lat: geolocation.lat, lng: geolocation.lng })
+            setCoordinates({ lat: props.geolocation.lat, lng: props.geolocation.lng })
         }
     }, []);
 
