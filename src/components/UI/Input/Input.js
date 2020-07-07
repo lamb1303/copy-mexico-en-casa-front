@@ -5,7 +5,7 @@ const Input = props => {
 
     const rules = (value, type) => {
         switch (type) {
-            case 'text': return value.length > 5;
+            case 'text': return value.length > 1;
             case 'password': return value.length >= 8;
             case 'email': return /^(([^<>()[\].,;:\s@"]+(.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+.)+[^<>()[\].,;:\s@"]{2,})$/i.test(value);
             case 'number': return value.length >= 10;
@@ -47,6 +47,7 @@ const Input = props => {
                     placeholder={props.input.placeholder}
                     value={props.input.value}
                     onChange={(event) => handleInput(event.target.value)}
+                    disabled={props.input.disabled}
                 />}
             {props.input.element === 'textarea' &&
                 <textarea

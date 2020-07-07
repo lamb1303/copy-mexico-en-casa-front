@@ -10,7 +10,8 @@ const ShowMap = (props) => {
   const [currentAddress, setCurrentAddress] = useState(props.address);
 
   const handleSelectPositionInMap = () => {
-    const address = `${currentAddress.road} #Num, C.P. ${currentAddress.postcode}, ${currentAddress.city}`;
+    if(currentAddress.road === undefined) return;
+    const address = `${currentAddress.road}, C.P. ${currentAddress.postcode}, ${currentAddress.city}`;
     if (currentPosition !== null) props.getCoords(currentPosition, address);
   };
 
