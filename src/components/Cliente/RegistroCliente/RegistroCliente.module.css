@@ -1,4 +1,4 @@
-.personalInfo{
+.personalInfo {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -17,8 +17,8 @@
     font-size: 0.9rem;
 }
 
-.background{
-    background-image: url('../assets/cafe.jpg');
+.background {
+    background-image: url("../assets/cafe.jpg");
     height: 100vh;
     background-size: cover;
     z-index: 2;
@@ -26,17 +26,17 @@
     width: 100vw;
 }
 
-.card{
+.card {
     margin: 5% auto;
 }
 
-.form{
+.form {
     display: flex;
     flex-direction: column;
     margin: 5% 0;
 }
 
-.location{
+.location {
     display: flex;
     width: 95%;
     margin: 4% auto;
@@ -45,13 +45,16 @@
     align-items: center;
 }
 
-.location svg{
+.location svg {
     height: 45px;
     width: 45px;
     margin-left: 10px;
+    padding: 0 5px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.closeMap{
+.closeMap {
     z-index: 102;
     color: white;
     position: absolute;
@@ -59,7 +62,7 @@
     top: 3%;
 }
 
-.input{
+.input {
     width: 90%;
     margin: 4% auto;
     border: 1px solid #ccc;
@@ -70,30 +73,30 @@
     border-radius: 4px;
 }
 
-.input:focus{
+.input:focus {
     outline: 0.8px solid rgb(8, 143, 206);
 }
 
-.bad{
+.bad {
     border: 2px solid rgb(255, 0, 0);
 }
 
-.good{
+.good {
     border: 2px solid rgb(11, 197, 5);
 }
 
-.buttons{
+.buttons {
     display: flex;
     justify-content: space-evenly;
     margin: 5% 0;
 }
 
-.buttons button{
+.buttons button {
     margin: 0 5%;
     max-width: 185px;
 }
 
-.aviso{
+.aviso {
     display: flex;
     color: white;
     left: 5%;
@@ -104,67 +107,67 @@
     top: -2%;
 }
 
-.privacidad{
+.privacidad {
     text-decoration: underline;
     font-weight: bold;
     font-size: 1.1rem;
     cursor: pointer;
 }
 
-.avisoLink{
+.avisoLink {
     color: white;
     font-size: 1.1rem;
     margin: 0 2%;
 }
 
 @media only screen and (min-width: 866px) {
-    .header{
-         width: 50%;
-         min-width: 50%;
-         margin-top: 0;
+    .header {
+        width: 50%;
+        min-width: 50%;
+        margin-top: 0;
     }
- 
-    .card{
+
+    .card {
         width: 50%;
         margin: 2% auto;
         min-height: 65vh;
     }
 
-    .input{
+    .input {
         margin: 3% auto;
     }
- 
-    .card > div{
-     width: 100%;
-     max-height: 400px;
-     background-color: white;
-     font-size: 1.2rem;
-     border-radius: 24px;
-     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-     overflow-y: scroll;
-     padding: 15px;
-     margin: auto;
-     height: 100%;
-     min-height: 65vh;
-     box-sizing: border-box;
-     justify-content: center;
+
+    .card > div {
+        width: 100%;
+        max-height: 400px;
+        background-color: white;
+        font-size: 1.2rem;
+        border-radius: 24px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        overflow-y: scroll;
+        padding: 15px;
+        margin: auto;
+        height: 100%;
+        min-height: 65vh;
+        box-sizing: border-box;
+        justify-content: center;
     }
 
-    .card div::-webkit-scrollbar{
+    .card div::-webkit-scrollbar {
         display: none;
     }
 
-    .form{
+    .form {
         margin: 0;
     }
-    
-    .aviso{
+
+    .aviso {
         justify-content: center;
         margin: 0;
         margin-bottom: 1%;
     }
 
-    .buttons{
+    .buttons {
         margin: 0;
     }
- }
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import classes from './EditBusiness.module.css';
+import classes from './EditBusiness.module.scss';
 import GeneralData from './GeneralData/GeneralData';
 import Schedule from './Schedule/Schedule';
 import Methods from './Methods/Methods';
@@ -10,6 +10,7 @@ import Button from '../../../../UI/Button/Button';
 import Spinner from '../../../../UI/Spinner/Spinner';
 import Backdrop from '../../../../UI/Backdrop/Backdrop';
 import * as actions from '../../../../../store/actions';
+import ChangePassword from '../../../../Cliente/EditClient/ChangePassword/ChangePassword';
 
 const baseObject = {
     isValid: true,
@@ -28,6 +29,9 @@ const EditBusiness = props => {
     const [payment, setPayment] = useState(props.selectedNegocio.payment)
     const [error, setError] = useState({ message: '', visible: false })
     const [cancel, setCancel] = useState(false)
+    const [alert, setAlert] = useState({ message: '', show: false });
+    const [viewPassword, setViewPassword] = useState(false);
+
 
     let init;
     if (Object.keys(props.selectedNegocio).length < 1) init = <Redirect to='/Negocio' />
@@ -139,6 +143,20 @@ const EditBusiness = props => {
         setTimeout(() => setError({ ...error, visible: false }), 3000)
     }
 
+    const updatePasswordHandler = () => {
+        if (props.updatedPsw) {
+            setAlert({ message: 'Por favor, intentalo más tarde', show: true })
+            return;
+        }
+        setViewPassword(true);
+    }
+
+    if (alert.show) {
+        setTimeout(() => {
+            setAlert({ message: '', show: false })
+        }, 3000);
+    }
+
     return (
         <>
             {init}
@@ -149,6 +167,7 @@ const EditBusiness = props => {
                     <Spinner />
                 </>
             )}
+            {(viewPassword && !props.updatedPsw) && <ChangePassword loading={props.loading} error={props.error} setView={() => setViewPassword(false)} />}
             {props.updated && <Redirect to='/negocio' />}
             {error.visible && <Alert title='Warning'> {error.message} </Alert>}
             <div className={classes.editBusiness} >
@@ -170,6 +189,9 @@ const EditBusiness = props => {
                     payment={payment}
                     delivery={delivery}
                 />
+                <div className={classes.password} onClick={() => updatePasswordHandler()} >
+                    cambiar contraseña
+                </div>
                 <div className={classes.buttons} >
                     <Button btnType='Success' clicked={() => saveAll()} >GUARDAR</Button>
                     <Button btnType='Danger' clicked={() => cancelHandler()} >CANCELAR</Button>
@@ -184,7 +206,9 @@ const mapStateToProps = state => {
         selectedNegocio: state.negocio.selectedNegocio,
         id: state.home.id,
         loading: state.negocio.loading,
-        updated: state.negocio.updated
+        updated: state.negocio.updated,
+        updatedPsw: state.negocio.updatedPsw,
+        error: state.negocio.error,
     }
 }
 

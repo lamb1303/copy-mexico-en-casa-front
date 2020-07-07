@@ -186,7 +186,7 @@ const EditClient = props => {
             {alert.show && <Alert title='Warning' > {alert.message} </Alert>}
             {props.updated && <Redirect to='/Cliente' />}
             {props.loading && <> <Backdrop show={props.loading} /> <Spinner /> </>}
-            {(viewPassword && !props.updatedPsw) && <ChangePassword setView={() => setViewPassword(false)} />}
+            {(viewPassword && !props.updatedPsw) && <ChangePassword loading={props.loading} error={props.error} setView={() => setViewPassword(false)} />}
             {cancelEdit && <Redirect to='/Client' />}
             {!props.client ? <Redirect to='/Client' /> :
                 (
@@ -226,6 +226,7 @@ const mapStateToProps = state => {
         client: state.cliente.cliente,
         id: state.home.id,
         loading: state.cliente.loading,
+        error: state.cliente.error,
         updated: state.cliente.updated,
         updatedPsw: state.cliente.updatedPsw,
     }

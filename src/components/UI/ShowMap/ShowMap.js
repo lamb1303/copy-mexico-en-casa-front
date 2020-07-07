@@ -17,7 +17,7 @@ const ShowMap = (props) => {
 
   return (
     <div className={classes.showMap}>
-      <div className={classes.instructions} >
+      <div className={classes.instructions} onClick={() => props.closeBackdrop()}>
         <Card >Por favor. Selecciona tu ubicacion</Card>
       </div>
       <Map

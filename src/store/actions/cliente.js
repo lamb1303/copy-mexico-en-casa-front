@@ -42,7 +42,7 @@ export const getBusinesses = (lat, lng) => {
                 }, []);
                 dispatch(getBusinessesSuccess(Updatedbusinesses.sort((a, b) => a.distance - b.distance)))
             }
-        ).catch(e => {})
+        ).catch(e => { })
     }
 }
 export const getSelectedBusiness = (idBusiness) => {
@@ -54,7 +54,7 @@ export const getSelectedBusiness = (idBusiness) => {
                 }
                 dispatch(clienteSelectedBusiness(data))
             }
-        ).catch(e => {})
+        ).catch(e => { })
     }
 }
 export const getBusinessesSuccess = (businesses) => {
@@ -207,7 +207,7 @@ export const getClientNamePhone = (clientId) => {
                 dispatch(getClientSuccess(resp.data.client))
             })
             .catch(err => {
-                
+
                 dispatch(getClientFail());
             })
     }
@@ -217,6 +217,12 @@ export const getClientNamePhone = (clientId) => {
 export const updateClientInit = () => {
     return {
         type: actionTypes.UPDATE_CLIENT_INIT
+    }
+}
+
+export const updateBusinessInit = () => {
+    return {
+        type: actionTypes.INIT_GET_NEGOCIO_DETAILS,
     }
 }
 
@@ -238,6 +244,12 @@ export const updatePassword = () => {
     }
 }
 
+export const updateBusinessPassword = () => {
+    return {
+        type: actionTypes.UPDATE_BUSINESS_PASSWORD
+    }
+}
+
 
 export const updateClient = (client, id) => {
     return dispatch => {
@@ -245,21 +257,43 @@ export const updateClient = (client, id) => {
         axios.patch(process.env.REACT_APP_API_URL + `/customer/updateClient/${id}`, client, createHeaders())
             .then(_ => dispatch(updateClientSuccess()))
             .catch(err => {
-                
+
                 dispatch(updateClientFail());
             })
     }
 }
 
-export const updateClientPassword = (newCredentials, id) => {
+export const updateClientPassword = (newCredentials, id, isCustomer) => {
     return dispatch => {
-        dispatch(updateClientInit());
+        if (isCustomer) {
+            dispatch(updateClientInit());
+        } else {
+            dispatch(updateBusinessInit());
+
+        }
         axios.patch(process.env.REACT_APP_API_URL + `/customer/updatePassword/${id}`, newCredentials, createHeaders())
-            .then(_ => dispatch(updatePassword()))
-            .catch(err => {
-                
-                dispatch(updateClientFail());
+            .then(_ => {
+                if (isCustomer) {
+                    dispatch(updatePassword())
+                } else {
+                    dispatch(updateBusinessPassword())
+
+                }
             })
+            .catch(err => {
+                if (isCustomer) {
+                    dispatch(updateClientFail());
+                } else {
+                    dispatch(updateBusinessFail())
+
+                }
+            })
+    }
+}
+
+export const updateBusinessFail = () => {
+    return {
+        type: actionTypes.CHANGE_STAGE_FAIL
     }
 }
 

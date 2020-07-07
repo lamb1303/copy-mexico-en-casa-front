@@ -89,7 +89,7 @@ const ChangePassword = props => {
         props.updatePassword({
             current: form['password'].value,
             newP: form['newPassword'].value,
-        }, props.id);
+        }, props.id, props.isCustomer);
     }
 
     if (alert.show) {
@@ -139,9 +139,8 @@ const ChangePassword = props => {
 
 const mapStateToProps = state => {
     return {
-        loading: state.cliente.loading,
         id: state.home.id,
-        error: state.cliente.error
+        isCustomer: state.home.isCustomer,
     }
 }
 

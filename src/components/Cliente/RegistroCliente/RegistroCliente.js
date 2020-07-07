@@ -202,15 +202,16 @@ const RegistroCliente = props => {
                 className={`${classes.input} ${phone.isValid ? classes.good : phone.touched ? classes.bad : ''}`}
                 onChange={(event) => handleInput('phone', event.target.value)}
             />
-            <div className={classes.location}>
+            <div className={classes.location} onClick={() => getLocation()}>
                 <input
                     type='text'
                     placeholder='Calle, Ciudad, CP'
                     value={direction.value}
+                    disabled
                     className={`${classes.input} ${direction.isValid ? classes.good : direction.touched ? classes.bad : ''}`}
                     onChange={(event) => handleInput('direction', event.target.value)}
                 />
-                <MapLogo onClick={() => getLocation()} />
+                <MapLogo />
             </div>
         </>
     )
@@ -238,13 +239,14 @@ const RegistroCliente = props => {
             {avisoPrivacidad.show && <AvisoPrivacidad />}
             {props.errorMessage && <Alert title='Error' clase={'personalInfo'} >{props.errorMessage}</Alert>}
             <div className={classes.background}></div>
-            {<Backdrop show={showBackdrop} />}
+            {<Backdrop show={showBackdrop} clicked={()=> setShowBackdrop(false)}/>}
             {showBackdrop && (
                 <ShowMap
                     nombre={name.value}
                     coordinates={coordinates}
                     getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
                     address={direction.value}
+                    closeBackdrop={()=> setShowBackdrop(false)}
                 />
             )}
             {showAlert && (<Alert

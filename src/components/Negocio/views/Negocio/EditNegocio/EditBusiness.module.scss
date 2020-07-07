@@ -1,4 +1,6 @@
-.editBusiness{
+@import "../../../../../styles/Colors.scss";
+
+.editBusiness {
     display: flex;
     flex-direction: column;
     top: 55px;
@@ -7,18 +9,27 @@
     overflow-y: scroll;
 }
 
-.buttons{
+.buttons {
     display: flex;
     justify-content: space-evenly;
     margin: 0 15px;
 }
 
-.buttons button{
+.buttons button {
     margin: 10% 5%;
 }
 
+.password {
+    font-size: 0.8rem;
+    color: $contrast-color;
+    text-decoration: underline;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
 @media only screen and (min-width: 550px) {
-    .editBusiness{
+    .editBusiness {
         margin: 0 auto;
         width: 50%;
         font-size: 1.3rem;
@@ -28,7 +39,7 @@
         border-right: 1px solid #ccc;
     }
 
-    .editBusiness::-webkit-scrollbar{
+    .editBusiness::-webkit-scrollbar {
         display: none;
     }
 }

@@ -13,6 +13,7 @@ const initialState = {
     loading: false,
     error: false,
     updated: false,
+    updatedPsw: false,
 }
 
 const clienteSelectedBusiness = (state, action) => {
@@ -58,7 +59,7 @@ const closeEditMode = (state, action) => {
 const changeStageFail = (state, action) => {
     return updateObject(state, {
         loading: false,
-        error: true
+        error: true,
     })
 }
 
@@ -81,6 +82,7 @@ const getNegocioDetailsSuccess = (state, action) => {
         loading: false,
         selectedNegocio: action.details,
         // products: action.products,
+        updatedPsw: false,
         updated: false
     })
 }
@@ -144,6 +146,15 @@ const updateComplete = (state, action) => {
     })
 }
 
+const updateBusinessPassword = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: false,
+        updatedPsw: true,
+    });
+}
+
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.OPEN_EDIT_NEGOCIO: return openEditNegocio(state, action);
@@ -162,6 +173,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.EDIT_END: return editEnd(state, action);
         case actionTypes.UPDATE_COMPLETE: return updateComplete(state, action);
         case actionTypes.UPDATE_FAIL: return updateFail(state, action);
+        case actionTypes.UPDATE_BUSINESS_PASSWORD: return updateBusinessPassword(state, action);
 
         default: return state
     }

@@ -16,6 +16,10 @@
     width: 100%;
 }
 
+.instructions div::-webkit-scrollbar{
+    display: none;
+}
+
 .instructions > div{
     border-radius: 10px;
     width: fit-content;
