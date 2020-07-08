@@ -186,6 +186,7 @@ const EditClient = props => {
 
 
     useEffect(() => {
+        updatedPsw &&
         setIsPwdUpdate(true);
     }, [updatedPsw]);
 
