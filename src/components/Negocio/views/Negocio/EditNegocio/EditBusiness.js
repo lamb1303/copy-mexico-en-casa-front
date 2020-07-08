@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './EditBusiness.module.scss';
 import GeneralData from './GeneralData/GeneralData';
 import Schedule from './Schedule/Schedule';
@@ -20,6 +20,8 @@ const baseObject = {
 
 const EditBusiness = props => {
 
+    const { updatedPsw } = props;
+
     const [name, setName] = useState(baseObject)
     const [desciption, setDesciption] = useState(baseObject)
     const [address, setAddress] = useState(baseObject)
@@ -29,8 +31,8 @@ const EditBusiness = props => {
     const [payment, setPayment] = useState(props.selectedNegocio.payment)
     const [error, setError] = useState({ message: '', visible: false })
     const [cancel, setCancel] = useState(false)
-    const [alert, setAlert] = useState({ message: '', show: false });
     const [viewPassword, setViewPassword] = useState(false);
+    const [isPwdUpdate, setIsPwdUpdate] = useState(false);
 
 
     let init;
@@ -92,7 +94,7 @@ const EditBusiness = props => {
             payment: payment
         }
 
-        props.updateBusiness(updatedBusiness, props.id);
+        props.updateBusiness(updatedBusiness, props.id, props.isCustomer);
 
     }
 
@@ -145,7 +147,7 @@ const EditBusiness = props => {
 
     const updatePasswordHandler = () => {
         if (props.updatedPsw) {
-            setAlert({ message: 'Por favor, intentalo más tarde', show: true })
+            setError({ message: 'Para cambiar nuevamente la contraseña, intentelo mas tarde', visible: true, type: 'Success' })
             return;
         }
         setViewPassword(true);
@@ -153,7 +155,18 @@ const EditBusiness = props => {
 
     if (alert.show) {
         setTimeout(() => {
-            setAlert({ message: '', show: false })
+            setError({ message: '', visible: false })
+        }, 3000);
+    }
+
+    useEffect(() => {
+        updatedPsw &&
+            setIsPwdUpdate(true);
+    }, [updatedPsw]);
+
+    if (isPwdUpdate) {
+        setTimeout(() => {
+            setIsPwdUpdate(false);
         }, 3000);
     }
 
@@ -163,13 +176,15 @@ const EditBusiness = props => {
             {cancel && <Redirect to='/negocio' />}
             {props.loading && (
                 <>
-                    <Backdrop show={props.loading} />
+                    <Backdrop visible={props.loading} />
                     <Spinner />
                 </>
             )}
             {(viewPassword && !props.updatedPsw) && <ChangePassword loading={props.loading} error={props.error} setView={() => setViewPassword(false)} />}
             {props.updated && <Redirect to='/negocio' />}
-            {error.visible && <Alert title='Warning'> {error.message} </Alert>}
+            {error.visible && <Alert title='Warning' > {error.message} </Alert>}
+            {isPwdUpdate && <Alert title='Success' > Se cambio la contraseña exitosamente </Alert>}
+
             <div className={classes.editBusiness} >
                 <GeneralData
                     name={name} setName={(value) => setName(value)}
@@ -205,6 +220,7 @@ const mapStateToProps = state => {
     return {
         selectedNegocio: state.negocio.selectedNegocio,
         id: state.home.id,
+        isCustomer: state.home.isCustomer,
         loading: state.negocio.loading,
         updated: state.negocio.updated,
         updatedPsw: state.negocio.updatedPsw,
@@ -214,7 +230,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateBusiness: (business, id) => dispatch(actions.updateBusiness(business, id))
+        updateBusiness: (business, id, isCustomer) => dispatch(actions.updateBusiness(business, id, isCustomer))
     }
 }
 

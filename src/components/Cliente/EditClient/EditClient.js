@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
 import Spinner from '../../UI/Spinner/Spinner';
@@ -15,6 +15,8 @@ import * as actions from '../../../store/actions';
 import classes from './EditClient.module.scss';
 
 const EditClient = props => {
+
+    const { updatedPsw } = props;
 
     const [form, setForm] = useState({
         name: {
@@ -66,6 +68,7 @@ const EditClient = props => {
     const [cancelEdit, setCancelEdit] = useState(false);
     const [viewPassword, setViewPassword] = useState(false);
     const [alert, setAlert] = useState({ message: '', show: false });
+    const [isPwdUpdate, setIsPwdUpdate] = useState(false);
 
     const setValue = (input) => {
 
@@ -169,7 +172,7 @@ const EditClient = props => {
 
     const updatePasswordHandler = () => {
         if (props.updatedPsw) {
-            setAlert({ message: 'Por favor, intentalo más tarde', show: true })
+            setAlert({ message: 'Para cambiar nuevamente la contraseña, intentelo mas tarde', show: true, type: 'Success' })
             return;
         }
         setViewPassword(true);
@@ -181,9 +184,22 @@ const EditClient = props => {
         }, 3000);
     }
 
+
+    useEffect(() => {
+        setIsPwdUpdate(true);
+    }, [updatedPsw]);
+
+    if(isPwdUpdate){
+        setTimeout(() => {
+            setIsPwdUpdate(false);
+        }, 3000);
+    }
+
+
     return (
         <>
-            {alert.show && <Alert title='Warning' > {alert.message} </Alert>}
+            {alert.show && <Alert title='Warning'> {alert.message} </Alert>}      
+            {isPwdUpdate && <Alert title='Success' > Se cambio la contraseña exitosamente </Alert>}      
             {props.updated && <Redirect to='/Cliente' />}
             {props.loading && <> <Backdrop show={props.loading} /> <Spinner /> </>}
             {(viewPassword && !props.updatedPsw) && <ChangePassword loading={props.loading} error={props.error} setView={() => setViewPassword(false)} />}
