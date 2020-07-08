@@ -5,7 +5,7 @@ import * as alertTypes from '../Util/enums/alertTypes';
 const initialState = {
     isAlert: false,
     alertType: '',
-    message: "",
+    message: '',
     error: false,
     loading: false,
     cliente: false,
@@ -34,9 +34,22 @@ const openOrderModal = (state, action) => {
     })
 }
 
+const clientClickLogo = (state, action) => {
+    return updateObject(state, {
+        openOrder: false,
+        productCount: [],
+        totalAmount: 0,
+        orderPrice: 0,
+        selectedProduct: '',
+        isAlert: false,
+        alertType: '',
+        message: '',
+        openProduct: false
+    })
+}
 const closeOrderModal = (state, action) => {
     return updateObject(state, {
-        openOrder: false
+        openOrder: false,
     })
 }
 
@@ -94,7 +107,7 @@ const addOneToSelectedProduct = (state, action) => {
             amount: product.amount + 1,
 
         })
-        
+
         //add into the items the product + 1
         copy.push(newProduct)
 
@@ -165,7 +178,8 @@ export const checkoutComplete = (state, action) => {
         checkoutInit: false,
         productCount: [],
         orderPrice: 0,
-        totalAmount: 0
+        totalAmount: 0,
+        openProduct: false
     })
 }
 
@@ -174,7 +188,12 @@ export const checkoutCancel = (state, action) => {
         checkoutInit: false,
         productCount: [],
         orderPrice: 0,
-        totalAmount: 0
+        totalAmount: 0,
+        isAlert: !state.isAlert,
+        alertType: '',
+        alertType: alertTypes.error,
+        message: 'La orden ha sido cancelada',
+        openProduct: false
     })
 }
 
@@ -280,6 +299,7 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.SET_CLIENT_ERROR: return setClientError(state, action);
         case actionTypes.LOGIN_NEW_CLIENT: return loginNewClient(state, action);
         case actionTypes.CLOSE_ALERT_CLIENT: return closeAlertClient(state, action);
+        case actionTypes.CLIENT_CLICK_LOGO: return clientClickLogo(state, action);
         default: return state;
     }
 };

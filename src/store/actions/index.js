@@ -52,7 +52,8 @@ export {
     updateClientPassword,
     setClientError,
     getClientNamePhone,
-    closeAlertClient
+    closeAlertClient,
+    ClientClickLogo
 } from './cliente'
 
 export {
