@@ -6,6 +6,7 @@ import { ReactComponent as Logo } from '../../../assets/logo.svg';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as actions from '../../../store/actions';
+import Home from '../../Home/Home';
 
 const Header = props => {
 
@@ -24,7 +25,9 @@ const Header = props => {
             {displayH && <div className={[classes.header, classes[space]].join(' ')}>
                 {displayB && <Burguer className={classes.header_burguer} onClick={() => props.onClickBurguer()} />}
                 <div className={classes.header_title}>MÉXICO EN CASA</div>
-                <NavLink to={{pathname: "/Home"}}>
+                <NavLink
+                    to={{ pathname: "/Home" }}
+                    onClick={props.isCustomer ? () => props.clientClickLogo(): null}>
                     <Logo className={classes.header_logo} alt='Mexico En Casa Logo' />
                 </NavLink>
 
@@ -33,11 +36,18 @@ const Header = props => {
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        isCustomer: state.home.isCustomer
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         onClickBurguer: () => dispatch(actions.burguerHandler()),
+        clientClickLogo: ()=> dispatch(actions.ClientClickLogo())
     }
 }
 
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

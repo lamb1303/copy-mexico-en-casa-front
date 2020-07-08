@@ -152,6 +152,41 @@ const Pedido = props => {
         </div>
     )
 
+    const selectLocation = (
+        <>
+            <div className={classes.sectionSize}>
+                <>
+                    <div className={classes.modal_noDeliver}>
+                        <Cash
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                pagoPedido(true);
+
+                            }} />
+                        <h3>
+                            Efectivo
+                        </h3>
+                    </div>
+                    <div className={classes.modal_deliver}>
+                        <CreditCard
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                pagoPedido(false);
+
+                            }
+                            } />
+                        <h3>
+                            Tarjeta
+                        </h3>
+                    </div>
+                </>
+                <Button
+                    clicked={() => enviarPedido(null)}>Regresar</Button>
+            </div>
+
+        </>
+    )
+
     const payment = (
         <>
             <div className={classes.sectionSize}>

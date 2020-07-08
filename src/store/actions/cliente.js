@@ -95,6 +95,12 @@ export const CloseSelectedProduct = () => {
     }
 }
 
+export const ClientClickLogo = () => {
+    return {
+        type: actionTypes.CLIENT_CLICK_LOGO
+    }
+}
+
 export const AddOneToSelectedProduct = (product, price, img) => {
     return {
         type: actionTypes.ADD_ONE_TO_SELECTED_PRODUCT,
