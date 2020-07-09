@@ -254,7 +254,7 @@ const RegistroCliente = props => {
                 clase={'personalInfo'}
                 clicked={() => setShowAlert(false)}
             >No se puede abrir el mapa por el momento. Intentelo mas tarde
-            </Alert>)}}
+            </Alert>)}
             <div className={classes.personalInfo} >
                 <div className={classes.header} >
                     <span>Listo para disfrutar las delicias de México. Por favor, llena los siguientes datos.</span>

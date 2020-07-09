@@ -53,7 +53,8 @@ export {
     setClientError,
     getClientNamePhone,
     closeAlertClient,
-    ClientClickLogo
+    ClientClickLogo,
+    setClientCoord,
 } from './cliente'
 
 export {

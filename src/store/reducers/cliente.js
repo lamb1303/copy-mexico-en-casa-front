@@ -20,6 +20,7 @@ const initialState = {
     businesses: {},
     updated: false,
     updatedPsw: false,
+    location: {}
 }
 
 const getBusinessesSuccess = (state, action) => {
@@ -163,6 +164,15 @@ const delOneToSelectedProduct = (state, action) => {
         })
     }
 }
+const setCoordinates = (state, action) => {
+    return updateObject(state, {
+        location: {
+            latitude: action.coords.lat,
+            longitude: action.coords.lng
+        }
+      
+    })
+}
 
 export const checkoutInit = (state, action) => {
     return updateObject(state, {
@@ -190,7 +200,6 @@ export const checkoutCancel = (state, action) => {
         orderPrice: 0,
         totalAmount: 0,
         isAlert: !state.isAlert,
-        alertType: '',
         alertType: alertTypes.error,
         message: 'La orden ha sido cancelada',
         openProduct: false
@@ -300,6 +309,7 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.LOGIN_NEW_CLIENT: return loginNewClient(state, action);
         case actionTypes.CLOSE_ALERT_CLIENT: return closeAlertClient(state, action);
         case actionTypes.CLIENT_CLICK_LOGO: return clientClickLogo(state, action);
+        case actionTypes.SET_ORDER_COORDINATES: return setCoordinates(state, action);
         default: return state;
     }
 };

@@ -48,6 +48,7 @@
 .modal::-webkit-scrollbar {
     display: none;
 }
+
 .modal {
     position: absolute;
     width: 100%;
@@ -61,9 +62,6 @@
     border-radius: 1.5rem;
     overflow-x: hidden;
     overflow-y: scroll;
-    animation-name: stretch;
-    animation-duration: 0.3s;
-    animation-timing-function: ease-out;
 
     &_price {
         position: relative;
@@ -74,22 +72,23 @@
     }
 
     &_deliver {
-        width: 40%;
+        width: 23vh;
         float: left;
     }
 
     &_noDeliver {
-        width: 40%;
+        width: 23vh;
         float: right;
     }
 
     & Button {
-        position: relative;
+        position: static;
         background: #482856;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 4px;
         margin: 0;
         width: 90%;
+        margin-bottom: 6px;
     }
     & h3 {
         justify-content: center;
@@ -99,9 +98,23 @@
         border: 1px solid #ccc;
         margin: 0 auto;
     }
+
+    & TextField {
+        box-sizing: border-box;
+        padding: 5%;
+        width: 45vh;
+        display: inherit !important;
+    }
+
+    & span {
+        color: #482856;
+        padding: 3px;
+        box-sizing: border-box;
+        margin: 0;
+    }
 }
 
-.sectionSize{
+.sectionSize {
     margin-top: 16px;
 }
 
@@ -115,12 +128,13 @@
 .centerInput input {
     height: 1.5em;
     width: 20em;
-    border-radius: 1em;
     margin: 1.3em;
 }
 .centerItems {
     border: 2px solid green;
     padding: 10px;
+    -webkit-animation: shadow-drop-center 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: shadow-drop-center 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -132,8 +146,15 @@
         width: 100vw;
         height: 80vh;
     }
+    .sectionSize {
+        margin-bottom: 3vh;
+        margin-top: 16px;
+    }
+    & TextField {
+        display: inherit !important;
+    }
 }
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 800px) {
     .modal {
         top: 0;
         left: 0;
@@ -141,14 +162,43 @@
         right: 0;
         width: 60vw;
         height: 80vh;
+
+        &_deliver {
+            width: 30vw;
+            float: left;
+        }
+
+        &_noDeliver {
+            width: 30vw;
+            float: right;
+        }
+    }
+
+    .sectionSize {
+        margin-bottom: 3vh;
+        margin-top: 16px;
     }
 }
 
-// @keyframes stretch {
-//     0% {
-//         transform: translate(-50%, -50%) scale(0.02);
-//     }
-//     100% {
-//         transform: translate(-50%, -50%) scale(.9);
-//     }
-// }
+@-webkit-keyframes shadow-drop-center {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        border-radius: 6vh;
+    }
+}
+@keyframes shadow-drop-center {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        border-radius: 6vh;
+    }
+}

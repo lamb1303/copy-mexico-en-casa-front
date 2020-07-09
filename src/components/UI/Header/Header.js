@@ -6,7 +6,6 @@ import { ReactComponent as Logo } from '../../../assets/logo.svg';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as actions from '../../../store/actions';
-import Home from '../../Home/Home';
 
 const Header = props => {
 
