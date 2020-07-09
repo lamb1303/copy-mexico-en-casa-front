@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Button from '../../../UI/Button/Button';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
 import classes from './Pedido.module.scss'
@@ -9,27 +9,86 @@ import { ReactComponent as Send } from '../../../../assets/pedido/send.svg';
 import { ReactComponent as Cash } from '../../../../assets/pedido/commerce-and-shopping.svg';
 import { ReactComponent as CreditCard } from '../../../../assets/pedido/business-and-finance.svg';
 import { connect } from 'react-redux';
+import { ReactComponent as MapLogo } from '../../../../assets/map.svg';
+import { ReactComponent as SearchPosition } from '../../../../assets/searchPosition.svg';
 import TextField from '@material-ui/core/TextField';
+import ShowMap from '../../../UI/ShowMap/ShowMap';
+import axios from 'axios';
+
+const baseObject = {
+    isValid: false,
+    touched: false,
+    value: ''
+}
 
 const Pedido = props => {
 
-    useEffect(() => {
-        const geo = navigator.geolocation
-        if (!geo) {
-            window.alert('Geolocation is not supported')
-            return
+    const getLocationByBrowser = () => {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
         }
-        const watcher = geo.getCurrentPosition(onChangePosition, onError)
-        return () => geo.clearWatch(watcher)
+        navigator.geolocation.getCurrentPosition((coords) => {
+            setCoordinates({
+                lat: coords.coords.latitude,
+                lng: coords.coords.longitude
+            });
+        }, (err) => {
+            setShowAlert(true)
+        }, options);
+    }
 
-    }, [])
+    const getLocation = () => {
+        if (props.geolocation) { setShowBackdrop(true); return }
+        if (direction.value.length > 5) {
+            const street = direction.value.trim().replace(/ /g, '+');
+            street.replace('#', '');
+            axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
+                .then(resp => { //Tulipanes 342 Saltillo
+                    if (Object.keys(resp.data).length > 0) {
+                        setCoordinates({
+                            lat: resp.data[0].lat,
+                            lng: resp.data[0].lon
+                        })
+                    } else getLocationByBrowser();
+                    setShowBackdrop(true)
+                })
+                .catch(err => { });
+        } else {
+            getLocationByBrowser();
+            setShowBackdrop(true)
+        }
+    }
+    const getCoordinatesFromMap = (currentPosition, address) => {
+        if (address.includes('undefined')) return;
+        setCoordinates(currentPosition);
+        props.onSetCoordinates(currentPosition);
+        setDirection({
+            ...direction,
+            value: address,
+            isValid: rules(address, 'text')
+        })
+        setShowBackdrop(false);
+    }
+
+    const [showAlert, setShowAlert] = useState(false);
+    const [reference, setReference] = useState('')
+    const [showBackdrop, setShowBackdrop] = useState(false);
+    const [coordinates, setCoordinates] = useState();
     const [envio, enviarPedido] = useState(null);
     const [pagoEfectivo, pagoPedido] = useState(null);
     const [iva, pagoEnvio] = useState(0);
-    const [position, setPosition] = useState({});
-    // const [error, setError] = useState(null);
-    const date = new Date();
+    const [direction, setDirection] = useState(baseObject);
+    const [actualLoc, isActualLoc] = useState(false);
+    const [otherLoc, isOtherLoc] = useState(false);
     const [dishes, setDishes] = useState(props.productCount);
+
+    const rules = (value, type) => {
+        switch (type) {
+            case 'text': return value.length > 2;
+            default: return false;
+        }
+    }
 
     const insrtNota = (event, orden) => {
 
@@ -43,18 +102,6 @@ const Pedido = props => {
         //Update dishes with List of dishes 
         setDishes(listOfDishes);
 
-    }
-
-
-    const onChangePosition = ({ coords }) => {
-        setPosition({
-            latitude: coords.latitude,
-            longitude: coords.longitude
-        })
-    }
-
-    const onError = (error) => {
-        window.alert('Ubicacion no obtenida. Por favor, intentalo mas tarde.')
     }
 
     const mostrarOrden = dishes.map(
@@ -95,6 +142,7 @@ const Pedido = props => {
 
     const metodoEntrega = (
         <div className={classes.sectionSize}>
+            <h3>Selecciona método de entrega.</h3>
             {
                 (props.selectedNegocio.delivery.isToGo && props.selectedNegocio.delivery.isToTake) &&
                 <>
@@ -106,7 +154,7 @@ const Pedido = props => {
                                 pagoEnvio(0)
                             }} />
                         <h3>
-                            Servicio a Domicilio
+                            A Domicilio
                         </h3>
                     </div>
                     <div className={classes.modal_noDeliver}>
@@ -114,10 +162,11 @@ const Pedido = props => {
                             className={[classes.pedidos_image, classes.centerItems].join(' ')}
                             onClick={() => {
                                 enviarPedido(true);
-                                pagoEnvio(0)
+                                pagoEnvio(0);
+                                getLocationByBrowser();
                             }} />
                         <h3>
-                            Pedido para Recoger
+                            Recoger Pedido
                         </h3>
                     </div>
                 </>
@@ -142,9 +191,12 @@ const Pedido = props => {
                 <div className={classes.modal_onlyDeliver}>
                     <ToTake
                         className={[classes.pedidos_image, classes.centerItems].join(' ')}
-                        onClick={() => enviarPedido(true)} />
+                        onClick={() => {
+                            getLocationByBrowser();
+                            enviarPedido(true);
+                        }} />
                     <h3>
-                        Pedido para Recoger
+                        Recoger Pedido
                         </h3>
                 </div>
             }
@@ -155,41 +207,73 @@ const Pedido = props => {
     const selectLocation = (
         <>
             <div className={classes.sectionSize}>
+                <h3 style={{ justifyContent: "center" }}
+                >Se realizará un cargo extra por servicio a domicilio.</h3>
                 <>
-                    <div className={classes.modal_noDeliver}>
-                        <Cash
-                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
-                            onClick={() => {
-                                pagoPedido(true);
-
-                            }} />
-                        <h3>
-                            Efectivo
-                        </h3>
-                    </div>
                     <div className={classes.modal_deliver}>
-                        <CreditCard
+                        <MapLogo
                             className={[classes.pedidos_image, classes.centerItems].join(' ')}
                             onClick={() => {
-                                pagoPedido(false);
-
+                                getLocationByBrowser();
+                                isActualLoc(true);
+                                setDirection(baseObject);
                             }
                             } />
                         <h3>
-                            Tarjeta
+                            Usar actual
+                        </h3>
+                    </div>
+                    <div className={classes.modal_noDeliver}>
+                        <SearchPosition
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                getLocation();
+                            }} />
+                        <h3>
+                            Nueva ubicación
                         </h3>
                     </div>
                 </>
-                <Button
-                    clicked={() => enviarPedido(null)}>Regresar</Button>
+                {direction.value !== '' &&
+                    <>
+                        <hr />
+                        <span><b>Ubicación Seleccionada</b></span>
+                        <TextField
+                        style={{
+                            display: "inherit"
+                        }}
+                            className={classes.TextField}
+                            type='text'
+                            placeholder='Calle, Ciudad, CP'
+                            value={direction.value}
+                            disabled
+                            onChange={(event) => (event.target.value)} />
+                        <TextField
+                            className={classes.modal_textField}
+                            type='text'
+                            placeholder='Ingresar referencia:'
+                            value={reference}
+                            multiline
+                            label="Ingresar referencia:"
+                            onChange={(event) => (setReference(event.target.value))} />
+                    </>
+                }
             </div>
+            {
+                direction.value !== '' &&
+                <Button
+                    clicked={() => isOtherLoc(true)}>Continuar</Button>
 
+            }
+            <Button
+                clicked={() => enviarPedido(null)}>Regresar</Button>
         </>
     )
 
     const payment = (
         <>
             <div className={classes.sectionSize}>
+                <h3>Selecciona método de pago.</h3>
                 {
                     (props.selectedNegocio.payment.cash && props.selectedNegocio.payment.creditCard) &&
                     <>
@@ -249,7 +333,81 @@ const Pedido = props => {
                     </div>
                 }
                 <Button
-                    clicked={() => enviarPedido(null)}>Regresar</Button>
+                    clicked={() => {
+                        isActualLoc(false);
+                        isOtherLoc(false);
+                    }}>Regresar</Button>
+            </div>
+
+        </>
+    )
+
+    const auxPayment = (
+        <>
+            <div className={classes.sectionSize}>
+                <h3>Selecciona método de pago.</h3>
+                {
+                    (props.selectedNegocio.payment.cash && props.selectedNegocio.payment.creditCard) &&
+                    <>
+                        <div className={classes.modal_noDeliver}>
+                            <Cash
+                                className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                                onClick={() => {
+                                    pagoPedido(true);
+
+                                }} />
+                            <h3>
+                                Efectivo
+                        </h3>
+                        </div>
+                        <div className={classes.modal_deliver}>
+                            <CreditCard
+                                className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                                onClick={() => {
+                                    pagoPedido(false);
+
+                                }
+                                } />
+                            <h3>
+                                Tarjeta
+                        </h3>
+                        </div>
+                    </>
+                }
+
+                {
+                    (props.selectedNegocio.payment.cash && !props.selectedNegocio.payment.creditCard) &&
+                    <div className={classes.modal_onlyDeliver}>
+                        <Cash
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                pagoPedido(true);
+                            }
+                            } />
+                        <h3>
+                            Efectivo
+                        </h3>
+                    </div>
+                }
+
+                {
+                    (!props.selectedNegocio.payment.cash && props.selectedNegocio.payment.creditCard) &&
+                    <div className={classes.modal_onlyDeliver}>
+                        <CreditCard
+                            className={[classes.pedidos_image, classes.centerItems].join(' ')}
+                            onClick={() => {
+                                pagoPedido(false);
+                            }
+                            } />
+                        <h3>
+                            Tarjeta
+                        </h3>
+                    </div>
+                }
+                <Button
+                    clicked={() => {
+                        enviarPedido(null)
+                    }}>Regresar</Button>
             </div>
 
         </>
@@ -258,19 +416,20 @@ const Pedido = props => {
     const acceptCancel = (
         <>
             <div className={[classes.modal_onlyDeliver, classes.sectionSize].join(' ')} >
+                <h3>
+                    Presiona la imagen para enviar.
+                </h3>
                 <Send
                     className={[classes.pedidos_image, classes.centerItems].join(' ')}
                     onClick={() => {
                         props.sendOrder(orderToSend);
                         props.cerrarModal();
                     }} />
-                <h3>
-                    Enviar
-                </h3>
             </div>
             <Button clicked={() => {
                 props.cerrarModal();
                 props.cancelOrder();
+
             }
             }>Cancelar</Button>
 
@@ -282,13 +441,13 @@ const Pedido = props => {
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit'
+        second: '2-digit',
+        timeZone: "America/Mexico_City"
     }
-    const orderDate = (new Intl.DateTimeFormat('en-US', options).format(date));
+    const orderDate = new Date().toLocaleString(options);
     const total = props.orderPrice + iva
-
-    const orderToSend = {
-        location: position,
+    let orderToSend = {
+        location: coordinates,
         orderDate: orderDate,
         dishes: dishes,
         idBusiness: localStorage.getItem("businessId"),
@@ -296,7 +455,8 @@ const Pedido = props => {
         stage: "receivedOrders",
         isToTake: envio,
         isCash: pagoEfectivo,
-        total: total
+        total: total,
+        reference: reference
     }
 
     return (
@@ -313,20 +473,37 @@ const Pedido = props => {
                 }
                 <h2>TOTAL: ${total} </h2>
                 {
-                    envio === false && <h3 style={{ justifyContent: "center" }}
-                    >Se realizará un cargo extra por servicio a domicilio.</h3>
-                }
-                {
-                    (pagoEfectivo === null && envio === null) &&
+                    (envio == null) &&
                     metodoEntrega
                 }
                 {
-                    (envio !== null && pagoEfectivo === null) &&
+                    (envio === false && !actualLoc && !otherLoc) &&
+                    selectLocation
+                }
+                {
+                    (envio === false && actualLoc && pagoEfectivo === null) &&
                     payment
                 }
-                {pagoEfectivo !== null &&
-                    acceptCancel}
+                {
+                    (envio === false && otherLoc && pagoEfectivo === null) &&
+                    payment
+                }
+                {
+                    (envio === true && pagoEfectivo === null) &&
+                    auxPayment
+                }
+                {
+                    (pagoEfectivo !== null) &&
+                    acceptCancel
+                }
             </div>
+            {showBackdrop && (
+                <ShowMap
+                    coordinates={coordinates}
+                    getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
+                    closeBackdrop={() => setShowBackdrop(false)}
+                />
+            )}
         </>
     )
 
@@ -338,7 +515,8 @@ const mapStateToProps = state => {
         openOrder: state.cliente.openOrder,
         selectedNegocio: state.negocio.selectedNegocio,
         idCustomer: state.home.id,
-        selectedProd: state.cliente.selectedProduct
+        selectedProd: state.cliente.selectedProduct,
+        location: state.cliente.location
     }
 }
 const mapDispatchToProps = {
@@ -347,6 +525,7 @@ const mapDispatchToProps = {
     cancelOrder: actions.checkoutCancel,
     onCloseOptions: () => (actions.CloseSelectedProduct()),
     sendOrder: actions.checkout,
+    onSetCoordinates: (coords) => actions.setClientCoord(coords)
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Pedido);

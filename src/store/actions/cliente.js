@@ -119,6 +119,13 @@ export const DelOneToSelectedProduct = (product, price, img) => {
     }
 }
 
+export const setClientCoord = (coordinates) => {
+    return {
+        type: actionTypes.SET_ORDER_COORDINATES,
+        coords: coordinates
+    }
+}
+
 export const checkoutInit = () => {
     return {
         type: actionTypes.CHECKOUT_INIT
