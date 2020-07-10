@@ -12,7 +12,9 @@ const Search = (props) => {
 
     const selectedBusiness = (business) => {
         localStorage.setItem("businessId", business.key)
-        props.clienteSelectedBusiness(business)
+        props.clienteSelectedBusiness(business);
+
+
     }
 
     let businesses = Object.values(props.businesses).map(
@@ -20,7 +22,10 @@ const Search = (props) => {
 
             if (business.desc.toUpperCase().includes(businessDesc.toUpperCase())) {
                 return <NavLink
-                    onClick={() => selectedBusiness(business)}
+                    onClick={() => {
+                        props.clientClickBusiness();
+                        selectedBusiness(business);
+                    }}
                     key={business.key[0]}
                     to={{
                         pathname: "/VerNegocio",
@@ -44,12 +49,12 @@ const Search = (props) => {
                         horaCerrado={business.schedule.horaCerrado}
                     />
                 </NavLink>
-            }else return <Fragment key={business.key[0]} ></Fragment> ;
+            } else return <Fragment key={business.key[0]} ></Fragment>;
         }
     )
-   
+
     if (businesses.length === 0) {
-        businesses = <h4 style={{textAlign: "center"}}>Negocios fuera de tu locación</h4>
+        businesses = <h4 style={{ textAlign: "center" }}>Negocios fuera de tu locación</h4>
     }
     return (
         <>
@@ -77,6 +82,8 @@ const Search = (props) => {
 const mapDispatchToProps = dispatch => {
     return {
         clienteSelectedBusiness: (business) => dispatch(action.clienteSelectedBusiness(business)),
+        clientClickBusiness: () => dispatch(action.ClientClickLogo())
+
     }
 }
 

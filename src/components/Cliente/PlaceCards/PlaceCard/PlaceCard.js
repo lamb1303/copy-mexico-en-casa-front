@@ -18,10 +18,10 @@ const PlaceCard = (props) => {
                 <div className={classes.PlaceCard_details_place} >
                     <span className={classes.title} >{props.name.toUpperCase()}</span>
                     <p className={classes.description} >{props.desc}</p>
-                    <span >Distancia: {distance.toFixed(0)} km.</span>
-                    <span>
+                    <span className={classes.span}>
                         Horario: {horaAbierto} - {horaCerrado} hrs.
-                        </span>
+                    </span>
+                    <span className={classes.span}>Distancia: {distance.toFixed(0)} km.</span>
                     
                 </div>
                 <Options isToGo={isToGo} cash={cash} creditCard={creditCard}/>

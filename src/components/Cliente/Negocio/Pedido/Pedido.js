@@ -34,7 +34,7 @@ const Pedido = props => {
                 lng: coords.coords.longitude
             });
         }, (err) => {
-            setShowAlert(true)
+            window.alert("No se pudo obtener tu locación actual, verifica permisos de locación en tu dispositivo")
         }, options);
     }
 
@@ -71,7 +71,6 @@ const Pedido = props => {
         setShowBackdrop(false);
     }
 
-    const [showAlert, setShowAlert] = useState(false);
     const [reference, setReference] = useState('')
     const [showBackdrop, setShowBackdrop] = useState(false);
     const [coordinates, setCoordinates] = useState();
