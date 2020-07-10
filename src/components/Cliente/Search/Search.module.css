@@ -1,4 +1,4 @@
-.Search_container{
+.Search_container {
     border-radius: 16px;
     background: white;
     box-shadow: 0 0 7px #000;
@@ -7,23 +7,27 @@
     flex-direction: column;
     justify-content: flex-start;
     height: 80vh;
+    overflow-y: auto;
 }
 
+.Search_container::-webkit-scrollbar {
+    display: none;
+}
 
-.Search_section svg{
+.Search_section svg {
     width: 30px;
     height: 56px;
     min-width: 30px;
     margin: auto 50px;
 }
-.Search_section svg:hover{
+.Search_section svg:hover {
     transform: scale(1.5);
 }
-a{
+a {
     text-decoration: none;
 }
 
-.businessContainer{
+.businessContainer {
     display: flex;
     border-bottom: 1px solid #ccc;
     padding: 10px;
@@ -31,7 +35,7 @@ a{
     max-height: 190px;
 }
 
-.businessContainer a{
+.businessContainer a {
     width: 100%;
 }
 

@@ -51,7 +51,8 @@ const Product = props => {
                     <div className={[classes.showedOptions, classes[showed_Prod]].join(' ')} onClick={() => handleShowProduct()}>
                         <img className={classes.product_image} src={props.img} alt={`imagen de ${props.name}`} />
                         <div className={classes.product_desc} >
-                            {props.desc}
+                            <p><b>{props.name}</b></p>
+                            <p>{props.desc}</p>
                             <div>
                                 ${props.price}
                             </div>
@@ -96,10 +97,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-        onOpenOptions: actions.OpenSelectedProduct,
-        onCloseOptions: actions.CloseSelectedProduct,
-        openEditProduct: actions.openEditProduct,
-        closeAlertClient: actions.closeAlertClient
+    onOpenOptions: actions.OpenSelectedProduct,
+    onCloseOptions: actions.CloseSelectedProduct,
+    openEditProduct: actions.openEditProduct,
+    closeAlertClient: actions.closeAlertClient
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);
