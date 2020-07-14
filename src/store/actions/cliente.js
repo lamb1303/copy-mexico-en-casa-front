@@ -3,6 +3,41 @@ import axios from '../../axios';
 import * as alertTypes from '../../store/Util/enums/alertTypes';
 import createHeaders from '../Util/headers/createHeaders';
 
+export const clientGetOrdersSuccess = (orders) => {
+    return {
+        type: actionTypes.CLIENT_GET_ORDERS_SUCCESS,
+        orders: orders
+    }
+}
+
+export const clientGetOrders = (idCusotmer) => {
+    return dispatch => {
+        axios.get(`${process.env.REACT_APP_API_URL}/customer/getOrders/${idCusotmer}`, createHeaders()).then(
+            res => {
+                if (res.data.orders) {
+                    const orderClient = res.data.orders
+                    const updatedOrderClient = orderClient.map((order, _) => {
+                        return {
+                            idBusiness: order.idBusiness,
+                            orderId: order.orderId,
+                            dishes: order.dishes,
+                            stage: order.stage,
+                            orderDate: order.orderDate,
+                            isCash: order.isCash,
+                            total: order.total,
+                            isToTake: order.isToTake
+                        }
+                    })
+                    dispatch(clientGetOrdersSuccess(updatedOrderClient))
+                }
+                
+                
+            }
+        ).catch(e => { })
+    }
+   
+}
+
 export const getBusinesses = (lat, lng) => {
 
     return dispatch => {

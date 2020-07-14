@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 const ClientButtons = props => {
-
     const editMode = () => {
         if (!props.isClient) props.editMode();
         props.closeSidebar();
@@ -14,11 +13,12 @@ const ClientButtons = props => {
 
     return (
         <div className={classes.Buttons}>
-            {!props.isClient && <NavLink to='/pedidos'>
+            {<NavLink to='/pedidos'>
                 <Button btnType='Success' clicked={() => props.closeSidebar()} >
                     Ver Pedidos
             </Button>
             </NavLink>}
+
             <NavLink to={props.isClient ? '/editClient' : '/negocio'}>
                 <Button btnType='Success' clicked={() => editMode()} >
                     Editar Perfil
@@ -39,15 +39,15 @@ const ClientButtons = props => {
 
 const mapStateToProps = state => {
     return {
-        isClient: state.home.isCustomer
+        isClient: state.home.isCustomer,
     }
 }
 
 const mapDispatchToProps = {
-
     editMode: actions.changeEditMode,
     closeSidebar: actions.burguerHandler,
     logOut: actions.logOut,
+    
 
 }
 
