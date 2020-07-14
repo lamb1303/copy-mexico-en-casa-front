@@ -23,6 +23,57 @@ const initialState = {
     pagoTarjeta: false,
     entregaDomicilio: false,
     entregaNegocio: false,
+    days: [
+        {
+            id: 1,
+            dia: 'Lunes',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 2,
+            dia: 'Martes',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 3,
+            dia: 'Miercoles',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 4,
+            dia: 'Jueves',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 5,
+            dia: 'Viernes',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 6,
+            dia: 'Sabado',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+        {
+            id: 7,
+            dia: 'Domingo',
+            abierto: false,
+            horaAbierto: '',
+            horaCerrado: '',
+        },
+    ],
 }
 
 
