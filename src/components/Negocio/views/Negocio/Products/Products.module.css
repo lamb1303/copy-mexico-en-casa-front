@@ -1,8 +1,11 @@
 .products{
     display: flex;
     flex-direction: column;
-    min-height: 50vh;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .products::-webkit-scrollbar{
@@ -26,4 +29,12 @@
     font-size: 1.5rem;
     color: #482856;
     font-weight: bold;
+}
+
+@media only screen and (max-width: 866px){
+    .products{
+        height: 60vh;
+        min-height: 60vh;
+        max-height: 60vh;
+    }
 }
