@@ -10,6 +10,7 @@ import Sidebar from './components/UI/Sidebar/Sidebar';
 import Client from './components/Cliente/Client';
 import EditClient from './components/Cliente/EditClient/EditClient';
 import Home from './components/Home/Home';
+//import Flayer from './components/Home/Flayer/Flayer';
 import RegistroCliente from './components/Cliente/RegistroCliente/RegistroCliente'
 import ClientNegocio from './components/Cliente/Negocio/Negocio';
 import Negocio from './components/Negocio/views/Negocio/Negocio';
