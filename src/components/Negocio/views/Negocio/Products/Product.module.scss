@@ -3,12 +3,10 @@
 .product {
     display: flex;
     padding: 5px;
-    border-bottom: 1px solid #ccc;   
-    height: 40%;
-    height: 40;
-    min-height: 40%;
-    max-height: 40%;
-
+    border-bottom: 1px solid #ccc;
+    height: 20%;
+    min-height: 20%;
+    max-height: 20%;
 }
 
 .slide {
@@ -60,7 +58,7 @@
     align-items: center;
     width: 100vw;
     transition: transform 400ms ease-in-out;
-    height: 100%;
+    min-height: 100%;
     //test
     position: relative;
 }
@@ -91,5 +89,8 @@
         width: 100%;
         position: relative;
         box-sizing: border-box;
+        height: 40%;
+        min-height: 40%;
+        max-height: 40%;
     }
 }
