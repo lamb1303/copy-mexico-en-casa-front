@@ -77,7 +77,7 @@ class OrderHistory extends Component {
                         </div>
                         <Button btnType='Success' clicked={() => {
                             this.setBackdropHandler();
-                            this.state.idBusiness = res.idBusiness
+                            this.setState({idBusiness: res.idBusiness})
                         }
                         }>Ver detalle</Button>
                     </div>
@@ -98,7 +98,8 @@ class OrderHistory extends Component {
                 {
                     this.state.showBackdrop &&
                     <OrderDetails className="showCard"
-                        idBusiness={this.state.idBusiness} />
+                        idBusiness={this.state.idBusiness}
+                        showBackDrop={()=>this.setBackdropHandler()}/>
                 }
             </>
         )

@@ -90,7 +90,7 @@ class Negocio extends Component {
                         } clicked={() => {
                             this.props.openModal();
                             this.handleOptions()
-                        }} >Ver pedido</Button>
+                        }} >Mostrar orden</Button>
 
                     {
                         (this.props.openOrder) &&

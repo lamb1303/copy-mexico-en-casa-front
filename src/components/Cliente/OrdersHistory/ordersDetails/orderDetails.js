@@ -12,6 +12,7 @@ const OrderDetails = props => {
     useEffect(() => {
         clientGetBusinessInfo(idBusiness)
     }, [clientGetBusinessInfo, idBusiness]);
+
     const businessName = businessInfo.businessName
     const lat = businessInfo.lat
     const lng = businessInfo.lng
@@ -20,7 +21,7 @@ const OrderDetails = props => {
     return (
         <div className="modal" onLoad={window.scroll(-50, 50)}>
             <h2>Negocio: {businessName}</h2>
-            <img className="negocio_imagen" src={photoBusiness}/>
+            <img className="negocio_imagen" src={photoBusiness} alt="photoBusiness"/>
             <a
                 target="_blank"
                 rel="noopener noreferrer"
@@ -33,6 +34,10 @@ const OrderDetails = props => {
                 href={`tel:${mobile}`}>
                 <Button btnType='Danger'><Phone className='comments__icon' /> Marcar</Button>
             </a>
+            <Button style={{
+                width: "33%",
+                borderRadius: "2em",
+            }} clicked={props.showBackDrop} btnType='Success'>Regresar</Button>
         </div>
 
 
