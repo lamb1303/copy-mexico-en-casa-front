@@ -207,6 +207,10 @@ const Pedido = props => {
     const selectLocation = (
         <>
             <div className={classes.sectionSize}>
+                <TextField
+                    disabled
+                    label="Estas en:"
+                    variant="outlined" />
                 <h3 style={{ justifyContent: "center" }}
                 >Se realizará un cargo extra por servicio a domicilio.</h3>
                 <>
@@ -239,9 +243,9 @@ const Pedido = props => {
                         <hr />
                         <span><b>Ubicación Seleccionada</b></span>
                         <TextField
-                        style={{
-                            display: "inherit"
-                        }}
+                            style={{
+                                display: "inherit"
+                            }}
                             className={classes.TextField}
                             type='text'
                             placeholder='Calle, Ciudad, CP'

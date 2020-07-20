@@ -45,12 +45,12 @@ const Search = (props) => {
                         horaCerrado={business.schedule.horaCerrado}
                     />
                 </NavLink>
-            }else return <Fragment key={business.key[0]} ></Fragment> ;
+            } else return <Fragment key={business.key[0]} ></Fragment>;
         }
     )
-   
+
     if (businesses.length === 0) {
-        businesses = <h4 style={{textAlign: "center"}}>Negocios fuera de tu locación</h4>
+        businesses = <h4 style={{ textAlign: "center" }}>Negocios fuera de tu locación</h4>
     }
     return (
         <>
@@ -67,6 +67,13 @@ const Search = (props) => {
                     }} />
                 <Lupa />
             </div>
+            <div className={classes.Search_section} >
+                <TextField
+                    disabled
+                    label="Estas en:"
+                    variant="outlined" />
+            </div>
+
             <div className={classes.Search_container}>
                 {businesses &&
                     businesses}
