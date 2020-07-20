@@ -6,6 +6,7 @@ import { ReactComponent as Delivery } from './../../../assets/pedido/delivery.sv
 import { ReactComponent as NoDelivery } from './../../../assets/local.svg';
 import { ReactComponent as Cash } from './../../../assets/efectivo.svg';
 import { ReactComponent as CreditCard } from './../../../assets/tarjeta.svg';
+import { ReactComponent as NoFood } from './../../../assets/no-eating.svg';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Button from '../../UI/Button/Button';
 import './OrdersHistory.scss'
@@ -77,7 +78,7 @@ class OrderHistory extends Component {
                         </div>
                         <Button btnType='Success' clicked={() => {
                             this.setBackdropHandler();
-                            this.setState({idBusiness: res.idBusiness})
+                            this.setState({ idBusiness: res.idBusiness })
                         }
                         }>Ver detalle</Button>
                     </div>
@@ -94,12 +95,18 @@ class OrderHistory extends Component {
                 <div key={Math.random() + .21} className="orderContainer">
                     {orders &&
                         orders}
+                    {this.props.orders.length === 0 &&
+                        <>
+                        <NoFood className="noFood"></NoFood>
+                        <h4 className="noFoodInfo">Sin pedidos.</h4>
+                        </>
+                    }
                 </div>
                 {
                     this.state.showBackdrop &&
                     <OrderDetails className="showCard"
                         idBusiness={this.state.idBusiness}
-                        showBackDrop={()=>this.setBackdropHandler()}/>
+                        showBackDrop={() => this.setBackdropHandler()} />
                 }
             </>
         )

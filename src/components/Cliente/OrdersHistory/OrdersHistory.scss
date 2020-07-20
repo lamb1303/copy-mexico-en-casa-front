@@ -5,7 +5,20 @@
     max-width: 100%;
     max-height: 100%;
 }
-
+.noFood {
+    width: 55vw;
+    height: 44vh;
+    position: relative;
+    top: 9em;
+    left: 23vw;
+}
+.noFoodInfo {
+    margin: 0;
+    position: absolute;
+    left: 39vw;
+    top: 60vh;
+    text-align: center;
+}
 .product_image {
     max-width: 66px;
     max-height: 100%;
@@ -99,6 +112,20 @@
 }
 
 @media only screen and (min-width: 700px) {
+    .noFood {
+        width: 55vw;
+        height: 44vh;
+        position: relative;
+        top: 9em;
+        left: 2vw;
+    }
+    .noFoodInfo {
+        margin: 0;
+        position: absolute;
+        left: 26vw;
+        top: 69vh;
+        text-align: center;
+    }
     .orderContainer {
         width: 46vw;
         position: absolute;
@@ -137,7 +164,7 @@
     .orderResume {
         min-width: 36vw;
     }
-    .creditCard{
+    .creditCard {
         left: 0;
     }
 }
