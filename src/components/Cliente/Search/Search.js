@@ -12,6 +12,7 @@ const Search = (props) => {
 
     const selectedBusiness = (business) => {
         localStorage.setItem("businessId", business.key)
+        localStorage.setItem("businessName", business.name)
         props.clienteSelectedBusiness(business)
     }
 

@@ -21,7 +21,14 @@ const initialState = {
     updated: false,
     updatedPsw: false,
     location: {},
-    orders: []
+    orders: [],
+    businessInfo: {}
+}
+
+const clientGetBusinessInfo = (state, action) => {
+    return updateObject(state, {
+        businessInfo: action.businessInfo
+    })
 }
 
 const clientGetOrdersSuccess = (state, action) => {
@@ -177,7 +184,7 @@ const setCoordinates = (state, action) => {
             latitude: action.coords.lat,
             longitude: action.coords.lng
         }
-      
+
     })
 }
 
@@ -317,7 +324,8 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.CLOSE_ALERT_CLIENT: return closeAlertClient(state, action);
         case actionTypes.CLIENT_CLICK_LOGO: return clientClickLogo(state, action);
         case actionTypes.SET_ORDER_COORDINATES: return setCoordinates(state, action);
-        case actionTypes.CLIENT_GET_ORDERS_SUCCESS: return clientGetOrdersSuccess(state, action)
+        case actionTypes.CLIENT_GET_ORDERS_SUCCESS: return clientGetOrdersSuccess(state, action);
+        case actionTypes.CLIENT_GET_BUSINESS_INFO: return clientGetBusinessInfo(state, action);
         default: return state;
     }
 };

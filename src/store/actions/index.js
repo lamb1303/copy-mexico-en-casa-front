@@ -56,7 +56,8 @@ export {
     ClientClickLogo,
     setClientCoord,
     clientGetOrders,
-    clientGetOrdersSuccess
+    clientGetOrdersSuccess,
+    clientGetBusinessInfo
 } from './cliente'
 
 export {

@@ -451,6 +451,7 @@ const Pedido = props => {
         orderDate: orderDate,
         dishes: dishes,
         idBusiness: localStorage.getItem("businessId"),
+        businessName: localStorage.getItem("businessName"),
         idCustomer: props.idCustomer,
         stage: "receivedOrders",
         isToTake: envio,

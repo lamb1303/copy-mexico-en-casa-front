@@ -7,14 +7,11 @@
 }
 
 .product_image {
-    left: 12vh;
-    position: relative;
-    max-width: 150px;
+    max-width: 66px;
     max-height: 100%;
     border-radius: 150px;
     border: 2px solid $primary-color;
     padding: 0px 5px;
-    margin: auto 0;
     min-height: 100%;
     margin-bottom: 2vh;
 }
@@ -30,7 +27,117 @@
     flex-direction: column;
     justify-content: flex-start;
 
+    .container {
+        width: 90vw;
+        margin: auto;
+    }
+    .first {
+        width: 40vw;
+        float: left;
+    }
+    .second {
+        float: left;
+    }
     & h4 {
         text-align: center;
+        margin: 1vh;
+    }
+    & span {
+        text-align: center;
+        color: $contrast-color;
+        margin-bottom: 1vh;
+        border-radius: 21px;
+
+        box-shadow: 0 0 4px #000;
+    }
+    & Button {
+        left: 9vw;
+        position: relative;
+        margin: 1vh;
+    }
+    &_payment {
+        width: 0;
+        position: relative;
+        left: 44vw;
+    }
+    &_deliver {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        left: 9vw;
+    }
+    &_noDeliver {
+        position: relative;
+        top: 4vw;
+        left: 15vw;
+    }
+    &_cash {
+        width: 33vw;
+        height: 100px;
+    }
+}
+.orderResume {
+    min-width: 50vw;
+    padding-left: 3%;
+    max-width: 60vw;
+}
+.orderDesc {
+    display: flex;
+    justify-content: flex-start;
+    transition: transform 400ms ease-in-out;
+    height: 100%;
+    position: relative;
+}
+.creditCard {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    left: 3vw;
+}
+.orderContainer::-webkit-scrollbar {
+    display: none;
+}
+
+@media only screen and (min-width: 700px) {
+    .orderContainer {
+        width: 46vw;
+        position: absolute;
+        left: 19vw;
+    }
+    .showCard {
+        width: 59vw;
+        .container {
+            width: 39vw;
+            margin: auto;
+        }
+        & Button {
+            left: 4vw;
+        }
+        &_noDeliver {
+            position: relative;
+            top: 2vw;
+            left: 5vw;
+        }
+        &_deliver {
+            left: 3vw;
+        }
+        &_cash {
+            width: 12vw;
+            left: -1em;
+            position: relative;
+        }
+        .first {
+            width: 25vw;
+            float: left;
+        }
+    }
+    .orderDesc {
+        width: 39vw;
+    }
+    .orderResume {
+        min-width: 36vw;
+    }
+    .creditCard{
+        left: 0;
     }
 }
