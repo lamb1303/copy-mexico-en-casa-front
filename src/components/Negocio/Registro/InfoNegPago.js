@@ -55,7 +55,7 @@ const InfoNegPago = props => {
                         lastName: props.personalData.apellidos,
                         mobile: props.personalData.telefono,
                         password: props.personalData.psw,
-                        photoBusiness: photoBusiness ? photoBusiness : null,
+                        photoBusiness: photoBusiness ? photoBusiness : 'https://firebasestorage.googleapis.com/v0/b/catalogocovid2020.appspot.com/o/imagen_mexico_en_casa.png?alt=media&token=39bc7063-cb25-4be4-85e3-a6a24c55b7bd',
                         photoINE: photoINE ? photoINE : null,
                         rate: '',
                         schedule: props.days,

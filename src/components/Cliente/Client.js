@@ -20,7 +20,6 @@ const Client2 = props => {
                 const lng = position.coords.longitude
                 getBusinesses(lat, lng)
             }, error => {
-                // window.alert('no se obtuvo localizacion');
                 if (client.geolocation) getBusinesses(client.geolocation.lat, client.geolocation.lng)
             })
         } else if (client.geolocation) getBusinesses(client.geolocation.lat, client.geolocation.lng)
