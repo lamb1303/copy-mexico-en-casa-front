@@ -33,6 +33,8 @@ const EditBusiness = props => {
     const [cancel, setCancel] = useState(false)
     const [viewPassword, setViewPassword] = useState(false);
     const [isPwdUpdate, setIsPwdUpdate] = useState(false);
+    const [coordinates, setCoordinates] = useState(props.selectedNegocio.geolocation);
+
 
 
     let init;
@@ -91,7 +93,8 @@ const EditBusiness = props => {
             mobile: phone.value ? phone.value : props.selectedNegocio.mobile,
             schedule: days,
             delivery: delivery,
-            payment: payment
+            payment: payment,
+            geolocation: coordinates
         }
 
         props.updateBusiness(updatedBusiness, props.id, props.isCustomer);
@@ -170,6 +173,11 @@ const EditBusiness = props => {
         }, 3000);
     }
 
+    const getCoordinatesFromMap = (currentPosition, address) => {
+        setCoordinates(currentPosition);
+        setAddress({ value: address, touched: true, isValid: true })
+    }
+
     return (
         <>
             {init}
@@ -191,6 +199,8 @@ const EditBusiness = props => {
                     desciption={desciption} setDesciption={(value) => setDesciption(value)}
                     address={address} setAddress={(value) => setAddress(value)}
                     phone={phone} setPhone={(value) => setPhone(value)}
+                    coordinates={coordinates} setCoordinates={(coords) => setCoordinates(coords)}
+                    getCoordinatesFromMap={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
                 />
                 <Schedule
                     days={days}
