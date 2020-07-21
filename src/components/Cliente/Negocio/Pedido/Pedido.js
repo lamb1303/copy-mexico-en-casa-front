@@ -60,7 +60,6 @@ const Pedido = props => {
         }
     }
     const getCoordinatesFromMap = (currentPosition, address) => {
-        if (address.includes('undefined')) return;
         setCoordinates(currentPosition);
         props.onSetCoordinates(currentPosition);
         setDirection({
@@ -238,9 +237,9 @@ const Pedido = props => {
                         <hr />
                         <span><b>Ubicación Seleccionada</b></span>
                         <TextField
-                        style={{
-                            display: "inherit"
-                        }}
+                            style={{
+                                display: "inherit"
+                            }}
                             className={classes.TextField}
                             type='text'
                             placeholder='Calle, Ciudad, CP'
