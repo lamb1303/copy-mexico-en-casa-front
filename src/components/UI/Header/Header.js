@@ -13,7 +13,7 @@ const Header = props => {
 
     let space = ""
     let displayB = true;
-    const displayH = location.pathname !== '/Home' && location.pathname !== '/Mission' && location.pathname !== '/';
+    const displayH = location.pathname !== '/Home' && location.pathname !== '/';
     if (location.pathname === '/Registro' || location.pathname === '/RegistroCliente') {
         displayB = false
         space = 'space'
