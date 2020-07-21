@@ -1,0 +1,109 @@
+@import "../../../styles/Colors.scss";
+
+.flayer {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+
+    &__mission {
+        position: absolute;
+        top: 0;
+        height: 82vh;
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+        font-family: sans-serif;
+    }
+
+    &__buttons {
+        position: absolute;
+        bottom: 0;
+        height: 18vh;
+        width: 100%;
+        text-align: center;
+
+        & button {
+            width: 50%;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+    }
+}
+.information {
+    font-size: 2rem;
+    font-style: oblique;
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    color: gold;
+
+    &:after {
+        content: "";
+        -webkit-animation: change_text 45s both;
+        animation: change_text 45s both;
+        -webkit-animation-timing-function: ease-in-out;
+        animation-timing-function: ease-in-out;
+        -webkit-animation-delay: 2s;
+        animation-delay: 2s;
+    }
+}
+
+@-webkit-keyframes change_text {
+    0% {
+        opacity: 1;
+        content: "La pandemia sorprendio al mundo. miles de negocios de comida han cerrado sus puertas";
+    }
+    25% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+        content: "así que hoy más que nunca debemos apoyarnos unos a otros";
+    }
+    45% {
+        opacity: 0;
+    }
+    60% {
+        opacity: 1;
+        content: "Por ello, buscamos conectar la gastronomia de los pequeños negocios con los consumidores
+        a través de la mejor experiencia digital para llevar el sabor de México a casa";
+    }
+    80% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        content: "¿Quieres formar parte del cambio?";
+    }
+}
+
+@keyframes change_text {
+    0% {
+        opacity: 1;
+        content: "La pandemia sorprendio al mundo. miles de negocios de comida han cerrado sus puertas";
+    }
+    25% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+        content: "así que hoy más que nunca debemos apoyarnos unos a otros";
+    }
+    45% {
+        opacity: 0;
+    }
+    60% {
+        opacity: 1;
+        content: "Por ello, buscamos conectar la gastronomia de los pequeños negocios con los consumidores
+        a través de la mejor experiencia digital para llevar el sabor de México a casa";
+    }
+    80% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        content: "¿Quieres formar parte del cambio?";
+    }
+}
