@@ -70,12 +70,12 @@ const Search = (props) => {
                     }} />
                 <Lupa />
             </div>
-            {/* <div className={classes.Search_section} >
+            <div className={classes.Search_section} >
                 <TextField
                     disabled
                     label="Estas en:"
                     variant="outlined" />
-            </div> */}
+            </div>
 
             <div className={classes.Search_container}>
                 {businesses &&
