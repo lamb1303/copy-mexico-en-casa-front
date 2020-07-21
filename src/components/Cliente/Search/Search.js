@@ -12,9 +12,8 @@ const Search = (props) => {
 
     const selectedBusiness = (business) => {
         localStorage.setItem("businessId", business.key)
-        props.clienteSelectedBusiness(business);
-
-
+        props.clienteSelectedBusiness(business)
+        localStorage.setItem("businessName", business.name)
     }
 
     let businesses = Object.values(props.businesses).map(
@@ -31,7 +30,6 @@ const Search = (props) => {
                         pathname: "/VerNegocio",
                         photoBusiness: business.photoBusiness,
                         isToGo: business.delivery.isToGo,
-                        isToTake: business.delivery.isToTake,
                         cash: business.payment.cash,
                         creditCard: business.payment.creditCard
                     }}>
@@ -39,6 +37,7 @@ const Search = (props) => {
                         businessId={business.key[0]}
                         name={business.name}
                         isToGo={business.delivery.isToGo}
+                        isToTake={business.delivery.isToTake}
                         cash={business.payment.cash}
                         creditCard={business.payment.creditCard}
                         rate={business.rate}
@@ -71,6 +70,13 @@ const Search = (props) => {
                     }} />
                 <Lupa />
             </div>
+            {/* <div className={classes.Search_section} >
+                <TextField
+                    disabled
+                    label="Estas en:"
+                    variant="outlined" />
+            </div> */}
+
             <div className={classes.Search_container}>
                 {businesses &&
                     businesses}

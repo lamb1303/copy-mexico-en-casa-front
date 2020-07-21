@@ -10,7 +10,7 @@ import Sidebar from './components/UI/Sidebar/Sidebar';
 import Client from './components/Cliente/Client';
 import EditClient from './components/Cliente/EditClient/EditClient';
 import Home from './components/Home/Home';
-//import Flayer from './components/Home/Flayer/Flayer';
+import Landing from './components/Home/Landing/Landing';
 import RegistroCliente from './components/Cliente/RegistroCliente/RegistroCliente'
 import ClientNegocio from './components/Cliente/Negocio/Negocio';
 import Negocio from './components/Negocio/views/Negocio/Negocio';
@@ -20,6 +20,7 @@ import AddProduct from './components/Negocio/views/Negocio/AddProduct/AddProduct
 import Spinner from './components/UI/Spinner/Spinner';
 import Backdrop from './components/UI/Backdrop/Backdrop';
 import EditBusiness from './components/Negocio/views/Negocio/EditNegocio/EditBusiness';
+import OrderHistory from './components/Cliente/OrdersHistory/OrdersHistory';
 
 let logoutTimer;
 
@@ -68,7 +69,8 @@ const App = (props) => {
         <Route path='/Registro' component={RegistroNegocio} />
         <Route path='/RegistroCliente' component={RegistroCliente} />
         <Route path='/Home' component={Home} />
-        <Redirect to='/Home' />
+        <Route exact path='/' component={Landing} />
+        <Redirect to='/' />
       </Switch>
     )
   } else {
@@ -92,6 +94,7 @@ const App = (props) => {
               <Route path='/VerNegocio' component={ClientNegocio} />
               <Route path='/editClient' component={EditClient} />
               <Route path='/Pedido' component={Pedido} />
+              <Route path='/pedidos' component={OrderHistory} />
               <Redirect to='/Client' />
             </Switch>
           </Fragment>

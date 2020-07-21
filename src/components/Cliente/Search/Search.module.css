@@ -40,13 +40,10 @@ a {
 }
 
 .Search_section {
-    position: sticky;
     top: 3.3em;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0 3px #000;
     background-color: #ececec5c;
     width: 100%;
     display: flex;
-    z-index: 99;
 }

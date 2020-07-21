@@ -46,7 +46,8 @@ class Negocio extends Component {
     }
 
     render() {
-        const imageUrl = localStorage.getItem("img")
+        let imageUrl = localStorage.getItem("img")
+        if(imageUrl === 'empty') imageUrl = 'https://firebasestorage.googleapis.com/v0/b/catalogocovid2020.appspot.com/o/imagen_mexico_en_casa.png?alt=media&token=39bc7063-cb25-4be4-85e3-a6a24c55b7bd';
         const products = Object.values(this.props.products)
             .map(prod => {
                 let selected = false
@@ -90,7 +91,7 @@ class Negocio extends Component {
                         } clicked={() => {
                             this.props.openModal();
                             this.handleOptions()
-                        }} >Ver pedido</Button>
+                        }} >Mostrar orden</Button>
 
                     {
                         (this.props.openOrder) &&
