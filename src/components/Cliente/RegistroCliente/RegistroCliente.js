@@ -158,7 +158,6 @@ const RegistroCliente = props => {
     }
 
     const getCoordinatesFromMap = (currentPosition, address) => {
-        if (address.includes('undefined')) return;
         setCoordinates(currentPosition);
         props.onSetCoordinates(currentPosition);
         setDirection({ ...direction, value: address, isValid: rules(address, 'text') })

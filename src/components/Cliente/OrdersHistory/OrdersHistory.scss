@@ -39,6 +39,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    padding: 10px;
+    box-sizing: border-box;
 
     .container {
         width: 90vw;
@@ -59,9 +61,6 @@
         text-align: center;
         color: $contrast-color;
         margin-bottom: 1vh;
-        border-radius: 21px;
-
-        box-shadow: 0 0 4px #000;
     }
     & Button {
         left: 9vw;
@@ -89,6 +88,7 @@
         height: 100px;
     }
 }
+
 .orderResume {
     min-width: 50vw;
     padding-left: 3%;

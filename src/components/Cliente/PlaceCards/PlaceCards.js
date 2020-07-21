@@ -18,6 +18,7 @@ const PlaceCards = props => {
                     businessId={business.key}
                     name={business.name}
                     isToGo={business.delivery.isToGo}
+                    isToTake={business.delivery.isToTake}
                     rate={business.rate}
                     photoBusiness={business.photoBusiness}
                     desc={business.desc}

@@ -12,8 +12,8 @@ const Search = (props) => {
 
     const selectedBusiness = (business) => {
         localStorage.setItem("businessId", business.key)
-        localStorage.setItem("businessName", business.name)
         props.clienteSelectedBusiness(business)
+        localStorage.setItem("businessName", business.name)
     }
 
     let businesses = Object.values(props.businesses).map(
@@ -21,13 +21,15 @@ const Search = (props) => {
 
             if (business.desc.toUpperCase().includes(businessDesc.toUpperCase())) {
                 return <NavLink
-                    onClick={() => selectedBusiness(business)}
+                    onClick={() => {
+                        props.clientClickBusiness();
+                        selectedBusiness(business);
+                    }}
                     key={business.key[0]}
                     to={{
                         pathname: "/VerNegocio",
                         photoBusiness: business.photoBusiness,
                         isToGo: business.delivery.isToGo,
-                        isToTake: business.delivery.isToTake,
                         cash: business.payment.cash,
                         creditCard: business.payment.creditCard
                     }}>
@@ -35,6 +37,7 @@ const Search = (props) => {
                         businessId={business.key[0]}
                         name={business.name}
                         isToGo={business.delivery.isToGo}
+                        isToTake={business.delivery.isToTake}
                         cash={business.payment.cash}
                         creditCard={business.payment.creditCard}
                         rate={business.rate}
@@ -85,6 +88,8 @@ const Search = (props) => {
 const mapDispatchToProps = dispatch => {
     return {
         clienteSelectedBusiness: (business) => dispatch(action.clienteSelectedBusiness(business)),
+        clientClickBusiness: () => dispatch(action.ClientClickLogo())
+
     }
 }
 

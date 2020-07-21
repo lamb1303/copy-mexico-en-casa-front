@@ -52,7 +52,7 @@ class OrderHistory extends Component {
             }
             return (
                 <div key={res.orderId + Math.random()} className="showCard" >
-                    <span><b>Orden:</b> {stage}</span>
+                    <span><b>Status:</b> {stage}</span>
                     {dish}
                     <span><b>Total:</b> ${total}</span>
                     <div className="container">

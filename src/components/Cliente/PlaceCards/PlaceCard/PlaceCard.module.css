@@ -29,6 +29,10 @@
     width: 80%;
 }
 
+.PlaceCard_details_place p{
+    margin: 5px;
+}
+
 .title {
     font-size: 0.8rem;
     font-weight: bold;

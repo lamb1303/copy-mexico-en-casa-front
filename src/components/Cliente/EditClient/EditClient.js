@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
 import Spinner from '../../UI/Spinner/Spinner';
 import Backdrop from '../../UI/Backdrop/Backdrop';
+import ShowMap from '../../UI/ShowMap/ShowMap';
 import Alert from '../../UI/Alert/Alert';
-import axios from '../../../axios';
+import { ReactComponent as MapLogo } from '../../../assets/map.svg';
 
 import ChangePassword from './ChangePassword/ChangePassword';
 
@@ -16,6 +17,10 @@ import classes from './EditClient.module.scss';
 
 const EditClient = props => {
 
+    const { updatedPsw } = props;
+    
+    const [showBackdrop, setShowBackdrop] = useState(false);
+    const [coordinates, setCoordinates] = useState(props.client.geolocation);
     const [form, setForm] = useState({
         name: {
             element: 'input',
@@ -42,7 +47,8 @@ const EditClient = props => {
             touched: false,
             value: props.client.direccion,
             type: 'text',
-            placeholder: 'Calle, Número, Ciudad, C.P. '
+            placeholder: 'Calle, Número, Ciudad, C.P. ',
+            disabled: true
         },
         phone: {
             element: 'input',
@@ -66,6 +72,7 @@ const EditClient = props => {
     const [cancelEdit, setCancelEdit] = useState(false);
     const [viewPassword, setViewPassword] = useState(false);
     const [alert, setAlert] = useState({ message: '', show: false });
+    const [isPwdUpdate, setIsPwdUpdate] = useState(false);
 
     const setValue = (input) => {
 
@@ -109,39 +116,6 @@ const EditClient = props => {
         return true;
     }
 
-    const getLocationByBrowser = async () => {
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-        }
-        navigator.geolocation.getCurrentPosition((coords) => {
-            return { lat: coords.coords.latitude, lng: coords.coords.longitude };
-        }, (err) => false, options);
-    }
-
-    const getLocation = async () => {
-        const street = form['direction'].value.trim().replace(/ /g, '+');
-        street.replace('#', '');
-        const resp = await axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
-            .then(resp => resp)
-            .catch(err => false);
-
-        if (Object.keys(resp.data).length > 100) {
-            const coords = await getLocationByBrowser();
-            return coords;
-        }
-
-        if (Object.keys(resp.data).length > 0) {
-            return {
-                lat: resp.data[0].lat,
-                lng: resp.data[0].lon
-            }
-        } else {
-            const coords = await getLocationByBrowser();
-            return coords;
-        }
-    }
-
     const handleSaveButton = async () => {
         const formIsValid = checkValidity();
         if (!formIsValid) {
@@ -155,21 +129,20 @@ const EditClient = props => {
             return;
         }
 
-        const location = await getLocation();
         const client = {
             name: form['name'].value,
             apellidos: form['lastName'].value,
             direccion: form['direction'].value,
             telefono: form['phone'].value,
             reference: form['reference'].value,
-            geolocation: location
+            geolocation: coordinates
         }
         props.updateClient(client, props.id);
     }
 
     const updatePasswordHandler = () => {
         if (props.updatedPsw) {
-            setAlert({ message: 'Por favor, intentalo más tarde', show: true })
+            setAlert({ message: 'Para cambiar nuevamente la contraseña, intentelo mas tarde', show: true, type: 'Success' })
             return;
         }
         setViewPassword(true);
@@ -181,9 +154,47 @@ const EditClient = props => {
         }, 3000);
     }
 
+
+    useEffect(() => {
+        updatedPsw &&
+            setIsPwdUpdate(true);
+    }, [updatedPsw]);
+
+    if (isPwdUpdate) {
+        setTimeout(() => {
+            setIsPwdUpdate(false);
+        }, 3000);
+    }
+
+    const getCoordinatesFromMap = (currentPosition, address) => {
+        setCoordinates(currentPosition);
+        setForm({
+            ...form,
+            direction: {
+                ...form['direction'],
+                value: address
+            }
+        })
+        setShowBackdrop(false);
+    }
+
+
     return (
         <>
-            {alert.show && <Alert title='Warning' > {alert.message} </Alert>}
+            {alert.show && <Alert title='Warning'> {alert.message} </Alert>}
+            {isPwdUpdate && <Alert title='Success' > Se cambio la contraseña exitosamente </Alert>}
+            {showBackdrop && (
+                <>
+                <Backdrop show={showBackdrop} clicked={() => setShowBackdrop(false)} />
+                <ShowMap
+                    nombre={form['name'].value}
+                    coordinates={coordinates}
+                    getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
+                    address={form['direction'].value}
+                    closeBackdrop={()=> setShowBackdrop(false)}
+                />
+                </>
+            )}
             {props.updated && <Redirect to='/Cliente' />}
             {props.loading && <> <Backdrop show={props.loading} /> <Spinner /> </>}
             {(viewPassword && !props.updatedPsw) && <ChangePassword loading={props.loading} error={props.error} setView={() => setViewPassword(false)} />}
@@ -197,6 +208,15 @@ const EditClient = props => {
                             </div>
                             <form>
                                 {Object.keys(form).map(formElement => {
+                                    if (formElement === 'direction') {
+                                        return <div key={formElement} className={classes.location} onClick={() => setShowBackdrop(true)}>
+                                            <Input
+                                                input={form[formElement]}
+                                                setValue={(updatedElement) => setValue(updatedElement)}
+                                            />
+                                            <MapLogo />
+                                        </div>
+                                    }
                                     return (
                                         <div className={classes.inputBox} key={form[formElement].label} >
                                             <Input

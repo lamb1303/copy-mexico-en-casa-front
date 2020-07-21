@@ -10,6 +10,7 @@ import Sidebar from './components/UI/Sidebar/Sidebar';
 import Client from './components/Cliente/Client';
 import EditClient from './components/Cliente/EditClient/EditClient';
 import Home from './components/Home/Home';
+import Landing from './components/Home/Landing/Landing';
 import RegistroCliente from './components/Cliente/RegistroCliente/RegistroCliente'
 import ClientNegocio from './components/Cliente/Negocio/Negocio';
 import Negocio from './components/Negocio/views/Negocio/Negocio';
@@ -68,7 +69,8 @@ const App = (props) => {
         <Route path='/Registro' component={RegistroNegocio} />
         <Route path='/RegistroCliente' component={RegistroCliente} />
         <Route path='/Home' component={Home} />
-        <Redirect to='/Home' />
+        <Route exact path='/' component={Landing} />
+        <Redirect to='/' />
       </Switch>
     )
   } else {

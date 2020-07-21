@@ -146,7 +146,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updatePassword: (newCred, id) => dispatch(actions.updateClientPassword(newCred, id)),
+        updatePassword: (newCred, id, isCustomer) => dispatch(actions.updateClientPassword(newCred, id, isCustomer)),
         setError: () => dispatch(actions.setClientError())
     }
 }

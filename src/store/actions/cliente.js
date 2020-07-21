@@ -62,7 +62,11 @@ export const clientGetOrders = (idCusotmer) => {
 export const getBusinesses = (lat, lng) => {
 
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/customer/businesses/${lat}/${lng}`, createHeaders()).then(
+
+        const date = new Date().getDay();
+        const day = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'][date];
+
+        axios.get(`${process.env.REACT_APP_API_URL}/customer/businesses/${lat}/${lng}/${day}`, createHeaders()).then(
             response => {
                 const businesses = response.data.businesses
 

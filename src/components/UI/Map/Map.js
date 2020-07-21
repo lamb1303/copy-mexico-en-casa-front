@@ -39,7 +39,7 @@ class Map extends React.Component {
       icon: iconMarker,
     })
     
-    if(this.props.geolocation) marker.addTo(myMap);
+    if(this.props.geolocation || this.props.coords) marker.addTo(myMap);
 
     myMap.doubleClickZoom.disable();
 

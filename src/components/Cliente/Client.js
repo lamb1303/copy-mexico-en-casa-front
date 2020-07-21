@@ -1,44 +1,44 @@
-import React, { Component } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import Search from './Search/Search';
 import classes from './Client.module.css';
 import { connect } from 'react-redux';
 import * as action from '../../store/actions';
 
-class Client2 extends Component {
+const Client2 = props => {
 
-    componentDidMount() {
+    const { getClient, id, client, getBusinesses } = props;
 
+    useEffect(useCallback(() => {
+        getClient(id);
+    }, [id, getClient]), []);
+
+    useEffect(useCallback(() => {
+        if(!client) return;
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => { 
-                this.lat = position.coords.latitude
-                this.lng = position.coords.longitude
-                this.props.getBusinesses(this.lat, this.lng)
-            },
-            error => {
-                window.alert(error.message);
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude
+                const lng = position.coords.longitude
+                getBusinesses(lat, lng)
+            }, error => {
+                if (client.geolocation) getBusinesses(client.geolocation.lat, client.geolocation.lng)
             })
+        } else if (client.geolocation) getBusinesses(client.geolocation.lat, client.geolocation.lng)
 
-        } else {
-            window.alert("Error: Sin acceso a localizacion");
-        }
-       
 
-        this.props.getClient(this.props.id);
-    }
+    }, [client, getBusinesses]), [client]);
 
-    render() {
-        return (
-            <div className={classes.client} >
-                <Search businesses={this.props.businesses} />
-            </div>
-        )
-    }
+    return (
+        <div className={classes.client} >
+            <Search businesses={props.businesses} />
+        </div>
+    )
 }
 
 const mapStateToProps = state => {
     return {
         businesses: state.cliente.businesses,
         id: state.home.id,
+        client: state.cliente.cliente
     }
 }
 
