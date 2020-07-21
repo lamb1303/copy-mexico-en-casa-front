@@ -6,7 +6,6 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 import ShowMap from '../../UI/ShowMap/ShowMap';
 import Alert from '../../UI/Alert/Alert';
 import { ReactComponent as MapLogo } from '../../../assets/map.svg';
-import axios from '../../../axios';
 
 import ChangePassword from './ChangePassword/ChangePassword';
 

@@ -13,7 +13,7 @@ const ClientButtons = props => {
 
     return (
         <div className={classes.Buttons}>
-            {<NavLink to='/pedidos'>
+            { !props.isClient && <NavLink to='/pedidos'>
                 <Button btnType='Success' clicked={() => props.closeSidebar()} >
                     Ver Pedidos
             </Button>

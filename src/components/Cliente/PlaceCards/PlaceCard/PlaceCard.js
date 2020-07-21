@@ -4,6 +4,7 @@ import Options from '../../../UI/PurchaseOptions/Options';
 
 const PlaceCard = (props) => {
     const isToGo = props.isToGo
+    const isToTake = props.isToTake
     const cash = props.cash
     const creditCard = props.creditCard
     let imageUrl = props.photoBusiness
@@ -26,7 +27,7 @@ const PlaceCard = (props) => {
                     <span className={classes.span}>Distancia: {distance.toFixed(0)} km.</span>
                     
                 </div>
-                <Options isToGo={isToGo} cash={cash} creditCard={creditCard}/>
+                <Options isToTake={isToTake} isToGo={isToGo} cash={cash} creditCard={creditCard}/>
             </div>
 
         </div >
