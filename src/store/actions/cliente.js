@@ -3,6 +3,62 @@ import axios from '../../axios';
 import * as alertTypes from '../../store/Util/enums/alertTypes';
 import createHeaders from '../Util/headers/createHeaders';
 
+const clientGetBusinessInfoSuccess = (businessInfo) => {
+    return {
+        type: actionTypes.CLIENT_GET_BUSINESS_INFO,
+        businessInfo: businessInfo
+    }
+}
+
+export const clientGetBusinessInfo = (idBusiness) => {
+    return dispatch => {
+        axios.get(`${process.env.REACT_APP_API_URL}/customer/getBusinessInfo/${idBusiness}`, createHeaders()).then(
+            res => {
+                const businessInfo = {
+                    ...res.data
+                }
+                dispatch(clientGetBusinessInfoSuccess(businessInfo))
+            }
+        ).catch(e => { })
+    }
+
+}
+
+export const clientGetOrdersSuccess = (orders) => {
+    return {
+        type: actionTypes.CLIENT_GET_ORDERS_SUCCESS,
+        orders: orders
+    }
+}
+
+export const clientGetOrders = (idCusotmer) => {
+    return dispatch => {
+        axios.get(`${process.env.REACT_APP_API_URL}/customer/getOrders/${idCusotmer}`, createHeaders()).then(
+            res => {
+                if (res.data.orders) {
+                    const orderClient = res.data.orders
+                    const updatedOrderClient = orderClient.map((order, _) => {
+                        return {
+                            idBusiness: order.idBusiness,
+                            orderId: order.orderId,
+                            dishes: order.dishes,
+                            stage: order.stage,
+                            orderDate: order.orderDate,
+                            isCash: order.isCash,
+                            total: order.total,
+                            isToTake: order.isToTake
+                        }
+                    })
+                    dispatch(clientGetOrdersSuccess(updatedOrderClient))
+                }
+
+
+            }
+        ).catch(e => { })
+    }
+
+}
+
 export const getBusinesses = (lat, lng) => {
 
     return dispatch => {
@@ -39,7 +95,8 @@ export const getBusinesses = (lat, lng) => {
                         schedule: {
                             horaAbierto: business[idBusiness].schedule.horaAbierto,
                             horaCerrado: business[idBusiness].schedule.horaCerrado
-                        }
+                        },
+                        mobile: business[idBusiness].mobile
                     }
                 }).reduce((arr, el) => {
                     return arr.concat(el)

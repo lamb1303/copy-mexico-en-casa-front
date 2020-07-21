@@ -12,9 +12,8 @@ const Search = (props) => {
 
     const selectedBusiness = (business) => {
         localStorage.setItem("businessId", business.key)
-        props.clienteSelectedBusiness(business);
-
-
+        props.clienteSelectedBusiness(business)
+        localStorage.setItem("businessName", business.name)
     }
 
     let businesses = Object.values(props.businesses).map(
@@ -71,6 +70,13 @@ const Search = (props) => {
                     }} />
                 <Lupa />
             </div>
+            <div className={classes.Search_section} >
+                <TextField
+                    disabled
+                    label="Estas en:"
+                    variant="outlined" />
+            </div>
+
             <div className={classes.Search_container}>
                 {businesses &&
                     businesses}

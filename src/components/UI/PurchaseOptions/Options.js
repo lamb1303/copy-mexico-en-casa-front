@@ -12,10 +12,23 @@ const purchaseOptions = props => {
 
     return (<div className={classes.options} >
         <div className={classes.delivery} >
-            {props.envio ? <Local /> : <Domicilio />}
+            {props.isToGo ? <Local /> : <Domicilio />}
         </div>
         <div className={classes.pay} >
-            {(props.pago) ? <Efectivo /> : <Tarjeta />}
+            {(props.cash && !props.creditCard) &&
+                <Efectivo />
+            }
+            {
+                (!props.cash && props.creditCard) &&
+                <Tarjeta />
+            }
+            {
+                (props.cash && props.creditCard) &&
+                <>
+                    <Tarjeta />
+                    <Efectivo />
+                </>
+            }
         </div>
     </div>)
 }
