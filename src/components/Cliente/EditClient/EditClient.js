@@ -169,7 +169,6 @@ const EditClient = props => {
 
     const getCoordinatesFromMap = (currentPosition, address) => {
         setCoordinates(currentPosition);
-        console.log(address);
         setForm({
             ...form,
             direction: {
