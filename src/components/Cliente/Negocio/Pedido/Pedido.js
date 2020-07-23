@@ -134,6 +134,9 @@ const Pedido = props => {
                     <div className={classes.name}>
                         <h4 >{orden.name} </h4>
                         <TextField
+                            inputProps={{
+                                maxLength: 150,
+                              }}
                             key={orden.name}
                             type='text'
                             label="Notas:"
@@ -272,7 +275,10 @@ const Pedido = props => {
                         <hr />
                         <span>Ingresar Referencia</span>
                         <FormControl style={{ width: "90%" }}>
-                            <TextField
+                        <TextField
+                              inputProps={{
+                                maxLength: 150,
+                              }}
                                 className={classes.modal_textField}
                                 type='text'
                                 value={reference}
