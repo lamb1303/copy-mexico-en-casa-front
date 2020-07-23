@@ -27,6 +27,7 @@ const Pedido = props => {
             orderList: props.orderList,
             isToTake: props.isToTake,
             total: props.total,
+            reference: props.reference
         }
         props.openViewComments(selectedOrder);
     }

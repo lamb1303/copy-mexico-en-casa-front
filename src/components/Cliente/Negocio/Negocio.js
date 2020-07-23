@@ -14,6 +14,10 @@ class Negocio extends Component {
         this.cash = this.props.location.cash
         this.creditCard = this.props.location.creditCard
 
+        if (!this.props.client) {
+            const id = this.props.id
+            this.props.getClient(id);
+        }
 
         if (this.props.location.photoBusiness) {
             localStorage.setItem("img", this.props.location.photoBusiness)
@@ -90,7 +94,7 @@ class Negocio extends Component {
                             this.props.totalAmount > 0 ? "Success" : "Danger"
                         } clicked={() => {
                             this.props.openModal();
-                            this.handleOptions()
+                            this.handleOptions();
                         }} >Mostrar orden</Button>
 
                     {
@@ -120,6 +124,8 @@ const mapStateToProps = state => {
         editMode: state.negocio.editMode,
         editProductMode: state.products.editProductMode,
         totalAmount: state.cliente.totalAmount,
+        id: state.home.id,
+        client: state.cliente.cliente,
     }
 }
 
@@ -130,8 +136,7 @@ const mapDispatchToProps = dispatch => {
         getSelectedBusiness: (idBusiness) => dispatch(actions.getSelectedBusiness(idBusiness)),
         onCloseOptions: () => dispatch(actions.CloseSelectedProduct()),
         onOpenOptions: (name) => dispatch(actions.OpenSelectedProduct(name)),
-
-
+        getClient: (id) => dispatch(actions.getClient(id))
     }
 }
 

@@ -2,7 +2,7 @@
     position: absolute;
     top: 24vh;
     width: 100vw;
-    height: 63vh;
+    height: 66vh;
     margin: auto;
     background-color: rgb(255, 255, 255);
     justify-content: center;
@@ -31,9 +31,10 @@
 }
 @media only screen and (min-width: 800px) {
     .modal {
+        top: 11vh;
         width: 60vw;
         margin: auto;
         left: 20vw;
-        height: 72vh;
+        height: 83vh;
     }
 }
