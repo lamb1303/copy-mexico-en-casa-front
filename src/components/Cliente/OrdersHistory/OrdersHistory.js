@@ -40,6 +40,8 @@ class OrderHistory extends Component {
                             <div className="orderResume">
                                 <p><b>Platillo:</b> {dish.name}</p>
                                 <p><b>Cantidad:</b> {dish.amount}</p>
+                                {dish.comment !== undefined &&
+                                <p><b>Nota:</b> {dish.comment}</p>}
                             </div>
                         </div>
                     </div>

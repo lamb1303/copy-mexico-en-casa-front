@@ -455,6 +455,9 @@ const Pedido = props => {
                         props.sendOrder(orderToSend);
                         props.cerrarModal();
                     }} />
+                <h3>
+                    Enviar
+                </h3>
             </div>
             <Button clicked={() => {
                 props.cerrarModal();
