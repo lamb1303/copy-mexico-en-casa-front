@@ -44,7 +44,7 @@ const Pedido = props => {
             const street = direction.value.trim().replace(/ /g, '+');
             street.replace('#', '');
             axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
-                .then(resp => { //Tulipanes 342 Saltillo
+                .then(resp => { 
                     if (Object.keys(resp.data).length > 0) {
                         setCoordinates({
                             lat: resp.data[0].lat,
