@@ -32,6 +32,7 @@ class OrderHistory extends Component {
             const isCash = res.isCash
             let stage = res.stage
             const total = res.total
+            const orderDate = (res.orderDate)
             const dish = res.dishes.map(dish => {
                 return (
                     <div key={res.orderId + Math.random()} className="container">
@@ -41,7 +42,7 @@ class OrderHistory extends Component {
                                 <p><b>Platillo:</b> {dish.name}</p>
                                 <p><b>Cantidad:</b> {dish.amount}</p>
                                 {dish.comment !== undefined &&
-                                <p><b>Nota:</b> {dish.comment}</p>}
+                                    <p><b>Nota:</b> {dish.comment}</p>}
                             </div>
                         </div>
                     </div>
@@ -99,8 +100,8 @@ class OrderHistory extends Component {
                         orders}
                     {this.props.orders.length === 0 &&
                         <>
-                        <NoFood className="noFood"></NoFood>
-                        <h4 className="noFoodInfo">Sin pedidos.</h4>
+                            <NoFood className="noFood"></NoFood>
+                            <h4 className="noFoodInfo">Sin pedidos.</h4>
                         </>
                     }
                 </div>
