@@ -95,48 +95,50 @@ export const changeStageFail = () => {
 
 export const empezarPedido = (checkedOrders) => {
     return dispatch => {
-        dispatch(loadingPedido());
-        if (Object.keys(checkedOrders).length !== 0) {
-            const orderIds = []
-            Object.keys(checkedOrders).forEach(order => {
-                orderIds.push(checkedOrders[order].orderId)
-            })
-            const orderId = {
-                orders: orderIds,
-                stage: stageType.prepareOrders,
-            };
+        if (Object.keys(checkedOrders).length === 0) return;
+        // dispatch(loadingPedido());
 
-            axios.patch(`${process.env.REACT_APP_API_URL}/orders/updateOrder`, orderId, createHeaders())
-                .then(resp => {
-                    switch (resp.status) {
-                        case 201:
-                            dispatch(empezarPed());
-                            const alertParams = {
-                                alertType: 'Success',
-                                message: 'La order esta en preparación',
-                            }
-                            dispatch(openAlert(alertParams));
-                            break;
+        const orderIds = []
+        const clientIds = [];
+        Object.keys(checkedOrders).forEach(order => {
+            orderIds.push(checkedOrders[order].orderId)
+            clientIds.push(checkedOrders[order].idCustomer)
+        })
+        const orderId = {
+            orders: orderIds,
+            clientIds: clientIds,
+            stage: stageType.prepareOrders,
+        };
 
-                        default:
-                            dispatch(changeStageFail());
-                            break;
-                    }
-
-                })
-                .catch(error => {
-                    if (error.response) {
-                        dispatch(openAlert({
-                            alertType: 'Error',
-                            message: error.response.data.message,
-                        }));
-                        if (error.response.status === 403) {
-                            setTimeout(
-                                () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
+        axios.patch(`${process.env.REACT_APP_API_URL}/orders/updateOrder`, orderId, createHeaders())
+            .then(resp => {
+                switch (resp.status) {
+                    case 201:
+                        dispatch(empezarPed());
+                        const alertParams = {
+                            alertType: 'Success',
+                            message: 'La order esta en preparación',
                         }
+                        dispatch(openAlert(alertParams));
+                        break;
+
+                    default:
+                        dispatch(changeStageFail());
+                        break;
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    dispatch(openAlert({
+                        alertType: 'Error',
+                        message: error.response.data.message,
+                    }));
+                    if (error.response.status === 403) {
+                        setTimeout(
+                            () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
                     }
-                });
-        }
+                }
+            });
     }
 }
 
@@ -150,95 +152,102 @@ const accessDeny = (message) => {
 
 export const terminarPedido = (checkedPrepare) => {
     return dispatch => {
+        if (Object.keys(checkedPrepare).length === 0) return;
+
         dispatch(loadingPedido())
-        if (Object.keys(checkedPrepare).length !== 0) {
-            const orderIds = [];
-            Object.keys(checkedPrepare).forEach(order => {
-                orderIds.push(checkedPrepare[order].orderId)
-            });
+        const orderIds = [];
+        const clientIds = [];
+        Object.keys(checkedPrepare).forEach(order => {
+            orderIds.push(checkedPrepare[order].orderId)
+            clientIds.push(checkedPrepare[order].idCustomer)
+        });
 
-            const orderId = {
-                orders: orderIds,
-                stage: stageType.readyOrders,
-            };
+        const orderId = {
+            orders: orderIds,
+            clientIds: clientIds,
+            stage: stageType.readyOrders,
+        };
 
-            axios.patch(`${process.env.REACT_APP_API_URL}/orders/updateOrder`, orderId, createHeaders())
-                .then(resp => {
-                    switch (resp.status) {
-                        case 201:
-                            dispatch(terminarPed());
-                            const alertParams = {
-                                alertType: 'Success',
-                                message: 'La order esta lista',
-                            }
-                            dispatch(openAlert(alertParams));
-                            break;
-
-                        default:
-                            dispatch(changeStageFail());
-                            break;
-                    }
-                })
-                .catch(error => {
-                    if (error.response) {
-                        dispatch(openAlert({
-                            alertType: 'Error',
-                            message: error.response.data.message,
-                        }));
-                        if (error.response.status === 403) {
-                            setTimeout(
-                                () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
+        axios.patch(`${process.env.REACT_APP_API_URL}/orders/updateOrder`, orderId, createHeaders())
+            .then(resp => {
+                switch (resp.status) {
+                    case 201:
+                        dispatch(terminarPed());
+                        const alertParams = {
+                            alertType: 'Success',
+                            message: 'La order esta lista',
                         }
+                        dispatch(openAlert(alertParams));
+                        break;
+
+                    default:
+                        dispatch(changeStageFail());
+                        break;
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    dispatch(openAlert({
+                        alertType: 'Error',
+                        message: error.response.data.message,
+                    }));
+                    if (error.response.status === 403) {
+                        setTimeout(
+                            () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
                     }
-                });
-        }
+                }
+            });
     }
 }
 
 export const entregarPedido = (checkedPrepare) => {
     return dispatch => {
+        if (Object.keys(checkedPrepare).length === 0) return;
+
         dispatch(loadingPedido())
-        if (Object.keys(checkedPrepare).length !== 0) {
-            const orderIds = [];
-            Object.keys(checkedPrepare).forEach(order => {
-                orderIds.push(checkedPrepare[order].orderId)
-            });
+        const orderIds = [];
+        const clientIds = [];
 
-            const orderId = {
-                orders: orderIds,
-                stage: stageType.deliveredOrders,
-            };
+        Object.keys(checkedPrepare).forEach(order => {
+            orderIds.push(checkedPrepare[order].orderId)
+            clientIds.push(checkedPrepare[order].idCustomer)
+        });
 
-            axios.patch(`${process.env.REACT_APP_API_URL}/orders/updateOrder`, orderId, createHeaders())
-                .then(resp => {
-                    switch (resp.status) {
-                        case 201:
-                            dispatch(entregarPed());
-                            const alertParams = {
-                                alertType: 'Success',
-                                message: 'La order fue entregada',
-                            }
-                            dispatch(openAlert(alertParams));
-                            break;
+        const orderId = {
+            orders: orderIds,
+            clientIds: clientIds,
+            stage: stageType.deliveredOrders,
+        };
 
-                        default:
-                            dispatch(changeStageFail());
-                            break;
-                    }
-                })
-                .catch(error => {
-                    if (error.response) {
-                        dispatch(openAlert({
-                            alertType: 'Error',
-                            message: error.response.data.message,
-                        }));
-                        if (error.response.status === 403) {
-                            setTimeout(
-                                () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
+        axios.patch(`${process.env.REACT_APP_API_URL}/orders/updateOrder`, orderId, createHeaders())
+            .then(resp => {
+                switch (resp.status) {
+                    case 201:
+                        dispatch(entregarPed());
+                        const alertParams = {
+                            alertType: 'Success',
+                            message: 'La order fue entregada',
                         }
+                        dispatch(openAlert(alertParams));
+                        break;
+
+                    default:
+                        dispatch(changeStageFail());
+                        break;
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    dispatch(openAlert({
+                        alertType: 'Error',
+                        message: error.response.data.message,
+                    }));
+                    if (error.response.status === 403) {
+                        setTimeout(
+                            () => { dispatch(accessDeny(error.response.data.message)) }, 3000);
                     }
-                });
-        }
+                }
+            });
     }
 }
 
