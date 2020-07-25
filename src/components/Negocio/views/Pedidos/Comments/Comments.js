@@ -79,8 +79,8 @@ const Comments = props => {
                     {!selectedOrder.isToTake && <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={`https://www.google.com/maps/search/?api=1&query=${selectedOrder.location.latitude},${selectedOrder.location.longitude}`}>
-                        <Button btnType='Danger'><PinLoc className='comments__icon' /> Destino</Button>
+                        href={`https://www.google.com/maps/search/?api=1&query=${selectedOrder.location.lat},${selectedOrder.location.lng}`}>
+                        <Button btnType='Danger'><PinLoc className='comments__icon'/> Destino</Button>
                     </a>}
                     <Button btnType='Success' clicked={() => props.closeViewComments()}>Regresar</Button>
 

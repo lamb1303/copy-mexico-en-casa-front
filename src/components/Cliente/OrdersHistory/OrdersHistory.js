@@ -9,14 +9,46 @@ import { ReactComponent as CreditCard } from './../../../assets/tarjeta.svg';
 import { ReactComponent as NoFood } from './../../../assets/no-eating.svg';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Button from '../../UI/Button/Button';
+import * as STAGES from '../../../store/Util/enums/stageType';
+import openSocket from 'socket.io-client';
 import './OrdersHistory.scss'
 class OrderHistory extends Component {
 
     state = {
         showBackdrop: false,
-        idBusiness: null
+        idBusiness: null,
+        listOfOrderIds: [],
+        stage: 'Recibida por el negocio',
     }
     componentDidMount() {
+        const socket = openSocket(process.env.REACT_APP_SOCKET);
+        socket.on('client-update-order-status-preparing', data => {
+            if (data.clientIds.includes(this.props.idCustomer)) {
+                this.setState({
+                    stage: 'Preparando tu pedido',
+                    listOfOrderIds: data.orderId
+                })
+            }
+        })
+
+        socket.on('client-update-order-status-ready', data => {
+            if (data.clientIds.includes(this.props.idCustomer)) {
+                this.setState({
+                    stage: 'Tu pedido esta listo!',
+                    listOfOrderIds: data.orderId
+                })
+            }
+        })
+
+        socket.on('client-update-order-status-delivered', data => {
+            if (data.clientIds.includes(this.props.idCustomer)) {
+                this.setState({
+                    stage: 'Tu pedido fue entregado',
+                    listOfOrderIds: data.orderId
+                })
+            }
+        })
+
         this.props.clientGetOrders(this.props.idCustomer);
 
     }
@@ -25,12 +57,21 @@ class OrderHistory extends Component {
         this.setState({ showBackdrop: !this.state.showBackdrop })
     }
 
-    render() {
+    formatStage(stage) {
+        switch (stage) {
+            case STAGES.receivedOrders: return 'Recibida por el negocio';
+            case STAGES.prepareOrders: return 'Preparando tu pedido';
+            case STAGES.readyOrders: return 'Tu pedido esta listo!';
+            case STAGES.deliveredOrders: return 'Pedido Entregado';
+            default: return this.state.stage;
+        }
+    }
 
+    render() {
         const orders = this.props.orders.map(res => {
             const isToTake = res.isToTake
             const isCash = res.isCash
-            let stage = res.stage
+            let stage = this.formatStage(res.stage);
             const total = res.total
             const orderDate = (res.orderDate)
             const dish = res.dishes.map(dish => {
@@ -50,8 +91,11 @@ class OrderHistory extends Component {
                 )
             }
             )
-            if (res.stage === "receivedOrders") {
-                stage = "Recibida por el negocio."
+
+            if (this.state.listOfOrderIds.length > 0) {
+                if (this.state.listOfOrderIds.includes(res.orderId)) {
+                    stage = this.state.stage
+                }
             }
             return (
                 <div key={res.orderId + Math.random()} className="showCard" >
