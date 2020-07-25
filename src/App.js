@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useCallback, useState } from 'react';
 import './App.css';
 import * as actions from './store/actions';
+import openSocket from 'socket.io-client';
+import Alert from './components/UI/Alert/Alert';
 import { connect } from 'react-redux'
 // import Registro from './components/Negocio/Registro/Registro';
 import RegistroNegocio from './components/Negocio/Registro/RegistroNegocio';
@@ -23,13 +25,40 @@ import EditBusiness from './components/Negocio/views/Negocio/EditNegocio/EditBus
 import OrderHistory from './components/Cliente/OrdersHistory/OrdersHistory';
 
 let logoutTimer;
+const NOTIFICATION = {
+  visible: false,
+  message: ''
+}
 
 const App = (props) => {
 
   const [expirationDate, setExpirationDate] = useState();
-  const { getUserType, logOut } = props;
+  const { getUserType, logOut, id } = props;
   let storagedToken = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+  const [notifications, setNotification] = useState(NOTIFICATION);
 
+  useEffect(() => {
+    const socket = openSocket(process.env.REACT_APP_SOCKET);
+
+    socket.on('notify-business', businessId => {
+      if (businessId === id) setNotification({ visible: true, message: 'HA RECIBIDO UN PEDIDO!' })
+    })
+
+    socket.on('client-update-order-status-preparing', data => {
+      if (data.clientIds.includes(id)) setNotification({ visible: true, message: 'Tu pedido esta siendo preparado!' })
+    })
+
+    socket.on('client-update-order-status-ready', data => {
+      if (data.clientIds.includes(id)) setNotification({ visible: true, message: 'Tu pedido esta listo!' })
+    })
+
+    socket.on('client-update-order-status-delivered', data => {
+      if (data.clientIds.includes(id)) setNotification({ visible: true, message: 'Tu pedido fue entregado' })
+    })
+
+
+    return () => socket.disconnect();
+  }, [id]);
 
   const logout = useCallback(() => {
     logOut();
@@ -126,10 +155,17 @@ const App = (props) => {
   //   );
   // }
 
+  if (notifications.visible) {
+    setTimeout(() => {
+      setNotification(NOTIFICATION);
+    }, 3500)
+  }
+
   return (
     <Fragment>
       <Sidebar />
       <Header />
+      {notifications.visible && <Alert title='Info'> {notifications.message} </Alert>}
       {route}
     </Fragment>
   );

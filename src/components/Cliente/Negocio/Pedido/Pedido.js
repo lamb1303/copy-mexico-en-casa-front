@@ -44,7 +44,7 @@ const Pedido = props => {
             const street = direction.value.trim().replace(/ /g, '+');
             street.replace('#', '');
             axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
-                .then(resp => { //Tulipanes 342 Saltillo
+                .then(resp => {
                     if (Object.keys(resp.data).length > 0) {
                         setCoordinates({
                             lat: resp.data[0].lat,
@@ -272,6 +272,17 @@ const Pedido = props => {
         </>
     )
 
+    const formatDate = date => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()},${strTime}`;
+    }
+
     const payment = (
         <>
             <div className={classes.sectionSize}>
@@ -437,19 +448,12 @@ const Pedido = props => {
 
         </>
     )
-    const options = {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        timeZone: "America/Mexico_City"
-    }
-    const orderDate = new Date().toLocaleString(options);
+    const date = new Date;
+    const orderDate = formatDate(date);
+    console.log(orderDate);
     const total = props.orderPrice + iva
     let orderToSend = {
-        location: coordinates,
+        geolocation: coordinates,
         orderDate: orderDate,
         dishes: dishes,
         idBusiness: localStorage.getItem("businessId"),
