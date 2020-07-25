@@ -31,6 +31,7 @@ const ListaPedidos = props => {
                     orderDate={props.receivedOrders[idOrder].orderDate}
                     location={props.receivedOrders[idOrder].geolocation}
                     total={props.receivedOrders[idOrder].total}
+                    reference={props.receivedOrders[idOrder].reference}
 
 
                 />

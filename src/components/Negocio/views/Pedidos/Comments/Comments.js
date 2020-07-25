@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 
 import * as actions from '../../../../../store/actions/';
@@ -9,8 +9,9 @@ import Button from '../../../../UI/Button/Button';
 import './Comments.scss';
 import { ReactComponent as User } from '../../../assets/user.svg';
 import { ReactComponent as Phone } from '../../../assets/phone.svg';
-import {ReactComponent as PinLoc} from '../../../assets/pin.svg';
-import {ReactComponent as Money} from '../../../assets/money.svg';
+import { ReactComponent as PinLoc } from '../../../assets/pin.svg';
+import { ReactComponent as Money } from '../../../assets/money.svg';
+import { ReactComponent as Ref } from '../../../assets/reference.svg';
 
 
 const Comments = props => {
@@ -20,7 +21,6 @@ const Comments = props => {
     useEffect(() => {
         if (selectedOrder.idCustomer) {
             getClientNamePhone(selectedOrder.idCustomer)
-
         }
     }, [getClientNamePhone, selectedOrder]);
 
@@ -59,6 +59,12 @@ const Comments = props => {
                             <b>A Cobrar:</b>
                             <span> {selectedOrder.total} </span>
                         </p>
+                        {selectedOrder.reference !== '' &&
+                            <p>
+                                <Ref className='comments__icon' />
+                                <b>Referencia: </b>
+                                <span>{selectedOrder.reference}</span></p>
+                        }
                     </div>
                     <hr />
                 </div>
@@ -68,7 +74,7 @@ const Comments = props => {
                 <div className='comments-dishes'>
                     {dishes}
                 </div>
-                <hr/>
+                <hr />
                 <div className='comments__buttons'>
                     {!selectedOrder.isToTake && <a
                         target="_blank"
@@ -78,7 +84,7 @@ const Comments = props => {
                     </a>}
                     <Button btnType='Success' clicked={() => props.closeViewComments()}>Regresar</Button>
 
-                    
+
                 </div>
             </div>
         </>

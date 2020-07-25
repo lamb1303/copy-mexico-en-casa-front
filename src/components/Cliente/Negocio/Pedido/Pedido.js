@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Button from '../../../UI/Button/Button';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
-import classes from './Pedido.module.scss'
+import classes from './Pedido.module.scss';
+import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
 import * as actions from '../../../../store/actions';
 import { ReactComponent as Deliver } from '../../../../assets/pedido/delivery.svg';
 import { ReactComponent as ToTake } from '../../../../assets/pedido/toTake.svg';
@@ -22,6 +24,20 @@ const baseObject = {
 }
 
 const Pedido = props => {
+    const { client } = props;
+    const [clientDirection, getDirection] = useState(null)
+    useEffect(useCallback(() => {
+        if (clientDirection === null) {
+            axios
+                .get(
+                    `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${client.geolocation.lat}&lon=${client.geolocation.lng}`
+                )
+                .then((resp) => {
+                    getDirection(resp.data.address)
+                })
+                .catch((err) => { });
+        }
+    }, [clientDirection]), []);
 
     const getLocationByBrowser = () => {
         const options = {
@@ -118,6 +134,9 @@ const Pedido = props => {
                     <div className={classes.name}>
                         <h4 >{orden.name} </h4>
                         <TextField
+                            inputProps={{
+                                maxLength: 150,
+                              }}
                             key={orden.name}
                             type='text'
                             label="Notas:"
@@ -205,10 +224,10 @@ const Pedido = props => {
     const selectLocation = (
         <>
             <div className={classes.sectionSize}>
-                <TextField
+                {/* <TextField
                     disabled
                     label="Estas en:"
-                    variant="outlined" />
+                    variant="outlined" /> */}
                 <h3 style={{ justifyContent: "center" }}
                 >Se realizará un cargo extra por servicio a domicilio.</h3>
                 <>
@@ -239,25 +258,34 @@ const Pedido = props => {
                 {direction.value !== '' &&
                     <>
                         <hr />
-                        <span><b>Ubicación Seleccionada</b></span>
+                        <span><b>Ubicación de Registro</b></span>
+                        <FormControl style={{ width: "90%" }} disabled>
+                            <Input className="MuiInputBase" value={clientDirection.road + ', ' + clientDirection.postcode + ', ' + clientDirection.city + ', ' + clientDirection.state + ', ' + clientDirection.country} />
+                        </FormControl>
+                        <hr />
+                        <span>Ubicación Seleccionada</span>
+                        <FormControl style={{ width: "90%" }} disabled>
+                            <Input
+                                className="MuiInputBase"
+                                type='text'
+                                value={direction.value}
+                                disabled
+                                onChange={(event) => (event.target.value)} />
+                        </FormControl>
+                        <hr />
+                        <span>Ingresar Referencia</span>
+                        <FormControl style={{ width: "90%" }}>
                         <TextField
-                            style={{
-                                display: "inherit"
-                            }}
-                            className={classes.TextField}
-                            type='text'
-                            placeholder='Calle, Ciudad, CP'
-                            value={direction.value}
-                            disabled
-                            onChange={(event) => (event.target.value)} />
-                        <TextField
-                            className={classes.modal_textField}
-                            type='text'
-                            placeholder='Ingresar referencia:'
-                            value={reference}
-                            multiline
-                            label="Ingresar referencia:"
-                            onChange={(event) => (setReference(event.target.value))} />
+                              inputProps={{
+                                maxLength: 150,
+                              }}
+                                className={classes.modal_textField}
+                                type='text'
+                                value={reference}
+                                label="Calle, color de casa, número, etc..."
+                                onChange={(event) => (setReference(event.target.value))} />
+                        </FormControl>
+                        <hr />
                     </>
                 }
             </div>
@@ -438,6 +466,9 @@ const Pedido = props => {
                         props.sendOrder(orderToSend);
                         props.cerrarModal();
                     }} />
+                <h3>
+                    Enviar
+                </h3>
             </div>
             <Button clicked={() => {
                 props.cerrarModal();
@@ -523,7 +554,7 @@ const mapStateToProps = state => {
         selectedNegocio: state.negocio.selectedNegocio,
         idCustomer: state.home.id,
         selectedProd: state.cliente.selectedProduct,
-        location: state.cliente.location
+        client: state.cliente.cliente
     }
 }
 const mapDispatchToProps = {
@@ -533,6 +564,5 @@ const mapDispatchToProps = {
     onCloseOptions: () => (actions.CloseSelectedProduct()),
     sendOrder: actions.checkout,
     onSetCoordinates: (coords) => actions.setClientCoord(coords)
-
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Pedido);

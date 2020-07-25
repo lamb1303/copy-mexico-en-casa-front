@@ -16,8 +16,10 @@ const OrderDetails = props => {
     const businessName = businessInfo.businessName
     const lat = businessInfo.lat
     const lng = businessInfo.lng
-    const photoBusiness = businessInfo.photoBusiness
+    let photoBusiness = businessInfo.photoBusiness
     const mobile = businessInfo.mobile
+
+    if(photoBusiness === 'empty') photoBusiness = 'https://firebasestorage.googleapis.com/v0/b/catalogocovid2020.appspot.com/o/imagen_mexico_en_casa.png?alt=media&token=39bc7063-cb25-4be4-85e3-a6a24c55b7bd';
     return (
         <div className="modal" onLoad={window.scroll(-50, 50)}>
             <h2>Negocio: {businessName}</h2>
