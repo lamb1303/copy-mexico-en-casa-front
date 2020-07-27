@@ -19,6 +19,7 @@ class OrderHistory extends Component {
         idBusiness: null,
         listOfOrderIds: [],
         stage: 'Recibida por el negocio',
+        isToTake: null,
     }
     componentDidMount() {
         const socket = openSocket(process.env.REACT_APP_SOCKET);
@@ -100,6 +101,7 @@ class OrderHistory extends Component {
             return (
                 <div key={res.orderId + Math.random()} className="showCard" >
                     <span><b>Status:</b> {stage}</span>
+                    <span><b>Fecha:</b> {orderDate}</span>
                     {dish}
                     <span><b>Total:</b> ${total}</span>
                     <div className="container">
@@ -125,7 +127,12 @@ class OrderHistory extends Component {
                         </div>
                         <Button btnType='Success' clicked={() => {
                             this.setBackdropHandler();
-                            this.setState({ idBusiness: res.idBusiness })
+                            this.setState({
+                                idBusiness: res.idBusiness,
+                                stage: stage,
+                                isToTake: isToTake,
+                                orderDate: orderDate
+                            });
                         }
                         }>Ver detalle</Button>
                     </div>
@@ -152,6 +159,8 @@ class OrderHistory extends Component {
                 {
                     this.state.showBackdrop &&
                     <OrderDetails className="showCard"
+                        stage={this.state.stage}
+                        isToTake={this.state.isToTake}
                         idBusiness={this.state.idBusiness}
                         showBackDrop={() => this.setBackdropHandler()} />
                 }
