@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 
 import Button from '../../UI/Button/Button'
 import Card from '../../UI/Card/Card';
@@ -29,6 +30,7 @@ const RegistroCliente = props => {
     const [password, setPassword] = useState(baseObject);
     const [phone, setPhone] = useState(baseObject);
     const [direction, setDirection] = useState(baseObject);
+    const [captcha, setCaptcha] = useState('');
 
     const [showBackdrop, setShowBackdrop] = useState(false);
     const [coordinates, setCoordinates] = useState();
@@ -38,6 +40,9 @@ const RegistroCliente = props => {
     const [avisoPrivacidad, setAvisoPrivacidad] = useState({ show: false, accepted: false })
 
     const register = () => {
+
+        if (captcha.length === 0) return;
+
         const client = {
             name: name.value,
             apellidos: lastName.value,
@@ -48,35 +53,18 @@ const RegistroCliente = props => {
         }
 
         // if Previously selected from map
-        if (props.geolocation) {
-            client['geolocation'] = props.geolocation
-            props.onClientExist(client);
-        } else {
-            // Search by entered Street
-            const street = direction.value.trim().replace(/ /g, '+');
-            axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
-                .then(resp => {
-                    if (Object.keys(resp.data).length > 0) {
-                        client['geolocation'] = { lat: resp.data[0].lat, lng: resp.data[0].lon }
-                        props.onClientExist(client);
-                    } else {
-                        /**
-                         * Search by entered Street bring no results.
-                         * Then get position from browser
-                         */
-                        const options = {
-                            enableHighAccuracy: true,
-                            timeout: 5000,
-                        }
-                        navigator.geolocation.getCurrentPosition((coords) => {
-                            client['geolocation'] = { lat: coords.coords.latitude, lng: coords.coords.longitude }
-                            props.onClientExist(client);
-                        }, (err) => {
-                        }, options);
-                    }
-                })
-                .catch(err => {});
+        if (props.geolocation) client['geolocation'] = props.geolocation
+        else {
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+            }
+            navigator.geolocation.getCurrentPosition((coords) => {
+                client['geolocation'] = { lat: coords.coords.latitude, lng: coords.coords.longitude }
+            }, (err) => {
+            }, options);
         }
+        props.onClientExist(client);
     }
 
     const rules = (value, type) => {
@@ -150,7 +138,7 @@ const RegistroCliente = props => {
                     } else getLocationByBrowser();
                     setShowBackdrop(true)
                 })
-                .catch(err => {});
+                .catch(err => { });
         } else {
             getLocationByBrowser();
             setShowBackdrop(true)
@@ -222,7 +210,8 @@ const RegistroCliente = props => {
         password.isValid &&
         phone.isValid &&
         direction.isValid &&
-        avisoPrivacidad.accepted
+        avisoPrivacidad.accepted &&
+        captcha.length !== 0
     ) formValid = true;
 
 
@@ -238,14 +227,14 @@ const RegistroCliente = props => {
             {avisoPrivacidad.show && <AvisoPrivacidad />}
             {props.errorMessage && <Alert title='Error' clase={'personalInfo'} >{props.errorMessage}</Alert>}
             <div className={classes.background}></div>
-            {<Backdrop show={showBackdrop} clicked={()=> setShowBackdrop(false)}/>}
+            {<Backdrop show={showBackdrop} clicked={() => setShowBackdrop(false)} />}
             {showBackdrop && (
                 <ShowMap
                     nombre={name.value}
                     coordinates={coordinates}
                     getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
                     address={direction.value}
-                    closeBackdrop={()=> setShowBackdrop(false)}
+                    closeBackdrop={() => setShowBackdrop(false)}
                 />
             )}
             {showAlert && (<Alert
@@ -269,6 +258,13 @@ const RegistroCliente = props => {
                     <input type='checkbox' onChange={event => setAvisoPrivacidad({ ...avisoPrivacidad, accepted: event.target.checked })} />
                     <span className={classes.avisoLink} >Acepto </span>
                     <span onClick={() => setAvisoPrivacidad({ ...avisoPrivacidad, show: true })} className={classes.privacidad} >aviso de privacidad</span>
+                </div>
+                <div className={classes.captcha}>
+                    <ReCAPTCHA
+                        sitekey={process.env.REACT_APP_CAPTCHA}
+                        onChange={value => setCaptcha(value)}
+                        onExpired={() => setCaptcha('')}
+                    />
                 </div>
                 <div className={classes.buttons} >
                     <Button

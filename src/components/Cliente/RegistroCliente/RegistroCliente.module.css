@@ -120,6 +120,11 @@
     margin: 0 2%;
 }
 
+.captcha{
+    display: flex;
+    justify-content: center;
+}
+
 @media only screen and (min-width: 866px) {
     .header {
         width: 50%;

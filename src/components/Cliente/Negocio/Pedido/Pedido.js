@@ -37,7 +37,7 @@ const Pedido = props => {
                 })
                 .catch((err) => { });
         }
-    }, [clientDirection]), []);
+    }, [clientDirection, client.geolocation.lat, client.geolocation.lng]), []);
 
     const getLocationByBrowser = () => {
         const options = {
@@ -136,7 +136,7 @@ const Pedido = props => {
                         <TextField
                             inputProps={{
                                 maxLength: 150,
-                              }}
+                            }}
                             key={orden.name}
                             type='text'
                             label="Notas:"
@@ -275,10 +275,10 @@ const Pedido = props => {
                         <hr />
                         <span>Ingresar Referencia</span>
                         <FormControl style={{ width: "90%" }}>
-                        <TextField
-                              inputProps={{
-                                maxLength: 150,
-                              }}
+                            <TextField
+                                inputProps={{
+                                    maxLength: 150,
+                                }}
                                 className={classes.modal_textField}
                                 type='text'
                                 value={reference}
@@ -479,9 +479,8 @@ const Pedido = props => {
 
         </>
     )
-    const date = new Date;
+    const date = new Date();
     const orderDate = formatDate(date);
-    console.log(orderDate);
     const total = props.orderPrice + iva
     let orderToSend = {
         geolocation: coordinates,

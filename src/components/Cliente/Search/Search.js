@@ -13,7 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 
 const Search = (props) => {
 
-    const { village, country, county, postcode, road, state } = props
+    const { country, county, postcode, road, state } = props
     let { city } = props
     if (city === '') {
         city = county

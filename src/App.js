@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useCallback, useState } from 'react';
 import './App.css';
 import * as actions from './store/actions';
 import openSocket from 'socket.io-client';
+import logo from './assets/logo-96x96.png';
 import Alert from './components/UI/Alert/Alert';
 import { connect } from 'react-redux'
 // import Registro from './components/Negocio/Registro/Registro';
@@ -37,28 +38,61 @@ const App = (props) => {
   let storagedToken = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
   const [notifications, setNotification] = useState(NOTIFICATION);
 
+  const notificationData = useCallback((title, body, message) => {
+    if (Notification.permission !== 'granted') {
+      setNotification({ visible: true, message: message })
+    } else {
+      if ('serviceWorker' in navigator) {
+        const options = {
+          body: body,
+          icon: logo,
+          vibrate: [200, 50, 200],
+          badge: logo,
+          tag: title,
+          // actions: [
+          //   { action: 'ver', title:'Ver', icon: logo }
+          // ]
+        }
+        navigator.serviceWorker.ready
+          .then(swreg => {
+            swreg.showNotification(title, options);
+          })
+      } else {
+        setNotification({ visible: true, message: message })
+      }
+    }
+  }, []);
+
   useEffect(() => {
     const socket = openSocket(process.env.REACT_APP_SOCKET);
 
     socket.on('notify-business', businessId => {
-      if (businessId === id) setNotification({ visible: true, message: 'HA RECIBIDO UN PEDIDO!' })
+      if (businessId !== id) return;
+      notificationData('HA RECIBIDO UN PEDIDO!', 'Un cliente hizo un pedido', 'HA RECIBIDO UN PEDIDO!')
     })
 
     socket.on('client-update-order-status-preparing', data => {
-      if (data.clientIds.includes(id)) setNotification({ visible: true, message: 'Tu pedido esta siendo preparado!' })
+      if (data.clientIds.includes(id)) {
+        notificationData('En preparacion', 'Tu pedido esta siendo preparado!', 'Tu pedido esta siendo preparado!')
+      }
     })
 
     socket.on('client-update-order-status-ready', data => {
-      if (data.clientIds.includes(id)) setNotification({ visible: true, message: 'Tu pedido esta listo!' })
+      if (data.clientIds.includes(id)) {
+        notificationData('Listo!', 'Tu pedido esta listo para entrega!', 'Tu pedido esta listo para entrega!')
+      }
     })
 
     socket.on('client-update-order-status-delivered', data => {
-      if (data.clientIds.includes(id)) setNotification({ visible: true, message: 'Tu pedido fue entregado' })
+      if (data.clientIds.includes(id)) {
+        notificationData('Entregado', 'Tu pedido fue entregado', 'Tu pedido fue entregado')
+      }
     })
 
-
     return () => socket.disconnect();
-  }, [id]);
+  }, [id, notificationData]);
+
+
 
   const logout = useCallback(() => {
     logOut();
