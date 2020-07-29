@@ -49,7 +49,7 @@ const Client2 = props => {
         } else if (client.geolocation) getBusinesses(client.geolocation.lat, client.geolocation.lng)
 
 
-    }, [client, getBusinesses]), [client]);
+    }), [client]);
 
     return (
         <div className={classes.client} >
