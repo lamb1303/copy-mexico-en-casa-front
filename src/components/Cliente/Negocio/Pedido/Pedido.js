@@ -5,6 +5,7 @@ import classes from './Pedido.module.scss';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import * as actions from '../../../../store/actions';
+import { ReactComponent as Close } from '../../../../assets/cliente/close.svg';
 import { ReactComponent as Deliver } from '../../../../assets/pedido/delivery.svg';
 import { ReactComponent as ToTake } from '../../../../assets/pedido/toTake.svg';
 import { ReactComponent as Send } from '../../../../assets/pedido/send.svg';
@@ -500,10 +501,16 @@ const Pedido = props => {
         <>
             <Backdrop
                 show={props.openOrder}
-                clicked={() => props.cerrarModal()} />
+               />
 
             <div className={classes.modal}>
-                <h2>MI ORDEN</h2>
+                <h2>Orden de: {client.name} <Close style={{
+                    height: "3vh",
+                    position: "absolute",
+                    right: "3vw"
+                }}
+                    onClick={() => props.cerrarModal()}/></h2>
+
                 {
                     mostrarOrden &&
                     mostrarOrden

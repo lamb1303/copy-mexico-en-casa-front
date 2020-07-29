@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 import { ReactComponent as PinLoc } from './../../../Negocio/assets/pin.svg';
 import { ReactComponent as Phone } from './../../../Negocio/assets/phone.svg';
 import * as actions from '../../../../store/actions'
+import Prepare from './../../../../assets/orden/Prepare.svg'
+import Deliver from './../../../../assets/orden/ready.svg'
+import Received from './../../../../assets/orden/received.svg'
+import GoForFood from './../../../../assets/orden/goForFood.svg'
+import FoodLove from './../../../../assets/orden/FoodLove.svg'
 import Button from '../../../UI/Button/Button';
 
 const OrderDetails = props => {
-    const { clientGetBusinessInfo, idBusiness, businessInfo } = props
+    const { clientGetBusinessInfo, idBusiness, businessInfo, stage, isToTake } = props
 
     useEffect(() => {
         clientGetBusinessInfo(idBusiness)
@@ -16,14 +21,27 @@ const OrderDetails = props => {
     const businessName = businessInfo.businessName
     const lat = businessInfo.lat
     const lng = businessInfo.lng
-    let photoBusiness = businessInfo.photoBusiness
     const mobile = businessInfo.mobile
+    let statusAnimation;
+    switch (stage) {
+        case 'Recibida por el negocio': statusAnimation = <object className="negocio_imagen" data={Received} />
+            break;
+        case 'Preparando tu pedido': statusAnimation = <object className="negocio_imagen" data={Prepare} />
+            break;
+        case !isToTake && 'Tu pedido esta listo!': statusAnimation = <object className="negocio_imagen" data={Deliver} />
+            break;
+        case isToTake && 'Tu pedido esta listo!': statusAnimation = <object className="negocio_imagen" data={GoForFood} />
+            break;
+        case 'Pedido Entregado': statusAnimation = <object className="negocio_imagen" data={FoodLove} />
+            break;
+    }
 
-    if(photoBusiness === 'empty') photoBusiness = 'https://firebasestorage.googleapis.com/v0/b/catalogocovid2020.appspot.com/o/imagen_mexico_en_casa.png?alt=media&token=39bc7063-cb25-4be4-85e3-a6a24c55b7bd';
     return (
         <div className="modal" onLoad={window.scroll(-50, 50)}>
             <h2>Negocio: {businessName}</h2>
-            <img className="negocio_imagen" src={photoBusiness} alt="photoBusiness"/>
+            {
+                statusAnimation
+            }
             <a
                 target="_blank"
                 rel="noopener noreferrer"
