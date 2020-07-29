@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../Button/Button';
 import * as actions from '../../../store/actions';
 import classes from './Buttons.module.css';
@@ -10,6 +10,32 @@ const ClientButtons = props => {
         if (!props.isClient) props.editMode();
         props.closeSidebar();
     }
+
+    const [showPermissionButton, setShowPermissionButton] = useState(Notification.permission === 'granted');
+
+    const requestPermission = () => {
+        Notification.requestPermission(result => {
+            if (result !== 'granted') {
+                window.alert('No permission granted');
+            } else {
+                if ('serviceWorker' in navigator) {
+
+                    const options = {
+                        body: 'Mi Notificaacion!'
+                    };
+                    navigator.serviceWorker.ready
+                        .then(swreg => {
+                            swreg.showNotification('Gracias!', options);
+                            setShowPermissionButton(true);
+                        })
+                } else {
+                    window.alert('serviceWorker not in navigator');
+                }
+            }
+        })
+    }
+
+    // const notifyIsGranted = Notification.permission === 'granted';
 
     return (
         <div className={classes.Buttons}>
@@ -30,6 +56,10 @@ const ClientButtons = props => {
                     Salir
                 </Button>
             </NavLink>
+            {!showPermissionButton && <Button clicked={() => requestPermission()} disabled={showPermissionButton} >
+            {/* {!notifyIsGranted && <Button clicked={() => requestPermission()} disabled={notifyIsGranted} > */}
+                Enviame notificaciones
+            </Button>}
             <a href='http://fb.me/RussApp2020'>
                 <span>Created by <b>RUSSAPP</b></span>
             </a>
@@ -47,7 +77,7 @@ const mapDispatchToProps = {
     editMode: actions.changeEditMode,
     closeSidebar: actions.burguerHandler,
     logOut: actions.logOut,
-    
+
 
 }
 

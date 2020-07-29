@@ -38,7 +38,7 @@ const Pedido = props => {
                 })
                 .catch((err) => { });
         }
-    }, [clientDirection]), []);
+    }, [clientDirection, client.geolocation.lat, client.geolocation.lng]), []);
 
     const getLocationByBrowser = () => {
         const options = {
@@ -480,7 +480,7 @@ const Pedido = props => {
 
         </>
     )
-    const date = new Date;
+    const date = new Date();
     const orderDate = formatDate(date);
     const total = props.orderPrice + iva
     let orderToSend = {

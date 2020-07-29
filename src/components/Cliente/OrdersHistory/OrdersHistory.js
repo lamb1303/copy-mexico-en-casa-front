@@ -68,13 +68,23 @@ class OrderHistory extends Component {
         }
     }
 
+    compare(a, b) {
+        const dateA = new Date(a);
+        const dateB = new Date(b);
+        const orderDateA = `${dateA.getHours()}${dateA.getMinutes()}${dateA.getSeconds()}`;
+        const orderDateB = `${dateB.getHours()}${dateB.getMinutes()}${dateB.getSeconds()}`;
+
+        return parseInt(orderDateA) < parseInt(orderDateB) ? 1 : -1;
+    }
+
     render() {
-        const orders = this.props.orders.map(res => {
+        const orderedOrders = [...this.props.orders].sort((a, b) => this.compare(a.orderDate, b.orderDate));
+        const orders = orderedOrders.map(res => {
             const isToTake = res.isToTake
             const isCash = res.isCash
+            const orderDate = (res.orderDate)
             let stage = this.formatStage(res.stage);
             const total = res.total
-            const orderDate = (res.orderDate)
             const dish = res.dishes.map(dish => {
                 return (
                     <div key={res.orderId + Math.random()} className="container">
@@ -147,8 +157,7 @@ class OrderHistory extends Component {
                     show={this.state.showBackdrop}
                     clicked={() => this.setBackdropHandler()} />
                 <div key={Math.random() + .21} className="orderContainer">
-                    {orders &&
-                        orders}
+                    {orders && orders}
                     {this.props.orders.length === 0 &&
                         <>
                             <NoFood className="noFood"></NoFood>
