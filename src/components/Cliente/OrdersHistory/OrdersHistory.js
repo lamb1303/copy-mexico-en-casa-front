@@ -82,6 +82,7 @@ class OrderHistory extends Component {
         const orders = orderedOrders.map(res => {
             const isToTake = res.isToTake
             const isCash = res.isCash
+            const orderDate = (res.orderDate)
             let stage = this.formatStage(res.stage);
             const total = res.total
             const dish = res.dishes.map(dish => {

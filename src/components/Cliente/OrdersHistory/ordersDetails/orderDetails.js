@@ -24,15 +24,27 @@ const OrderDetails = props => {
     const mobile = businessInfo.mobile
     let statusAnimation;
     switch (stage) {
-        case 'Recibida por el negocio': statusAnimation = <object className="negocio_imagen" data={Received} />
+        case 'Recibida por el negocio':
+            statusAnimation = <object alt className="negocio_imagen" data={Received} >Recibida </object>
             break;
-        case 'Preparando tu pedido': statusAnimation = <object className="negocio_imagen" data={Prepare} />
+
+        case 'Preparando tu pedido':
+            statusAnimation = <object className="negocio_imagen" data={Prepare} > Preparada</object>
             break;
-        case !isToTake && 'Tu pedido esta listo!': statusAnimation = <object className="negocio_imagen" data={Deliver} />
+
+        case !isToTake && 'Tu pedido esta listo!':
+            statusAnimation = <object className="negocio_imagen" data={Deliver} >Lista</object>
             break;
-        case isToTake && 'Tu pedido esta listo!': statusAnimation = <object className="negocio_imagen" data={GoForFood} />
+
+        case isToTake && 'Tu pedido esta listo!':
+            statusAnimation = <object className="negocio_imagen" data={GoForFood} >Lista</object>
             break;
-        case 'Pedido Entregado': statusAnimation = <object className="negocio_imagen" data={FoodLove} />
+
+        case 'Pedido Entregado':
+            statusAnimation = <object className="negocio_imagen" data={FoodLove} >Entregado</object>
+            break;
+
+        default: statusAnimation = <object className="negocio_imagen" data={Received} >Recibida</object>
             break;
     }
 
