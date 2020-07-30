@@ -29,8 +29,9 @@ const ListaPedidos = props => {
                     isCash={props.receivedOrders[idOrder].isCash}
                     checked={props.receivedOrders[idOrder].checked}
                     orderDate={props.receivedOrders[idOrder].orderDate}
-                    location={props.receivedOrders[idOrder].location}
+                    location={props.receivedOrders[idOrder].geolocation}
                     total={props.receivedOrders[idOrder].total}
+                    reference={props.receivedOrders[idOrder].reference}
 
 
                 />
@@ -54,7 +55,7 @@ const ListaPedidos = props => {
                             isCash={props.prepareOrders[idOrder].isCash}
                             checked={props.prepareOrders[idOrder].checked}
                             orderDate={props.prepareOrders[idOrder].orderDate}
-                            location={props.prepareOrders[idOrder].location}
+                            location={props.prepareOrders[idOrder].geolocation}
                             total={props.prepareOrders[idOrder].total}
 
 
@@ -80,7 +81,7 @@ const ListaPedidos = props => {
                             isCash={props.readyOrders[idOrder].isCash}
                             checked={props.readyOrders[idOrder].checked}
                             orderDate={props.readyOrders[idOrder].orderDate}
-                            location={props.readyOrders[idOrder].location}
+                            location={props.readyOrders[idOrder].geolocation}
                             total={props.readyOrders[idOrder].total}
 
                         />

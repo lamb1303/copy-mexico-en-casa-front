@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Button from '../../../UI/Button/Button';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
-import classes from './Pedido.module.scss'
+import classes from './Pedido.module.scss';
+import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
 import * as actions from '../../../../store/actions';
+import { ReactComponent as Close } from '../../../../assets/cliente/close.svg';
 import { ReactComponent as Deliver } from '../../../../assets/pedido/delivery.svg';
 import { ReactComponent as ToTake } from '../../../../assets/pedido/toTake.svg';
 import { ReactComponent as Send } from '../../../../assets/pedido/send.svg';
@@ -22,6 +25,20 @@ const baseObject = {
 }
 
 const Pedido = props => {
+    const { client } = props;
+    const [clientDirection, getDirection] = useState(null)
+    useEffect(useCallback(() => {
+        if (clientDirection === null) {
+            axios
+                .get(
+                    `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${client.geolocation.lat}&lon=${client.geolocation.lng}`
+                )
+                .then((resp) => {
+                    getDirection(resp.data.address)
+                })
+                .catch((err) => { });
+        }
+    }, [clientDirection, client.geolocation.lat, client.geolocation.lng]), []);
 
     const getLocationByBrowser = () => {
         const options = {
@@ -44,7 +61,7 @@ const Pedido = props => {
             const street = direction.value.trim().replace(/ /g, '+');
             street.replace('#', '');
             axios.get(`https://nominatim.openstreetmap.org/search?q=${street}&format=json&polygon_geojson=1&addressdetails=1`)
-                .then(resp => { //Tulipanes 342 Saltillo
+                .then(resp => {
                     if (Object.keys(resp.data).length > 0) {
                         setCoordinates({
                             lat: resp.data[0].lat,
@@ -118,6 +135,9 @@ const Pedido = props => {
                     <div className={classes.name}>
                         <h4 >{orden.name} </h4>
                         <TextField
+                            inputProps={{
+                                maxLength: 150,
+                            }}
                             key={orden.name}
                             type='text'
                             label="Notas:"
@@ -239,25 +259,34 @@ const Pedido = props => {
                 {direction.value !== '' &&
                     <>
                         <hr />
-                        <span><b>Ubicación Seleccionada</b></span>
-                        <TextField
-                            style={{
-                                display: "inherit"
-                            }}
-                            className={classes.TextField}
-                            type='text'
-                            placeholder='Calle, Ciudad, CP'
-                            value={direction.value}
-                            disabled
-                            onChange={(event) => (event.target.value)} />
-                        <TextField
-                            className={classes.modal_textField}
-                            type='text'
-                            placeholder='Ingresar referencia:'
-                            value={reference}
-                            multiline
-                            label="Ingresar referencia:"
-                            onChange={(event) => (setReference(event.target.value))} />
+                        <span><b>Ubicación de Registro</b></span>
+                        <FormControl style={{ width: "90%" }} disabled>
+                            <Input className="MuiInputBase" value={clientDirection.road + ', ' + clientDirection.postcode + ', ' + clientDirection.city + ', ' + clientDirection.state + ', ' + clientDirection.country} />
+                        </FormControl>
+                        <hr />
+                        <span>Ubicación Seleccionada</span>
+                        <FormControl style={{ width: "90%" }} disabled>
+                            <Input
+                                className="MuiInputBase"
+                                type='text'
+                                value={direction.value}
+                                disabled
+                                onChange={(event) => (event.target.value)} />
+                        </FormControl>
+                        <hr />
+                        <span>Ingresar Referencia</span>
+                        <FormControl style={{ width: "90%" }}>
+                            <TextField
+                                inputProps={{
+                                    maxLength: 150,
+                                }}
+                                className={classes.modal_textField}
+                                type='text'
+                                value={reference}
+                                label="Calle, color de casa, número, etc..."
+                                onChange={(event) => (setReference(event.target.value))} />
+                        </FormControl>
+                        <hr />
                     </>
                 }
             </div>
@@ -271,6 +300,17 @@ const Pedido = props => {
                 clicked={() => enviarPedido(null)}>Regresar</Button>
         </>
     )
+
+    const formatDate = date => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()},${strTime}`;
+    }
 
     const payment = (
         <>
@@ -427,6 +467,9 @@ const Pedido = props => {
                         props.sendOrder(orderToSend);
                         props.cerrarModal();
                     }} />
+                <h3>
+                    Enviar
+                </h3>
             </div>
             <Button clicked={() => {
                 props.cerrarModal();
@@ -437,19 +480,11 @@ const Pedido = props => {
 
         </>
     )
-    const options = {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        timeZone: "America/Mexico_City"
-    }
-    const orderDate = new Date().toLocaleString(options);
+    const date = new Date();
+    const orderDate = formatDate(date);
     const total = props.orderPrice + iva
     let orderToSend = {
-        location: coordinates,
+        geolocation: coordinates,
         orderDate: orderDate,
         dishes: dishes,
         idBusiness: localStorage.getItem("businessId"),
@@ -466,10 +501,16 @@ const Pedido = props => {
         <>
             <Backdrop
                 show={props.openOrder}
-                clicked={() => props.cerrarModal()} />
+               />
 
             <div className={classes.modal}>
-                <h2>MI ORDEN</h2>
+                <h2>Orden de: {client.name} <Close style={{
+                    height: "3vh",
+                    position: "absolute",
+                    right: "3vw"
+                }}
+                    onClick={() => props.cerrarModal()}/></h2>
+
                 {
                     mostrarOrden &&
                     mostrarOrden
@@ -519,7 +560,7 @@ const mapStateToProps = state => {
         selectedNegocio: state.negocio.selectedNegocio,
         idCustomer: state.home.id,
         selectedProd: state.cliente.selectedProduct,
-        location: state.cliente.location
+        client: state.cliente.cliente
     }
 }
 const mapDispatchToProps = {
@@ -529,6 +570,5 @@ const mapDispatchToProps = {
     onCloseOptions: () => (actions.CloseSelectedProduct()),
     sendOrder: actions.checkout,
     onSetCoordinates: (coords) => actions.setClientCoord(coords)
-
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Pedido);
