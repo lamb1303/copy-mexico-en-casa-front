@@ -12,7 +12,7 @@ const Client2 = props => {
     const { getClient, id, client, getBusinesses } = props;
     useEffect(useCallback(() => {
         getClient(id);
-    }, [id, getClient]), []);
+    }, [id, getClient]), [id, getClient]);
     
 
 
@@ -52,7 +52,7 @@ const Client2 = props => {
         } else if (client.geolocation) getBusinesses(client.geolocation.lat, client.geolocation.lng)
 
 
-    }), [client],[]);
+    }), [client],[client]);
 
     return (
         <div className={classes.client} >
