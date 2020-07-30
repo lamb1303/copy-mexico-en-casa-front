@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useCallback } from 'react';
 import classes from './Pedidos.module.css';
 import BotonesPedidos from './BotonesPedidos/BotonesPedido';
 import ListaPedidos from './ListaPedidos/ListaPedidos';
@@ -8,6 +8,7 @@ import * as actions from '../../../../store/actions';
 import Backdrop from '../../../UI/Backdrop/Backdrop';
 import Spinner from '../../../UI/Spinner/Spinner';
 import Comments from './Comments/Comments';
+import openSocket from 'socket.io-client';
 
 import Alert from '../../../UI/Alert/Alert';
 
@@ -20,6 +21,17 @@ const Pedidos = props => {
         getPreparing(idBusiness);
         getReady(idBusiness);
     }, [getPedidos, getPreparing, getReady, idBusiness]);
+
+    useEffect(useCallback(() => {
+        const socket = openSocket(process.env.REACT_APP_SOCKET);
+
+        socket.on('notify-business', businessId => {
+            if (businessId === idBusiness) getPedidos(idBusiness);
+        })
+
+        return () => socket.disconnect();
+
+    }, [idBusiness, getPedidos]), [getPedidos, getPedidos])
 
     let buttonMessage = 'Empezar';
     if (props.preparing) {

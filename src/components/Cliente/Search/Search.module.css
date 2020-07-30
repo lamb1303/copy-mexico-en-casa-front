@@ -14,7 +14,7 @@
     display: none;
 }
 
-.Search_section svg {
+.lupa {
     width: 30px;
     height: 56px;
     min-width: 30px;
@@ -46,4 +46,29 @@ a {
     background-color: #ececec5c;
     width: 100%;
     display: flex;
+}
+.direction{
+    width: 84%;
+}
+.MuiInputBase input {
+    font: inherit;
+    color: currentColor;
+    width: 100%;
+    border: 0;
+    height: 1.1876em;
+    margin: 0;
+    display: block;
+    padding: 6px 0 7px;
+    min-width: 0;
+    background: none;
+    text-align: center;
+    box-sizing: content-box;
+    animation-name: mui-auto-fill-cancel;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media only screen and (min-width: 700px){
+    .direction{
+        width: 30vw
+    }
 }
