@@ -2,12 +2,22 @@ import React, { useState, Fragment } from 'react';
 import { ReactComponent as Lupa } from './lupa.svg';
 import classes from './Search.module.css';
 import TextField from '@material-ui/core/TextField';
+import { ReactComponent as PinLoc } from './../../Negocio/assets/pin.svg';
 import { connect } from 'react-redux';
 import PlaceCard from '../PlaceCards/PlaceCard/PlaceCard';
 import * as action from '../../../store/actions'
 import { NavLink } from 'react-router-dom';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl';
+
 const Search = (props) => {
 
+    const { country, county, postcode, road, state } = props
+    let { city } = props
+    if (city === '') {
+        city = county
+    }
     const [businessDesc, typeBusiness] = useState("");
 
     const selectedBusiness = (business) => {
@@ -68,15 +78,15 @@ const Search = (props) => {
                     onChange={(event) => {
                         typeBusiness(event.target.value)
                     }} />
-                <Lupa />
+                <Lupa className={classes.lupa} />
             </div>
-            {/* <div className={classes.Search_section} >
-                <TextField
-                    disabled
-                    label="Estas en:"
-                    variant="outlined" />
-            </div> */}
-
+            <div className={classes.Search_section} >
+                <FormControl disabled className={classes.direction}>
+                    <InputLabel htmlFor="component-disabled">Ubicación Actual:</InputLabel>
+                    <Input className={classes.MuiInputBase} value={road + ', ' + postcode + ', ' + city + ', ' + state + ', ' + country} />
+                </FormControl>
+                <PinLoc className='comments__icon' />
+            </div>
             <div className={classes.Search_container}>
                 {businesses &&
                     businesses}
