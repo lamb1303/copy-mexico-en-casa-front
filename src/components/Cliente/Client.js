@@ -12,7 +12,10 @@ const Client2 = props => {
     const { getClient, id, client, getBusinesses } = props;
     useEffect(useCallback(() => {
         getClient(id);
-    }),[id, getClient]);
+    }, [id, getClient]), []);
+    
+
+
 
     useEffect(useCallback(() => {
         if (!client) return;
