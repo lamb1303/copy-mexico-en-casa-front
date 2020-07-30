@@ -14,7 +14,7 @@ import classes from './NegocioInfo.module.css';
 
 const NegocioInfo = props => {
 
-    const { negocioData} = props;
+    const { negocioData, geolocation } = props;
     const [form, setForm] = useState({
         name: {
             element: 'input',
@@ -60,9 +60,9 @@ const NegocioInfo = props => {
                 street: { ...form['street'], value: negocioData.direccion, isValid: true },
                 description: { ...form['description'], value: negocioData.descripcion, isValid: true },
             });
-            setCoordinates({ lat: props.geolocation.lat, lng: props.geolocation.lng })
+            setCoordinates({ lat: geolocation.lat, lng: geolocation.lng })
         }
-    }, []);
+    }, [coordinates, geolocation, negocioData, form]);
 
     const handleContinue = () => {
 
@@ -172,7 +172,7 @@ const NegocioInfo = props => {
                     coordinates={coordinates}
                     getCoords={(currentPosition, address) => getCoordinatesFromMap(currentPosition, address)}
                     address={form['description'].value}
-                    closeBackdrop={()=> setShowBackdrop(false)}
+                    closeBackdrop={() => setShowBackdrop(false)}
                 />
             )}
             {showAlert &&
@@ -199,7 +199,7 @@ const NegocioInfo = props => {
                                                 input={form[formElement]}
                                                 setValue={(updatedElement) => setValue(updatedElement)}
                                             />
-                                            <MapLogo  />
+                                            <MapLogo />
                                         </div>
                                     )
                                 } else {
